@@ -7,28 +7,23 @@
 <title>SparkyKrea</title>
 
 <style>
-/* =========================================================
-   BASE
-========================================================= */
-
 :root{
     --black:#050505;
-    --black2:#0b0b0b;
+    --black2:#0a0a0a;
     --black3:#111111;
 
-    --white:#f5f5f3;
-    --gray:#a5a5a5;
-    --gray2:#6e6e6e;
+    --white:#f7f5f1;
+    --gray:#a4a19c;
+    --gray2:#6f6d69;
 
     /* BEIGE SOLO COMO ACENTO */
-    --beige:#d7c2a0;
-    --beige-light:#f0e2cb;
-    --beige-dark:#a58e6e;
+    --beige:#d8c19a;
+    --beige2:#ead8b9;
+    --beige3:#b89d70;
 
-    --border:rgba(255,255,255,.09);
-    --border-beige:rgba(215,194,160,.45);
+    --border:rgba(255,255,255,.08);
+    --beige-border:rgba(216,193,154,.45);
 
-    --radius:22px;
     --vvh:100vh;
 }
 
@@ -53,12 +48,12 @@ body{
         BlinkMacSystemFont,
         "Segoe UI",
         sans-serif;
-
     overflow-x:hidden;
 }
 
 button,
-input{
+input,
+textarea{
     font:inherit;
 }
 
@@ -71,16 +66,16 @@ a{
     text-decoration:none;
 }
 
-/* =========================================================
+/* =====================================================
    HEADER
-========================================================= */
+===================================================== */
 
 header{
     position:fixed;
     top:0;
     left:0;
     width:100%;
-    height:76px;
+    height:74px;
 
     display:flex;
     align-items:center;
@@ -88,10 +83,10 @@ header{
 
     padding:0 5vw;
 
-    background:rgba(5,5,5,.82);
+    background:rgba(5,5,5,.88);
     backdrop-filter:blur(18px);
 
-    border-bottom:1px solid rgba(255,255,255,.05);
+    border-bottom:1px solid rgba(216,193,154,.10);
 
     z-index:1000;
 }
@@ -106,9 +101,9 @@ header{
     letter-spacing:-.4px;
 }
 
-/* =========================================================
+/* =====================================================
    LOGO
-========================================================= */
+===================================================== */
 
 .logo{
     width:34px;
@@ -125,17 +120,20 @@ header{
     justify-content:center;
 
     flex-shrink:0;
+
+    box-shadow:
+        0 0 20px rgba(216,193,154,.07);
 }
 
 .logo::before{
     content:"";
 
+    position:absolute;
+
     width:17px;
     height:1.5px;
 
     background:var(--beige);
-
-    position:absolute;
 
     transform:rotate(45deg);
 }
@@ -143,12 +141,12 @@ header{
 .logo::after{
     content:"";
 
+    position:absolute;
+
     width:17px;
     height:1.5px;
 
     background:var(--beige);
-
-    position:absolute;
 
     transform:rotate(-45deg);
 }
@@ -159,27 +157,27 @@ header{
 
     border-radius:50%;
 
-    background:var(--beige);
+    background:var(--beige2);
 
     position:relative;
     z-index:2;
 }
 
-/* =========================================================
-   AUTH BUTTONS
-========================================================= */
+/* =====================================================
+   AUTH
+===================================================== */
 
 .auth-buttons{
     display:flex;
     align-items:center;
-    gap:10px;
+    gap:9px;
 }
 
 .auth-btn{
     border:none;
-    background:none;
+    background:transparent;
 
-    color:var(--white);
+    color:#e8e6e2;
 
     padding:10px 14px;
 
@@ -187,55 +185,47 @@ header{
 
     font-size:14px;
 
-    transition:
-        background .25s ease,
-        color .25s ease,
-        transform .25s ease;
+    transition:.25s ease;
 }
 
 .auth-btn:hover{
-    background:rgba(255,255,255,.06);
+    background:rgba(216,193,154,.07);
+    color:var(--beige2);
 }
 
 .auth-btn.register{
-    border:1px solid var(--border-beige);
-    color:var(--beige-light);
+    border:1px solid var(--beige-border);
+    color:var(--beige2);
 }
 
 .auth-btn.register:hover{
-    background:rgba(215,194,160,.10);
-    transform:translateY(-1px);
+    background:rgba(216,193,154,.11);
 }
-
-/* =========================================================
-   LOGGED USER
-========================================================= */
 
 .user-pill{
     display:none;
 
     align-items:center;
-    gap:9px;
 
-    padding:9px 13px;
-
-    border:1px solid rgba(215,194,160,.35);
+    padding:9px 14px;
 
     border-radius:999px;
 
-    background:rgba(215,194,160,.06);
+    border:1px solid var(--beige-border);
 
-    color:var(--beige-light);
+    background:rgba(216,193,154,.07);
+
+    color:var(--beige2);
 
     font-size:14px;
 }
 
-/* =========================================================
+/* =====================================================
    HERO
-========================================================= */
+===================================================== */
 
 .hero{
-    min-height:100vh;
+    min-height:100svh;
 
     display:flex;
     align-items:center;
@@ -244,8 +234,8 @@ header{
     text-align:center;
 
     padding:
-        120px 24px
-        80px;
+        115px 20px
+        75px;
 
     position:relative;
 }
@@ -255,47 +245,53 @@ header{
 
     position:absolute;
 
-    width:500px;
-    height:500px;
+    width:520px;
+    height:520px;
 
     border-radius:50%;
 
     background:
         radial-gradient(
             circle,
-            rgba(215,194,160,.07),
+            rgba(216,193,154,.08),
             transparent 68%
         );
 
-    filter:blur(15px);
+    filter:blur(18px);
 
     pointer-events:none;
 }
 
 .hero-content{
+    width:100%;
     max-width:850px;
 
     position:relative;
     z-index:2;
+
+    margin:auto;
 }
 
-/* LOGO GRANDE */
+/* =====================================================
+   HERO LOGO
+===================================================== */
 
 .hero-logo{
-    width:88px;
-    height:88px;
+    width:94px;
+    height:94px;
 
-    margin:0 auto 34px;
+    margin:
+        0 auto 36px;
 
     border-width:2px;
+
+    box-shadow:
+        0 0 50px rgba(216,193,154,.08);
 }
 
-.hero-logo::before{
-    width:44px;
-}
-
+.hero-logo::before,
 .hero-logo::after{
-    width:44px;
+    width:45px;
 }
 
 .hero-logo .logo-center{
@@ -303,27 +299,30 @@ header{
     height:8px;
 }
 
-/* TEXTO */
+/* =====================================================
+   HERO TEXT
+===================================================== */
 
 .hero h1{
-    font-size:
-        clamp(42px, 7vw, 82px);
-
-    line-height:.98;
-
-    letter-spacing:-4px;
-
-    font-weight:650;
-
+    width:100%;
     max-width:850px;
 
     margin:auto;
+
+    font-size:
+        clamp(40px,7vw,82px);
+
+    line-height:.99;
+
+    letter-spacing:-4px;
+
+    font-weight:700;
 
     background:
         linear-gradient(
             180deg,
             #ffffff 0%,
-            #dcdcdc 100%
+            #d8d5d0 100%
         );
 
     -webkit-background-clip:text;
@@ -333,73 +332,73 @@ header{
 }
 
 .hero p{
-    max-width:670px;
+    max-width:680px;
 
-    margin:27px auto 34px;
+    margin:
+        26px auto 34px;
 
-    color:#a9a9a9;
+    color:#aaa7a1;
 
     font-size:
-        clamp(16px, 2vw, 19px);
+        clamp(15px,2vw,19px);
 
     line-height:1.7;
 }
 
-/* =========================================================
-   BUTTON PRINCIPAL
-========================================================= */
+/* =====================================================
+   BOTÓN PRINCIPAL
+===================================================== */
 
 .primary-btn{
     display:inline-flex;
+
     align-items:center;
     justify-content:center;
 
-    min-width:190px;
+    min-width:195px;
 
-    padding:15px 23px;
+    padding:16px 25px;
 
     border-radius:999px;
 
-    border:1px solid var(--border-beige);
+    border:
+        1px solid
+        rgba(216,193,154,.65);
 
     background:
         linear-gradient(
             135deg,
-            rgba(215,194,160,.16),
-            rgba(255,255,255,.04)
+            rgba(216,193,154,.20),
+            rgba(216,193,154,.08)
         );
 
-    color:var(--beige-light);
+    color:var(--beige2);
 
-    font-weight:600;
+    font-weight:700;
 
-    transition:
-        transform .3s ease,
-        background .3s ease,
-        box-shadow .3s ease;
+    box-shadow:
+        0 10px 35px rgba(0,0,0,.35);
+
+    transition:.3s ease;
 }
 
 .primary-btn:hover{
     transform:translateY(-3px);
 
     background:
-        rgba(215,194,160,.16);
+        rgba(216,193,154,.20);
 
     box-shadow:
-        0 12px 40px rgba(0,0,0,.4);
+        0 15px 45px rgba(216,193,154,.08);
 }
 
 .primary-btn:active{
     transform:scale(.97);
 }
 
-/* =========================================================
-   SECTIONS
-========================================================= */
-
-section{
-    position:relative;
-}
+/* =====================================================
+   SECCIONES
+===================================================== */
 
 .section{
     padding:
@@ -407,8 +406,11 @@ section{
 }
 
 .section-header{
+    width:100%;
     max-width:850px;
-    margin:0 auto 42px;
+
+    margin:
+        0 auto 42px;
 
     text-align:center;
 }
@@ -418,67 +420,69 @@ section{
 
     text-transform:uppercase;
 
-    letter-spacing:3px;
+    letter-spacing:4px;
 
     font-size:11px;
 
-    font-weight:700;
+    font-weight:800;
 
-    margin-bottom:13px;
+    margin-bottom:14px;
 }
 
 .section-header h2{
     font-size:
-        clamp(32px, 5vw, 54px);
-
-    letter-spacing:-2.5px;
+        clamp(32px,5vw,54px);
 
     line-height:1.05;
+
+    letter-spacing:-2.7px;
 }
 
 .section-header p{
-    color:#929292;
+    max-width:620px;
 
-    max-width:600px;
+    margin:
+        18px auto 0;
 
-    margin:17px auto 0;
+    color:#8e8b86;
 
     line-height:1.7;
 }
 
-/* =========================================================
+/* =====================================================
    SERVICES
-========================================================= */
+===================================================== */
 
 .services-section{
-    padding-top:65px;
-    padding-bottom:80px;
+    padding-top:75px;
+    padding-bottom:90px;
 
     overflow:hidden;
 }
 
 .services-track{
+    width:100%;
     max-width:1100px;
 
     margin:auto;
-
-    position:relative;
 
     min-height:390px;
 
     display:flex;
     align-items:center;
     justify-content:center;
+
+    position:relative;
 }
 
 .service-card{
     position:absolute;
 
-    width:min(680px, 82vw);
+    width:min(680px,82vw);
 
-    min-height:310px;
+    min-height:315px;
 
-    padding:38px;
+    padding:40px;
 
     border-radius:28px;
 
@@ -486,13 +490,15 @@ section{
         linear-gradient(
             145deg,
             #151515,
-            #0b0b0b
+            #090909
         );
 
-    border:1px solid rgba(255,255,255,.09);
+    border:
+        1px solid
+        rgba(216,193,154,.12);
 
     box-shadow:
-        0 30px 80px rgba(0,0,0,.5);
+        0 30px 80px rgba(0,0,0,.55);
 
     opacity:0;
 
@@ -502,8 +508,7 @@ section{
 
     transition:
         opacity .7s ease,
-        transform .7s cubic-bezier(.2,.7,.2,1),
-        filter .7s ease;
+        transform .7s cubic-bezier(.2,.7,.2,1);
 }
 
 .service-card.active{
@@ -516,31 +521,27 @@ section{
     z-index:5;
 
     border-color:
-        rgba(215,194,160,.30);
+        rgba(216,193,154,.34);
 }
 
 .service-card.prev{
-    opacity:.28;
+    opacity:.25;
 
     transform:
         translateX(-290px)
         scale(.88);
 
     z-index:2;
-
-    filter:blur(.3px);
 }
 
 .service-card.next{
-    opacity:.28;
+    opacity:.25;
 
     transform:
         translateX(290px)
         scale(.88);
 
     z-index:2;
-
-    filter:blur(.3px);
 }
 
 .service-number{
@@ -548,24 +549,24 @@ section{
 
     font-size:12px;
 
-    font-weight:700;
+    font-weight:800;
 
-    letter-spacing:2px;
+    letter-spacing:3px;
 
-    margin-bottom:34px;
+    margin-bottom:32px;
 }
 
 .service-card h3{
     font-size:
-        clamp(28px, 4vw, 42px);
+        clamp(28px,4vw,42px);
 
-    letter-spacing:-1.5px;
+    letter-spacing:-1.6px;
 
     margin-bottom:18px;
 }
 
 .service-card p{
-    color:#969696;
+    color:#96938e;
 
     line-height:1.75;
 
@@ -575,20 +576,26 @@ section{
 }
 
 .service-line{
-    width:60px;
-    height:1px;
+    width:70px;
+    height:2px;
 
-    background:var(--beige);
+    background:
+        linear-gradient(
+            90deg,
+            var(--beige),
+            transparent
+        );
 
-    margin-top:35px;
-
-    opacity:.7;
+    margin-top:34px;
 }
 
-/* DOTS */
+/* =====================================================
+   DOTS
+===================================================== */
 
 .carousel-dots{
     display:flex;
+
     justify-content:center;
 
     gap:8px;
@@ -608,61 +615,74 @@ section{
 }
 
 .dot.active{
-    width:24px;
+    width:25px;
 
     border-radius:999px;
 
     background:var(--beige);
 }
 
-/* =========================================================
+/* =====================================================
    CONTACTO
-========================================================= */
+===================================================== */
 
 .contact-section{
     padding:
         80px 5vw
-        100px;
+        105px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
 
 .contact-box{
+    width:100%;
     max-width:950px;
 
     margin:auto;
 
     padding:
-        clamp(32px, 7vw, 70px);
+        clamp(35px,7vw,70px);
 
     border-radius:30px;
 
-    border:1px solid rgba(215,194,160,.22);
+    text-align:center;
+
+    border:
+        1px solid
+        rgba(216,193,154,.24);
 
     background:
         radial-gradient(
             circle at top right,
-            rgba(215,194,160,.08),
-            transparent 40%
+            rgba(216,193,154,.09),
+            transparent 42%
         ),
         #0b0b0b;
 
-    text-align:center;
+    box-shadow:
+        0 30px 80px rgba(0,0,0,.35);
 }
 
 .contact-box h2{
     font-size:
-        clamp(30px, 5vw, 52px);
+        clamp(30px,5vw,52px);
 
-    letter-spacing:-2px;
+    letter-spacing:-2.5px;
+
+    line-height:1.05;
 
     margin-bottom:20px;
 }
 
 .contact-box p{
-    color:#999;
+    max-width:660px;
 
-    max-width:650px;
+    margin:
+        0 auto 28px;
 
-    margin:0 auto 28px;
+    color:#94918c;
 
     line-height:1.75;
 }
@@ -673,43 +693,49 @@ section{
     align-items:center;
     justify-content:center;
 
-    padding:14px 22px;
+    padding:
+        14px 23px;
 
     border-radius:999px;
 
-    color:var(--beige-light);
+    color:var(--beige2);
 
-    border:1px solid var(--border-beige);
+    border:
+        1px solid
+        var(--beige-border);
 
-    background:transparent;
+    background:
+        rgba(216,193,154,.05);
 
     transition:.3s ease;
 }
 
 .contact-btn:hover{
-    background:rgba(215,194,160,.08);
+    background:
+        rgba(216,193,154,.11);
 
     transform:translateY(-2px);
 }
 
-/* =========================================================
+/* =====================================================
    FOOTER
-========================================================= */
+===================================================== */
 
 footer{
     padding:
         28px 5vw
         35px;
 
-    border-top:1px solid rgba(255,255,255,.06);
+    border-top:
+        1px solid
+        rgba(216,193,154,.10);
 
     display:flex;
+
     justify-content:space-between;
     align-items:center;
 
-    gap:20px;
-
-    color:#777;
+    color:#70706d;
 
     font-size:13px;
 }
@@ -717,12 +743,12 @@ footer{
 footer strong{
     color:var(--beige);
 
-    font-weight:600;
+    font-weight:700;
 }
 
-/* =========================================================
-   LOGIN / REGISTER MODAL
-========================================================= */
+/* =====================================================
+   MODALES
+===================================================== */
 
 .modal{
     position:fixed;
@@ -738,7 +764,8 @@ footer strong{
 
     padding:20px;
 
-    background:rgba(0,0,0,.76);
+    background:
+        rgba(0,0,0,.78);
 
     backdrop-filter:blur(14px);
 }
@@ -746,46 +773,39 @@ footer strong{
 .modal.show{
     display:flex;
 
-    animation:
-        modalIn .35s ease;
+    animation:modalIn .3s ease;
 }
 
 @keyframes modalIn{
-    from{
-        opacity:0;
-    }
-
-    to{
-        opacity:1;
-    }
+    from{opacity:0}
+    to{opacity:1}
 }
 
 .modal-box{
-    width:min(430px, 100%);
+    width:min(430px,100%);
+
+    padding:30px;
 
     background:#0d0d0d;
 
     border:
         1px solid
-        rgba(215,194,160,.20);
+        rgba(216,193,154,.25);
 
     border-radius:25px;
-
-    padding:30px;
 
     position:relative;
 
     box-shadow:
         0 30px 100px rgba(0,0,0,.65);
 
-    animation:
-        boxIn .4s cubic-bezier(.2,.8,.2,1);
+    animation:boxIn .35s ease;
 }
 
 @keyframes boxIn{
     from{
         transform:
-            translateY(25px)
+            translateY(20px)
             scale(.97);
     }
 
@@ -814,14 +834,6 @@ footer strong{
     color:#aaa;
 
     font-size:20px;
-
-    transition:.25s ease;
-}
-
-.modal-close:hover{
-    color:white;
-
-    background:#222;
 }
 
 .modal-logo{
@@ -831,12 +843,10 @@ footer strong{
 .modal-box h2{
     font-size:28px;
 
-    letter-spacing:-1px;
-
     margin-bottom:8px;
 }
 
-.modal-box .modal-sub{
+.modal-sub{
     color:#858585;
 
     font-size:14px;
@@ -863,7 +873,12 @@ footer strong{
 .form-group input{
     width:100%;
 
-    border:1px solid rgba(255,255,255,.09);
+    padding:
+        13px 14px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.09);
 
     background:#141414;
 
@@ -872,15 +887,11 @@ footer strong{
     outline:none;
 
     border-radius:12px;
-
-    padding:13px 14px;
-
-    transition:.25s ease;
 }
 
 .form-group input:focus{
     border-color:
-        rgba(215,194,160,.55);
+        rgba(216,193,154,.55);
 }
 
 .form-submit{
@@ -898,20 +909,18 @@ footer strong{
 
     color:#111;
 
-    font-weight:700;
+    font-weight:800;
 
     transition:.25s ease;
 }
 
 .form-submit:hover{
-    background:var(--beige-light);
-
-    transform:translateY(-1px);
+    background:var(--beige2);
 }
 
-/* =========================================================
-   CHAT OVERLAY
-========================================================= */
+/* =====================================================
+   CHAT
+===================================================== */
 
 .chat-overlay{
     position:fixed;
@@ -919,7 +928,6 @@ footer strong{
     inset:0;
 
     width:100%;
-
     height:var(--vvh);
 
     z-index:2000;
@@ -936,8 +944,7 @@ footer strong{
 .chat-overlay.open{
     display:flex;
 
-    animation:
-        chatIn .38s cubic-bezier(.2,.8,.2,1);
+    animation:chatIn .35s ease;
 }
 
 @keyframes chatIn{
@@ -952,27 +959,24 @@ footer strong{
     }
 }
 
-/* =========================================================
-   CHAT HEADER
-========================================================= */
-
 .chat-header{
     height:72px;
 
     flex-shrink:0;
 
     display:flex;
+
     align-items:center;
 
     justify-content:space-between;
 
-    padding:
-        0 18px;
-
-    border-bottom:
-        1px solid rgba(255,255,255,.07);
+    padding:0 18px;
 
     background:#050505;
+
+    border-bottom:
+        1px solid
+        rgba(216,193,154,.10);
 }
 
 .chat-left{
@@ -987,30 +991,28 @@ footer strong{
 
     border:none;
 
-    background:#111;
-
     border-radius:11px;
 
-    display:flex;
-    align-items:center;
-    justify-content:center;
+    background:#111;
 
-    color:#ccc;
+    color:#cfcfcf;
 
     font-size:19px;
 }
 
 .chat-brand{
     display:flex;
+
     align-items:center;
+
     gap:9px;
 
     font-weight:650;
 }
 
 .chat-brand .logo{
-    width:28px;
-    height:28px;
+    width:29px;
+    height:29px;
 }
 
 .chat-brand .logo::before,
@@ -1036,18 +1038,13 @@ footer strong{
     color:#aaa;
 
     font-size:22px;
-
-    transition:.25s ease;
 }
 
 .chat-close:hover{
-    background:#1b1b1b;
-    color:white;
-}
+    color:var(--beige2);
 
-/* =========================================================
-   CHAT BODY
-========================================================= */
+    background:#181818;
+}
 
 .chat-body{
     flex:1;
@@ -1055,6 +1052,7 @@ footer strong{
     min-height:0;
 
     display:flex;
+
     flex-direction:column;
 
     position:relative;
@@ -1066,34 +1064,20 @@ footer strong{
     overflow-y:auto;
 
     padding:
-        25px
-        18px
-        20px;
+        25px 18px 20px;
 
     display:flex;
+
     flex-direction:column;
 
     gap:14px;
-
-    overscroll-behavior:contain;
 }
-
-.chat-messages::-webkit-scrollbar{
-    width:5px;
-}
-
-.chat-messages::-webkit-scrollbar-thumb{
-    background:#252525;
-
-    border-radius:20px;
-}
-
-/* MENSAJES */
 
 .message{
-    max-width:min(760px, 85%);
+    max-width:min(760px,85%);
 
-    padding:13px 15px;
+    padding:
+        13px 15px;
 
     border-radius:17px;
 
@@ -1101,8 +1085,7 @@ footer strong{
 
     line-height:1.6;
 
-    animation:
-        messageIn .25s ease;
+    animation:messageIn .25s ease;
 }
 
 @keyframes messageIn{
@@ -1123,7 +1106,8 @@ footer strong{
     background:#111;
 
     border:
-        1px solid rgba(255,255,255,.07);
+        1px solid
+        rgba(255,255,255,.07);
 
     color:#ddd;
 
@@ -1134,10 +1118,11 @@ footer strong{
     align-self:flex-end;
 
     background:
-        rgba(215,194,160,.12);
+        rgba(216,193,154,.12);
 
     border:
-        1px solid rgba(215,194,160,.18);
+        1px solid
+        rgba(216,193,154,.20);
 
     color:#eee;
 
@@ -1145,35 +1130,35 @@ footer strong{
 }
 
 .message.bot strong{
-    color:var(--beige-light);
+    color:var(--beige2);
 }
 
-/* =========================================================
+/* =====================================================
    CHAT INPUT
-========================================================= */
+===================================================== */
 
 .chat-input-area{
     flex-shrink:0;
 
     padding:
-        12px
-        15px
-        max(15px, env(safe-area-inset-bottom));
+        12px 15px
+        max(15px,env(safe-area-inset-bottom));
 
     background:#050505;
 
     border-top:
-        1px solid rgba(255,255,255,.06);
+        1px solid
+        rgba(216,193,154,.09);
 }
 
 .chat-input-box{
     width:100%;
-
     max-width:900px;
 
     margin:auto;
 
     display:flex;
+
     align-items:flex-end;
 
     gap:8px;
@@ -1183,7 +1168,8 @@ footer strong{
     background:#101010;
 
     border:
-        1px solid rgba(255,255,255,.08);
+        1px solid
+        rgba(216,193,154,.16);
 
     border-radius:17px;
 }
@@ -1197,15 +1183,13 @@ footer strong{
     resize:none;
 
     border:none;
-
     outline:none;
 
     background:transparent;
 
     color:white;
 
-    padding:
-        10px 8px;
+    padding:10px 8px;
 
     line-height:1.45;
 }
@@ -1232,8 +1216,7 @@ footer strong{
 }
 
 .chat-action:hover{
-    background:#222;
-    color:var(--beige-light);
+    color:var(--beige2);
 }
 
 .chat-send{
@@ -1241,16 +1224,12 @@ footer strong{
 
     color:#111;
 
-    font-weight:800;
+    font-weight:900;
 }
 
-.chat-send:hover{
-    background:var(--beige-light);
-}
-
-/* =========================================================
-   CHAT HISTORY
-========================================================= */
+/* =====================================================
+   HISTORIAL
+===================================================== */
 
 .history-panel{
     position:absolute;
@@ -1258,7 +1237,7 @@ footer strong{
     top:0;
     left:0;
 
-    width:min(330px, 86vw);
+    width:min(330px,86vw);
 
     height:100%;
 
@@ -1267,11 +1246,12 @@ footer strong{
     background:#0b0b0b;
 
     border-right:
-        1px solid rgba(255,255,255,.08);
+        1px solid
+        rgba(216,193,154,.15);
 
     transform:translateX(-100%);
 
-    transition:.35s cubic-bezier(.2,.8,.2,1);
+    transition:.35s ease;
 
     padding:20px;
 }
@@ -1282,7 +1262,9 @@ footer strong{
 
 .history-title{
     display:flex;
+
     align-items:center;
+
     justify-content:space-between;
 
     margin-bottom:18px;
@@ -1293,9 +1275,11 @@ footer strong{
 }
 
 .new-chat{
-    border:1px solid rgba(215,194,160,.3);
+    border:
+        1px solid
+        var(--beige-border);
 
-    color:var(--beige-light);
+    color:var(--beige2);
 
     background:transparent;
 
@@ -1308,6 +1292,7 @@ footer strong{
 
 .history-list{
     display:flex;
+
     flex-direction:column;
 
     gap:7px;
@@ -1323,17 +1308,11 @@ footer strong{
     color:#aaa;
 
     font-size:13px;
-
-    cursor:pointer;
 }
 
-.history-item:hover{
-    background:#181818;
-}
-
-/* =========================================================
-   IMAGE GENERATOR PANEL
-========================================================= */
+/* =====================================================
+   IMAGE PANEL
+===================================================== */
 
 .image-panel{
     position:absolute;
@@ -1341,12 +1320,13 @@ footer strong{
     right:15px;
     bottom:88px;
 
-    width:min(360px, calc(100vw - 30px));
+    width:min(360px,calc(100vw - 30px));
 
     background:#0e0e0e;
 
     border:
-        1px solid rgba(215,194,160,.25);
+        1px solid
+        rgba(216,193,154,.25);
 
     border-radius:20px;
 
@@ -1362,21 +1342,6 @@ footer strong{
 
 .image-panel.open{
     display:block;
-
-    animation:
-        panelIn .25s ease;
-}
-
-@keyframes panelIn{
-    from{
-        opacity:0;
-        transform:translateY(10px);
-    }
-
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
 }
 
 .image-panel h3{
@@ -1405,7 +1370,8 @@ footer strong{
     outline:none;
 
     border:
-        1px solid rgba(255,255,255,.08);
+        1px solid
+        rgba(255,255,255,.08);
 
     background:#151515;
 
@@ -1431,31 +1397,32 @@ footer strong{
 
     color:#111;
 
-    font-weight:700;
+    font-weight:800;
 }
 
-/* =========================================================
+/* =====================================================
    TOAST
-========================================================= */
+===================================================== */
 
 .toast{
     position:fixed;
 
     left:50%;
-
     bottom:25px;
 
     transform:
-        translate(-50%, 20px);
+        translate(-50%,20px);
 
     background:#171717;
 
     border:
-        1px solid rgba(215,194,160,.25);
+        1px solid
+        rgba(216,193,154,.28);
 
     color:#ddd;
 
-    padding:11px 15px;
+    padding:
+        11px 15px;
 
     border-radius:12px;
 
@@ -1474,12 +1441,12 @@ footer strong{
     opacity:1;
 
     transform:
-        translate(-50%, 0);
+        translate(-50%,0);
 }
 
-/* =========================================================
+/* =====================================================
    MOBILE
-========================================================= */
+===================================================== */
 
 @media(max-width:700px){
 
@@ -1495,11 +1462,12 @@ footer strong{
     }
 
     .auth-buttons{
-        gap:3px;
+        gap:2px;
     }
 
     .auth-btn{
-        padding:8px 9px;
+        padding:
+            8px 9px;
 
         font-size:12px;
     }
@@ -1508,44 +1476,47 @@ footer strong{
         min-height:100svh;
 
         padding:
-            105px 20px
+            105px 18px
             65px;
     }
 
-    .hero-logo{
-        width:72px;
-        height:72px;
+    .hero-content{
+        max-width:100%;
+    }
 
-        margin-bottom:27px;
+    .hero-logo{
+        width:76px;
+        height:76px;
+
+        margin-bottom:28px;
     }
 
     .hero-logo::before,
     .hero-logo::after{
-        width:36px;
+        width:37px;
     }
 
     .hero h1{
         font-size:
-            clamp(38px, 11vw, 60px);
+            clamp(37px,10.8vw,60px);
 
-        letter-spacing:-2.8px;
+        letter-spacing:-2.7px;
     }
 
     .hero p{
+        max-width:650px;
+
         font-size:15px;
 
         line-height:1.65;
 
-        margin-top:20px;
+        margin:
+            20px auto 29px;
     }
 
     .section{
         padding:
             70px 17px;
-    }
-
-    .section-header{
-        margin-bottom:30px;
     }
 
     .services-section{
@@ -1557,11 +1528,13 @@ footer strong{
     }
 
     .service-card{
-        width:calc(100vw - 34px);
+        width:
+            calc(100vw - 34px);
 
         min-height:330px;
 
-        padding:28px 24px;
+        padding:
+            28px 24px;
     }
 
     .service-card.prev{
@@ -1587,7 +1560,8 @@ footer strong{
     }
 
     .contact-box{
-        padding:35px 22px;
+        padding:
+            38px 22px;
     }
 
     footer{
@@ -1595,15 +1569,11 @@ footer strong{
 
         text-align:center;
 
-        padding:
-            25px 20px
-            30px;
+        gap:9px;
     }
 
     .message{
         max-width:88%;
-
-        font-size:14px;
     }
 
     .chat-messages{
@@ -1615,34 +1585,15 @@ footer strong{
         padding-left:10px;
         padding-right:10px;
     }
-
-    .chat-action{
-        width:40px;
-        height:40px;
-    }
 }
 
 @media(max-width:390px){
 
     .auth-btn{
         padding:
-            7px 7px;
+            7px;
 
         font-size:11px;
-    }
-
-    .brand{
-        gap:7px;
-    }
-
-    .brand .logo{
-        width:29px;
-        height:29px;
-    }
-
-    .brand .logo::before,
-    .brand .logo::after{
-        width:14px;
     }
 
     .hero h1{
@@ -1650,9 +1601,9 @@ footer strong{
     }
 }
 
-/* =========================================================
+/* =====================================================
    DESKTOP
-========================================================= */
+===================================================== */
 
 @media(min-width:1000px){
 
@@ -1664,15 +1615,14 @@ footer strong{
         min-height:650px;
 
         display:flex;
+
         flex-direction:column;
+
         justify-content:center;
     }
 
     .contact-section{
         min-height:500px;
-
-        display:flex;
-        align-items:center;
     }
 }
 </style>
@@ -1680,9 +1630,9 @@ footer strong{
 
 <body>
 
-<!-- =======================================================
+<!-- =====================================================
      HEADER
-======================================================= -->
+===================================================== -->
 
 <header>
 
@@ -1721,9 +1671,9 @@ footer strong{
 </header>
 
 
-<!-- =======================================================
+<!-- =====================================================
      HERO
-======================================================= -->
+===================================================== -->
 
 <main>
 
@@ -1756,9 +1706,9 @@ footer strong{
 </section>
 
 
-<!-- =======================================================
+<!-- =====================================================
      SERVICIOS
-======================================================= -->
+===================================================== -->
 
 <section class="section services-section">
 
@@ -1780,7 +1730,7 @@ footer strong{
     </div>
 
 
-    <div class="services-track" id="servicesTrack">
+    <div class="services-track">
 
         <article class="service-card active">
 
@@ -1864,7 +1814,7 @@ footer strong{
     </div>
 
 
-    <div class="carousel-dots" id="carouselDots">
+    <div class="carousel-dots">
 
         <span class="dot active"></span>
         <span class="dot"></span>
@@ -1876,9 +1826,9 @@ footer strong{
 </section>
 
 
-<!-- =======================================================
+<!-- =====================================================
      CONTACTO
-======================================================= -->
+===================================================== -->
 
 <section class="contact-section">
 
@@ -1912,9 +1862,9 @@ footer strong{
 </main>
 
 
-<!-- =======================================================
+<!-- =====================================================
      FOOTER
-======================================================= -->
+===================================================== -->
 
 <footer>
 
@@ -1929,9 +1879,9 @@ footer strong{
 </footer>
 
 
-<!-- =======================================================
-     LOGIN MODAL
-======================================================= -->
+<!-- =====================================================
+     LOGIN
+===================================================== -->
 
 <div class="modal" id="loginModal">
 
@@ -1973,7 +1923,6 @@ footer strong{
 
             </div>
 
-
             <div class="form-group">
 
                 <label>
@@ -1987,7 +1936,6 @@ footer strong{
                 >
 
             </div>
-
 
             <button
                 class="form-submit"
@@ -2003,9 +1951,9 @@ footer strong{
 </div>
 
 
-<!-- =======================================================
-     REGISTER MODAL
-======================================================= -->
+<!-- =====================================================
+     REGISTRO
+===================================================== -->
 
 <div class="modal" id="registerModal">
 
@@ -2047,7 +1995,6 @@ footer strong{
 
             </div>
 
-
             <div class="form-group">
 
                 <label>
@@ -2062,7 +2009,6 @@ footer strong{
                 >
 
             </div>
-
 
             <div class="form-group">
 
@@ -2079,7 +2025,6 @@ footer strong{
 
             </div>
 
-
             <div class="form-group">
 
                 <label>
@@ -2095,7 +2040,6 @@ footer strong{
 
             </div>
 
-
             <button
                 class="form-submit"
                 type="submit"
@@ -2110,9 +2054,9 @@ footer strong{
 </div>
 
 
-<!-- =======================================================
+<!-- =====================================================
      CHAT
-======================================================= -->
+===================================================== -->
 
 <div class="chat-overlay" id="chatOverlay">
 
@@ -2123,7 +2067,6 @@ footer strong{
             <button
                 class="chat-menu"
                 onclick="toggleHistory()"
-                aria-label="Historial"
             >
                 ☰
             </button>
@@ -2142,11 +2085,9 @@ footer strong{
 
         </div>
 
-
         <button
             class="chat-close"
             onclick="closeChat()"
-            aria-label="Cerrar"
         >
             ×
         </button>
@@ -2155,8 +2096,6 @@ footer strong{
 
 
     <div class="chat-body">
-
-        <!-- HISTORIAL -->
 
         <aside
             class="history-panel"
@@ -2186,21 +2125,21 @@ footer strong{
         </aside>
 
 
-        <!-- MENSAJES -->
-
         <div
             class="chat-messages"
             id="chatMessages"
         >
 
-            <div class="message bot" id="initialGreeting">
-                Hola. Cuéntame qué deseas hacer.
+            <div
+                class="message bot"
+                id="initialGreeting"
+            >
+                Hola.<br><br>
+                Cuéntame qué deseas hacer.
             </div>
 
         </div>
 
-
-        <!-- IMAGE PANEL -->
 
         <div
             class="image-panel"
@@ -2212,8 +2151,7 @@ footer strong{
             </h3>
 
             <p>
-                Describe lo que quieres visualizar y podremos
-                trabajar sobre esa idea.
+                Describe lo que quieres visualizar.
             </p>
 
             <textarea
@@ -2231,8 +2169,6 @@ footer strong{
         </div>
 
 
-        <!-- INPUT -->
-
         <div class="chat-input-area">
 
             <div class="chat-input-box">
@@ -2240,7 +2176,6 @@ footer strong{
                 <button
                     class="chat-action"
                     onclick="document.getElementById('imageUpload').click()"
-                    title="Subir imagen"
                 >
                     +
                 </button>
@@ -2256,7 +2191,6 @@ footer strong{
                 <button
                     class="chat-action"
                     onclick="toggleImagePanel()"
-                    title="Crear imagen"
                 >
                     ◇
                 </button>
@@ -2271,7 +2205,6 @@ footer strong{
                 <button
                     class="chat-action chat-send"
                     onclick="sendMessage()"
-                    title="Enviar"
                 >
                     ↑
                 </button>
@@ -2285,8 +2218,6 @@ footer strong{
 </div>
 
 
-<!-- TOAST -->
-
 <div
     class="toast"
     id="toast"
@@ -2295,10 +2226,9 @@ footer strong{
 
 <script>
 
-/* =========================================================
-   VISUAL VIEWPORT
-   Hace que el chat funcione mejor en Android
-========================================================= */
+/* =====================================================
+   VIEWPORT ANDROID
+===================================================== */
 
 function updateViewport(){
 
@@ -2325,46 +2255,41 @@ if(window.visualViewport){
 }
 
 
-/* =========================================================
+/* =====================================================
    MODALES
-========================================================= */
+===================================================== */
 
 function openModal(type){
 
-    const modal =
-        document.getElementById(
-            type === "login"
-                ? "loginModal"
-                : "registerModal"
-        );
+    const id =
+        type === "login"
+        ? "loginModal"
+        : "registerModal";
 
-    modal.classList.add("show");
+    document
+        .getElementById(id)
+        .classList.add("show");
 
 }
 
 function closeModal(type){
 
-    const modal =
-        document.getElementById(
-            type === "login"
-                ? "loginModal"
-                : "registerModal"
-        );
+    const id =
+        type === "login"
+        ? "loginModal"
+        : "registerModal";
 
-    modal.classList.remove("show");
+    document
+        .getElementById(id)
+        .classList.remove("show");
 
 }
 
-
-/* =========================================================
-   CERRAR MODALES TOCANDO AFUERA
-========================================================= */
-
 document.querySelectorAll(".modal").forEach(modal => {
 
-    modal.addEventListener("click", e => {
+    modal.addEventListener("click", event => {
 
-        if(e.target === modal){
+        if(event.target === modal){
 
             modal.classList.remove("show");
 
@@ -2375,10 +2300,9 @@ document.querySelectorAll(".modal").forEach(modal => {
 });
 
 
-/* =========================================================
+/* =====================================================
    LOGIN TEMPORAL
-   DESPUÉS LO CONECTAMOS A SUPABASE
-========================================================= */
+===================================================== */
 
 function fakeLogin(event){
 
@@ -2406,9 +2330,9 @@ function fakeLogin(event){
 }
 
 
-/* =========================================================
+/* =====================================================
    REGISTRO TEMPORAL
-========================================================= */
+===================================================== */
 
 function fakeRegister(event){
 
@@ -2436,9 +2360,9 @@ function fakeRegister(event){
 }
 
 
-/* =========================================================
+/* =====================================================
    TOAST
-========================================================= */
+===================================================== */
 
 let toastTimer;
 
@@ -2453,18 +2377,19 @@ function showToast(text){
 
     clearTimeout(toastTimer);
 
-    toastTimer = setTimeout(() => {
+    toastTimer =
+        setTimeout(() => {
 
-        toast.classList.remove("show");
+            toast.classList.remove("show");
 
-    }, 2500);
+        },2500);
 
 }
 
 
-/* =========================================================
-   SERVICIOS - CARRUSEL AUTOMÁTICO
-========================================================= */
+/* =====================================================
+   CARRUSEL
+===================================================== */
 
 const serviceCards =
     document.querySelectorAll(".service-card");
@@ -2476,7 +2401,7 @@ let currentService = 0;
 
 function updateServices(){
 
-    serviceCards.forEach((card, index) => {
+    serviceCards.forEach((card,index) => {
 
         card.classList.remove(
             "active",
@@ -2512,7 +2437,6 @@ function updateServices(){
 
     });
 
-
     dots.forEach((dot,index) => {
 
         dot.classList.toggle(
@@ -2532,14 +2456,14 @@ setInterval(() => {
 
     updateServices();
 
-}, 5600);
+},5600);
 
 updateServices();
 
 
-/* =========================================================
+/* =====================================================
    CHAT
-========================================================= */
+===================================================== */
 
 const chatOverlay =
     document.getElementById("chatOverlay");
@@ -2561,7 +2485,8 @@ function openChat(){
 
     chatOverlay.classList.add("open");
 
-    document.body.style.overflow = "hidden";
+    document.body.style.overflow =
+        "hidden";
 
     updateGreeting();
 
@@ -2569,7 +2494,7 @@ function openChat(){
 
         chatInput.focus();
 
-    }, 400);
+    },400);
 
 }
 
@@ -2578,7 +2503,8 @@ function closeChat(){
 
     chatOverlay.classList.remove("open");
 
-    document.body.style.overflow = "";
+    document.body.style.overflow =
+        "";
 
 }
 
@@ -2597,9 +2523,9 @@ function toggleImagePanel(){
 }
 
 
-/* =========================================================
-   SALUDO SEGÚN HORA
-========================================================= */
+/* =====================================================
+   SALUDO
+===================================================== */
 
 function updateGreeting(){
 
@@ -2627,7 +2553,9 @@ function updateGreeting(){
     }
 
     const first =
-        document.getElementById("initialGreeting");
+        document.getElementById(
+            "initialGreeting"
+        );
 
     if(first){
 
@@ -2640,9 +2568,9 @@ function updateGreeting(){
 }
 
 
-/* =========================================================
-   ENVIAR MENSAJE
-========================================================= */
+/* =====================================================
+   CHAT INPUT
+===================================================== */
 
 function handleChatKey(event){
 
@@ -2682,14 +2610,14 @@ function sendMessage(){
 
         generateLocalResponse(text);
 
-    }, 450);
+    },450);
 
 }
 
 
-/* =========================================================
-   AÑADIR MENSAJE
-========================================================= */
+/* =====================================================
+   MENSAJE
+===================================================== */
 
 function addMessage(text,type){
 
@@ -2710,9 +2638,9 @@ function addMessage(text,type){
 }
 
 
-/* =========================================================
-   RESPUESTA CONTEXTUAL TEMPORAL
-========================================================= */
+/* =====================================================
+   RESPUESTAS TEMPORALES
+===================================================== */
 
 function generateLocalResponse(text){
 
@@ -2724,8 +2652,6 @@ function generateLocalResponse(text){
 
     let response = "";
 
-
-    /* VALORANT */
 
     if(
         normalized.includes("valorant") ||
@@ -2742,9 +2668,6 @@ function generateLocalResponse(text){
 
     }
 
-
-    /* FORTNITE */
-
     else if(
         normalized.includes("fortnite") ||
         normalized.includes("skin")
@@ -2754,9 +2677,6 @@ function generateLocalResponse(text){
             "Entendido. Podemos trabajar una idea relacionada con <strong>Fortnite</strong>, por ejemplo una skin, personaje, campaña o contenido. Cuéntame qué quieres conseguir.";
 
     }
-
-
-    /* CALL OF DUTY */
 
     else if(
         normalized.includes("call of duty") ||
@@ -2768,9 +2688,6 @@ function generateLocalResponse(text){
             "Entendido. Podemos desarrollar una propuesta relacionada con <strong>Call of Duty</strong> o Warzone. Dime si quieres trabajar una campaña, personaje, arma, mapa, vídeo o contenido.";
 
     }
-
-
-    /* LEAGUE OF LEGENDS */
 
     else if(
         normalized.includes("league") ||
@@ -2785,9 +2702,6 @@ function generateLocalResponse(text){
 
     }
 
-
-    /* FREE FIRE */
-
     else if(
         normalized.includes("free fire") ||
         normalized.includes("alok") ||
@@ -2798,9 +2712,6 @@ function generateLocalResponse(text){
             "Entendido. Podemos trabajar una idea relacionada con <strong>Free Fire</strong>, desde personajes y contenido hasta publicidad. Cuéntame qué quieres desarrollar.";
 
     }
-
-
-    /* PUBLICIDAD */
 
     else if(
         normalized.includes("publicidad") ||
@@ -2814,9 +2725,6 @@ function generateLocalResponse(text){
 
     }
 
-
-    /* VIDEO */
-
     else if(
         normalized.includes("video") ||
         normalized.includes("vídeo")
@@ -2826,9 +2734,6 @@ function generateLocalResponse(text){
             "Claro. Podemos estructurar el vídeo por escenas y tiempos. Por ejemplo: <strong>0:00–0:10</strong> presentación, después desarrollo y finalmente llamada a la acción. ¿Qué quieres promocionar o contar?";
 
     }
-
-
-    /* IMAGEN */
 
     else if(
         normalized.includes("imagen") ||
@@ -2841,9 +2746,6 @@ function generateLocalResponse(text){
 
     }
 
-
-    /* MARKETING */
-
     else if(
         normalized.includes("marketing") ||
         normalized.includes("estrategia") ||
@@ -2855,9 +2757,6 @@ function generateLocalResponse(text){
             "Perfecto. Podemos analizar tu proyecto desde el punto de vista de marketing y estrategia. Cuéntame qué tienes actualmente y qué resultado quieres conseguir.";
 
     }
-
-
-    /* SALUDOS */
 
     else if(
         normalized === "hola" ||
@@ -2872,9 +2771,6 @@ function generateLocalResponse(text){
 
     }
 
-
-    /* MENSAJES CORTOS / SLANG */
-
     else if(
         normalized.length < 8
     ){
@@ -2884,16 +2780,12 @@ function generateLocalResponse(text){
 
     }
 
-
-    /* DEFAULT */
-
     else{
 
         response =
             "Entiendo. Vamos a trabajar esa idea. Cuéntame qué quieres conseguir, qué tienes pensado hasta ahora y qué resultado te gustaría obtener.";
 
     }
-
 
     addMessage(
         response,
@@ -2903,9 +2795,9 @@ function generateLocalResponse(text){
 }
 
 
-/* =========================================================
+/* =====================================================
    NUEVO CHAT
-========================================================= */
+===================================================== */
 
 function newChat(){
 
@@ -2929,9 +2821,9 @@ function newChat(){
 }
 
 
-/* =========================================================
-   SUBIR IMAGEN
-========================================================= */
+/* =====================================================
+   IMAGEN
+===================================================== */
 
 function imageSelected(event){
 
@@ -2947,16 +2839,12 @@ function imageSelected(event){
     addMessage(
         "He seleccionado la imagen <strong>" +
         file.name +
-        "</strong>. Cuando conectemos el análisis de imágenes podremos trabajar directamente sobre ella.",
+        "</strong>. Más adelante conectaremos el análisis de imágenes para trabajar directamente sobre ella.",
         "user"
     );
 
 }
 
-
-/* =========================================================
-   CONCEPTO DE IMAGEN
-========================================================= */
 
 function generateImageIdea(){
 
@@ -2968,7 +2856,9 @@ function generateImageIdea(){
 
     if(!prompt){
 
-        showToast("Describe primero la imagen");
+        showToast(
+            "Describe primero la imagen"
+        );
 
         return;
 
@@ -2985,7 +2875,7 @@ function generateImageIdea(){
     setTimeout(() => {
 
         addMessage(
-            "Perfecto. Ya tengo el concepto. Más adelante conectaremos el generador para convertir esta descripción en una imagen real.",
+            "Perfecto. Ya tengo el concepto. Después conectaremos el generador para crear la imagen real.",
             "bot"
         );
 
@@ -2994,32 +2884,9 @@ function generateImageIdea(){
 }
 
 
-/* =========================================================
-   HISTORIAL TEMPORAL
-========================================================= */
-
-function saveHistory(title){
-
-    const list =
-        document.getElementById("historyList");
-
-    const item =
-        document.createElement("div");
-
-    item.className =
-        "history-item";
-
-    item.textContent =
-        title;
-
-    list.prepend(item);
-
-}
-
-
-/* =========================================================
+/* =====================================================
    ESCAPE
-========================================================= */
+===================================================== */
 
 document.addEventListener(
     "keydown",
