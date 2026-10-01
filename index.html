@@ -8,21 +8,24 @@
 <title>SparkyKrea</title>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
+/* =========================================================
+   SPARKYKREA — BASE
+========================================================= */
 
 :root{
-    --black:#0d0d0c;
-    --black2:#121211;
-    --panel:#191917;
-    --panel2:#22221f;
+    --black:#0b0b0a;
+    --black2:#11110f;
+    --card:#1a1a17;
+    --card2:#20201c;
     --cream:#f2eadb;
-    --cream2:#d9ccb7;
-    --text:#eee8dc;
-    --muted:#97938b;
-    --line:rgba(242,234,219,.12);
-    --line2:rgba(242,234,219,.20);
+    --cream2:#d8ccb8;
+    --muted:#929089;
+    --line:rgba(242,234,219,.11);
+    --line2:rgba(242,234,219,.18);
 
-    --vh:100dvh;
+    --header-h:78px;
+
+    --vvh:100vh;
 }
 
 *{
@@ -32,99 +35,114 @@
 }
 
 html{
-    background:var(--black);
     scroll-behavior:smooth;
+    background:var(--black);
 }
 
 body{
     background:var(--black);
-    color:var(--text);
-    font-family:"DM Sans",sans-serif;
+    color:var(--cream);
+    font-family:Arial, Helvetica, sans-serif;
     overflow-x:hidden;
 }
 
-body.chat-open{
-    overflow:hidden;
-    height:100%;
-    position:fixed;
-    width:100%;
+/* =========================================================
+   TYPOGRAPHY
+========================================================= */
+
+.serif{
+    font-family:Georgia, "Times New Roman", serif;
 }
 
-button,
-input,
-textarea{
-    font:inherit;
+h1,h2,h3,
+.logo-text,
+.chat-title,
+.contact-title,
+.service-title{
+    font-family:Georgia, "Times New Roman", serif;
 }
 
-button{
-    cursor:pointer;
-}
-
-a{
-    color:inherit;
-    text-decoration:none;
-}
-
-/* =========================
+/* =========================================================
    HEADER
-========================= */
+========================================================= */
 
 .site-header{
-    height:78px;
+    height:var(--header-h);
+    min-height:var(--header-h);
+
     width:100%;
+
     display:flex;
     align-items:center;
     justify-content:space-between;
-    padding:0 38px;
+
+    padding:0 34px;
+
     border-bottom:1px solid var(--line);
-    background:rgba(13,13,12,.96);
+
+    background:rgba(11,11,10,.96);
+
     position:relative;
     z-index:20;
 }
 
+/* Logo */
+
 .brand{
     display:flex;
     align-items:center;
-    gap:13px;
-    font-family:"Playfair Display",serif;
-    font-size:29px;
-    font-weight:600;
-    letter-spacing:-1px;
+    gap:12px;
+
+    text-decoration:none;
+    color:var(--cream);
+
     white-space:nowrap;
 }
 
-.brand-logo{
-    width:34px;
-    height:34px;
+.logo-mark{
+    width:37px;
+    height:37px;
+
     border:2px solid var(--cream);
     border-radius:50%;
+
     position:relative;
-    flex:none;
+
+    flex-shrink:0;
 }
 
-.brand-logo::before{
+.logo-mark::before,
+.logo-mark::after{
     content:"";
+
     position:absolute;
-    width:19px;
+
+    width:21px;
     height:2px;
+
     background:var(--cream);
-    left:6px;
-    top:15px;
-    transform:rotate(-32deg);
-    border-radius:10px;
+
+    left:50%;
+    top:50%;
+
+    transform-origin:center;
 }
 
-.brand-logo::after{
-    content:"";
-    position:absolute;
-    width:19px;
-    height:2px;
-    background:var(--cream);
-    left:7px;
-    top:15px;
-    transform:rotate(35deg);
-    border-radius:10px;
+.logo-mark::before{
+    transform:translate(-50%,-50%) rotate(-35deg);
 }
+
+.logo-mark::after{
+    transform:translate(-50%,-50%) rotate(28deg);
+}
+
+.logo-text{
+    font-size:29px;
+    line-height:1;
+    letter-spacing:-1.5px;
+}
+
+/* Header buttons */
 
 .header-actions{
     display:flex;
@@ -134,548 +152,753 @@ a{
 
 .header-btn{
     border:1px solid var(--line2);
+
     background:transparent;
-    color:var(--text);
+    color:var(--cream);
+
+    padding:13px 22px;
+
     border-radius:999px;
-    padding:12px 20px;
+
+    font-size:14px;
+
+    cursor:pointer;
+
     transition:.25s ease;
 }
 
 .header-btn:hover{
-    background:#1d1d1a;
+    background:var(--cream);
+    color:var(--black);
 }
 
 .header-btn.primary{
     background:var(--cream);
-    color:#111;
+    color:var(--black);
     border-color:var(--cream);
 }
 
-.user-pill{
-    display:none;
-    border:1px solid var(--line2);
-    border-radius:999px;
-    padding:11px 17px;
-    gap:14px;
-    align-items:center;
-}
-
-.logout-btn{
-    border:0;
-    background:transparent;
-    color:var(--cream2);
-}
-
-/* =========================
-   HOME
-========================= */
-
-.home{
-    min-height:calc(var(--vh) - 78px);
-}
+/* =========================================================
+   HERO
+========================================================= */
 
 .hero{
-    min-height:calc(var(--vh) - 78px);
-    max-width:1450px;
-    margin:auto;
+    min-height:calc(100svh - var(--header-h));
+
     display:flex;
-    flex-direction:column;
     align-items:center;
     justify-content:center;
-    text-align:center;
-    padding:70px 35px 85px;
+
+    padding:50px 30px 45px;
+
+    position:relative;
+
     border-bottom:1px solid var(--line);
+}
+
+.hero-inner{
+    width:min(920px,100%);
+
+    text-align:center;
+
+    margin-top:-20px;
 }
 
 .hero-logo{
-    width:70px;
-    height:70px;
+    width:64px;
+    height:64px;
+
+    margin:0 auto 28px;
+
     border:2px solid var(--cream);
+
     border-radius:50%;
+
     position:relative;
-    margin-bottom:32px;
+}
+
+.hero-logo::before,
+.hero-logo::after{
+    content:"";
+
+    position:absolute;
+
+    width:34px;
+    height:3px;
+
+    background:var(--cream);
+
+    left:50%;
+    top:50%;
 }
 
 .hero-logo::before{
-    content:"";
-    position:absolute;
-    width:37px;
-    height:3px;
-    background:var(--cream);
-    left:15px;
-    top:32px;
-    transform:rotate(-32deg);
-    border-radius:10px;
+    transform:translate(-50%,-50%) rotate(-35deg);
 }
 
 .hero-logo::after{
-    content:"";
-    position:absolute;
-    width:37px;
-    height:3px;
-    background:var(--cream);
-    left:17px;
-    top:32px;
-    transform:rotate(35deg);
-    border-radius:10px;
+    transform:translate(-50%,-50%) rotate(28deg);
 }
 
 .hero h1{
-    font-family:"Playfair Display",serif;
-    font-size:clamp(48px,6vw,88px);
-    line-height:.98;
-    letter-spacing:-3px;
-    max-width:1050px;
-    color:var(--text);
+    font-size:clamp(54px,7vw,96px);
+
+    line-height:.92;
+
+    letter-spacing:-4px;
+
+    max-width:900px;
+
+    margin:0 auto;
+
+    color:var(--cream);
 }
 
 .hero h1 span{
-    color:var(--cream2);
+    color:#d9ccb7;
 }
 
 .hero p{
-    margin-top:28px;
-    max-width:760px;
-    color:#99958d;
-    font-size:clamp(16px,1.5vw,21px);
+    max-width:680px;
+
+    margin:28px auto 34px;
+
+    color:#aaa69d;
+
+    font-size:clamp(16px,1.7vw,20px);
+
     line-height:1.65;
 }
 
-.start-btn{
-    margin-top:40px;
+.main-btn{
     border:0;
-    border-radius:999px;
+
     background:var(--cream);
-    color:#111;
-    padding:20px 39px;
+    color:var(--black);
+
+    padding:19px 38px;
+
+    border-radius:999px;
+
+    font-size:17px;
     font-weight:700;
-    font-size:18px;
-    box-shadow:0 15px 50px rgba(0,0,0,.3);
+
+    cursor:pointer;
+
     transition:.3s ease;
+
+    box-shadow:0 18px 45px rgba(0,0,0,.35);
 }
 
-.start-btn:hover{
+.main-btn:hover{
     transform:translateY(-3px);
-    box-shadow:0 20px 60px rgba(0,0,0,.45);
 }
 
-/* =========================
-   SERVICES
-========================= */
+/* =========================================================
+   CONTACT SECTION
+========================================================= */
 
-.services{
-    padding:105px 30px 110px;
-    border-bottom:1px solid var(--line);
-    text-align:center;
-}
+.contact-section{
+    min-height:390px;
 
-.section-kicker{
-    font-size:10px;
-    letter-spacing:4px;
-    color:#77736c;
-    margin-bottom:17px;
-}
-
-.section-title{
-    font-family:"Playfair Display",serif;
-    font-size:clamp(38px,4vw,58px);
-    margin-bottom:45px;
-}
-
-.carousel{
-    width:min(1100px,100%);
-    margin:auto;
-    position:relative;
-    height:360px;
     display:flex;
     align-items:center;
     justify-content:center;
+
+    padding:55px 25px;
+
+    border-bottom:1px solid var(--line);
+}
+
+.contact-inner{
+    width:min(850px,100%);
+    text-align:center;
+}
+
+.eyebrow{
+    color:#77736b;
+
+    text-transform:uppercase;
+
+    letter-spacing:5px;
+
+    font-size:10px;
+
+    margin-bottom:16px;
+}
+
+.contact-title{
+    font-size:clamp(38px,5vw,62px);
+
+    line-height:1;
+
+    letter-spacing:-2px;
+}
+
+.contact-text{
+    max-width:690px;
+
+    margin:20px auto 24px;
+
+    color:#918e87;
+
+    line-height:1.65;
+
+    font-size:15px;
+}
+
+.contact-btn{
+    display:inline-flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border:1px solid var(--line2);
+
+    background:transparent;
+
+    color:var(--cream);
+
+    padding:13px 22px;
+
+    border-radius:999px;
+
+    cursor:pointer;
+
+    transition:.25s ease;
+}
+
+.contact-btn:hover{
+    background:var(--cream);
+    color:var(--black);
+}
+
+/* =========================================================
+   SERVICES
+========================================================= */
+
+.services-section{
+    min-height:530px;
+
+    padding:60px 0 45px;
+
     overflow:hidden;
+
+    border-bottom:1px solid var(--line);
+
+    position:relative;
+}
+
+.services-heading{
+    text-align:center;
+
+    margin-bottom:30px;
+}
+
+.services-heading h2{
+    font-size:clamp(42px,5vw,65px);
+
+    letter-spacing:-2px;
+
+    line-height:1;
+}
+
+/* Carousel */
+
+.carousel{
+    width:100%;
+
+    position:relative;
+
+    height:310px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
 }
 
 .service-card{
     position:absolute;
-    width:min(720px,78%);
-    min-height:270px;
-    padding:48px;
-    text-align:left;
-    border:1px solid var(--line2);
-    border-radius:27px;
-    background:linear-gradient(145deg,#262622,#191917);
-    box-shadow:0 25px 80px rgba(0,0,0,.35);
+
+    width:min(720px,68vw);
+
+    min-height:255px;
+
+    padding:42px;
+
+    border-radius:25px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(35,35,31,.98),
+            rgba(24,24,21,.98)
+        );
+
+    border:1px solid rgba(242,234,219,.14);
+
+    box-shadow:
+        0 35px 80px rgba(0,0,0,.35);
+
+    opacity:0;
+
+    transform:
+        translateX(0)
+        scale(.88);
+
     transition:
-        transform .9s cubic-bezier(.2,.7,.2,1),
-        opacity .9s ease,
-        filter .9s ease;
+        transform .75s cubic-bezier(.2,.8,.2,1),
+        opacity .75s ease;
+
+    pointer-events:none;
 }
 
-.service-card.center{
-    transform:translateX(0) scale(1);
+.service-card.active{
     opacity:1;
-    z-index:3;
-    filter:none;
+
+    transform:
+        translateX(0)
+        scale(1);
+
+    z-index:5;
 }
 
-.service-card.left{
-    transform:translateX(-75%) scale(.82);
-    opacity:.30;
-    z-index:1;
+.service-card.prev{
+    opacity:.22;
+
+    transform:
+        translateX(-62%)
+        scale(.82);
+
+    z-index:2;
 }
 
-.service-card.right{
-    transform:translateX(75%) scale(.82);
-    opacity:.30;
-    z-index:1;
+.service-card.next{
+    opacity:.22;
+
+    transform:
+        translateX(62%)
+        scale(.82);
+
+    z-index:2;
 }
 
 .service-number{
-    font-size:10px;
-    letter-spacing:3px;
-    color:#77736c;
-    margin-bottom:35px;
+    color:#7d786e;
+
+    font-size:11px;
+
+    letter-spacing:4px;
+
+    margin-bottom:40px;
 }
 
-.service-card h3{
-    font-family:"Playfair Display",serif;
-    font-size:clamp(30px,3vw,43px);
-    margin-bottom:16px;
+.service-title{
+    font-size:clamp(32px,4vw,52px);
+
+    line-height:1;
+
+    letter-spacing:-2px;
+
+    margin-bottom:18px;
 }
 
-.service-card p{
-    color:#97938b;
-    line-height:1.65;
-    max-width:700px;
+.service-description{
+    color:#98948c;
+
+    max-width:600px;
+
+    line-height:1.6;
+
+    font-size:15px;
 }
 
-.carousel-dots{
+.dots{
     display:flex;
+
     justify-content:center;
+
     gap:7px;
-    margin-top:25px;
+
+    margin-top:24px;
 }
 
 .dot{
     width:6px;
     height:6px;
+
     border-radius:50%;
-    background:#57534c;
+
+    background:#55524c;
+
     transition:.3s;
 }
 
 .dot.active{
-    width:25px;
+    width:28px;
+
     border-radius:10px;
+
     background:var(--cream);
 }
 
-/* =========================
-   CONTACT
-========================= */
-
-.contact{
-    min-height:430px;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    padding:90px 25px 105px;
-    border-bottom:1px solid var(--line);
-}
-
-.contact h2{
-    font-family:"Playfair Display",serif;
-    font-size:clamp(38px,4vw,60px);
-    margin-bottom:20px;
-}
-
-.contact p{
-    color:#97938b;
-    max-width:700px;
-    line-height:1.7;
-}
-
-.contact-btn{
-    margin-top:32px;
-    padding:15px 25px;
-    border-radius:999px;
-    border:1px solid var(--line2);
-    background:transparent;
-    color:var(--cream);
-    transition:.25s;
-}
-
-.contact-btn:hover{
-    background:#1c1c19;
-}
-
-/* =========================
+/* =========================================================
    FOOTER
-========================= */
+========================================================= */
 
 .footer{
+    padding:38px 20px 45px;
+
     text-align:center;
-    padding:45px 20px 55px;
 }
 
 .footer-main{
+    font-family:Georgia, "Times New Roman", serif;
+
+    font-size:16px;
+
     color:var(--cream);
-    font-family:"Playfair Display",serif;
-    font-size:17px;
 }
 
 .footer-sub{
-    color:#6e6a63;
-    font-size:9px;
+    margin-top:7px;
+
+    color:#77736c;
+
+    font-size:10px;
+
     letter-spacing:2px;
-    margin-top:8px;
 }
 
-/* =========================
+/* =========================================================
    CHAT OVERLAY
-========================= */
+========================================================= */
 
 .chat-overlay{
     position:fixed;
+
     inset:0;
+
     width:100%;
-    height:100%;
-    height:100dvh;
-    background:#050505;
+    height:var(--vvh);
+
+    background:#080807;
+
     z-index:1000;
-    opacity:0;
-    visibility:hidden;
-    pointer-events:none;
-    transform:scale(.985);
-    transition:
-        opacity .28s ease,
-        transform .35s ease,
-        visibility 0s linear .35s;
 
-    display:flex;
-    flex-direction:column;
+    display:none;
 
-    /* evita que el documento principal se mueva */
     overflow:hidden;
-    overscroll-behavior:none;
 }
 
 .chat-overlay.open{
-    opacity:1;
-    visibility:visible;
-    pointer-events:auto;
-    transform:scale(1);
-    transition:
-        opacity .28s ease,
-        transform .35s ease,
-        visibility 0s;
+    display:flex;
+
+    animation:chatIn .28s ease both;
 }
 
-/* CHAT HEADER */
+@keyframes chatIn{
+    from{
+        opacity:0;
+        transform:scale(.985);
+    }
+
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+}
+
+/* Chat layout */
+
+.chat-shell{
+    width:100%;
+    height:100%;
+
+    display:flex;
+
+    flex-direction:column;
+
+    min-height:0;
+}
+
+/* Chat header */
 
 .chat-header{
-    flex:none;
-    height:82px;
-    border-bottom:1px solid var(--line);
+    flex:0 0 76px;
+
+    height:76px;
+
     display:flex;
     align-items:center;
-    padding:0 28px;
+
+    padding:0 25px;
+
+    border-bottom:1px solid var(--line);
+
+    background:#0c0c0b;
+
     position:relative;
-    background:#090908;
+
+    z-index:10;
 }
 
 .chat-left{
     display:flex;
+
     align-items:center;
+
     gap:14px;
+
+    min-width:0;
 }
 
-.chat-menu{
-    width:42px;
-    height:42px;
-    border:1px solid var(--line2);
-    background:transparent;
+.menu-btn{
+    width:43px;
+    height:43px;
+
     border-radius:50%;
+
+    border:1px solid var(--line2);
+
+    background:transparent;
+
+    color:var(--cream);
+
+    cursor:pointer;
+
     display:flex;
+    flex-direction:column;
+
     align-items:center;
     justify-content:center;
-    flex-direction:column;
+
     gap:5px;
+
+    flex-shrink:0;
 }
 
-.chat-menu span{
-    width:17px;
-    height:1.5px;
+.menu-btn span{
+    width:20px;
+    height:2px;
+
     background:var(--cream);
+
+    display:block;
 }
 
-.chat-brand{
-    font-family:"Playfair Display",serif;
-    font-size:27px;
-    color:var(--cream);
+.chat-brand-mark{
+    width:42px;
+    height:42px;
+
+    border:2px solid var(--cream);
+
+    border-radius:50%;
+
+    position:relative;
+
+    flex-shrink:0;
+}
+
+.chat-brand-mark::before,
+.chat-brand-mark::after{
+    content:"";
+
+    position:absolute;
+
+    width:24px;
+    height:2px;
+
+    background:var(--cream);
+
+    left:50%;
+    top:50%;
+}
+
+.chat-brand-mark::before{
+    transform:translate(-50%,-50%) rotate(-35deg);
+}
+
+.chat-brand-mark::after{
+    transform:translate(-50%,-50%) rotate(28deg);
+}
+
+.chat-title{
+    font-size:30px;
+
+    letter-spacing:-1px;
+
+    white-space:nowrap;
 }
 
 .chat-close{
     margin-left:auto;
-    width:44px;
-    height:44px;
+
+    width:46px;
+    height:46px;
+
     border-radius:50%;
+
     border:1px solid var(--line2);
+
     background:transparent;
+
     color:var(--cream);
+
     font-size:25px;
-}
 
-/* SIDEBAR */
-
-.chat-sidebar{
-    position:absolute;
-    top:82px;
-    left:0;
-    bottom:0;
-    width:310px;
-    background:#11110f;
-    border-right:1px solid var(--line);
-    z-index:10;
-    transform:translateX(-100%);
-    transition:.3s ease;
-    padding:25px;
-}
-
-.chat-sidebar.open{
-    transform:translateX(0);
-}
-
-.new-chat{
-    width:100%;
-    border:1px solid var(--line2);
-    background:#1b1b18;
-    color:var(--cream);
-    border-radius:13px;
-    padding:14px;
-}
-
-.chat-history{
-    margin-top:25px;
-    display:flex;
-    flex-direction:column;
-    gap:8px;
-}
-
-.history-item{
-    padding:12px;
-    border-radius:10px;
-    color:#aaa59b;
     cursor:pointer;
-    transition:.2s;
 }
 
-.history-item:hover{
-    background:#1b1b18;
-    color:var(--cream);
-}
-
-/* CHAT BODY */
+/* Chat content */
 
 .chat-main{
     flex:1 1 auto;
+
     min-height:0;
+
     display:flex;
+
     flex-direction:column;
-    position:relative;
+
+    overflow:hidden;
 }
 
-.messages{
+.chat-messages{
     flex:1 1 auto;
+
     min-height:0;
+
     overflow-y:auto;
+
     overscroll-behavior:contain;
-    padding:40px 24px 35px;
+
+    padding:30px clamp(18px,5vw,70px);
+
     display:flex;
+
     flex-direction:column;
+
     gap:18px;
+
     scrollbar-width:thin;
 }
 
-.welcome{
-    margin:auto;
+.chat-welcome{
+    flex:1;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
     text-align:center;
-    max-width:800px;
-    padding:30px;
+
+    min-height:0;
 }
 
-.welcome h2{
-    font-family:"Playfair Display",serif;
-    font-size:clamp(40px,5vw,64px);
-    color:var(--cream);
+.chat-welcome h2{
+    font-size:clamp(42px,6vw,76px);
+
+    line-height:.95;
+
+    letter-spacing:-3px;
+
+    margin-bottom:15px;
 }
 
-.welcome p{
-    margin-top:15px;
-    color:#8d8982;
-    font-size:18px;
+.chat-welcome p{
+    color:#8f8b83;
+
+    font-size:clamp(15px,1.6vw,19px);
 }
+
+/* Messages */
 
 .message{
-    max-width:min(680px,78%);
+    max-width:min(690px,78%);
+
     padding:15px 18px;
+
     border-radius:18px;
+
     line-height:1.55;
-    font-size:16px;
-    animation:messageIn .3s ease;
+
+    font-size:15px;
 }
 
 .message.bot{
     align-self:flex-start;
-    background:#171715;
+
+    background:#171714;
+
     border:1px solid var(--line);
-    color:#ded8cd;
+
+    color:#d4cec3;
 }
 
 .message.user{
     align-self:flex-end;
+
     background:var(--cream);
-    color:#121210;
+
+    color:var(--black);
 }
 
-@keyframes messageIn{
-    from{
-        opacity:0;
-        transform:translateY(8px);
-    }
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
-}
+/* Composer */
 
-/* CHAT INPUT */
+.chat-composer{
+    flex:0 0 auto;
 
-.chat-input-area{
-    flex:none;
-    padding:18px 24px 24px;
+    padding:
+        15px
+        clamp(15px,4vw,55px)
+        max(15px, env(safe-area-inset-bottom));
+
     border-top:1px solid var(--line);
-    background:#080807;
+
+    background:#0c0c0b;
 }
 
-.chat-form{
-    width:min(950px,100%);
+.composer-row{
+    width:min(900px,100%);
+
     margin:auto;
+
     display:flex;
+
     align-items:center;
+
     gap:14px;
 }
 
 .chat-input{
     flex:1;
+
     min-width:0;
+
     height:62px;
-    border:1px solid #3a3934;
+
     border-radius:20px;
-    background:#171715;
+
+    border:1px solid #3a3934;
+
+    background:#161613;
+
     color:var(--cream);
-    padding:0 20px;
+
     outline:none;
+
+    padding:0 20px;
+
+    font-size:17px;
+
+    transition:.2s;
 }
 
 .chat-input:focus{
@@ -683,238 +906,211 @@ a{
 }
 
 .chat-input::placeholder{
-    color:#77736c;
+    color:#737069;
 }
 
 .send-btn{
-    flex:none;
+    flex:0 0 62px;
+
     width:62px;
     height:62px;
-    border:0;
+
     border-radius:20px;
+
+    border:0;
+
     background:var(--cream);
-    color:#111;
-    font-size:23px;
+
+    color:var(--black);
+
+    font-size:22px;
+
+    cursor:pointer;
+
+    transition:.2s;
 }
 
-.chat-tools{
-    width:min(950px,100%);
-    margin:10px auto 0;
+.send-btn:active{
+    transform:scale(.94);
+}
+
+/* =========================================================
+   CHAT HISTORY
+========================================================= */
+
+.history{
+    position:absolute;
+
+    top:0;
+    left:0;
+
+    height:100%;
+
+    width:min(330px,85vw);
+
+    background:#11110f;
+
+    border-right:1px solid var(--line);
+
+    z-index:30;
+
+    transform:translateX(-100%);
+
+    transition:.3s ease;
+
+    padding:25px;
+}
+
+.history.open{
+    transform:translateX(0);
+}
+
+.history-header{
     display:flex;
-    justify-content:flex-start;
-    gap:8px;
-}
 
-.tool-btn{
-    border:1px solid var(--line);
-    background:transparent;
-    color:#77736c;
-    border-radius:10px;
-    padding:7px 11px;
-    font-size:12px;
-}
-
-/* =========================
-   AUTH
-========================= */
-
-.modal{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.78);
-    backdrop-filter:blur(12px);
-    display:flex;
     align-items:center;
-    justify-content:center;
-    padding:20px;
-    z-index:2000;
-    opacity:0;
-    visibility:hidden;
-    pointer-events:none;
-    transition:.25s;
-}
+    justify-content:space-between;
 
-.modal.open{
-    opacity:1;
-    visibility:visible;
-    pointer-events:auto;
-}
-
-.modal-card{
-    width:min(500px,100%);
-    max-height:90dvh;
-    overflow:auto;
-    background:var(--cream);
-    color:#151513;
-    border-radius:28px;
-    padding:38px;
-}
-
-.modal-card h2{
-    font-family:"Playfair Display",serif;
-    font-size:42px;
     margin-bottom:25px;
 }
 
-.form-group{
-    margin-bottom:15px;
+.history-title{
+    font-family:Georgia, "Times New Roman", serif;
+
+    font-size:25px;
 }
 
-.form-group label{
-    display:block;
-    color:#6d675d;
-    font-size:14px;
-    margin-bottom:7px;
-}
+.history-close{
+    width:40px;
+    height:40px;
 
-.form-group input{
-    width:100%;
-    height:54px;
-    border-radius:15px;
-    border:1px solid #d5ccbd;
-    background:#f8f3ea;
-    color:#111;
-    padding:0 16px;
-    outline:none;
-}
+    border-radius:50%;
 
-.auth-submit{
-    width:100%;
-    margin-top:8px;
-    height:56px;
-    border:0;
-    border-radius:15px;
-    background:#151513;
+    border:1px solid var(--line2);
+
+    background:transparent;
+
     color:var(--cream);
-    font-weight:700;
+
+    cursor:pointer;
 }
 
-.modal-close{
-    float:right;
-    border:0;
+.new-chat{
+    width:100%;
+
+    border:1px solid var(--line2);
+
+    border-radius:14px;
+
     background:transparent;
-    font-size:24px;
+
+    color:var(--cream);
+
+    padding:14px;
+
+    cursor:pointer;
+
+    text-align:left;
+
+    margin-bottom:20px;
 }
 
-.auth-message{
-    margin-top:15px;
+.chat-history-list{
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+
+    max-height:70%;
+
+    overflow:auto;
+}
+
+.history-item{
+    padding:12px;
+
+    border-radius:12px;
+
+    color:#9a968d;
+
+    cursor:pointer;
+
     font-size:14px;
-    color:#8a5149;
 }
 
-.auth-switch{
-    margin-top:20px;
-    text-align:center;
-    color:#666056;
+.history-item:hover{
+    background:#1b1b18;
+    color:var(--cream);
 }
 
-.auth-switch button{
-    border:0;
-    background:transparent;
-    text-decoration:underline;
-}
-
-/* =========================
-   DESKTOP OPTIMIZATION
-========================= */
-
-@media (min-width:1100px){
-
-    .site-header{
-        height:82px;
-        padding:0 55px;
-    }
-
-    .hero{
-        min-height:calc(100dvh - 82px);
-        padding-top:45px;
-        padding-bottom:55px;
-    }
-
-    .hero-logo{
-        width:62px;
-        height:62px;
-        margin-bottom:22px;
-    }
-
-    .hero h1{
-        font-size:clamp(60px,5vw,84px);
-    }
-
-    .hero p{
-        margin-top:20px;
-        font-size:18px;
-    }
-
-    .start-btn{
-        margin-top:28px;
-    }
-
-    .services{
-        padding-top:70px;
-        padding-bottom:70px;
-    }
-
-    .contact{
-        min-height:350px;
-        padding:70px 25px;
-    }
-}
-
-/* =========================
+/* =========================================================
    TABLET
-========================= */
+========================================================= */
 
 @media (max-width:900px){
 
     .site-header{
-        padding:0 24px;
+        padding:0 22px;
+    }
+
+    .logo-text{
+        font-size:25px;
     }
 
     .hero{
-        padding-left:25px;
-        padding-right:25px;
+        min-height:calc(100svh - var(--header-h));
+
+        padding:35px 22px;
+    }
+
+    .hero h1{
+        font-size:clamp(50px,8vw,76px);
     }
 
     .service-card{
-        width:84%;
+        width:72vw;
     }
 
-    .service-card.left{
-        transform:translateX(-65%) scale(.8);
+    .service-card.prev{
+        transform:translateX(-67%) scale(.8);
     }
 
-    .service-card.right{
-        transform:translateX(65%) scale(.8);
+    .service-card.next{
+        transform:translateX(67%) scale(.8);
     }
 }
 
-/* =========================
+/* =========================================================
    MOBILE
-========================= */
+========================================================= */
 
 @media (max-width:600px){
 
+    :root{
+        --header-h:68px;
+    }
+
     .site-header{
-        height:72px;
-        padding:0 18px;
+        height:68px;
+        min-height:68px;
+
+        padding:0 16px;
     }
 
-    .brand{
-        font-size:22px;
-        gap:8px;
+    .logo-mark{
+        width:30px;
+        height:30px;
     }
 
-    .brand-logo{
-        width:28px;
-        height:28px;
+    .logo-mark::before,
+    .logo-mark::after{
+        width:17px;
     }
 
-    .brand-logo::before,
-    .brand-logo::after{
-        width:15px;
-        left:5px;
-        top:12px;
+    .logo-text{
+        font-size:23px;
+        letter-spacing:-1px;
     }
 
     .header-actions{
@@ -922,253 +1118,430 @@ a{
     }
 
     .header-btn{
-        padding:9px 13px;
-        font-size:12px;
+        padding:10px 13px;
+        font-size:11px;
     }
 
-    .user-pill{
-        padding:9px 11px;
-        font-size:12px;
-    }
+    /* Hero */
 
     .hero{
-        min-height:calc(100dvh - 72px);
-        padding:55px 20px 55px;
+        min-height:calc(100svh - var(--header-h));
+
+        padding:30px 20px 35px;
+
+        align-items:center;
+    }
+
+    .hero-inner{
+        margin-top:-5px;
     }
 
     .hero-logo{
-        width:55px;
-        height:55px;
-        margin-bottom:24px;
+        width:54px;
+        height:54px;
+
+        margin-bottom:22px;
     }
 
     .hero-logo::before,
     .hero-logo::after{
-        width:30px;
-        left:12px;
-        top:28px;
+        width:29px;
     }
 
     .hero h1{
-        font-size:clamp(40px,11vw,55px);
-        line-height:1.01;
-        letter-spacing:-2px;
+        font-size:clamp(45px,12vw,62px);
+
+        line-height:.94;
+
+        letter-spacing:-2.8px;
     }
 
     .hero p{
         font-size:15px;
-        line-height:1.65;
-        margin-top:20px;
+
+        line-height:1.55;
+
+        margin:22px auto 28px;
     }
 
-    .start-btn{
-        margin-top:28px;
-        padding:17px 27px;
+    .main-btn{
+        padding:17px 29px;
+
         font-size:15px;
     }
 
-    .services{
-        padding:70px 15px 75px;
+    /* Contact */
+
+    .contact-section{
+        min-height:350px;
+
+        padding:50px 20px;
     }
 
-    .section-title{
-        margin-bottom:30px;
+    .eyebrow{
+        letter-spacing:4px;
+    }
+
+    .contact-title{
+        font-size:39px;
+
+        letter-spacing:-1.5px;
+    }
+
+    .contact-text{
+        font-size:13px;
+
+        line-height:1.55;
+    }
+
+    /* Services */
+
+    .services-section{
+        min-height:455px;
+
+        padding:48px 0 35px;
+    }
+
+    .services-heading{
+        margin-bottom:20px;
+    }
+
+    .services-heading h2{
+        font-size:43px;
     }
 
     .carousel{
-        height:330px;
+        height:255px;
     }
 
     .service-card{
-        width:88%;
-        min-height:245px;
-        padding:30px;
+        width:78vw;
+
+        min-height:220px;
+
+        padding:28px 25px;
+
         border-radius:22px;
     }
 
-    .service-card.left{
-        transform:translateX(-80%) scale(.76);
-    }
-
-    .service-card.right{
-        transform:translateX(80%) scale(.76);
-    }
-
     .service-number{
-        margin-bottom:25px;
+        margin-bottom:27px;
+
+        font-size:9px;
+
+        letter-spacing:3px;
     }
 
-    .service-card h3{
-        font-size:29px;
+    .service-title{
+        font-size:31px;
+
+        letter-spacing:-1px;
     }
 
-    .service-card p{
-        font-size:14px;
+    .service-description{
+        font-size:13px;
+
+        line-height:1.5;
     }
 
-    .contact{
-        min-height:400px;
-        padding:75px 20px;
+    .service-card.prev{
+        transform:translateX(-77%) scale(.78);
     }
 
-    .contact h2{
-        font-size:40px;
+    .service-card.next{
+        transform:translateX(77%) scale(.78);
     }
 
-    .contact p{
-        font-size:14px;
-    }
+    /* Footer */
 
     .footer{
-        padding:38px 20px 45px;
+        padding:28px 15px 35px;
     }
 
-    /* CHAT MOBILE */
+    /* CHAT */
 
     .chat-header{
-        height:70px;
-        padding:0 16px;
+        flex-basis:68px;
+        height:68px;
+
+        padding:0 14px;
     }
 
-    .chat-menu{
-        width:38px;
-        height:38px;
+    .menu-btn{
+        width:40px;
+        height:40px;
     }
 
-    .chat-brand{
-        font-size:22px;
+    .chat-brand-mark{
+        width:36px;
+        height:36px;
+    }
+
+    .chat-brand-mark::before,
+    .chat-brand-mark::after{
+        width:20px;
+    }
+
+    .chat-title{
+        font-size:24px;
     }
 
     .chat-close{
         width:40px;
         height:40px;
+
+        font-size:22px;
     }
 
-    .messages{
-        padding:25px 15px 20px;
+    .chat-messages{
+        padding:18px 14px;
     }
 
-    .welcome{
-        padding:20px;
+    .chat-welcome h2{
+        font-size:47px;
+
+        letter-spacing:-2px;
     }
 
-    .welcome h2{
-        font-size:42px;
-    }
-
-    .welcome p{
+    .chat-welcome p{
         font-size:15px;
     }
 
     .message{
         max-width:86%;
+
         font-size:14px;
+
+        padding:12px 14px;
     }
 
-    .chat-input-area{
-        padding:12px 14px calc(12px + env(safe-area-inset-bottom));
+    .chat-composer{
+        padding:10px 12px max(10px,env(safe-area-inset-bottom));
     }
 
-    .chat-form{
+    .composer-row{
         gap:10px;
     }
 
     .chat-input{
         height:56px;
+
         border-radius:18px;
-        padding:0 16px;
+
         font-size:16px;
+
+        padding:0 16px;
     }
 
     .send-btn{
+        flex-basis:56px;
+
         width:56px;
         height:56px;
+
         border-radius:18px;
-    }
-
-    .chat-sidebar{
-        top:70px;
-        width:min(310px,85vw);
-    }
-
-    .modal-card{
-        padding:28px 20px;
-        border-radius:24px;
-    }
-
-    .modal-card h2{
-        font-size:36px;
     }
 }
 
-/* =========================
-   SMALL PHONES
-========================= */
+/* =========================================================
+   SMALL HEIGHT PHONES
+========================================================= */
 
-@media (max-width:390px){
+@media (max-height:700px) and (max-width:600px){
 
-    .brand{
-        font-size:20px;
+    .hero{
+        padding-top:20px;
+        padding-bottom:25px;
     }
 
-    .header-btn{
-        padding:8px 10px;
-        font-size:11px;
+    .hero-logo{
+        width:45px;
+        height:45px;
+
+        margin-bottom:15px;
     }
 
     .hero h1{
-        font-size:38px;
+        font-size:43px;
     }
 
     .hero p{
-        font-size:14px;
+        margin:15px auto 20px;
     }
 
-    .start-btn{
-        font-size:14px;
+    .main-btn{
+        padding:14px 25px;
+    }
+
+    .chat-welcome h2{
+        font-size:39px;
     }
 }
+
+/* =========================================================
+   DESKTOP OPTIMIZATION
+========================================================= */
+
+@media (min-width:1000px){
+
+    .site-header{
+        height:74px;
+    }
+
+    .hero{
+        min-height:calc(100svh - 74px);
+
+        padding:
+            35px
+            40px
+            35px;
+    }
+
+    .hero-logo{
+        width:56px;
+        height:56px;
+
+        margin-bottom:22px;
+    }
+
+    .hero h1{
+        font-size:clamp(65px,6vw,90px);
+
+        max-width:1000px;
+    }
+
+    .hero p{
+        margin:22px auto 27px;
+
+        max-width:700px;
+    }
+
+    .main-btn{
+        padding:16px 32px;
+    }
+
+    .contact-section{
+        min-height:330px;
+
+        padding:45px 25px;
+    }
+
+    .services-section{
+        min-height:480px;
+
+        padding:50px 0 35px;
+    }
+
+    .carousel{
+        height:270px;
+    }
+
+    .service-card{
+        min-height:235px;
+
+        padding:35px;
+    }
+
+    .footer{
+        padding:30px 20px;
+    }
+}
+
+/* =========================================================
+   DESKTOP SMALL HEIGHT
+========================================================= */
+
+@media (min-width:1000px) and (max-height:800px){
+
+    .hero{
+        padding-top:20px;
+        padding-bottom:20px;
+    }
+
+    .hero-logo{
+        width:45px;
+        height:45px;
+
+        margin-bottom:15px;
+    }
+
+    .hero h1{
+        font-size:64px;
+    }
+
+    .hero p{
+        margin:16px auto 20px;
+    }
+
+    .main-btn{
+        padding:14px 30px;
+    }
+}
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion:reduce){
+
+    *,
+    *::before,
+    *::after{
+        scroll-behavior:auto !important;
+        transition:none !important;
+        animation:none !important;
+    }
+}
+
 </style>
 </head>
 
 <body>
 
-<!-- ================= HEADER ================= -->
+<!-- ======================================================
+     HEADER
+======================================================= -->
 
 <header class="site-header">
 
-    <a href="#" class="brand" onclick="goHome();return false;">
-        <span class="brand-logo"></span>
-        <span>SparkyKrea</span>
+    <a href="#" class="brand" aria-label="SparkyKrea">
+
+        <span class="logo-mark"></span>
+
+        <span class="logo-text">
+            SparkyKrea
+        </span>
+
     </a>
 
-    <div class="header-actions" id="headerActions">
+    <div class="header-actions">
 
-        <button class="header-btn"
-                onclick="openAuth('login')">
+        <button
+            class="header-btn"
+            id="loginBtn">
             Iniciar sesión
         </button>
 
-        <button class="header-btn primary"
-                onclick="openAuth('register')">
+        <button
+            class="header-btn primary"
+            id="registerBtn">
             Registrarse
         </button>
 
     </div>
 
-    <div class="user-pill" id="userPill">
-        <span id="userName">Usuario</span>
-        <button class="logout-btn" onclick="logout()">Salir</button>
-    </div>
-
 </header>
 
 
-<!-- ================= HOME ================= -->
+<!-- ======================================================
+     HERO
+======================================================= -->
 
-<main class="home" id="home">
+<main>
 
-    <section class="hero">
+<section class="hero">
+
+    <div class="hero-inner">
 
         <div class="hero-logo"></div>
 
@@ -1178,332 +1551,320 @@ a{
         </h1>
 
         <p>
-            Desarrolla campañas, conceptos, contenido y estrategias
-            pensadas para que tu proyecto tenga una dirección clara
-            y una presencia que conecte.
+            Desarrolla campañas, conceptos, contenido y
+            estrategias pensadas para que tu proyecto tenga
+            una dirección clara y una presencia que conecte.
         </p>
 
-        <button class="start-btn" onclick="openChat()">
+        <button
+            class="main-btn"
+            id="startChat">
             Comenzar ahora →
         </button>
-
-    </section>
-
-
-    <!-- SERVICIOS PRIMERO -->
-
-    <section class="services" id="services">
-
-        <div class="section-kicker">
-            LO QUE PODEMOS DESARROLLAR
-        </div>
-
-        <h2 class="section-title">
-            Servicios
-        </h2>
-
-        <div class="carousel" id="carousel">
-
-            <article class="service-card center">
-                <div class="service-number">01 · ESTRATEGIA</div>
-                <h3>Marketing y estrategia</h3>
-                <p>
-                    Analizamos tu proyecto, público, objetivos y
-                    oportunidades para construir una dirección clara.
-                </p>
-            </article>
-
-            <article class="service-card right">
-                <div class="service-number">02 · PUBLICIDAD</div>
-                <h3>Publicidad y campañas</h3>
-                <p>
-                    Conceptos, mensajes y campañas pensadas para
-                    presentar una marca, producto o servicio.
-                </p>
-            </article>
-
-            <article class="service-card left">
-                <div class="service-number">03 · CONTENIDO</div>
-                <h3>Contenido visual</h3>
-                <p>
-                    Ideas para imágenes, publicaciones, anuncios
-                    y contenido para plataformas digitales.
-                </p>
-            </article>
-
-            <article class="service-card">
-                <div class="service-number">04 · VIDEO</div>
-                <h3>Video y creatividad</h3>
-                <p>
-                    Guiones, escenas, conceptos y estructuras
-                    para contenido audiovisual.
-                </p>
-            </article>
-
-            <article class="service-card">
-                <div class="service-number">05 · DIGITAL</div>
-                <h3>Proyectos digitales</h3>
-                <p>
-                    Ideas para proyectos, experiencias digitales
-                    y conceptos interactivos.
-                </p>
-            </article>
-
-        </div>
-
-        <div class="carousel-dots" id="dots"></div>
-
-    </section>
-
-
-    <!-- CONTACTO DESPUÉS DE SERVICIOS -->
-
-    <section class="contact" id="contact">
-
-        <div class="section-kicker">
-            TU OPINIÓN IMPORTA
-        </div>
-
-        <h2>
-            Déjanos tu comentario.
-        </h2>
-
-        <p>
-            Queremos saber qué piensas de SparkyKrea.
-            Cuéntanos qué mejorarías, qué te gustaría encontrar
-            o cualquier comentario que quieras compartir con nosotros.
-        </p>
-
-        <button class="contact-btn"
-                onclick="contactAction()">
-            Contáctanos →
-        </button>
-
-    </section>
-
-
-    <footer class="footer">
-
-        <div class="footer-main">
-            by SparkyKreate
-        </div>
-
-        <div class="footer-sub">
-            asesoría de marketing
-        </div>
-
-    </footer>
-
-</main>
-
-
-<!-- ================= CHAT ================= -->
-
-<section class="chat-overlay" id="chatOverlay">
-
-    <header class="chat-header">
-
-        <div class="chat-left">
-
-            <button class="chat-menu"
-                    onclick="toggleSidebar()"
-                    aria-label="Abrir historial">
-
-                <span></span>
-                <span></span>
-                <span></span>
-
-            </button>
-
-            <span class="brand-logo"></span>
-
-            <div class="chat-brand">
-                SparkyKrea
-            </div>
-
-        </div>
-
-        <button class="chat-close"
-                onclick="closeChat()">
-            ×
-        </button>
-
-    </header>
-
-
-    <!-- SIDEBAR -->
-
-    <aside class="chat-sidebar" id="chatSidebar">
-
-        <button class="new-chat"
-                onclick="newChat()">
-            + Nuevo chat
-        </button>
-
-        <div class="chat-history"
-             id="chatHistory">
-        </div>
-
-    </aside>
-
-
-    <div class="chat-main">
-
-        <div class="messages"
-             id="messages">
-
-            <div class="welcome"
-                 id="welcome">
-
-                <h2 id="greeting">
-                    Buenas tardes.
-                </h2>
-
-                <p>
-                    Cuéntame qué deseas hacer.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="chat-input-area">
-
-            <form class="chat-form"
-                  onsubmit="sendMessage(event)">
-
-                <input
-                    id="chatInput"
-                    class="chat-input"
-                    type="text"
-                    autocomplete="off"
-                    placeholder="Escribe aquí..."
-                >
-
-                <button class="send-btn"
-                        type="submit">
-                    →
-                </button>
-
-            </form>
-
-            <div class="chat-tools">
-
-                <button class="tool-btn"
-                        onclick="newChat()">
-                    Nuevo chat
-                </button>
-
-            </div>
-
-        </div>
 
     </div>
 
 </section>
 
 
-<!-- ================= AUTH ================= -->
+<!-- ======================================================
+     CONTACTO
+======================================================= -->
 
-<div class="modal"
-     id="authModal">
+<section class="contact-section">
 
-    <div class="modal-card">
+    <div class="contact-inner">
 
-        <button class="modal-close"
-                onclick="closeAuth()">
-            ×
-        </button>
+        <div class="eyebrow">
+            TU OPINIÓN IMPORTA
+        </div>
 
-        <h2 id="authTitle">
-            Iniciar sesión
+        <h2 class="contact-title">
+            Déjanos tu comentario.
         </h2>
 
-        <form onsubmit="handleAuth(event)">
+        <p class="contact-text">
+            Queremos saber qué piensas de SparkyKrea.
+            Cuéntanos qué mejorarías, qué te gustaría
+            encontrar o cualquier comentario que quieras
+            compartir con nosotros.
+        </p>
 
-            <div id="registerFields">
+        <button class="contact-btn">
+            Contáctanos →
+        </button>
 
-                <div class="form-group">
+    </div>
 
-                    <label>Nombre</label>
-
-                    <input
-                        id="firstName"
-                        type="text"
-                        autocomplete="given-name"
-                    >
-
-                </div>
-
-                <div class="form-group">
-
-                    <label>Apellido</label>
-
-                    <input
-                        id="lastName"
-                        type="text"
-                        autocomplete="family-name"
-                    >
-
-                </div>
-
-            </div>
+</section>
 
 
-            <div class="form-group">
+<!-- ======================================================
+     SERVICIOS
+======================================================= -->
 
-                <label>Correo electrónico</label>
+<section class="services-section">
 
-                <input
-                    id="email"
-                    type="email"
-                    required
-                    autocomplete="email"
-                >
+    <div class="services-heading">
 
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Contraseña</label>
-
-                <input
-                    id="password"
-                    type="password"
-                    required
-                    autocomplete="current-password"
-                >
-
-            </div>
-
-
-            <button class="auth-submit"
-                    id="authSubmit"
-                    type="submit">
-                Iniciar sesión
-            </button>
-
-        </form>
-
-
-        <div class="auth-message"
-             id="authMessage"></div>
-
-
-        <div class="auth-switch">
-
-            <span id="switchText">
-                ¿No tienes una cuenta?
-            </span>
-
-            <button onclick="switchAuth()"
-                    id="switchButton">
-                Registrarse
-            </button>
-
+        <div class="eyebrow">
+            LO QUE PODEMOS DESARROLLAR
         </div>
+
+        <h2>
+            Servicios
+        </h2>
+
+    </div>
+
+    <div class="carousel" id="carousel">
+
+        <article class="service-card">
+
+            <div class="service-number">
+                01 · ESTRATEGIA
+            </div>
+
+            <h3 class="service-title">
+                Marketing y estrategia
+            </h3>
+
+            <p class="service-description">
+                Analizamos tu proyecto, público, objetivos
+                y oportunidades para construir una dirección clara.
+            </p>
+
+        </article>
+
+
+        <article class="service-card">
+
+            <div class="service-number">
+                02 · PUBLICIDAD
+            </div>
+
+            <h3 class="service-title">
+                Publicidad
+            </h3>
+
+            <p class="service-description">
+                Conceptos, campañas y propuestas pensadas
+                para conectar con las personas correctas.
+            </p>
+
+        </article>
+
+
+        <article class="service-card">
+
+            <div class="service-number">
+                03 · CONTENIDO
+            </div>
+
+            <h3 class="service-title">
+                Contenido visual
+            </h3>
+
+            <p class="service-description">
+                Ideas para imágenes, publicaciones, anuncios
+                y contenido para plataformas digitales.
+            </p>
+
+        </article>
+
+
+        <article class="service-card">
+
+            <div class="service-number">
+                04 · AUDIOVISUAL
+            </div>
+
+            <h3 class="service-title">
+                Producción audiovisual
+            </h3>
+
+            <p class="service-description">
+                Conceptos y estructuras para vídeos,
+                anuncios y piezas audiovisuales.
+            </p>
+
+        </article>
+
+
+        <article class="service-card">
+
+            <div class="service-number">
+                05 · DIGITAL
+            </div>
+
+            <h3 class="service-title">
+                Proyectos digitales
+            </h3>
+
+            <p class="service-description">
+                Ideas para proyectos, experiencias digitales
+                y conceptos interactivos.
+            </p>
+
+        </article>
+
+    </div>
+
+    <div class="dots" id="dots"></div>
+
+</section>
+
+</main>
+
+
+<!-- ======================================================
+     FOOTER
+======================================================= -->
+
+<footer class="footer">
+
+    <div class="footer-main">
+        by SparkyKreate
+    </div>
+
+    <div class="footer-sub">
+        asesoría de marketing
+    </div>
+
+</footer>
+
+
+<!-- ======================================================
+     CHAT
+======================================================= -->
+
+<div
+    class="chat-overlay"
+    id="chatOverlay"
+    aria-hidden="true">
+
+    <div class="chat-shell">
+
+
+        <!-- CHAT HEADER -->
+
+        <header class="chat-header">
+
+            <div class="chat-left">
+
+                <button
+                    class="menu-btn"
+                    id="menuBtn"
+                    aria-label="Abrir chats">
+
+                    <span></span>
+                    <span></span>
+                    <span></span>
+
+                </button>
+
+                <div class="chat-brand-mark"></div>
+
+                <div class="chat-title">
+                    SparkyKrea
+                </div>
+
+            </div>
+
+
+            <button
+                class="chat-close"
+                id="closeChat"
+                aria-label="Cerrar chat">
+                ×
+            </button>
+
+        </header>
+
+
+        <!-- HISTORIAL -->
+
+        <aside
+            class="history"
+            id="history">
+
+            <div class="history-header">
+
+                <div class="history-title">
+                    Tus chats
+                </div>
+
+                <button
+                    class="history-close"
+                    id="closeHistory">
+                    ×
+                </button>
+
+            </div>
+
+            <button
+                class="new-chat"
+                id="newChat">
+                ＋ Nuevo chat
+            </button>
+
+            <div
+                class="chat-history-list"
+                id="historyList">
+            </div>
+
+        </aside>
+
+
+        <!-- CHAT MAIN -->
+
+        <main class="chat-main">
+
+            <div
+                class="chat-messages"
+                id="chatMessages">
+
+                <div class="chat-welcome" id="welcome">
+
+                    <h2 id="greeting">
+                        Buenas tardes.
+                    </h2>
+
+                    <p>
+                        Cuéntame qué deseas hacer.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- COMPOSER -->
+
+            <div class="chat-composer">
+
+                <div class="composer-row">
+
+                    <input
+                        id="chatInput"
+                        class="chat-input"
+                        type="text"
+                        autocomplete="off"
+                        placeholder="Escribe aquí..."
+                    >
+
+                    <button
+                        id="sendMessage"
+                        class="send-btn"
+                        aria-label="Enviar">
+                        →
+                    </button>
+
+                </div>
+
+            </div>
+
+        </main>
 
     </div>
 
@@ -1512,729 +1873,580 @@ a{
 
 <script>
 
-/* =====================================================
-   VARIABLES
-===================================================== */
+/* =========================================================
+   VIEWPORT — SOLUCIONA EL PROBLEMA DEL TECLADO
+========================================================= */
 
-let chatOpen = false;
-let authMode = "login";
-let currentChat = null;
-let chatCounter = 0;
+function updateViewport(){
+
+    if(!window.visualViewport) return;
+
+    const height = window.visualViewport.height;
+
+    document.documentElement.style
+        .setProperty("--vvh", height + "px");
+}
+
+if(window.visualViewport){
+
+    window.visualViewport.addEventListener(
+        "resize",
+        updateViewport
+    );
+
+    window.visualViewport.addEventListener(
+        "scroll",
+        updateViewport
+    );
+
+}
+
+window.addEventListener("resize", updateViewport);
+
+updateViewport();
+
+
+/* =========================================================
+   CHAT ELEMENTS
+========================================================= */
 
 const chatOverlay =
     document.getElementById("chatOverlay");
 
-const messages =
-    document.getElementById("messages");
+const startChat =
+    document.getElementById("startChat");
+
+const closeChat =
+    document.getElementById("closeChat");
+
+const menuBtn =
+    document.getElementById("menuBtn");
+
+const history =
+    document.getElementById("history");
+
+const closeHistory =
+    document.getElementById("closeHistory");
+
+const newChat =
+    document.getElementById("newChat");
 
 const chatInput =
     document.getElementById("chatInput");
 
-const chatSidebar =
-    document.getElementById("chatSidebar");
+const sendMessage =
+    document.getElementById("sendMessage");
 
-const chatHistory =
-    document.getElementById("chatHistory");
+const chatMessages =
+    document.getElementById("chatMessages");
+
+const welcome =
+    document.getElementById("welcome");
+
+const greeting =
+    document.getElementById("greeting");
+
+const historyList =
+    document.getElementById("historyList");
 
 
-/* =====================================================
-   HORA / SALUDO
-===================================================== */
+/* =========================================================
+   HORA DEL SALUDO
+========================================================= */
+
+function updateGreeting(){
+
+    const hour = new Date().getHours();
+
+    if(hour >= 5 && hour < 12){
+
+        greeting.textContent =
+            "Buenos días.";
+
+    }else if(hour >= 12 && hour < 19){
+
+        greeting.textContent =
+            "Buenas tardes.";
+
+    }else{
+
+        greeting.textContent =
+            "Buenas noches.";
+
+    }
+}
+
+
+/* =========================================================
+   ABRIR CHAT
+========================================================= */
+
+function openChat(){
+
+    chatOverlay.classList.add("open");
+
+    chatOverlay.setAttribute(
+        "aria-hidden",
+        "false"
+    );
+
+    document.body.style.overflow = "hidden";
+
+    updateGreeting();
+
+    updateViewport();
+
+    /*
+       Importante:
+       no hacemos focus automático aquí.
+       Así el teclado NO aparece inmediatamente.
+    */
+}
+
+
+/* =========================================================
+   CERRAR CHAT
+========================================================= */
+
+function closeChatPanel(){
+
+    chatOverlay.classList.remove("open");
+
+    chatOverlay.setAttribute(
+        "aria-hidden",
+        "true"
+    );
+
+    history.classList.remove("open");
+
+    document.body.style.overflow = "";
+
+    chatInput.blur();
+
+}
+
+
+/* =========================================================
+   EVENTOS CHAT
+========================================================= */
+
+startChat.addEventListener(
+    "click",
+    openChat
+);
+
+closeChat.addEventListener(
+    "click",
+    closeChatPanel
+);
+
+
+/*
+   IMPORTANTE:
+   usamos el botón por ID.
+   Cada vez que se abre vuelve a funcionar.
+*/
+
+menuBtn.addEventListener(
+    "click",
+    function(){
+
+        history.classList.toggle("open");
+
+    }
+);
+
+closeHistory.addEventListener(
+    "click",
+    function(){
+
+        history.classList.remove("open");
+
+    }
+);
+
+
+/* =========================================================
+   NUEVO CHAT
+========================================================= */
+
+newChat.addEventListener(
+    "click",
+    function(){
+
+        chatMessages.innerHTML = "";
+
+        const newWelcome =
+            document.createElement("div");
+
+        newWelcome.className =
+            "chat-welcome";
+
+        newWelcome.innerHTML = `
+            <h2>${getGreeting()}</h2>
+            <p>Cuéntame qué deseas hacer.</p>
+        `;
+
+        chatMessages.appendChild(newWelcome);
+
+        history.classList.remove("open");
+
+        chatInput.value = "";
+
+        chatInput.focus();
+
+        updateViewport();
+
+    }
+);
+
 
 function getGreeting(){
 
     const hour = new Date().getHours();
 
-    if(hour >= 5 && hour < 12){
+    if(hour >= 5 && hour < 12)
         return "Buenos días.";
-    }
 
-    if(hour >= 12 && hour < 19){
+    if(hour >= 12 && hour < 19)
         return "Buenas tardes.";
-    }
 
     return "Buenas noches.";
 }
 
 
-/* =====================================================
-   CHAT
-===================================================== */
+/* =========================================================
+   MENSAJES — TEMPORAL
+   DESPUÉS LO CONECTAMOS A LA IA
+========================================================= */
 
-function openChat(){
-
-    chatOpen = true;
-
-    document.body.classList.add("chat-open");
-
-    chatOverlay.classList.add("open");
-
-    chatSidebar.classList.remove("open");
-
-    document.getElementById("greeting").textContent =
-        getGreeting();
-
-    /*
-      Esperamos a que termine la transición
-      antes de enfocar para evitar errores en móvil.
-    */
-
-    setTimeout(() => {
-
-        if(chatOpen){
-            chatInput.focus({preventScroll:true});
-        }
-
-    },350);
-
-}
-
-
-function closeChat(){
-
-    chatOpen = false;
-
-    chatOverlay.classList.remove("open");
-
-    chatSidebar.classList.remove("open");
-
-    document.body.classList.remove("chat-open");
-
-}
-
-
-/*
-   MUY IMPORTANTE:
-
-   No destruimos el chat con innerHTML.
-   Solo limpiamos sus mensajes.
-   Así el botón puede abrirlo otra vez
-   sin tener que recargar la página.
-*/
-
-function newChat(){
-
-    currentChat = null;
-
-    chatCounter++;
-
-    messages.innerHTML = `
-
-        <div class="welcome"
-             id="welcome">
-
-            <h2>
-                ${getGreeting()}
-            </h2>
-
-            <p>
-                Cuéntame qué deseas hacer.
-            </p>
-
-        </div>
-
-    `;
-
-    chatInput.value = "";
-
-    chatSidebar.classList.remove("open");
-
-    chatInput.focus({preventScroll:true});
-
-}
-
-
-function toggleSidebar(){
-
-    chatSidebar.classList.toggle("open");
-
-}
-
-
-function sendMessage(event){
-
-    event.preventDefault();
+function sendCurrentMessage(){
 
     const text =
         chatInput.value.trim();
 
     if(!text) return;
 
+
     /*
-       Quitamos bienvenida cuando
-       comienza una conversación.
+       Quitamos el welcome solamente cuando
+       realmente se envía algo.
     */
 
-    const welcome =
-        document.getElementById("welcome");
+    const currentWelcome =
+        document.querySelector(
+            ".chat-welcome"
+        );
 
-    if(welcome){
-        welcome.remove();
+    if(currentWelcome){
+
+        currentWelcome.remove();
+
     }
 
-    addMessage(text,"user");
+
+    const userMessage =
+        document.createElement("div");
+
+    userMessage.className =
+        "message user";
+
+    userMessage.textContent =
+        text;
+
+    chatMessages.appendChild(
+        userMessage
+    );
+
 
     chatInput.value = "";
 
+    requestAnimationFrame(function(){
+
+        chatMessages.scrollTop =
+            chatMessages.scrollHeight;
+
+    });
+
+
     /*
-       POR AHORA no ponemos IA.
-       Esto será sustituido por la conexión
-       al backend cuando hagamos la base de datos.
+       Respuesta temporal.
+       ESTA PARTE la reemplazaremos cuando
+       conectemos Supabase + IA.
     */
 
-    setTimeout(() => {
+    setTimeout(function(){
 
-        addMessage(
-            "Perfecto. Cuéntame un poco más sobre lo que quieres conseguir y trabajamos la idea contigo.",
-            "bot"
+        const botMessage =
+            document.createElement("div");
+
+        botMessage.className =
+            "message bot";
+
+        botMessage.textContent =
+            "Perfecto. Cuéntame un poco más sobre esa idea y trabajamos sobre ella.";
+
+        chatMessages.appendChild(
+            botMessage
         );
 
-    },500);
+        chatMessages.scrollTop =
+            chatMessages.scrollHeight;
+
+    },450);
 
 }
 
 
-function addMessage(text,type){
+sendMessage.addEventListener(
+    "click",
+    sendCurrentMessage
+);
+
+
+chatInput.addEventListener(
+    "keydown",
+    function(event){
+
+        if(event.key === "Enter"){
+
+            event.preventDefault();
+
+            sendCurrentMessage();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   HISTORIAL TEMPORAL
+========================================================= */
+
+function saveChatTitle(text){
+
+    if(!text) return;
 
     const item =
         document.createElement("div");
 
     item.className =
-        "message " + type;
+        "history-item";
 
-    item.textContent = text;
+    item.textContent =
+        text.substring(0,35);
 
-    messages.appendChild(item);
-
-    messages.scrollTop =
-        messages.scrollHeight;
+    historyList.prepend(item);
 
 }
 
 
-/* =====================================================
-   HISTORIAL LOCAL
-   PREPARADO PARA SUPABASE
-===================================================== */
-
-function saveCurrentChat(){
-
-    /*
-       Esta parte queda preparada para después
-       conectarla a Supabase.
-
-       NO estamos guardando información
-       sensible aquí.
-    */
-
-}
-
-
-function loadHistory(){
-
-    chatHistory.innerHTML = "";
-
-}
-
-
-/* =====================================================
-   CONTACTO
-===================================================== */
-
-function contactAction(){
-
-    /*
-       Por ahora dejamos el botón preparado.
-       Después lo conectaremos al correo/formulario
-       cuando creemos el panel.
-    */
-
-    alert(
-        "Aquí conectaremos el formulario de contacto de SparkyKrea."
-    );
-
-}
-
-
-/* =====================================================
-   CARRUSEL AUTOMÁTICO
-===================================================== */
+/* =========================================================
+   CARRUSEL DE SERVICIOS
+========================================================= */
 
 const cards =
     Array.from(
-        document.querySelectorAll(".service-card")
+        document.querySelectorAll(
+            ".service-card"
+        )
     );
 
 const dotsContainer =
     document.getElementById("dots");
 
-let currentService = 0;
+let currentSlide = 0;
 
 
-/*
-   Creamos indicadores automáticamente.
-*/
+/* Crear puntos */
 
-cards.forEach((_,index)=>{
+cards.forEach(
+    function(_,index){
 
-    const dot =
-        document.createElement("span");
+        const dot =
+            document.createElement("span");
 
-    dot.className =
-        "dot";
+        dot.className =
+            "dot";
 
-    if(index === 0){
-        dot.classList.add("active");
+        dot.addEventListener(
+            "click",
+            function(){
+
+                currentSlide = index;
+
+                updateCarousel();
+
+            }
+        );
+
+        dotsContainer.appendChild(dot);
+
     }
-
-    dotsContainer.appendChild(dot);
-
-});
+);
 
 
 function updateCarousel(){
 
-    cards.forEach((card,index)=>{
-
-        card.classList.remove(
-            "center",
-            "left",
-            "right"
-        );
-
-        let diff =
-            (index - currentService + cards.length)
-            % cards.length;
-
-        if(diff === 0){
-
-            card.classList.add("center");
-
-        }else if(diff === 1){
-
-            card.classList.add("right");
-
-        }else if(
-            diff === cards.length - 1
-        ){
-
-            card.classList.add("left");
-
-        }else{
-
-            /*
-               Los demás quedan escondidos
-               detrás del carrusel.
-            */
-
-            card.style.opacity = "0";
-            card.style.transform =
-                "translateX(0) scale(.7)";
-        }
-
-    });
-
-
-    cards.forEach(card => {
-
-        if(
-            card.classList.contains("center") ||
-            card.classList.contains("left") ||
-            card.classList.contains("right")
-        ){
-            card.style.opacity = "";
-            card.style.transform = "";
-        }
-
-    });
-
-
     const dots =
-        document.querySelectorAll(".dot");
-
-    dots.forEach((dot,index)=>{
-
-        dot.classList.toggle(
-            "active",
-            index === currentService
+        Array.from(
+            document.querySelectorAll(".dot")
         );
 
-    });
+    cards.forEach(
+        function(card,index){
+
+            card.classList.remove(
+                "active",
+                "prev",
+                "next"
+            );
+
+            if(index === currentSlide){
+
+                card.classList.add(
+                    "active"
+                );
+
+            }
+
+            else if(
+                index ===
+                (currentSlide - 1 + cards.length)
+                % cards.length
+            ){
+
+                card.classList.add(
+                    "prev"
+                );
+
+            }
+
+            else if(
+                index ===
+                (currentSlide + 1)
+                % cards.length
+            ){
+
+                card.classList.add(
+                    "next"
+                );
+
+            }
+
+        }
+    );
+
+
+    dots.forEach(
+        function(dot,index){
+
+            dot.classList.toggle(
+                "active",
+                index === currentSlide
+            );
+
+        }
+    );
 
 }
 
 
-setInterval(() => {
-
-    /*
-       Más lento para que se pueda apreciar
-       el panel de atrás.
-    */
-
-    currentService =
-        (currentService + 1)
-        % cards.length;
-
-    updateCarousel();
-
-},5000);
-
+/* Primera tarjeta */
 
 updateCarousel();
 
 
-/* =====================================================
-   AUTH LOCAL TEMPORAL
-===================================================== */
-
 /*
-   IMPORTANTE:
-
-   Esto permite que el diseño de inicio de sesión
-   funcione AHORA sin Supabase.
-
-   Cuando hagamos la base de datos,
-   sustituiremos estas funciones por Supabase Auth.
-
-   No es todavía un sistema de cuentas real.
+   Rotación lenta.
+   5.2 segundos para que se aprecie
+   la tarjeta de atrás.
 */
 
-let localUser =
-    JSON.parse(
-        localStorage.getItem("sparkykrea_user") || "null"
-    );
+setInterval(
+    function(){
+
+        currentSlide =
+            (currentSlide + 1)
+            % cards.length;
+
+        updateCarousel();
+
+    },
+    5200
+);
 
 
-function openAuth(mode){
+/* =========================================================
+   EVITAR QUE UN CLICK EN EL CHAT SE PROPAGUE
+========================================================= */
 
-    authMode = mode;
+chatOverlay.addEventListener(
+    "click",
+    function(event){
 
-    const modal =
-        document.getElementById("authModal");
+        if(event.target === chatOverlay){
 
-    const title =
-        document.getElementById("authTitle");
-
-    const fields =
-        document.getElementById("registerFields");
-
-    const submit =
-        document.getElementById("authSubmit");
-
-    const switchText =
-        document.getElementById("switchText");
-
-    const switchButton =
-        document.getElementById("switchButton");
-
-    const message =
-        document.getElementById("authMessage");
-
-    message.textContent = "";
-
-    if(mode === "login"){
-
-        title.textContent =
-            "Iniciar sesión";
-
-        fields.style.display =
-            "none";
-
-        submit.textContent =
-            "Iniciar sesión";
-
-        switchText.textContent =
-            "¿No tienes una cuenta?";
-
-        switchButton.textContent =
-            "Registrarse";
-
-    }else{
-
-        title.textContent =
-            "Crear cuenta";
-
-        fields.style.display =
-            "block";
-
-        submit.textContent =
-            "Registrarme";
-
-        switchText.textContent =
-            "¿Ya tienes una cuenta?";
-
-        switchButton.textContent =
-            "Iniciar sesión";
-
-    }
-
-    modal.classList.add("open");
-
-}
-
-
-function closeAuth(){
-
-    document
-        .getElementById("authModal")
-        .classList.remove("open");
-
-}
-
-
-function switchAuth(){
-
-    openAuth(
-        authMode === "login"
-        ? "register"
-        : "login"
-    );
-
-}
-
-
-function handleAuth(event){
-
-    event.preventDefault();
-
-    const message =
-        document.getElementById("authMessage");
-
-    const email =
-        document.getElementById("email").value.trim();
-
-    const password =
-        document.getElementById("password").value;
-
-    if(authMode === "register"){
-
-        const first =
-            document.getElementById("firstName")
-            .value.trim();
-
-        const last =
-            document.getElementById("lastName")
-            .value.trim();
-
-        if(!first || !last){
-
-            message.textContent =
-                "Completa tu nombre y apellido.";
-
-            return;
-        }
-
-        localUser = {
-            first,
-            last,
-            email
-        };
-
-        localStorage.setItem(
-            "sparkykrea_user",
-            JSON.stringify(localUser)
-        );
-
-        updateUserUI();
-
-        message.style.color =
-            "#527052";
-
-        message.textContent =
-            "Cuenta creada correctamente.";
-
-        setTimeout(closeAuth,700);
-
-    }else{
-
-        /*
-           Comprobación local temporal.
-        */
-
-        const saved =
-            JSON.parse(
-                localStorage.getItem(
-                    "sparkykrea_user"
-                ) || "null"
-            );
-
-        if(
-            saved &&
-            saved.email === email
-        ){
-
-            localUser = saved;
-
-            updateUserUI();
-
-            message.style.color =
-                "#527052";
-
-            message.textContent =
-                "Inicio de sesión correcto.";
-
-            setTimeout(closeAuth,500);
-
-        }else{
-
-            message.textContent =
-                "No encontramos una cuenta local con ese correo. Regístrate primero.";
+            closeChatPanel();
 
         }
 
     }
-
-}
-
-
-function updateUserUI(){
-
-    const actions =
-        document.getElementById(
-            "headerActions"
-        );
-
-    const pill =
-        document.getElementById(
-            "userPill"
-        );
-
-    const name =
-        document.getElementById(
-            "userName"
-        );
-
-    if(localUser){
-
-        actions.style.display =
-            "none";
-
-        pill.style.display =
-            "flex";
-
-        name.textContent =
-            localUser.first +
-            " " +
-            localUser.last;
-
-    }else{
-
-        actions.style.display =
-            "flex";
-
-        pill.style.display =
-            "none";
-
-    }
-
-}
+);
 
 
-function logout(){
+/* =========================================================
+   ESC PARA CERRAR
+========================================================= */
 
-    localUser = null;
+document.addEventListener(
+    "keydown",
+    function(event){
 
-    localStorage.removeItem(
-        "sparkykrea_user"
-    );
+        if(event.key === "Escape"){
 
-    updateUserUI();
+            if(chatOverlay.classList.contains("open")){
 
-}
+                closeChatPanel();
 
+            }
 
-/* =====================================================
-   INICIO
-===================================================== */
-
-function goHome(){
-
-    closeChat();
-
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
-    });
-
-}
-
-
-updateUserUI();
-
-
-/* =====================================================
-   MOBILE VISUAL VIEWPORT
-   SOLUCIONA EL TECLADO
-===================================================== */
-
-function updateViewportHeight(){
-
-    if(window.visualViewport){
-
-        const height =
-            window.visualViewport.height;
-
-        document.documentElement
-            .style
-            .setProperty(
-                "--vh",
-                height + "px"
-            );
-
-    }
-
-}
-
-
-if(window.visualViewport){
-
-    window.visualViewport.addEventListener(
-        "resize",
-        updateViewportHeight
-    );
-
-    window.visualViewport.addEventListener(
-        "scroll",
-        updateViewportHeight
-    );
-
-}
-
-updateViewportHeight();
-
-
-/* =====================================================
-   CERRAR MODAL TOCANDO AFUERA
-===================================================== */
-
-document
-    .getElementById("authModal")
-    .addEventListener("click",function(e){
-
-        if(e.target === this){
-            closeAuth();
         }
 
-    });
+    }
+);
 
 
-/* =====================================================
-   ESCAPE
-===================================================== */
+/* =========================================================
+   BOTONES DE LOGIN / REGISTRO
+   TEMPORALES HASTA CONECTAR SUPABASE
+========================================================= */
 
-document.addEventListener("keydown",function(e){
+document.getElementById("loginBtn")
+.addEventListener(
+    "click",
+    function(){
 
-    if(e.key === "Escape"){
-
-        if(chatOpen){
-            closeChat();
-        }
-
-        closeAuth();
+        alert(
+            "El inicio de sesión lo conectaremos a Supabase en el siguiente paso."
+        );
 
     }
+);
 
-});
+
+document.getElementById("registerBtn")
+.addEventListener(
+    "click",
+    function(){
+
+        alert(
+            "El registro lo conectaremos a Supabase en el siguiente paso."
+        );
+
+    }
+);
 
 </script>
 
