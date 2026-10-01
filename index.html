@@ -3,2130 +3,1513 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#050505">
 
 <title>SparkyKrea</title>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
 <style>
 
+/* =========================================================
+   SPARKYKREA — BASE
+========================================================= */
+
 :root{
-    --black:#050505;
-    --black2:#090909;
-    --black3:#111111;
+  --black:#050505;
+  --black2:#090909;
+  --black3:#101010;
 
-    --white:#f8f6f2;
-    --gray:#aaa6a0;
-    --gray2:#77736e;
+  --white:#f8f7f3;
+  --soft:#bdb9b0;
 
-    /* PALETA */
-    --beige:#d8c19a;
-    --cream:#ead8b9;
-    --sand:#cbb28b;
+  /* BEIGE PRINCIPAL */
+  --beige:#d9c39f;
+  --beige-light:#f0dfbd;
+  --beige-dark:#a98f67;
 
-    --pink:#d8b8bd;
-    --lavender:#c5bfd8;
-    --peach:#dfc2a5;
+  /* PASTEL MUY SUAVE */
+  --pastel-pink:#d9bfc2;
+  --pastel-blue:#bfcbd5;
+  --pastel-green:#c7d0c1;
+  --pastel-lilac:#c9bfd4;
 
-    --border:rgba(255,255,255,.08);
-    --beige-border:rgba(216,193,154,.38);
+  --border:rgba(217,195,159,.25);
+  --border-strong:rgba(217,195,159,.48);
 
-    --vvh:100svh;
+  --max:1180px;
+
+  --shadow:
+    0 25px 80px rgba(0,0,0,.55);
+
+  --radius:28px;
 }
 
 *{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
 }
 
 html{
-    scroll-behavior:smooth;
+  scroll-behavior:smooth;
+  background:var(--black);
 }
 
 body{
-    background:var(--black);
-    color:var(--white);
+  background:
+    radial-gradient(circle at 50% 18%, rgba(217,195,159,.075), transparent 25%),
+    radial-gradient(circle at 15% 55%, rgba(201,191,212,.035), transparent 25%),
+    var(--black);
 
-    font-family:
-        Inter,
-        ui-sans-serif,
-        system-ui,
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        sans-serif;
+  color:var(--white);
 
-    overflow-x:hidden;
+  font-family:"DM Sans",sans-serif;
+
+  min-height:100vh;
+  overflow-x:hidden;
 }
 
 button,
-input,
-textarea{
-    font:inherit;
+input{
+  font-family:inherit;
 }
 
 button{
-    cursor:pointer;
+  cursor:pointer;
 }
 
-a{
-    color:inherit;
-    text-decoration:none;
+/* =========================================================
+   PAGE
+========================================================= */
+
+.page{
+  width:100%;
+  min-height:100vh;
 }
 
+.container{
+  width:min(calc(100% - 40px),var(--max));
+  margin:0 auto;
+}
 
-/* =====================================================
+/* =========================================================
    HEADER
-===================================================== */
+========================================================= */
 
-header{
-    position:fixed;
-
-    top:0;
-    left:0;
-
-    width:100%;
-    height:70px;
-
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-
-    padding:
-        0 clamp(14px,4vw,60px);
-
-    background:
-        rgba(5,5,5,.86);
-
-    backdrop-filter:blur(18px);
-
-    border-bottom:
-        1px solid
-        rgba(216,193,154,.12);
-
-    z-index:1000;
+.header{
+  width:100%;
+  border-bottom:1px solid rgba(217,195,159,.13);
+  background:rgba(5,5,5,.88);
+  backdrop-filter:blur(18px);
+  position:sticky;
+  top:0;
+  z-index:50;
 }
+
+.header-inner{
+  width:min(calc(100% - 40px),var(--max));
+  margin:auto;
+
+  min-height:78px;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+}
+
+/* LOGO */
 
 .brand{
-    display:flex;
-    align-items:center;
+  display:flex;
+  align-items:center;
+  gap:12px;
 
-    gap:10px;
+  color:var(--white);
+  text-decoration:none;
 
-    min-width:0;
+  font-family:"Manrope",sans-serif;
+  font-size:18px;
+  font-weight:800;
 
-    font-size:
-        clamp(15px,2vw,18px);
-
-    font-weight:700;
-
-    white-space:nowrap;
+  white-space:nowrap;
 }
 
+.logo-mark{
+  width:40px;
+  height:40px;
 
-/* =====================================================
-   LOGO
-===================================================== */
+  border:2px solid var(--beige);
+  border-radius:50%;
 
-.logo{
-    width:34px;
-    height:34px;
+  position:relative;
 
-    border:
-        1.5px solid
-        var(--beige);
+  box-shadow:
+    0 0 0 5px rgba(217,195,159,.045),
+    0 0 25px rgba(217,195,159,.08);
 
-    border-radius:50%;
-
-    position:relative;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    flex-shrink:0;
-
-    box-shadow:
-        0 0 25px
-        rgba(216,193,154,.10);
+  flex-shrink:0;
 }
 
-.logo::before{
-    content:"";
+.logo-mark::before,
+.logo-mark::after{
+  content:"";
+  position:absolute;
 
-    position:absolute;
+  width:17px;
+  height:2px;
 
-    width:17px;
-    height:1.5px;
+  background:var(--beige-light);
 
-    background:var(--cream);
+  left:50%;
+  top:50%;
 
-    transform:rotate(45deg);
+  transform-origin:center;
 }
 
-.logo::after{
-    content:"";
-
-    position:absolute;
-
-    width:17px;
-    height:1.5px;
-
-    background:var(--cream);
-
-    transform:rotate(-45deg);
+.logo-mark::before{
+  transform:translate(-50%,-50%) rotate(45deg);
 }
 
-.logo-center{
-    width:5px;
-    height:5px;
-
-    background:var(--beige);
-
-    border-radius:50%;
-
-    position:relative;
-    z-index:2;
+.logo-mark::after{
+  transform:translate(-50%,-50%) rotate(-45deg);
 }
 
+.logo-dot{
+  position:absolute;
 
-/* =====================================================
-   AUTH
-===================================================== */
+  width:6px;
+  height:6px;
 
-.auth-buttons{
-    display:flex;
-    align-items:center;
+  border-radius:50%;
 
-    gap:4px;
+  background:var(--beige-light);
 
-    flex-shrink:0;
+  left:50%;
+  top:50%;
+
+  transform:translate(-50%,-50%);
 }
 
-.auth-btn{
-    border:none;
+/* AUTH */
 
-    background:transparent;
-
-    color:#ddd9d3;
-
-    padding:
-        9px 12px;
-
-    border-radius:11px;
-
-    font-size:
-        clamp(11px,1.7vw,14px);
-
-    white-space:nowrap;
-
-    transition:.25s ease;
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
 }
 
-.auth-btn:hover{
-    color:var(--cream);
+.header-btn{
+  border:0;
+  background:none;
 
-    background:
-        rgba(216,193,154,.07);
+  color:var(--white);
+
+  padding:10px 14px;
+
+  font-size:14px;
+  font-weight:600;
+
+  border-radius:999px;
+
+  transition:.25s ease;
 }
 
-.auth-btn.register{
-    border:
-        1px solid
-        var(--beige-border);
-
-    color:var(--cream);
-
-    background:
-        rgba(216,193,154,.035);
+.header-btn:hover{
+  color:var(--beige-light);
 }
 
-.auth-btn.register:hover{
-    background:
-        rgba(216,193,154,.12);
+.header-btn.outline{
+  border:1px solid var(--border-strong);
+  background:rgba(217,195,159,.035);
 }
 
-
-/* =====================================================
-   USER
-===================================================== */
-
-.user-pill{
-    display:none;
-
-    align-items:center;
-
-    padding:
-        8px 13px;
-
-    border-radius:999px;
-
-    border:
-        1px solid
-        var(--beige-border);
-
-    color:var(--cream);
-
-    background:
-        rgba(216,193,154,.06);
-
-    font-size:13px;
-
-    white-space:nowrap;
+.header-btn.outline:hover{
+  background:rgba(217,195,159,.11);
+  border-color:var(--beige);
 }
 
-
-/* =====================================================
+/* =========================================================
    HERO
-===================================================== */
+========================================================= */
 
 .hero{
+  width:100%;
 
-    min-height:
-        calc(var(--vvh) - 10px);
+  min-height:calc(100vh - 79px);
 
-    padding:
-        92px 20px
-        45px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 
-    display:flex;
+  padding:70px 0 65px;
 
-    align-items:center;
-    justify-content:center;
-
-    text-align:center;
-
-    position:relative;
-
-    overflow:hidden;
+  position:relative;
 }
-
-
-/* brillo pastel */
 
 .hero::before{
+  content:"";
 
-    content:"";
+  position:absolute;
 
-    position:absolute;
+  width:620px;
+  height:360px;
 
-    width:
-        clamp(280px,45vw,600px);
+  background:radial-gradient(
+    circle,
+    rgba(217,195,159,.085),
+    transparent 68%
+  );
 
-    height:
-        clamp(280px,45vw,600px);
+  top:15%;
+  left:50%;
 
-    border-radius:50%;
+  transform:translateX(-50%);
 
-    background:
-        radial-gradient(
-            circle,
-            rgba(216,193,154,.11) 0%,
-            rgba(216,193,154,.035) 35%,
-            transparent 70%
-        );
-
-    filter:blur(15px);
-
-    pointer-events:none;
+  pointer-events:none;
 }
 
-.hero::after{
+.hero-inner{
+  width:min(calc(100% - 40px),920px);
 
-    content:"";
+  margin:auto;
 
-    position:absolute;
+  text-align:center;
 
-    width:280px;
-    height:180px;
+  position:relative;
+  z-index:2;
 
-    background:
-        radial-gradient(
-            ellipse,
-            rgba(197,191,216,.035),
-            transparent 70%
-        );
-
-    top:25%;
-    right:10%;
-
-    pointer-events:none;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
 }
 
-.hero-content{
-
-    width:100%;
-
-    max-width:
-        min(900px,100%);
-
-    margin:auto;
-
-    position:relative;
-
-    z-index:2;
-}
-
-
-/* =====================================================
-   HERO LOGO
-===================================================== */
+/* CENTRAL LOGO */
 
 .hero-logo{
+  width:92px;
+  height:92px;
 
-    width:
-        clamp(70px,9vw,100px);
+  border:2px solid var(--beige);
 
-    height:
-        clamp(70px,9vw,100px);
+  border-radius:50%;
 
-    margin:
-        0 auto
-        clamp(22px,3vw,34px);
+  position:relative;
 
-    border-width:2px;
+  margin-bottom:35px;
 
-    box-shadow:
-        0 0 50px
-        rgba(216,193,154,.12);
+  box-shadow:
+    0 0 0 8px rgba(217,195,159,.035),
+    0 0 55px rgba(217,195,159,.09);
 }
 
 .hero-logo::before,
 .hero-logo::after{
+  content:"";
 
-    width:
-        clamp(34px,4vw,48px);
+  position:absolute;
+
+  width:40px;
+  height:2px;
+
+  background:var(--beige-light);
+
+  left:50%;
+  top:50%;
 }
 
-.hero-logo .logo-center{
-
-    width:8px;
-    height:8px;
+.hero-logo::before{
+  transform:translate(-50%,-50%) rotate(45deg);
 }
 
+.hero-logo::after{
+  transform:translate(-50%,-50%) rotate(-45deg);
+}
 
-/* =====================================================
-   HERO TITULO
-===================================================== */
+.hero-logo span{
+  position:absolute;
+
+  width:10px;
+  height:10px;
+
+  border-radius:50%;
+
+  background:var(--beige-light);
+
+  left:50%;
+  top:50%;
+
+  transform:translate(-50%,-50%);
+}
+
+/* HERO TEXT */
 
 .hero h1{
+  font-family:"Manrope",sans-serif;
 
-    width:100%;
+  font-size:clamp(42px,6vw,76px);
 
-    max-width:900px;
+  line-height:.99;
 
-    margin:auto;
+  letter-spacing:-.055em;
 
-    font-size:
-        clamp(
-            36px,
-            6.2vw,
-            78px
-        );
+  font-weight:800;
 
-    line-height:
-        .98;
+  max-width:850px;
 
-    letter-spacing:
-        clamp(-3.5px,-.4vw,-2px);
-
-    font-weight:750;
-
-    color:#f5f3ef;
-
-    text-wrap:balance;
+  margin-bottom:25px;
 }
 
-
-/* =====================================================
-   HERO TEXTO
-===================================================== */
+.hero h1 .accent{
+  color:var(--beige-light);
+}
 
 .hero p{
+  max-width:680px;
 
-    width:100%;
+  color:#aaa69f;
 
-    max-width:650px;
+  font-size:clamp(16px,2vw,20px);
 
-    margin:
-        clamp(18px,2.5vw,25px)
-        auto
-        clamp(22px,3vw,31px);
+  line-height:1.65;
 
-    color:#aaa6a0;
-
-    font-size:
-        clamp(14px,1.8vw,18px);
-
-    line-height:1.6;
-
-    text-wrap:balance;
+  margin-bottom:35px;
 }
 
-
-/* =====================================================
-   BOTON
-===================================================== */
-
 .primary-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
 
-    display:inline-flex;
+  min-width:190px;
 
-    align-items:center;
-    justify-content:center;
+  padding:16px 25px;
 
-    min-width:
-        clamp(175px,22vw,210px);
+  border-radius:999px;
 
-    padding:
-        14px 23px;
+  border:1px solid var(--border-strong);
 
-    border-radius:999px;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(217,195,159,.18),
+      rgba(217,195,159,.055)
+    );
 
-    border:
-        1px solid
-        rgba(216,193,154,.60);
+  color:var(--beige-light);
 
-    background:
+  font-size:15px;
+  font-weight:700;
 
-        linear-gradient(
-            135deg,
-            rgba(216,193,154,.18),
-            rgba(216,193,154,.06)
-        );
+  box-shadow:
+    0 15px 45px rgba(0,0,0,.35),
+    inset 0 1px rgba(255,255,255,.05);
 
-    color:var(--cream);
-
-    font-weight:750;
-
-    font-size:
-        clamp(13px,1.6vw,16px);
-
-    box-shadow:
-        0 12px 40px
-        rgba(0,0,0,.35);
-
-    transition:.3s ease;
+  transition:.3s ease;
 }
 
 .primary-btn:hover{
+  transform:translateY(-3px);
 
-    transform:
-        translateY(-3px);
+  background:
+    linear-gradient(
+      135deg,
+      rgba(217,195,159,.27),
+      rgba(217,195,159,.08)
+    );
 
-    border-color:
-        rgba(234,216,185,.75);
-
-    background:
-        rgba(216,193,154,.16);
-
-    box-shadow:
-        0 18px 45px
-        rgba(216,193,154,.08);
+  border-color:var(--beige);
 }
 
+/* =========================================================
+   SERVICES
+========================================================= */
 
-/* =====================================================
-   SECCIONES
-===================================================== */
+.services{
+  width:100%;
 
-.section{
-
-    width:100%;
-
-    padding:
-        55px
-        clamp(16px,4vw,60px);
-
-    position:relative;
+  padding:55px 0 65px;
 }
 
+.section-head{
+  text-align:center;
 
-.section-header{
+  max-width:720px;
 
-    width:100%;
-
-    max-width:850px;
-
-    margin:
-        0 auto
-        28px;
-
-    text-align:center;
+  margin:0 auto 34px;
 }
 
-.section-kicker{
+.section-label{
+  color:var(--beige);
 
-    color:var(--beige);
+  font-size:12px;
+  font-weight:800;
 
-    text-transform:uppercase;
+  letter-spacing:.32em;
 
-    letter-spacing:4px;
+  text-transform:uppercase;
 
-    font-size:10px;
-
-    font-weight:800;
-
-    margin-bottom:11px;
+  margin-bottom:13px;
 }
 
-.section-header h2{
+.section-title{
+  font-family:"Manrope",sans-serif;
 
-    font-size:
-        clamp(29px,4.5vw,52px);
+  font-size:clamp(31px,4vw,50px);
 
-    line-height:1.05;
+  line-height:1.05;
 
-    letter-spacing:
-        clamp(-2.5px,-.2vw,-1.5px);
+  letter-spacing:-.045em;
 
-    text-wrap:balance;
+  margin-bottom:15px;
 }
 
-.section-header p{
+.section-description{
+  color:#99958e;
 
-    max-width:620px;
+  line-height:1.65;
 
-    margin:
-        14px auto 0;
-
-    color:#8f8b85;
-
-    font-size:
-        clamp(13px,1.7vw,16px);
-
-    line-height:1.6;
+  font-size:15px;
 }
 
+/* CAROUSEL */
 
-/* =====================================================
-   SERVICIOS
-===================================================== */
+.carousel{
+  position:relative;
 
-.services-section{
+  width:100%;
 
-    padding-top:35px;
+  min-height:315px;
 
-    padding-bottom:55px;
+  overflow:hidden;
 
-    overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
-
-.services-track{
-
-    width:100%;
-
-    max-width:1150px;
-
-    margin:auto;
-
-    height:
-        clamp(310px,43vw,390px);
-
-    display:flex;
-
-    align-items:center;
-    justify-content:center;
-
-    position:relative;
-}
-
-
-/* =====================================================
-   CARDS
-===================================================== */
 
 .service-card{
+  position:absolute;
 
-    position:absolute;
+  width:min(780px,90%);
 
-    width:
-        min(680px,82vw);
+  min-height:285px;
 
-    height:
-        clamp(270px,32vw,320px);
+  padding:38px;
 
-    padding:
-        clamp(25px,4vw,40px);
+  border-radius:var(--radius);
 
-    border-radius:
-        clamp(20px,3vw,28px);
+  border:1px solid var(--border);
 
-    background:
+  background:
+    linear-gradient(
+      145deg,
+      rgba(217,195,159,.075),
+      rgba(255,255,255,.018)
+    );
 
-        radial-gradient(
-            circle at top right,
-            rgba(216,193,154,.07),
-            transparent 42%
-        ),
+  box-shadow:var(--shadow);
 
-        linear-gradient(
-            145deg,
-            #151515,
-            #090909
-        );
+  opacity:0;
 
-    border:
-        1px solid
-        rgba(216,193,154,.14);
+  transform:
+    translateX(45px)
+    scale(.96);
 
-    box-shadow:
-        0 30px 80px
-        rgba(0,0,0,.55);
-
-    opacity:0;
-
-    transform:
-        translateX(80px)
-        scale(.92);
-
-    transition:
-        opacity .65s ease,
-        transform .65s cubic-bezier(.2,.7,.2,1);
+  transition:
+    opacity .7s ease,
+    transform .7s ease;
 }
 
 .service-card.active{
+  opacity:1;
 
-    opacity:1;
-
-    transform:
-        translateX(0)
-        scale(1);
-
-    z-index:5;
-
-    border-color:
-        rgba(216,193,154,.35);
+  transform:
+    translateX(0)
+    scale(1);
 }
-
-.service-card.prev{
-
-    opacity:.20;
-
-    transform:
-        translateX(-260px)
-        scale(.87);
-
-    z-index:2;
-}
-
-.service-card.next{
-
-    opacity:.20;
-
-    transform:
-        translateX(260px)
-        scale(.87);
-
-    z-index:2;
-}
-
-
-/* pastel glow cards */
-
-.service-card:nth-child(2)::after{
-
-    content:"";
-
-    position:absolute;
-
-    width:150px;
-    height:150px;
-
-    right:-50px;
-    top:-50px;
-
-    background:
-        radial-gradient(
-            circle,
-            rgba(216,184,189,.10),
-            transparent 70%
-        );
-
-    pointer-events:none;
-}
-
-.service-card:nth-child(3)::after{
-
-    content:"";
-
-    position:absolute;
-
-    width:150px;
-    height:150px;
-
-    right:-50px;
-    top:-50px;
-
-    background:
-        radial-gradient(
-            circle,
-            rgba(197,191,216,.10),
-            transparent 70%
-        );
-
-    pointer-events:none;
-}
-
-.service-card:nth-child(4)::after{
-
-    content:"";
-
-    position:absolute;
-
-    width:150px;
-    height:150px;
-
-    right:-50px;
-    top:-50px;
-
-    background:
-        radial-gradient(
-            circle,
-            rgba(223,194,165,.10),
-            transparent 70%
-        );
-
-    pointer-events:none;
-}
-
 
 .service-number{
+  color:var(--beige);
 
-    color:var(--beige);
+  font-size:12px;
+  font-weight:800;
 
-    font-size:11px;
+  letter-spacing:.25em;
 
-    font-weight:800;
-
-    letter-spacing:3px;
-
-    margin-bottom:
-        clamp(20px,3vw,30px);
+  margin-bottom:35px;
 }
 
 .service-card h3{
+  font-family:"Manrope",sans-serif;
 
-    font-size:
-        clamp(26px,4vw,41px);
+  font-size:clamp(25px,4vw,38px);
 
-    letter-spacing:-1.5px;
+  letter-spacing:-.035em;
 
-    margin-bottom:14px;
+  margin-bottom:13px;
 }
 
 .service-card p{
+  max-width:620px;
 
-    color:#96928c;
+  color:#a39f98;
 
-    line-height:1.65;
+  line-height:1.65;
 
-    max-width:560px;
-
-    font-size:
-        clamp(13px,1.6vw,16px);
+  font-size:15px;
 }
 
 .service-line{
+  width:55px;
+  height:2px;
 
-    width:70px;
-    height:2px;
+  margin-top:30px;
 
-    background:
-        linear-gradient(
-            90deg,
-            var(--beige),
-            rgba(216,193,154,0)
-        );
-
-    margin-top:25px;
+  background:linear-gradient(
+    90deg,
+    var(--beige),
+    transparent
+  );
 }
 
+/* PASTEL DETAILS */
 
-/* =====================================================
-   DOTS
-===================================================== */
+.service-card:nth-child(1){
+  box-shadow:
+    0 30px 80px rgba(217,195,159,.08);
+}
+
+.service-card:nth-child(2){
+  box-shadow:
+    0 30px 80px rgba(217,191,194,.07);
+}
+
+.service-card:nth-child(3){
+  box-shadow:
+    0 30px 80px rgba(191,203,213,.07);
+}
+
+.service-card:nth-child(4){
+  box-shadow:
+    0 30px 80px rgba(199,208,193,.07);
+}
 
 .carousel-dots{
+  display:flex;
+  justify-content:center;
+  gap:8px;
 
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    gap:7px;
-
-    margin-top:16px;
+  margin-top:22px;
 }
 
 .dot{
+  width:7px;
+  height:7px;
 
-    width:6px;
-    height:6px;
+  border-radius:50%;
 
-    border-radius:50%;
+  background:#36332f;
 
-    background:#373737;
-
-    transition:.3s ease;
+  transition:.3s;
 }
 
 .dot.active{
+  width:25px;
 
-    width:24px;
+  border-radius:999px;
 
-    border-radius:999px;
-
-    background:var(--beige);
-
-    box-shadow:
-        0 0 12px
-        rgba(216,193,154,.20);
+  background:var(--beige);
 }
 
+/* =========================================================
+   CONTACT
+========================================================= */
 
-/* =====================================================
-   CONTACTO
-===================================================== */
+.contact{
+  width:100%;
 
-.contact-section{
-
-    width:100%;
-
-    padding:
-        50px
-        clamp(16px,4vw,60px)
-        65px;
-
-    display:flex;
-
-    align-items:center;
-    justify-content:center;
+  padding:55px 0 65px;
 }
 
 .contact-box{
+  width:min(100%,900px);
 
-    width:100%;
+  margin:auto;
 
-    max-width:950px;
+  padding:55px 45px;
 
-    padding:
-        clamp(30px,6vw,65px);
+  border-radius:32px;
 
-    border-radius:
-        clamp(22px,3vw,30px);
+  text-align:center;
 
-    text-align:center;
+  border:1px solid rgba(217,195,159,.25);
 
-    border:
-        1px solid
-        rgba(216,193,154,.25);
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(217,195,159,.09),
+      transparent 60%
+    ),
+    rgba(255,255,255,.018);
 
-    background:
-
-        radial-gradient(
-            circle at top right,
-            rgba(216,193,154,.09),
-            transparent 42%
-        ),
-
-        radial-gradient(
-            circle at bottom left,
-            rgba(197,191,216,.035),
-            transparent 38%
-        ),
-
-        #0b0b0b;
-
-    box-shadow:
-        0 30px 80px
-        rgba(0,0,0,.35);
+  box-shadow:
+    0 30px 90px rgba(0,0,0,.45);
 }
 
 .contact-box h2{
+  font-family:"Manrope",sans-serif;
 
-    font-size:
-        clamp(29px,4.7vw,51px);
+  font-size:clamp(29px,4vw,48px);
 
-    letter-spacing:-2px;
+  letter-spacing:-.045em;
 
-    line-height:1.05;
-
-    margin-bottom:17px;
+  margin-bottom:17px;
 }
 
 .contact-box p{
+  color:#aaa69f;
 
-    max-width:660px;
+  max-width:650px;
 
-    margin:
-        0 auto 25px;
+  margin:0 auto 27px;
 
-    color:#94908a;
-
-    font-size:
-        clamp(13px,1.7vw,16px);
-
-    line-height:1.65;
+  line-height:1.7;
 }
 
-.contact-btn{
-
-    display:inline-flex;
-
-    align-items:center;
-    justify-content:center;
-
-    padding:
-        13px 22px;
-
-    border-radius:999px;
-
-    color:var(--cream);
-
-    border:
-        1px solid
-        var(--beige-border);
-
-    background:
-        rgba(216,193,154,.05);
-
-    transition:.3s ease;
-}
-
-.contact-btn:hover{
-
-    background:
-        rgba(216,193,154,.11);
-
-    transform:
-        translateY(-2px);
-}
-
-
-/* =====================================================
+/* =========================================================
    FOOTER
-===================================================== */
+========================================================= */
 
-footer{
+.footer{
+  border-top:1px solid rgba(217,195,159,.13);
 
-    width:100%;
+  padding:28px 0;
 
-    padding:
-        24px
-        clamp(16px,4vw,60px)
-        30px;
-
-    border-top:
-        1px solid
-        rgba(216,193,154,.10);
-
-    display:flex;
-
-    justify-content:space-between;
-    align-items:center;
-
-    color:#6f6c67;
-
-    font-size:12px;
+  margin-top:10px;
 }
 
-footer strong{
+.footer-inner{
+  width:min(calc(100% - 40px),var(--max));
 
-    color:var(--beige);
+  margin:auto;
 
-    font-weight:700;
+  display:flex;
+
+  align-items:center;
+  justify-content:space-between;
+
+  gap:20px;
 }
 
+.footer strong{
+  color:var(--beige-light);
+}
 
-/* =====================================================
-   MODALES
-===================================================== */
+.footer span{
+  color:#77736d;
+
+  font-size:13px;
+}
+
+/* =========================================================
+   MODAL AUTH
+========================================================= */
 
 .modal{
+  position:fixed;
 
-    position:fixed;
+  inset:0;
 
-    inset:0;
+  z-index:200;
 
-    z-index:3000;
+  background:rgba(0,0,0,.78);
 
-    display:none;
+  backdrop-filter:blur(18px);
 
-    align-items:center;
-    justify-content:center;
+  display:none;
 
-    padding:18px;
+  align-items:center;
+  justify-content:center;
 
-    background:
-        rgba(0,0,0,.78);
-
-    backdrop-filter:blur(14px);
+  padding:20px;
 }
 
-.modal.show{
+.modal.open{
+  display:flex;
+}
 
-    display:flex;
+.auth-box{
+  width:min(100%,440px);
 
-    animation:
-        modalIn .3s ease;
+  padding:35px;
+
+  border-radius:28px;
+
+  background:#0b0b0b;
+
+  border:1px solid var(--border);
+
+  box-shadow:0 30px 100px rgba(0,0,0,.7);
+
+  animation:modalIn .3s ease;
 }
 
 @keyframes modalIn{
+  from{
+    opacity:0;
+    transform:translateY(15px) scale(.98);
+  }
 
-    from{opacity:0}
-    to{opacity:1}
+  to{
+    opacity:1;
+    transform:none;
+  }
 }
 
-.modal-box{
+.auth-top{
+  display:flex;
 
-    width:
-        min(430px,100%);
+  justify-content:space-between;
+  align-items:center;
 
-    max-height:
-        calc(100svh - 30px);
-
-    overflow-y:auto;
-
-    padding:28px;
-
-    background:#0d0d0d;
-
-    border:
-        1px solid
-        rgba(216,193,154,.25);
-
-    border-radius:24px;
-
-    position:relative;
-
-    box-shadow:
-        0 30px 100px
-        rgba(0,0,0,.65);
+  margin-bottom:25px;
 }
 
-.modal-close{
+.auth-top h2{
+  font-family:"Manrope",sans-serif;
 
-    position:absolute;
-
-    top:13px;
-    right:14px;
-
-    width:35px;
-    height:35px;
-
-    border:none;
-
-    border-radius:50%;
-
-    background:#181818;
-
-    color:#aaa;
-
-    font-size:20px;
+  font-size:28px;
 }
 
-.modal-logo{
+.close-btn{
+  width:38px;
+  height:38px;
 
-    margin-bottom:20px;
+  border-radius:50%;
+
+  border:1px solid var(--border);
+
+  background:#111;
+
+  color:var(--beige-light);
+
+  font-size:20px;
 }
 
-.modal-box h2{
+.auth-form{
+  display:flex;
+  flex-direction:column;
 
-    font-size:27px;
-
-    margin-bottom:7px;
+  gap:13px;
 }
 
-.modal-sub{
+.auth-form input{
+  width:100%;
 
-    color:#858585;
+  padding:15px 16px;
 
-    font-size:13px;
+  border-radius:14px;
 
-    line-height:1.6;
+  border:1px solid rgba(217,195,159,.18);
 
-    margin-bottom:21px;
+  background:#111;
+
+  color:var(--white);
+
+  outline:none;
+
+  font-size:15px;
+
+  transition:.2s;
 }
 
-.form-group{
-
-    margin-bottom:13px;
+.auth-form input:focus{
+  border-color:var(--beige);
+  box-shadow:0 0 0 3px rgba(217,195,159,.07);
 }
 
-.form-group label{
+.auth-submit{
+  margin-top:7px;
 
-    display:block;
+  padding:15px;
 
-    color:#aaa;
+  border-radius:14px;
 
-    font-size:11px;
+  border:1px solid var(--border-strong);
 
-    margin-bottom:6px;
+  background:var(--beige);
+
+  color:#15120e;
+
+  font-weight:800;
 }
 
-.form-group input{
+.auth-switch{
+  margin-top:18px;
 
-    width:100%;
+  text-align:center;
 
-    padding:
-        12px 13px;
+  color:#88847e;
 
-    border:
-        1px solid
-        rgba(255,255,255,.09);
-
-    background:#141414;
-
-    color:white;
-
-    outline:none;
-
-    border-radius:11px;
+  font-size:13px;
 }
 
-.form-group input:focus{
+.auth-switch button{
+  border:0;
+  background:none;
 
-    border-color:
-        rgba(216,193,154,.55);
+  color:var(--beige-light);
+
+  font-weight:700;
 }
 
-.form-submit{
-
-    width:100%;
-
-    margin-top:6px;
-
-    padding:13px;
-
-    border:none;
-
-    border-radius:12px;
-
-    background:var(--beige);
-
-    color:#111;
-
-    font-weight:800;
-}
-
-
-/* =====================================================
+/* =========================================================
    CHAT
-===================================================== */
+========================================================= */
 
 .chat-overlay{
+  position:fixed;
 
-    position:fixed;
+  inset:0;
 
-    inset:0;
+  z-index:150;
 
-    width:100%;
+  background:#050505;
 
-    height:var(--vvh);
+  display:none;
 
-    z-index:2000;
-
-    background:#050505;
-
-    display:none;
-
-    flex-direction:column;
-
-    overflow:hidden;
+  flex-direction:column;
 }
 
 .chat-overlay.open{
-
-    display:flex;
-
-    animation:
-        chatIn .3s ease;
-}
-
-@keyframes chatIn{
-
-    from{
-        opacity:0;
-        transform:scale(.985);
-    }
-
-    to{
-        opacity:1;
-        transform:scale(1);
-    }
+  display:flex;
 }
 
 .chat-header{
+  height:72px;
 
-    height:68px;
+  flex-shrink:0;
 
-    flex-shrink:0;
+  border-bottom:1px solid rgba(217,195,159,.15);
 
-    display:flex;
+  display:flex;
 
-    align-items:center;
+  align-items:center;
 
-    justify-content:space-between;
+  justify-content:space-between;
 
-    padding:
-        0 clamp(12px,3vw,25px);
+  padding:0 18px;
 
-    background:#050505;
-
-    border-bottom:
-        1px solid
-        rgba(216,193,154,.10);
-}
-
-.chat-left{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:9px;
-
-    min-width:0;
-}
-
-.chat-menu{
-
-    width:37px;
-    height:37px;
-
-    border:none;
-
-    border-radius:10px;
-
-    background:#111;
-
-    color:#cfcfcf;
-
-    font-size:18px;
-
-    flex-shrink:0;
+  background:#070707;
 }
 
 .chat-brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
 
-    display:flex;
+  color:var(--white);
 
-    align-items:center;
-
-    gap:8px;
-
-    font-weight:650;
-
-    white-space:nowrap;
+  font-weight:800;
 }
 
-.chat-brand .logo{
+.chat-logo{
+  width:34px;
+  height:34px;
 
-    width:29px;
-    height:29px;
+  border-radius:50%;
+
+  border:1.5px solid var(--beige);
+
+  position:relative;
 }
 
-.chat-brand .logo::before,
-.chat-brand .logo::after{
+.chat-logo::before,
+.chat-logo::after{
+  content:"";
 
-    width:13px;
+  position:absolute;
+
+  width:14px;
+  height:1.5px;
+
+  background:var(--beige-light);
+
+  left:50%;
+  top:50%;
 }
 
-.chat-brand .logo-center{
+.chat-logo::before{
+  transform:translate(-50%,-50%) rotate(45deg);
+}
 
-    width:4px;
-    height:4px;
+.chat-logo::after{
+  transform:translate(-50%,-50%) rotate(-45deg);
 }
 
 .chat-close{
+  width:40px;
+  height:40px;
 
-    width:38px;
-    height:38px;
+  border-radius:50%;
 
-    border:none;
+  border:1px solid var(--border);
 
-    border-radius:50%;
+  background:#111;
 
-    background:#111;
+  color:var(--beige-light);
 
-    color:#aaa;
-
-    font-size:22px;
-
-    flex-shrink:0;
+  font-size:21px;
 }
-
-
-/* =====================================================
-   CHAT BODY
-===================================================== */
 
 .chat-body{
+  flex:1;
 
-    flex:1;
+  width:min(100%,950px);
 
-    min-height:0;
+  margin:auto;
 
-    display:flex;
+  padding:30px 20px 15px;
 
-    flex-direction:column;
+  overflow-y:auto;
 
-    position:relative;
+  display:flex;
+
+  flex-direction:column;
+
+  gap:16px;
 }
 
-.chat-messages{
+.chat-welcome{
+  margin:auto;
 
-    flex:1;
+  text-align:center;
 
-    overflow-y:auto;
+  max-width:600px;
+}
 
-    padding:
-        20px
-        clamp(12px,4vw,30px);
+.chat-welcome .mini-logo{
+  width:55px;
+  height:55px;
 
-    display:flex;
+  margin:0 auto 20px;
 
-    flex-direction:column;
+  border-radius:50%;
 
-    gap:12px;
+  border:1px solid var(--beige);
+
+  position:relative;
+}
+
+.chat-welcome .mini-logo::before,
+.chat-welcome .mini-logo::after{
+  content:"";
+
+  position:absolute;
+
+  width:23px;
+  height:1.5px;
+
+  background:var(--beige);
+
+  top:50%;
+  left:50%;
+}
+
+.chat-welcome .mini-logo::before{
+  transform:translate(-50%,-50%) rotate(45deg);
+}
+
+.chat-welcome .mini-logo::after{
+  transform:translate(-50%,-50%) rotate(-45deg);
+}
+
+.chat-welcome h2{
+  font-family:"Manrope",sans-serif;
+
+  font-size:clamp(28px,5vw,44px);
+
+  letter-spacing:-.04em;
+
+  margin-bottom:10px;
+}
+
+.chat-welcome p{
+  color:#88847e;
 }
 
 .message{
+  max-width:76%;
 
-    max-width:
-        min(760px,84%);
+  padding:13px 16px;
 
-    padding:
-        12px 14px;
+  border-radius:17px;
 
-    border-radius:16px;
+  line-height:1.55;
 
-    font-size:14px;
+  font-size:14px;
 
-    line-height:1.55;
+  animation:messageIn .25s ease;
+}
+
+@keyframes messageIn{
+  from{
+    opacity:0;
+    transform:translateY(7px);
+  }
+
+  to{
+    opacity:1;
+    transform:none;
+  }
 }
 
 .message.bot{
+  align-self:flex-start;
 
-    align-self:flex-start;
+  background:#111;
 
-    background:#111;
+  border:1px solid rgba(217,195,159,.13);
 
-    border:
-        1px solid
-        rgba(255,255,255,.07);
+  color:#ddd8cf;
 
-    color:#ddd;
-
-    border-top-left-radius:6px;
+  border-bottom-left-radius:5px;
 }
 
 .message.user{
+  align-self:flex-end;
 
-    align-self:flex-end;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(217,195,159,.2),
+      rgba(217,195,159,.08)
+    );
 
-    background:
-        rgba(216,193,154,.12);
+  border:1px solid rgba(217,195,159,.3);
 
-    border:
-        1px solid
-        rgba(216,193,154,.20);
+  color:var(--beige-light);
 
-    color:#eee;
-
-    border-bottom-right-radius:6px;
+  border-bottom-right-radius:5px;
 }
-
-.message.bot strong{
-
-    color:var(--cream);
-}
-
-
-/* =====================================================
-   CHAT INPUT
-===================================================== */
 
 .chat-input-area{
+  width:min(100%,950px);
 
-    flex-shrink:0;
+  margin:auto;
 
-    padding:
-        10px
-        max(10px,env(safe-area-inset-bottom));
-    
-    background:#050505;
-
-    border-top:
-        1px solid
-        rgba(216,193,154,.09);
+  padding:12px 20px 22px;
 }
 
 .chat-input-box{
+  display:flex;
 
-    width:100%;
+  align-items:flex-end;
 
-    max-width:900px;
+  gap:10px;
 
-    margin:auto;
+  padding:8px;
 
-    display:flex;
+  background:#0d0d0d;
 
-    align-items:flex-end;
+  border:1px solid rgba(217,195,159,.2);
 
-    gap:7px;
-
-    padding:7px;
-
-    background:#101010;
-
-    border:
-        1px solid
-        rgba(216,193,154,.16);
-
-    border-radius:16px;
+  border-radius:20px;
 }
 
-.chat-input-box textarea{
+.chat-input{
+  flex:1;
 
-    flex:1;
+  min-height:45px;
+  max-height:130px;
 
-    min-height:40px;
+  resize:none;
 
-    max-height:115px;
+  border:0;
+  outline:none;
 
-    resize:none;
+  background:transparent;
 
-    border:none;
+  color:var(--white);
 
-    outline:none;
+  padding:12px;
 
-    background:transparent;
-
-    color:white;
-
-    padding:9px 7px;
-
-    line-height:1.4;
-}
-
-.chat-input-box textarea::placeholder{
-
-    color:#666;
-}
-
-.chat-action{
-
-    width:40px;
-    height:40px;
-
-    flex-shrink:0;
-
-    border:none;
-
-    border-radius:11px;
-
-    background:#181818;
-
-    color:#aaa;
-
-    font-size:16px;
+  font-size:15px;
 }
 
 .chat-send{
+  width:45px;
+  height:45px;
 
-    background:var(--beige);
+  border-radius:14px;
 
-    color:#111;
+  border:1px solid var(--border);
 
-    font-weight:900;
+  background:var(--beige);
+
+  color:#17130e;
+
+  font-size:18px;
+
+  font-weight:800;
 }
 
+/* =========================================================
+   ADMIN
+========================================================= */
 
-/* =====================================================
-   HISTORIAL
-===================================================== */
+.admin-panel{
+  display:none;
 
-.history-panel{
+  position:fixed;
 
-    position:absolute;
+  inset:0;
 
-    top:0;
-    left:0;
+  z-index:300;
 
-    width:
-        min(330px,86vw);
+  background:#050505;
 
-    height:100%;
-
-    z-index:20;
-
-    background:#0b0b0b;
-
-    border-right:
-        1px solid
-        rgba(216,193,154,.15);
-
-    transform:
-        translateX(-100%);
-
-    transition:.35s ease;
-
-    padding:20px;
+  overflow:auto;
 }
 
-.history-panel.open{
-
-    transform:
-        translateX(0);
+.admin-panel.open{
+  display:block;
 }
 
-.history-title{
+.admin-inner{
+  width:min(calc(100% - 40px),1100px);
 
-    display:flex;
+  margin:0 auto;
 
-    align-items:center;
-
-    justify-content:space-between;
-
-    margin-bottom:17px;
+  padding:35px 0 60px;
 }
 
-.history-title h3{
+.admin-header{
+  display:flex;
 
-    font-size:16px;
+  align-items:center;
+  justify-content:space-between;
+
+  margin-bottom:30px;
 }
 
-.new-chat{
+.admin-header h2{
+  font-family:"Manrope",sans-serif;
 
-    border:
-        1px solid
-        var(--beige-border);
-
-    color:var(--cream);
-
-    background:transparent;
-
-    border-radius:10px;
-
-    padding:7px 10px;
-
-    font-size:11px;
+  font-size:32px;
 }
 
+.admin-close{
+  border:1px solid var(--border);
 
-/* =====================================================
-   IMAGE PANEL
-===================================================== */
+  background:#111;
 
-.image-panel{
+  color:var(--beige-light);
 
-    position:absolute;
+  padding:10px 15px;
 
-    right:12px;
-    bottom:82px;
-
-    width:
-        min(360px,calc(100vw - 24px));
-
-    background:#0e0e0e;
-
-    border:
-        1px solid
-        rgba(216,193,154,.25);
-
-    border-radius:19px;
-
-    padding:18px;
-
-    z-index:15;
-
-    display:none;
-
-    box-shadow:
-        0 20px 70px
-        rgba(0,0,0,.65);
+  border-radius:999px;
 }
 
-.image-panel.open{
+.user-count{
+  padding:25px;
 
-    display:block;
+  border:1px solid var(--border);
+
+  border-radius:22px;
+
+  background:#0c0c0c;
+
+  margin-bottom:20px;
 }
 
-.image-panel h3{
+.user-count strong{
+  display:block;
 
-    font-size:17px;
+  color:var(--beige-light);
 
-    margin-bottom:6px;
+  font-size:42px;
+
+  margin-top:8px;
 }
 
-.image-panel p{
+.users-table{
+  overflow-x:auto;
 
-    color:#777;
+  border:1px solid var(--border);
 
-    font-size:12px;
-
-    line-height:1.5;
-
-    margin-bottom:13px;
+  border-radius:22px;
 }
 
-.image-panel textarea{
+.users-table table{
+  width:100%;
 
-    width:100%;
+  border-collapse:collapse;
 
-    min-height:95px;
-
-    resize:none;
-
-    outline:none;
-
-    border:
-        1px solid
-        rgba(255,255,255,.08);
-
-    background:#151515;
-
-    color:white;
-
-    border-radius:11px;
-
-    padding:11px;
-
-    margin-bottom:9px;
+  min-width:650px;
 }
 
-.image-generate{
+.users-table th,
+.users-table td{
+  text-align:left;
 
-    width:100%;
+  padding:15px;
 
-    padding:11px;
+  border-bottom:1px solid rgba(217,195,159,.09);
 
-    border:none;
-
-    border-radius:11px;
-
-    background:var(--beige);
-
-    color:#111;
-
-    font-weight:800;
+  font-size:14px;
 }
 
+.users-table th{
+  color:var(--beige);
 
-/* =====================================================
-   TOAST
-===================================================== */
+  font-size:12px;
 
-.toast{
+  text-transform:uppercase;
 
-    position:fixed;
-
-    left:50%;
-    bottom:22px;
-
-    transform:
-        translate(-50%,20px);
-
-    background:#171717;
-
-    border:
-        1px solid
-        rgba(216,193,154,.28);
-
-    color:#ddd;
-
-    padding:
-        10px 14px;
-
-    border-radius:11px;
-
-    font-size:12px;
-
-    opacity:0;
-
-    pointer-events:none;
-
-    transition:.3s ease;
-
-    z-index:5000;
+  letter-spacing:.1em;
 }
 
-.toast.show{
-
-    opacity:1;
-
-    transform:
-        translate(-50%,0);
-}
-
-
-/* =====================================================
-   TABLET / MOVIL
-===================================================== */
+/* =========================================================
+   MOBILE
+========================================================= */
 
 @media(max-width:700px){
 
-    header{
+  .container,
+  .header-inner,
+  .footer-inner{
+    width:min(calc(100% - 28px),var(--max));
+  }
 
-        height:64px;
+  .header-inner{
+    min-height:68px;
+  }
 
-        padding:
-            0 12px;
-    }
+  .brand{
+    font-size:16px;
+    gap:9px;
+  }
 
-    .brand{
+  .logo-mark{
+    width:34px;
+    height:34px;
+  }
 
-        gap:8px;
+  .header-actions{
+    gap:3px;
+  }
 
-        font-size:15px;
-    }
+  .header-btn{
+    padding:8px 9px;
+    font-size:12px;
+  }
 
-    .brand .logo{
+  .header-btn.outline{
+    padding:8px 11px;
+  }
 
-        width:31px;
-        height:31px;
-    }
+  .hero{
+    min-height:auto;
 
-    .brand .logo::before,
-    .brand .logo::after{
+    padding:
+      65px
+      0
+      55px;
+  }
 
-        width:15px;
-    }
+  .hero-inner{
+    width:min(calc(100% - 24px),700px);
+  }
 
-    .auth-buttons{
+  .hero-logo{
+    width:78px;
+    height:78px;
 
-        gap:0;
-    }
+    margin-bottom:28px;
+  }
 
-    .auth-btn{
+  .hero h1{
+    font-size:clamp(38px,11vw,58px);
 
-        padding:
-            8px 8px;
+    line-height:1.01;
 
-        font-size:11px;
-    }
+    max-width:600px;
+  }
 
-    .hero{
+  .hero p{
+    font-size:15px;
 
-        min-height:
-            calc(var(--vvh) - 5px);
+    line-height:1.6;
 
-        padding:
-            84px 16px
-            40px;
-    }
+    max-width:530px;
 
-    .hero-logo{
+    margin-bottom:27px;
+  }
 
-        margin-bottom:24px;
-    }
+  .primary-btn{
+    padding:15px 23px;
+  }
 
-    .hero h1{
+  .services{
+    padding:42px 0 50px;
+  }
 
-        font-size:
-            clamp(
-                35px,
-                10.2vw,
-                58px
-            );
+  .section-head{
+    margin-bottom:25px;
+  }
 
-        letter-spacing:-2.6px;
-    }
+  .carousel{
+    min-height:285px;
+  }
 
-    .hero p{
+  .service-card{
+    width:94%;
 
-        font-size:14px;
+    min-height:255px;
 
-        max-width:620px;
+    padding:28px;
+  }
 
-        margin:
-            18px auto
-            24px;
-    }
+  .service-number{
+    margin-bottom:25px;
+  }
 
-    .primary-btn{
+  .contact{
+    padding:40px 0 50px;
+  }
 
-        padding:
-            13px 21px;
-    }
+  .contact-box{
+    padding:38px 24px;
+  }
 
-    .section{
+  .footer-inner{
+    flex-direction:column;
 
-        padding:
-            42px 15px;
-    }
+    text-align:center;
+  }
 
-    .services-section{
+  .auth-box{
+    padding:27px 21px;
+  }
 
-        padding-top:35px;
-
-        padding-bottom:45px;
-    }
-
-    .section-header{
-
-        margin-bottom:20px;
-    }
-
-    .section-header p{
-
-        margin-top:11px;
-    }
-
-    .services-track{
-
-        height:320px;
-    }
-
-    .service-card{
-
-        width:
-            calc(100vw - 30px);
-
-        height:270px;
-
-        padding:25px 22px;
-    }
-
-    .service-card.prev{
-
-        transform:
-            translateX(-110px)
-            scale(.87);
-    }
-
-    .service-card.next{
-
-        transform:
-            translateX(110px)
-            scale(.87);
-    }
-
-    .service-card h3{
-
-        font-size:28px;
-    }
-
-    .service-card p{
-
-        font-size:13px;
-    }
-
-    .contact-section{
-
-        padding:
-            38px 15px
-            48px;
-    }
-
-    .contact-box{
-
-        padding:
-            34px 21px;
-    }
-
-    footer{
-
-        flex-direction:column;
-
-        gap:7px;
-
-        text-align:center;
-    }
+  .message{
+    max-width:86%;
+  }
 }
 
-
-/* =====================================================
-   PANTALLAS MUY PEQUEÑAS
-===================================================== */
-
-@media(max-width:380px){
-
-    .brand{
-
-        font-size:14px;
-    }
-
-    .auth-btn{
-
-        padding:
-            7px 6px;
-
-        font-size:10px;
-    }
-
-    .hero h1{
-
-        font-size:34px;
-
-        letter-spacing:-2.3px;
-    }
-
-    .hero p{
-
-        font-size:13px;
-    }
-
-    .services-track{
-
-        height:305px;
-    }
-
-    .service-card{
-
-        height:265px;
-    }
-}
-
-
-/* =====================================================
-   PANTALLAS GRANDES
-===================================================== */
+/* =========================================================
+   DESKTOP — EVITA ESPACIOS GIGANTES
+========================================================= */
 
 @media(min-width:1000px){
 
-    .hero{
+  .hero{
+    min-height:620px;
 
-        padding:
-            90px 40px
-            35px;
-    }
+    padding:55px 0;
+  }
 
-    .services-section{
+  .hero-logo{
+    width:82px;
+    height:82px;
 
-        padding-top:35px;
+    margin-bottom:27px;
+  }
 
-        padding-bottom:50px;
-    }
+  .hero h1{
+    font-size:64px;
 
-    .contact-section{
+    max-width:820px;
 
-        padding-top:45px;
+    margin-bottom:19px;
+  }
 
-        padding-bottom:55px;
-    }
+  .hero p{
+    font-size:17px;
+
+    max-width:640px;
+
+    margin-bottom:26px;
+  }
+
+  .services{
+    padding:45px 0 50px;
+  }
+
+  .contact{
+    padding:45px 0 50px;
+  }
 }
 
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
 
-/* =====================================================
-   SI EL ANCHO SE REDUCE MUCHO
-===================================================== */
-
-@media(max-width:500px){
-
-    header .auth-btn.register{
-
-        max-width:92px;
-
-        overflow:hidden;
-
-        text-overflow:ellipsis;
-    }
-}
-
-
-/* =====================================================
-   ORIENTACION HORIZONTAL EN MOVIL
-===================================================== */
-
-@media(max-height:600px) and (orientation:landscape){
-
-    .hero{
-
-        min-height:auto;
-
-        padding-top:85px;
-
-        padding-bottom:35px;
-    }
-
-    .hero-logo{
-
-        width:58px;
-        height:58px;
-
-        margin-bottom:15px;
-    }
-
-    .hero h1{
-
-        font-size:35px;
-    }
-
-    .hero p{
-
-        margin:
-            12px auto
-            18px;
-    }
-
-    .section{
-
-        padding-top:35px;
-
-        padding-bottom:35px;
-    }
+button:focus-visible,
+input:focus-visible{
+  outline:2px solid var(--beige);
+  outline-offset:3px;
 }
 
 </style>
 </head>
 
-
 <body>
 
+<div class="page">
 
 <!-- =====================================================
      HEADER
 ===================================================== -->
 
-<header>
+<header class="header">
+
+  <div class="header-inner">
 
     <a href="#" class="brand">
+      <span class="logo-mark">
+        <span class="logo-dot"></span>
+      </span>
 
-        <span class="logo">
-            <span class="logo-center"></span>
-        </span>
-
-        <span>SparkyKrea</span>
-
+      <span>SparkyKrea</span>
     </a>
 
+    <div class="header-actions">
 
-    <div
-        class="auth-buttons"
-        id="authButtons"
-    >
+      <button
+        class="header-btn"
+        onclick="openAuth('login')"
+      >
+        Iniciar sesión
+      </button>
 
-        <button
-            class="auth-btn"
-            onclick="openModal('login')"
-        >
-            Iniciar sesión
-        </button>
+      <button
+        class="header-btn outline"
+        onclick="openAuth('register')"
+      >
+        Registrarse
+      </button>
 
-        <button
-            class="auth-btn register"
-            onclick="openModal('register')"
-        >
-            Registrarse
-        </button>
-
-    </div>
-
-
-    <div
-        class="user-pill"
-        id="userPill"
-    >
-
-        <span id="userName"></span>
+      <button
+        id="userButton"
+        class="header-btn outline"
+        style="display:none"
+        onclick="showAccountMenu()"
+      >
+        Usuario
+      </button>
 
     </div>
+
+  </div>
 
 </header>
-
 
 
 <!-- =====================================================
@@ -2137,420 +1520,327 @@ footer strong{
 
 <section class="hero">
 
-    <div class="hero-content">
+  <div class="hero-inner">
 
-        <div class="logo hero-logo">
-
-            <span class="logo-center"></span>
-
-        </div>
-
-
-        <h1>
-            Damos forma a ideas que merecen hacerse realidad.
-        </h1>
-
-
-        <p>
-            Estrategia, creatividad y desarrollo para convertir
-            una visión en una propuesta clara, atractiva y bien construida.
-        </p>
-
-
-        <button
-            class="primary-btn"
-            onclick="openChat()"
-        >
-            Comenzar ahora →
-        </button>
-
+    <div class="hero-logo">
+      <span></span>
     </div>
+
+    <h1>
+      Damos forma a ideas que
+      <span class="accent">merecen hacerse realidad.</span>
+    </h1>
+
+    <p>
+      Estrategia, creatividad y desarrollo para convertir una visión
+      en una propuesta clara, atractiva y bien construida.
+    </p>
+
+    <button
+      class="primary-btn"
+      onclick="openChat()"
+    >
+      Comenzar ahora
+      <span>→</span>
+    </button>
+
+  </div>
 
 </section>
 
 
-
 <!-- =====================================================
-     SERVICIOS
+     SERVICES
 ===================================================== -->
 
-<section
-    class="section services-section"
->
+<section class="services">
 
-    <div class="section-header">
+  <div class="container">
 
-        <div class="section-kicker">
-            Servicios
-        </div>
+    <div class="section-head">
 
-        <h2>
-            Construimos cada idea desde su esencia.
-        </h2>
+      <div class="section-label">
+        Servicios
+      </div>
 
-        <p>
-            Analizamos lo que tienes, entendemos hacia dónde quieres llegar
-            y damos forma a una propuesta con sentido.
-        </p>
+      <h2 class="section-title">
+        Construimos cada idea desde su esencia.
+      </h2>
+
+      <p class="section-description">
+        Analizamos lo que tienes, entendemos hacia dónde quieres llegar
+        y damos forma a una propuesta con sentido.
+      </p>
 
     </div>
 
 
-    <div class="services-track">
+    <div class="carousel">
+
+      <article class="service-card active">
+
+        <div class="service-number">
+          01
+        </div>
+
+        <h3>
+          Marketing y estrategia
+        </h3>
+
+        <p>
+          Analizamos tu proyecto, tu público y tus objetivos para
+          construir una estrategia clara y coherente.
+        </p>
+
+        <div class="service-line"></div>
+
+      </article>
 
 
-        <article class="service-card active">
+      <article class="service-card">
 
-            <div class="service-number">
-                01
-            </div>
+        <div class="service-number">
+          02
+        </div>
 
-            <h3>
-                Marketing y estrategia
-            </h3>
+        <h3>
+          Contenido creativo
+        </h3>
 
-            <p>
-                Analizamos tu proyecto, producto o contenido para encontrar
-                oportunidades, definir objetivos y construir una estrategia clara.
-            </p>
+        <p>
+          Desarrollamos conceptos, campañas, ideas visuales y contenido
+          pensado para comunicar de una forma atractiva y coherente.
+        </p>
 
-            <div class="service-line"></div>
+        <div class="service-line"></div>
 
-        </article>
-
-
-        <article class="service-card">
-
-            <div class="service-number">
-                02
-            </div>
-
-            <h3>
-                Contenido creativo
-            </h3>
-
-            <p>
-                Desarrollamos conceptos, campañas, ideas visuales y contenido
-                pensado para comunicar de una forma atractiva y coherente.
-            </p>
-
-            <div class="service-line"></div>
-
-        </article>
+      </article>
 
 
-        <article class="service-card">
+      <article class="service-card">
 
-            <div class="service-number">
-                03
-            </div>
+        <div class="service-number">
+          03
+        </div>
 
-            <h3>
-                Publicidad
-            </h3>
+        <h3>
+          Identidad y presencia
+        </h3>
 
-            <p>
-                Convertimos una idea en una propuesta publicitaria con estructura,
-                mensaje, duración, formato y dirección creativa.
-            </p>
+        <p>
+          Damos personalidad a tus ideas para que puedan presentarse
+          con una imagen sólida, moderna y reconocible.
+        </p>
 
-            <div class="service-line"></div>
+        <div class="service-line"></div>
 
-        </article>
+      </article>
 
 
-        <article class="service-card">
+      <article class="service-card">
 
-            <div class="service-number">
-                04
-            </div>
+        <div class="service-number">
+          04
+        </div>
 
-            <h3>
-                Desarrollo de ideas
-            </h3>
+        <h3>
+          Desarrollo de ideas
+        </h3>
 
-            <p>
-                Si sabes lo que quieres pero todavía no tienes claro cómo hacerlo,
-                trabajamos contigo para convertirlo en algo concreto.
-            </p>
+        <p>
+          Convertimos conceptos iniciales en propuestas estructuradas,
+          claras y preparadas para avanzar.
+        </p>
 
-            <div class="service-line"></div>
+        <div class="service-line"></div>
 
-        </article>
-
+      </article>
 
     </div>
 
 
     <div class="carousel-dots">
 
-        <span class="dot active"></span>
-        <span class="dot"></span>
-        <span class="dot"></span>
-        <span class="dot"></span>
+      <span class="dot active"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
 
     </div>
+
+  </div>
 
 </section>
 
 
-
 <!-- =====================================================
-     CONTACTO
+     CONTACT
 ===================================================== -->
 
-<section class="contact-section">
+<section class="contact">
+
+  <div class="container">
 
     <div class="contact-box">
 
-        <div class="section-kicker">
-            Tu opinión
-        </div>
+      <div class="section-label">
+        Hablemos
+      </div>
 
-        <h2>
-            Tu opinión también forma parte de SparkyKrea.
-        </h2>
+      <h2>
+        Tu opinión también forma parte de SparkyKrea.
+      </h2>
 
-        <p>
-            Queremos saber qué piensas. ¿Tienes una sugerencia,
-            una crítica, encontraste algún problema o simplemente
-            quieres contarnos algo? Déjanos saber tu opinión.
-        </p>
+      <p>
+        Queremos saber qué piensas. ¿Tienes una sugerencia,
+        una crítica, encontraste algún problema o simplemente
+        quieres contarnos algo? Déjanos saber tu opinión.
+      </p>
 
-        <a
-            class="contact-btn"
-            href="mailto:TU_CORREO_AQUI@gmail.com?subject=Comentario%20sobre%20SparkyKrea"
-        >
-            Contáctanos →
-        </a>
+      <button
+        class="primary-btn"
+        onclick="contactUs()"
+      >
+        Contáctanos
+        <span>→</span>
+      </button>
 
     </div>
+
+  </div>
 
 </section>
 
 </main>
 
 
-
 <!-- =====================================================
      FOOTER
 ===================================================== -->
 
-<footer>
+<footer class="footer">
+
+  <div class="footer-inner">
+
+    <strong>
+      by SparkyKreate
+    </strong>
 
     <span>
-        by <strong>SparkyKreate</strong>
+      asesoría de marketing
     </span>
 
-    <span>
-        asesoría de marketing
-    </span>
+  </div>
 
 </footer>
 
-
-
-<!-- =====================================================
-     LOGIN
-===================================================== -->
-
-<div
-    class="modal"
-    id="loginModal"
->
-
-    <div class="modal-box">
-
-        <button
-            class="modal-close"
-            onclick="closeModal('login')"
-        >
-            ×
-        </button>
-
-
-        <div class="logo modal-logo">
-
-            <span class="logo-center"></span>
-
-        </div>
-
-
-        <h2>
-            Bienvenido
-        </h2>
-
-        <p class="modal-sub">
-            Inicia sesión para continuar.
-        </p>
-
-
-        <form
-            onsubmit="fakeLogin(event)"
-        >
-
-            <div class="form-group">
-
-                <label>
-                    Correo electrónico
-                </label>
-
-                <input
-                    id="loginEmail"
-                    type="email"
-                    placeholder="tu@email.com"
-                    required
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    Contraseña
-                </label>
-
-                <input
-                    type="password"
-                    placeholder="Tu contraseña"
-                    required
-                >
-
-            </div>
-
-
-            <button
-                class="form-submit"
-                type="submit"
-            >
-                Iniciar sesión
-            </button>
-
-        </form>
-
-    </div>
-
 </div>
 
 
-
 <!-- =====================================================
-     REGISTRO
+     AUTH MODAL
 ===================================================== -->
 
 <div
-    class="modal"
-    id="registerModal"
+  class="modal"
+  id="authModal"
+  onclick="closeAuthOutside(event)"
 >
 
-    <div class="modal-box">
+  <div
+    class="auth-box"
+    onclick="event.stopPropagation()"
+  >
 
-        <button
-            class="modal-close"
-            onclick="closeModal('register')"
-        >
-            ×
-        </button>
+    <div class="auth-top">
 
+      <h2 id="authTitle">
+        Iniciar sesión
+      </h2>
 
-        <div class="logo modal-logo">
-
-            <span class="logo-center"></span>
-
-        </div>
-
-
-        <h2>
-            Crear cuenta
-        </h2>
-
-        <p class="modal-sub">
-            Crea tu cuenta para comenzar.
-        </p>
-
-
-        <form
-            onsubmit="fakeRegister(event)"
-        >
-
-            <div class="form-group">
-
-                <label>
-                    Nombre
-                </label>
-
-                <input
-                    id="registerName"
-                    type="text"
-                    placeholder="Tu nombre"
-                    required
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    Apellido
-                </label>
-
-                <input
-                    id="registerSurname"
-                    type="text"
-                    placeholder="Tu apellido"
-                    required
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    Correo electrónico
-                </label>
-
-                <input
-                    id="registerEmail"
-                    type="email"
-                    placeholder="tu@email.com"
-                    required
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>
-                    Contraseña
-                </label>
-
-                <input
-                    type="password"
-                    placeholder="Crea una contraseña"
-                    minlength="6"
-                    required
-                >
-
-            </div>
-
-
-            <button
-                class="form-submit"
-                type="submit"
-            >
-                Registrarse
-            </button>
-
-        </form>
+      <button
+        class="close-btn"
+        onclick="closeAuth()"
+      >
+        ×
+      </button>
 
     </div>
 
-</div>
 
+    <form
+      class="auth-form"
+      id="authForm"
+      onsubmit="handleAuth(event)"
+    >
+
+      <div id="registerFields">
+
+        <input
+          id="firstName"
+          type="text"
+          placeholder="Nombre"
+          autocomplete="given-name"
+        >
+
+        <input
+          id="lastName"
+          type="text"
+          placeholder="Apellido"
+          autocomplete="family-name"
+        >
+
+      </div>
+
+
+      <input
+        id="email"
+        type="email"
+        placeholder="Correo electrónico"
+        required
+        autocomplete="email"
+      >
+
+
+      <input
+        id="password"
+        type="password"
+        placeholder="Contraseña"
+        required
+        minlength="6"
+        autocomplete="current-password"
+      >
+
+
+      <button
+        class="auth-submit"
+        type="submit"
+        id="authSubmit"
+      >
+        Iniciar sesión
+      </button>
+
+    </form>
+
+
+    <div class="auth-switch">
+
+      <span id="authSwitchText">
+        ¿No tienes una cuenta?
+      </span>
+
+      <button
+        id="authSwitchButton"
+        onclick="switchAuthMode()"
+      >
+        Registrarse
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
 
 
 <!-- =====================================================
@@ -2558,1006 +1848,1109 @@ footer strong{
 ===================================================== -->
 
 <div
-    class="chat-overlay"
-    id="chatOverlay"
+  class="chat-overlay"
+  id="chatOverlay"
 >
 
-    <div class="chat-header">
+  <header class="chat-header">
 
+    <div class="chat-brand">
 
-        <div class="chat-left">
+      <div class="chat-logo"></div>
 
-            <button
-                class="chat-menu"
-                onclick="toggleHistory()"
-            >
-                ☰
-            </button>
-
-
-            <div class="chat-brand">
-
-                <span class="logo">
-
-                    <span class="logo-center"></span>
-
-                </span>
-
-                <span>
-                    SparkyKrea
-                </span>
-
-            </div>
-
-        </div>
-
-
-        <button
-            class="chat-close"
-            onclick="closeChat()"
-        >
-            ×
-        </button>
+      <span>SparkyKrea</span>
 
     </div>
 
+    <button
+      class="chat-close"
+      onclick="closeChat()"
+    >
+      ×
+    </button>
+
+  </header>
 
 
-    <div class="chat-body">
+  <div
+    class="chat-body"
+    id="chatBody"
+  >
 
+    <div
+      class="chat-welcome"
+      id="chatWelcome"
+    >
 
-        <aside
-            class="history-panel"
-            id="historyPanel"
-        >
+      <div class="mini-logo"></div>
 
-            <div class="history-title">
+      <h2 id="chatGreeting">
+        Bienvenido.
+      </h2>
 
-                <h3>
-                    Conversaciones
-                </h3>
-
-                <button
-                    class="new-chat"
-                    onclick="newChat()"
-                >
-                    Nueva
-                </button>
-
-            </div>
-
-        </aside>
-
-
-
-        <div
-            class="chat-messages"
-            id="chatMessages"
-        >
-
-            <div
-                class="message bot"
-                id="initialGreeting"
-            >
-                Hola.<br><br>
-                Cuéntame qué deseas hacer.
-            </div>
-
-        </div>
-
-
-
-        <div
-            class="image-panel"
-            id="imagePanel"
-        >
-
-            <h3>
-                Crear una imagen
-            </h3>
-
-            <p>
-                Describe lo que quieres visualizar.
-            </p>
-
-            <textarea
-                id="imagePrompt"
-                placeholder="Ejemplo: una publicidad moderna para una bebida..."
-            ></textarea>
-
-            <button
-                class="image-generate"
-                onclick="generateImageIdea()"
-            >
-                Crear concepto
-            </button>
-
-        </div>
-
-
-
-        <div class="chat-input-area">
-
-            <div class="chat-input-box">
-
-
-                <button
-                    class="chat-action"
-                    onclick="document.getElementById('imageUpload').click()"
-                >
-                    +
-                </button>
-
-
-                <input
-                    type="file"
-                    id="imageUpload"
-                    accept="image/*"
-                    hidden
-                    onchange="imageSelected(event)"
-                >
-
-
-                <button
-                    class="chat-action"
-                    onclick="toggleImagePanel()"
-                >
-                    ◇
-                </button>
-
-
-                <textarea
-                    id="chatInput"
-                    rows="1"
-                    placeholder="Cuéntame tu idea..."
-                    onkeydown="handleChatKey(event)"
-                ></textarea>
-
-
-                <button
-                    class="chat-action chat-send"
-                    onclick="sendMessage()"
-                >
-                    ↑
-                </button>
-
-
-            </div>
-
-        </div>
+      <p>
+        Cuéntame qué deseas trabajar.
+      </p>
 
     </div>
+
+  </div>
+
+
+  <div class="chat-input-area">
+
+    <div class="chat-input-box">
+
+      <textarea
+        class="chat-input"
+        id="chatInput"
+        placeholder="Escribe tu idea..."
+        rows="1"
+      ></textarea>
+
+      <button
+        class="chat-send"
+        onclick="sendMessage()"
+      >
+        ↑
+      </button>
+
+    </div>
+
+  </div>
 
 </div>
 
 
+<!-- =====================================================
+     ADMIN PANEL
+===================================================== -->
 
 <div
-    class="toast"
-    id="toast"
-></div>
+  class="admin-panel"
+  id="adminPanel"
+>
+
+  <div class="admin-inner">
+
+    <div class="admin-header">
+
+      <h2>
+        Panel de administración
+      </h2>
+
+      <button
+        class="admin-close"
+        onclick="closeAdmin()"
+      >
+        Cerrar
+      </button>
+
+    </div>
 
 
+    <div class="user-count">
+
+      Usuarios registrados
+
+      <strong id="userCount">
+        0
+      </strong>
+
+    </div>
+
+
+    <div class="users-table">
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Correo</th>
+            <th>Rol</th>
+            <th>Fecha</th>
+          </tr>
+
+        </thead>
+
+        <tbody id="usersTableBody">
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- =====================================================
+     SUPABASE
+===================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
 
+/* =========================================================
+   SUPABASE
+   PONDREMOS ESTOS DATOS EN EL SIGUIENTE PASO
+========================================================= */
 
-/* =====================================================
-   ANDROID VIEWPORT
-===================================================== */
+const SUPABASE_URL = "PON_AQUI_TU_PROJECT_URL";
+const SUPABASE_KEY = "PON_AQUI_TU_PUBLISHABLE_KEY";
 
-function updateViewport(){
+let supabaseClient = null;
 
-    if(window.visualViewport){
+if(
+  !SUPABASE_URL.includes("PON_AQUI") &&
+  !SUPABASE_KEY.includes("PON_AQUI")
+){
+  supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+}
 
-        document.documentElement.style.setProperty(
-            "--vvh",
-            window.visualViewport.height + "px"
+
+/* =========================================================
+   AUTH STATE
+========================================================= */
+
+let authMode = "login";
+let currentUser = null;
+let currentProfile = null;
+
+
+/* =========================================================
+   ABRIR LOGIN / REGISTRO
+========================================================= */
+
+function openAuth(mode){
+
+  authMode = mode;
+
+  document
+    .getElementById("authModal")
+    .classList.add("open");
+
+  updateAuthUI();
+}
+
+
+function closeAuth(){
+
+  document
+    .getElementById("authModal")
+    .classList.remove("open");
+}
+
+
+function closeAuthOutside(event){
+
+  if(event.target.id === "authModal"){
+    closeAuth();
+  }
+
+}
+
+
+function switchAuthMode(){
+
+  authMode =
+    authMode === "login"
+      ? "register"
+      : "login";
+
+  updateAuthUI();
+}
+
+
+function updateAuthUI(){
+
+  const title =
+    document.getElementById("authTitle");
+
+  const registerFields =
+    document.getElementById("registerFields");
+
+  const submit =
+    document.getElementById("authSubmit");
+
+  const switchText =
+    document.getElementById("authSwitchText");
+
+  const switchButton =
+    document.getElementById("authSwitchButton");
+
+  if(authMode === "register"){
+
+    title.textContent =
+      "Crear cuenta";
+
+    registerFields.style.display =
+      "flex";
+
+    registerFields.style.flexDirection =
+      "column";
+
+    registerFields.style.gap =
+      "13px";
+
+    submit.textContent =
+      "Crear cuenta";
+
+    switchText.textContent =
+      "¿Ya tienes una cuenta?";
+
+    switchButton.textContent =
+      "Iniciar sesión";
+
+  }else{
+
+    title.textContent =
+      "Iniciar sesión";
+
+    registerFields.style.display =
+      "none";
+
+    submit.textContent =
+      "Iniciar sesión";
+
+    switchText.textContent =
+      "¿No tienes una cuenta?";
+
+    switchButton.textContent =
+      "Registrarse";
+
+  }
+
+}
+
+
+/* =========================================================
+   REGISTRO / LOGIN
+========================================================= */
+
+async function handleAuth(event){
+
+  event.preventDefault();
+
+  const email =
+    document
+      .getElementById("email")
+      .value
+      .trim();
+
+  const password =
+    document
+      .getElementById("password")
+      .value;
+
+  if(!supabaseClient){
+
+    alert(
+      "Primero conectaremos Supabase. Todavía faltan las claves del proyecto."
+    );
+
+    return;
+  }
+
+
+  const submit =
+    document.getElementById("authSubmit");
+
+  submit.disabled = true;
+
+  submit.textContent =
+    "Procesando...";
+
+
+  try{
+
+    if(authMode === "register"){
+
+      const firstName =
+        document
+          .getElementById("firstName")
+          .value
+          .trim();
+
+      const lastName =
+        document
+          .getElementById("lastName")
+          .value
+          .trim();
+
+
+      if(!firstName || !lastName){
+
+        alert(
+          "Escribe tu nombre y apellido."
         );
+
+        return;
+      }
+
+
+      const { data, error } =
+        await supabaseClient.auth.signUp({
+
+          email,
+          password,
+
+          options:{
+            data:{
+              first_name:firstName,
+              last_name:lastName
+            }
+          }
+
+        });
+
+
+      if(error)
+        throw error;
+
+
+      if(data.session){
+
+        alert(
+          "Cuenta creada correctamente."
+        );
+
+        closeAuth();
+
+      }else{
+
+        alert(
+          "Cuenta creada. Revisa tu correo para confirmar la cuenta."
+        );
+
+        closeAuth();
+
+      }
+
+    }else{
+
+      const { data, error } =
+        await supabaseClient.auth.signInWithPassword({
+
+          email,
+          password
+
+        });
+
+
+      if(error)
+        throw error;
+
+
+      currentUser =
+        data.user;
+
+      await loadProfile();
+
+      closeAuth();
 
     }
 
-}
+  }catch(error){
 
-updateViewport();
+    console.error(error);
 
-if(window.visualViewport){
-
-    window.visualViewport.addEventListener(
-        "resize",
-        updateViewport
+    alert(
+      "No se pudo completar la operación:\n\n"
+      + error.message
     );
 
-}
+  }finally{
 
+    submit.disabled = false;
 
-/* =====================================================
-   MODALES
-===================================================== */
+    submit.textContent =
+      authMode === "register"
+        ? "Crear cuenta"
+        : "Iniciar sesión";
 
-function openModal(type){
-
-    const id =
-        type === "login"
-        ? "loginModal"
-        : "registerModal";
-
-    document
-        .getElementById(id)
-        .classList.add("show");
+  }
 
 }
 
 
-function closeModal(type){
+/* =========================================================
+   PERFIL
+========================================================= */
 
-    const id =
-        type === "login"
-        ? "loginModal"
-        : "registerModal";
+async function loadProfile(){
 
-    document
-        .getElementById(id)
-        .classList.remove("show");
-
-}
+  if(!supabaseClient || !currentUser)
+    return;
 
 
-document
-    .querySelectorAll(".modal")
-    .forEach(modal => {
-
-        modal.addEventListener(
-            "click",
-            event => {
-
-                if(event.target === modal){
-
-                    modal.classList.remove("show");
-
-                }
-
-            }
-        );
-
-    });
+  const { data, error } =
+    await supabaseClient
+      .from("profiles")
+      .select("*")
+      .eq("id",currentUser.id)
+      .single();
 
 
-/* =====================================================
-   LOGIN TEMPORAL
-===================================================== */
+  if(error){
 
-function fakeLogin(event){
+    console.error(error);
 
-    event.preventDefault();
+    return;
+  }
 
-    const email =
-        document
-            .getElementById("loginEmail")
-            .value;
 
-    const name =
-        email.split("@")[0];
+  currentProfile =
+    data;
 
-    closeModal("login");
 
-    document
-        .getElementById("authButtons")
-        .style.display = "none";
-
-    document
-        .getElementById("userPill")
-        .style.display = "flex";
-
-    document
-        .getElementById("userName")
-        .textContent = name;
-
-    showToast(
-        "Sesión iniciada"
-    );
+  updateHeaderUser();
 
 }
 
 
-/* =====================================================
-   REGISTRO TEMPORAL
-===================================================== */
+function updateHeaderUser(){
 
-function fakeRegister(event){
-
-    event.preventDefault();
-
-    const name =
-        document
-            .getElementById("registerName")
-            .value;
-
-    const surname =
-        document
-            .getElementById("registerSurname")
-            .value;
-
-    closeModal("register");
-
-    document
-        .getElementById("authButtons")
-        .style.display = "none";
-
-    document
-        .getElementById("userPill")
-        .style.display = "flex";
-
-    document
-        .getElementById("userName")
-        .textContent =
-            name + " " + surname;
-
-    showToast(
-        "Cuenta creada"
-    );
-
-}
-
-
-/* =====================================================
-   TOAST
-===================================================== */
-
-let toastTimer;
-
-function showToast(text){
-
-    const toast =
-        document.getElementById("toast");
-
-    toast.textContent = text;
-
-    toast.classList.add("show");
-
-    clearTimeout(toastTimer);
-
-    toastTimer =
-        setTimeout(
-            () => {
-
-                toast.classList.remove("show");
-
-            },
-            2500
-        );
-
-}
-
-
-/* =====================================================
-   CARRUSEL
-===================================================== */
-
-const serviceCards =
+  const loginButtons =
     document.querySelectorAll(
-        ".service-card"
+      ".header-actions > .header-btn:not(#userButton)"
     );
 
-const dots =
-    document.querySelectorAll(
-        ".dot"
+  const userButton =
+    document.getElementById("userButton");
+
+
+  if(currentProfile){
+
+    loginButtons.forEach(
+      button =>
+        button.style.display = "none"
     );
 
-let currentService = 0;
+
+    userButton.style.display =
+      "block";
 
 
-function updateServices(){
+    userButton.textContent =
+      currentProfile.first_name
+      + " "
+      + currentProfile.last_name;
 
-    serviceCards.forEach(
-        (card,index) => {
+  }
 
-            card.classList.remove(
-                "active",
-                "prev",
-                "next"
-            );
+}
 
 
-            if(
-                index === currentService
-            ){
+/* =========================================================
+   CUENTA
+========================================================= */
 
-                card.classList.add(
-                    "active"
-                );
+async function showAccountMenu(){
 
-            }
-
-
-            else if(
-                index ===
-                (
-                    currentService
-                    - 1
-                    + serviceCards.length
-                )
-                %
-                serviceCards.length
-            ){
-
-                card.classList.add(
-                    "prev"
-                );
-
-            }
+  if(!currentProfile)
+    return;
 
 
-            else if(
-                index ===
-                (
-                    currentService + 1
-                )
-                %
-                serviceCards.length
-            ){
+  const isAdmin =
+    currentProfile.role === "admin";
 
-                card.classList.add(
-                    "next"
-                );
 
-            }
+  let message =
+    "Sesión iniciada como "
+    + currentProfile.first_name
+    + " "
+    + currentProfile.last_name
+    + ".";
+
+
+  if(isAdmin){
+
+    const openAdminPanel =
+      confirm(
+        message
+        + "\n\n¿Quieres abrir el panel de administración?"
+      );
+
+
+    if(openAdminPanel){
+
+      await openAdmin();
+
+    }else{
+
+      await signOut();
+
+    }
+
+  }else{
+
+    const logout =
+      confirm(
+        message
+        + "\n\n¿Quieres cerrar sesión?"
+      );
+
+
+    if(logout)
+      await signOut();
+
+  }
+
+}
+
+
+/* =========================================================
+   CERRAR SESIÓN
+========================================================= */
+
+async function signOut(){
+
+  if(supabaseClient){
+
+    await supabaseClient.auth.signOut();
+
+  }
+
+  currentUser = null;
+  currentProfile = null;
+
+  location.reload();
+
+}
+
+
+/* =========================================================
+   ADMIN
+========================================================= */
+
+async function openAdmin(){
+
+  if(!supabaseClient || !currentProfile)
+    return;
+
+
+  if(currentProfile.role !== "admin"){
+
+    alert(
+      "No tienes permisos de administrador."
+    );
+
+    return;
+  }
+
+
+  const { data, error } =
+    await supabaseClient
+      .from("profiles")
+      .select(
+        "first_name,last_name,email,role,created_at"
+      )
+      .order(
+        "created_at",
+        {
+          ascending:false
+        }
+      );
+
+
+  if(error){
+
+    alert(
+      "No se pudieron cargar los usuarios:\n\n"
+      + error.message
+    );
+
+    return;
+  }
+
+
+  document
+    .getElementById("adminPanel")
+    .classList.add("open");
+
+
+  document
+    .getElementById("userCount")
+    .textContent =
+      data.length;
+
+
+  const tbody =
+    document.getElementById(
+      "usersTableBody"
+    );
+
+
+  tbody.innerHTML = "";
+
+
+  data.forEach(user => {
+
+    const row =
+      document.createElement("tr");
+
+
+    const date =
+      new Date(
+        user.created_at
+      ).toLocaleDateString(
+        "es-ES"
+      );
+
+
+    row.innerHTML = `
+
+      <td>${escapeHtml(user.first_name)}</td>
+
+      <td>${escapeHtml(user.last_name)}</td>
+
+      <td>${escapeHtml(user.email)}</td>
+
+      <td>${escapeHtml(user.role)}</td>
+
+      <td>${date}</td>
+
+    `;
+
+
+    tbody.appendChild(row);
+
+  });
+
+}
+
+
+function closeAdmin(){
+
+  document
+    .getElementById("adminPanel")
+    .classList.remove("open");
+
+}
+
+
+function escapeHtml(value){
+
+  return String(value)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+
+}
+
+
+/* =========================================================
+   AUTH SESSION AL CARGAR
+========================================================= */
+
+async function initializeAuth(){
+
+  if(!supabaseClient)
+    return;
+
+
+  const {
+    data:{
+      session
+    }
+  } =
+    await supabaseClient
+      .auth
+      .getSession();
+
+
+  if(session){
+
+    currentUser =
+      session.user;
+
+    await loadProfile();
+
+  }
+
+
+  supabaseClient
+    .auth
+    .onAuthStateChange(
+      async (event,session) => {
+
+        if(session){
+
+          currentUser =
+            session.user;
+
+          await loadProfile();
+
+        }else{
+
+          currentUser = null;
+          currentProfile = null;
 
         }
-    );
 
-
-    dots.forEach(
-        (dot,index) => {
-
-            dot.classList.toggle(
-                "active",
-                index === currentService
-            );
-
-        }
+      }
     );
 
 }
 
 
-setInterval(
-    () => {
-
-        currentService =
-            (
-                currentService + 1
-            )
-            %
-            serviceCards.length;
-
-        updateServices();
-
-    },
-    5600
-);
-
-
-updateServices();
-
-
-/* =====================================================
+/* =========================================================
    CHAT
-===================================================== */
-
-const chatOverlay =
-    document.getElementById(
-        "chatOverlay"
-    );
-
-const chatMessages =
-    document.getElementById(
-        "chatMessages"
-    );
-
-const chatInput =
-    document.getElementById(
-        "chatInput"
-    );
-
-const historyPanel =
-    document.getElementById(
-        "historyPanel"
-    );
-
-const imagePanel =
-    document.getElementById(
-        "imagePanel"
-    );
-
+========================================================= */
 
 function openChat(){
 
-    chatOverlay.classList.add(
-        "open"
-    );
+  document
+    .getElementById("chatOverlay")
+    .classList.add("open");
 
-    document.body.style.overflow =
-        "hidden";
 
-    updateGreeting();
+  updateGreeting();
 
-    setTimeout(
-        () => {
 
-            chatInput.focus();
+  setTimeout(() => {
 
-        },
-        300
-    );
+    document
+      .getElementById("chatInput")
+      .focus();
+
+  },250);
 
 }
 
 
 function closeChat(){
 
-    chatOverlay.classList.remove(
-        "open"
-    );
-
-    document.body.style.overflow =
-        "";
+  document
+    .getElementById("chatOverlay")
+    .classList.remove("open");
 
 }
 
-
-function toggleHistory(){
-
-    historyPanel.classList.toggle(
-        "open"
-    );
-
-}
-
-
-function toggleImagePanel(){
-
-    imagePanel.classList.toggle(
-        "open"
-    );
-
-}
-
-
-/* =====================================================
-   SALUDO
-===================================================== */
 
 function updateGreeting(){
 
-    const hour =
-        new Date().getHours();
-
-    let greeting;
+  const hour =
+    new Date().getHours();
 
 
-    if(
-        hour >= 5 &&
-        hour < 12
-    ){
-
-        greeting =
-            "Buenos días.";
-
-    }
-
-    else if(
-        hour >= 12 &&
-        hour < 19
-    ){
-
-        greeting =
-            "Buenas tardes.";
-
-    }
-
-    else{
-
-        greeting =
-            "Buenas noches.";
-
-    }
+  let greeting;
 
 
-    const first =
-        document.getElementById(
-            "initialGreeting"
-        );
+  if(hour < 12){
+
+    greeting =
+      "Buenos días.";
+
+  }else if(hour < 19){
+
+    greeting =
+      "Buenas tardes.";
+
+  }else{
+
+    greeting =
+      "Buenas noches.";
+
+  }
 
 
-    if(first){
-
-        first.innerHTML =
-            greeting +
-            "<br><br>" +
-            "Cuéntame qué deseas hacer.";
-
-    }
+  document
+    .getElementById("chatGreeting")
+    .textContent =
+      greeting;
 
 }
 
 
-/* =====================================================
-   CHAT
-===================================================== */
+/* =========================================================
+   CHAT MENSAJES
+========================================================= */
 
-function handleChatKey(event){
+function addMessage(
+  text,
+  type
+){
 
-    if(
-        event.key === "Enter" &&
-        !event.shiftKey
-    ){
+  const welcome =
+    document.getElementById(
+      "chatWelcome"
+    );
 
-        event.preventDefault();
 
-        sendMessage();
+  if(welcome)
+    welcome.remove();
 
-    }
+
+  const body =
+    document.getElementById(
+      "chatBody"
+    );
+
+
+  const message =
+    document.createElement(
+      "div"
+    );
+
+
+  message.className =
+    "message "
+    + type;
+
+
+  message.textContent =
+    text;
+
+
+  body.appendChild(message);
+
+
+  body.scrollTop =
+    body.scrollHeight;
 
 }
 
 
 function sendMessage(){
 
-    const text =
-        chatInput.value.trim();
-
-    if(!text){
-
-        return;
-
-    }
-
-    addMessage(
-        text,
-        "user"
+  const input =
+    document.getElementById(
+      "chatInput"
     );
 
-    chatInput.value = "";
+
+  const text =
+    input.value.trim();
 
 
-    setTimeout(
-        () => {
-
-            generateLocalResponse(
-                text
-            );
-
-        },
-        450
-    );
-
-}
+  if(!text)
+    return;
 
 
-function addMessage(
+  addMessage(
     text,
-    type
-){
-
-    const message =
-        document.createElement(
-            "div"
-        );
-
-    message.className =
-        "message " + type;
-
-    message.innerHTML =
-        text;
-
-    chatMessages.appendChild(
-        message
-    );
-
-    chatMessages.scrollTop =
-        chatMessages.scrollHeight;
-
-}
+    "user"
+  );
 
 
-/* =====================================================
-   RESPUESTAS TEMPORALES
-===================================================== */
+  input.value = "";
 
-function generateLocalResponse(text){
 
-    const normalized =
-        text
-            .toLowerCase()
-            .normalize("NFD")
-            .replace(
-                /[\u0300-\u036f]/g,
-                ""
-            );
+  /*
+    RESPUESTA TEMPORAL.
 
-    let response;
+    Más adelante la reemplazaremos
+    por el sistema real conectado
+    al backend.
+  */
+
+  setTimeout(() => {
+
+    const lower =
+      text.toLowerCase();
 
 
     if(
-        normalized.includes("valorant") ||
-        normalized.includes("reyna") ||
-        normalized.includes("jett") ||
-        normalized.includes("sage") ||
-        normalized.includes("omen") ||
-        normalized.includes("raze") ||
-        normalized.includes("phoenix")
+      lower.includes("valorant") ||
+      lower.includes("reyna") ||
+      lower.includes("jett") ||
+      lower.includes("sage") ||
+      lower.includes("omen") ||
+      lower.includes("raze")
     ){
 
-        response =
-            "Perfecto. Si estás trabajando con <strong>Valorant</strong>, puedo ayudarte a desarrollar la idea alrededor del personaje, contenido, publicidad o concepto que tengas. ¿Qué quieres crear exactamente?";
-
-    }
-
-
-    else if(
-        normalized.includes("fortnite") ||
-        normalized.includes("skin")
-    ){
-
-        response =
-            "Entendido. Podemos trabajar una idea relacionada con <strong>Fortnite</strong>, por ejemplo una skin, personaje, campaña o contenido. Cuéntame qué quieres conseguir.";
-
-    }
-
-
-    else if(
-        normalized.includes("call of duty") ||
-        normalized.includes("warzone") ||
-        normalized.includes("cod")
-    ){
-
-        response =
-            "Entendido. Podemos desarrollar una propuesta relacionada con <strong>Call of Duty</strong> o Warzone. Dime si quieres trabajar una campaña, personaje, arma, mapa, vídeo o contenido.";
-
-    }
-
-
-    else if(
-        normalized.includes("league") ||
-        normalized.includes("lol") ||
-        normalized.includes("ahri") ||
-        normalized.includes("yasuo") ||
-        normalized.includes("jinx")
-    ){
-
-        response =
-            "Perfecto. Si te refieres a <strong>League of Legends</strong>, podemos trabajar con un campeón, una campaña, un concepto visual o una idea de contenido. ¿Qué tienes pensado?";
-
-    }
-
-
-    else if(
-        normalized.includes("free fire") ||
-        normalized.includes("alok") ||
-        normalized.includes("kelly")
-    ){
-
-        response =
-            "Entendido. Podemos trabajar una idea relacionada con <strong>Free Fire</strong>, desde personajes y contenido hasta publicidad. Cuéntame qué quieres desarrollar.";
-
-    }
-
-
-    else if(
-        normalized.includes("publicidad") ||
-        normalized.includes("anuncio") ||
-        normalized.includes("ads") ||
-        normalized.includes("publicitar")
-    ){
-
-        response =
-            "Perfecto. Para una publicidad podemos definir el producto, público, mensaje, formato, duración y estilo. ¿Qué producto o servicio quieres promocionar?";
-
-    }
-
-
-    else if(
-        normalized.includes("video") ||
-        normalized.includes("vídeo")
-    ){
-
-        response =
-            "Claro. Podemos estructurar el vídeo por escenas y tiempos. Por ejemplo: <strong>0:00–0:10</strong> presentación, después desarrollo y finalmente llamada a la acción. ¿Qué quieres promocionar o contar?";
-
-    }
-
-
-    else if(
-        normalized.includes("imagen") ||
-        normalized.includes("foto") ||
-        normalized.includes("visual")
-    ){
-
-        response =
-            "Perfecto. Podemos construir el concepto visual. Dime qué quieres que aparezca, el estilo, el formato y para qué lo vas a utilizar.";
-
-    }
-
-
-    else if(
-        normalized.includes("marketing") ||
-        normalized.includes("estrategia") ||
-        normalized.includes("marca") ||
-        normalized.includes("negocio")
-    ){
-
-        response =
-            "Perfecto. Podemos analizar tu proyecto desde el punto de vista de marketing y estrategia. Cuéntame qué tienes actualmente y qué resultado quieres conseguir.";
-
-    }
-
-
-    else if(
-        normalized === "hola" ||
-        normalized.startsWith("hola ") ||
-        normalized.includes("buenas") ||
-        normalized === "hey" ||
-        normalized === "hello"
-    ){
-
-        response =
-            "¡Hola! Cuéntame qué tienes en mente y empezamos a darle forma.";
-
-    }
-
-
-    else if(
-        normalized.length < 8
-    ){
-
-        response =
-            "Jajaja, te sigo 😄. Cuéntame un poquito más y voy siguiendo la idea contigo.";
-
-    }
-
-
-    else{
-
-        response =
-            "Entiendo. Vamos a trabajar esa idea. Cuéntame qué quieres conseguir, qué tienes pensado hasta ahora y qué resultado te gustaría obtener.";
-
-    }
-
-
-    addMessage(
-        response,
+      addMessage(
+        "Entiendo. Estás trabajando con Valorant. Cuéntame qué quieres crear: contenido, una campaña, una pieza visual, una idea para redes o algo relacionado con un agente específico.",
         "bot"
-    );
+      );
 
-}
-
-
-/* =====================================================
-   NUEVO CHAT
-===================================================== */
-
-function newChat(){
-
-    chatMessages.innerHTML = "";
-
-    const message =
-        document.createElement(
-            "div"
-        );
-
-    message.className =
-        "message bot";
-
-    message.innerHTML =
-        "Nueva conversación.<br><br>" +
-        "Cuéntame qué deseas hacer.";
-
-    chatMessages.appendChild(
-        message
-    );
-
-    historyPanel.classList.remove(
-        "open"
-    );
-
-    chatInput.focus();
-
-}
-
-
-/* =====================================================
-   IMAGEN
-===================================================== */
-
-function imageSelected(event){
-
-    const file =
-        event.target.files[0];
-
-    if(!file){
-
-        return;
+      return;
 
     }
 
-    addMessage(
-        "He seleccionado la imagen <strong>" +
-        file.name +
-        "</strong>. Más adelante conectaremos el análisis de imágenes para trabajar directamente sobre ella.",
-        "user"
-    );
 
-}
+    if(
+      lower.includes("fortnite")
+    ){
 
+      addMessage(
+        "Perfecto. Es una idea relacionada con Fortnite. Dime si quieres trabajar con una skin, personaje, concepto visual, campaña o contenido para redes.",
+        "bot"
+      );
 
-function generateImageIdea(){
-
-    const prompt =
-        document
-            .getElementById(
-                "imagePrompt"
-            )
-            .value
-            .trim();
-
-    if(!prompt){
-
-        showToast(
-            "Describe primero la imagen"
-        );
-
-        return;
+      return;
 
     }
 
-    imagePanel.classList.remove(
-        "open"
-    );
+
+    if(
+      lower.includes("call of duty") ||
+      lower.includes("warzone")
+    ){
+
+      addMessage(
+        "Perfecto. Entiendo que trabajamos con Call of Duty. Podemos desarrollar una idea alrededor de Warzone, un operador, un arma, una campaña o contenido.",
+        "bot"
+      );
+
+      return;
+
+    }
+
+
+    if(
+      lower.includes("league of legends") ||
+      lower.includes("lol ") ||
+      lower === "lol"
+    ){
+
+      addMessage(
+        "Entendido. Estás hablando de League of Legends. Dime qué campeón, concepto o tipo de contenido quieres desarrollar.",
+        "bot"
+      );
+
+      return;
+
+    }
+
+
+    if(
+      lower.includes("free fire")
+    ){
+
+      addMessage(
+        "Perfecto. Podemos trabajar una idea para Free Fire. Cuéntame si quieres enfocarte en un personaje, campaña, contenido o pieza visual.",
+        "bot"
+      );
+
+      return;
+
+    }
+
 
     addMessage(
-        "Quiero crear una imagen con este concepto: " +
-        prompt,
-        "user"
+      "Entiendo. Cuéntame un poco más sobre la idea y te ayudaré a convertirla en una propuesta clara.",
+      "bot"
     );
 
-
-    setTimeout(
-        () => {
-
-            addMessage(
-                "Perfecto. Ya tengo el concepto. Después conectaremos el generador para crear la imagen real.",
-                "bot"
-            );
-
-        },
-        500
-    );
+  },450);
 
 }
 
 
-/* =====================================================
-   ESCAPE
-===================================================== */
-
-document.addEventListener(
+document
+  .getElementById("chatInput")
+  .addEventListener(
     "keydown",
-    event => {
+    function(event){
 
-        if(
-            event.key === "Escape" &&
-            chatOverlay.classList.contains(
-                "open"
-            )
-        ){
+      if(
+        event.key === "Enter" &&
+        !event.shiftKey
+      ){
 
-            closeChat();
+        event.preventDefault();
 
-        }
+        sendMessage();
+
+      }
 
     }
-);
+  );
+
+
+/* =========================================================
+   CAROUSEL AUTOMÁTICO
+========================================================= */
+
+const cards =
+  document.querySelectorAll(
+    ".service-card"
+  );
+
+const dots =
+  document.querySelectorAll(
+    ".dot"
+  );
+
+let currentSlide = 0;
+
+
+function showSlide(index){
+
+  cards.forEach(
+    card =>
+      card.classList.remove("active")
+  );
+
+  dots.forEach(
+    dot =>
+      dot.classList.remove("active")
+  );
+
+
+  cards[index]
+    .classList.add("active");
+
+
+  dots[index]
+    .classList.add("active");
+
+
+  currentSlide =
+    index;
+
+}
+
+
+setInterval(() => {
+
+  showSlide(
+    (currentSlide + 1)
+    % cards.length
+  );
+
+},6500);
+
+
+/* =========================================================
+   CONTACTO
+========================================================= */
+
+function contactUs(){
+
+  /*
+    Todavía no ponemos el correo definitivo.
+    Lo conectaremos cuando tengas el correo
+    oficial de SparkyKrea.
+  */
+
+  alert(
+    "Aquí conectaremos el correo oficial de SparkyKrea."
+  );
+
+}
+
+
+/* =========================================================
+   INICIO
+========================================================= */
+
+initializeAuth();
 
 </script>
 
