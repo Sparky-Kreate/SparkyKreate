@@ -10,52 +10,40 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
-
-
-/* =====================================================
-   BASE
-===================================================== */
 
 :root{
     --black:#11100e;
-    --black-soft:#181715;
-
+    --black2:#181714;
     --cream:#eee6d7;
-    --cream-light:#f6f0e6;
+    --cream2:#f6f0e5;
     --beige:#d5c4a6;
-
-    --text:#f7f3eb;
-    --muted:#9d988f;
-
-    --line:rgba(238,230,215,.16);
-
-    --transition:
-        cubic-bezier(.22,1,.36,1);
+    --muted:#99938a;
+    --line:rgba(238,230,215,.14);
+    --ease:cubic-bezier(.22,1,.36,1);
 }
 
 *{
+    box-sizing:border-box;
     margin:0;
     padding:0;
-    box-sizing:border-box;
 }
 
-html{
-    scroll-behavior:smooth;
+html,body{
+    width:100%;
+    min-height:100%;
 }
 
 body{
     background:var(--black);
-    color:var(--text);
+    color:var(--cream2);
     font-family:"DM Sans",sans-serif;
     overflow-x:hidden;
 }
 
 button,
-input,
-textarea{
-    font-family:inherit;
+input{
+    font:inherit;
 }
 
 button{
@@ -63,19 +51,21 @@ button{
 }
 
 a{
-    text-decoration:none;
     color:inherit;
+    text-decoration:none;
 }
 
 
-/* =====================================================
+/* =========================
    HEADER
-===================================================== */
+========================= */
 
-header{
+.header{
     position:fixed;
+    z-index:1000;
     top:0;
     left:0;
+
     width:100%;
     height:82px;
 
@@ -85,343 +75,226 @@ header{
 
     padding:0 5%;
 
-    z-index:1000;
-
-    background:
-        linear-gradient(
-            to bottom,
-            rgba(17,16,14,.98),
-            rgba(17,16,14,.88)
-        );
+    background:rgba(17,16,14,.94);
+    backdrop-filter:blur(15px);
 
     border-bottom:1px solid var(--line);
 }
 
 .logo{
     font-family:"Playfair Display",serif;
-    font-size:27px;
+    font-size:28px;
     font-weight:700;
-    letter-spacing:-1px;
-    white-space:nowrap;
+    letter-spacing:-1.2px;
 }
 
-.header-actions{
+.auth-buttons{
     display:flex;
     align-items:center;
     gap:9px;
 }
 
-.header-btn{
+.auth-button{
     border:1px solid rgba(238,230,215,.2);
     background:rgba(238,230,215,.04);
-
     color:var(--cream);
 
+    border-radius:999px;
     padding:10px 17px;
 
-    border-radius:999px;
-
-    transition:.3s var(--transition);
+    transition:.3s var(--ease);
 }
 
-.header-btn:hover{
-    background:var(--cream);
-    color:var(--black);
+.auth-button:hover{
     transform:translateY(-2px);
-}
-
-.header-register{
     background:var(--cream);
     color:var(--black);
-    border-color:var(--cream);
 }
 
-.user-pill{
+.auth-register{
+    background:var(--cream);
+    color:var(--black);
+}
+
+.user-box{
     display:none;
+    align-items:center;
+    gap:10px;
+}
 
-    padding:10px 15px;
-
-    border:1px solid rgba(238,230,215,.2);
-    background:rgba(238,230,215,.08);
-
+.user-name{
+    border:1px solid var(--line);
+    background:rgba(238,230,215,.07);
     border-radius:999px;
-
+    padding:10px 15px;
     font-size:13px;
 }
 
-.logout-btn{
-    display:none;
-
-    border:none;
+.logout{
+    border:0;
     background:transparent;
-
-    color:#aaa49a;
-
-    padding:8px;
+    color:#a39c91;
+    font-size:12px;
 }
 
 
-/* =====================================================
-   MAIN HOME
-===================================================== */
+/* =========================
+   HOME
+========================= */
 
 .home{
     min-height:100svh;
 
     padding:
-        145px
-        6%
-        70px;
+        130px 5% 55px;
 
     display:flex;
     flex-direction:column;
+    align-items:center;
+    justify-content:center;
+
+    text-align:center;
+}
+
+
+/* =========================
+   TWO OPTIONS
+========================= */
+
+.top-options{
+    display:flex;
     justify-content:center;
     align-items:center;
 
-    position:relative;
+    gap:0;
+
+    border:1px solid var(--line);
+    border-radius:999px;
+
+    overflow:hidden;
+
+    margin-bottom:38px;
+}
+
+.top-option{
+    border:0;
+    background:transparent;
+    color:#a7a096;
+
+    padding:12px 25px;
+
+    font-size:12px;
+    letter-spacing:.8px;
+
+    transition:.3s var(--ease);
+}
+
+.top-option + .top-option{
+    border-left:1px solid var(--line);
+}
+
+.top-option:hover{
+    background:var(--cream);
+    color:var(--black);
 }
 
 
-/* glow */
-
-.home::before{
-    content:"";
-
-    position:absolute;
-
-    width:600px;
-    height:600px;
-
-    right:-300px;
-    top:80px;
-
-    border-radius:50%;
-
-    background:rgba(213,196,166,.055);
-
-    filter:blur(90px);
-
-    pointer-events:none;
-}
-
-
-/* =====================================================
+/* =========================
    HERO
-===================================================== */
+========================= */
 
 .hero{
     width:min(900px,100%);
 
-    text-align:center;
-
     display:flex;
     flex-direction:column;
     align-items:center;
-
-    position:relative;
-    z-index:2;
-}
-
-.eyebrow{
-    border:1px solid var(--line);
-
-    border-radius:999px;
-
-    padding:9px 17px;
-
-    font-size:11px;
-
-    letter-spacing:1.7px;
-
-    color:#aaa49a;
-
-    margin-bottom:25px;
-
-    text-transform:uppercase;
 }
 
 .hero h1{
     font-family:"Playfair Display",serif;
 
-    font-size:
-        clamp(
-            45px,
-            7vw,
-            82px
-        );
+    font-size:clamp(48px,7vw,84px);
 
-    line-height:1.04;
-
+    line-height:1.02;
     letter-spacing:-3px;
 
-    max-width:850px;
+    max-width:900px;
 }
 
 .hero h1 span{
     color:var(--beige);
 }
 
-.hero-description{
-    max-width:650px;
+.hero-text{
+    max-width:670px;
 
-    margin-top:25px;
+    margin-top:26px;
 
-    color:#aaa69e;
+    color:#a09a91;
 
     font-size:16px;
-
     line-height:1.75;
 }
 
 .start-button{
     margin-top:32px;
 
-    border:none;
+    border:0;
 
-    background:var(--cream);
-
+    background:var(--cream2);
     color:var(--black);
 
-    padding:16px 27px;
+    padding:17px 30px;
 
     border-radius:999px;
 
     font-weight:700;
 
-    transition:.35s var(--transition);
+    box-shadow:0 15px 45px rgba(0,0,0,.25);
 
-    box-shadow:
-        0 12px 35px rgba(0,0,0,.18);
+    transition:.35s var(--ease);
 }
 
 .start-button:hover{
-    transform:
-        translateY(-4px)
-        scale(1.02);
-
-    box-shadow:
-        0 20px 50px rgba(0,0,0,.3);
+    transform:translateY(-4px) scale(1.02);
 }
 
 
-/* =====================================================
+/* =========================
    SEPARATOR
-===================================================== */
+========================= */
 
 .separator{
-    width:min(1050px,100%);
+    width:min(1100px,100%);
 
     height:1px;
+
+    margin-top:65px;
 
     background:
         linear-gradient(
             90deg,
             transparent,
-            rgba(238,230,215,.23),
+            rgba(238,230,215,.22),
             transparent
         );
-
-    margin-top:65px;
 }
 
 
-/* =====================================================
-   THREE NAVIGATION OPTIONS
-===================================================== */
+/* =========================
+   FULLSCREEN PAGES
+========================= */
 
-.main-options{
-    width:min(1050px,100%);
-
-    display:grid;
-
-    grid-template-columns:
-        repeat(3,1fr);
-
-    margin-top:0;
-
-    border-bottom:1px solid var(--line);
-}
-
-.option{
-    min-height:155px;
-
-    padding:30px 25px;
-
-    display:flex;
-    flex-direction:column;
-
-    align-items:center;
-    justify-content:center;
-
-    text-align:center;
-
-    background:transparent;
-
-    border:none;
-
-    color:var(--text);
-
-    position:relative;
-
-    transition:
-        background .35s ease,
-        transform .35s var(--transition);
-}
-
-.option + .option{
-    border-left:1px solid var(--line);
-}
-
-.option:hover{
-    background:
-        rgba(238,230,215,.045);
-
-    transform:translateY(-3px);
-}
-
-.option-title{
-    font-family:"Playfair Display",serif;
-
-    font-size:25px;
-
-    color:var(--cream);
-}
-
-.option-description{
-    margin-top:8px;
-
-    max-width:220px;
-
-    color:#858078;
-
-    font-size:12px;
-
-    line-height:1.5;
-}
-
-.option-arrow{
-    margin-top:15px;
-
-    font-size:18px;
-
-    color:var(--beige);
-}
-
-
-/* =====================================================
-   PAGE SECTIONS
-===================================================== */
-
-.app-section{
+.page{
     position:fixed;
-
     inset:0;
 
-    z-index:900;
+    z-index:1500;
 
     background:
         radial-gradient(
-            circle at 85% 15%,
+            circle at 80% 10%,
             rgba(213,196,166,.08),
             transparent 30%
         ),
@@ -430,236 +303,199 @@ header{
     overflow-y:auto;
 
     opacity:0;
+    visibility:hidden;
 
-    pointer-events:none;
-
-    transform:
-        translateY(40px)
-        scale(.98);
+    transform:translateY(35px) scale(.985);
 
     transition:
-        opacity .5s ease,
-        transform .65s var(--transition);
+        opacity .45s ease,
+        transform .6s var(--ease),
+        visibility .45s ease;
 }
 
-.app-section.active{
+.page.active{
     opacity:1;
-
-    pointer-events:auto;
-
+    visibility:visible;
     transform:none;
 }
 
 
-/* =====================================================
-   SECTION HEADER
-===================================================== */
+/* =========================
+   PAGE HEADER
+========================= */
 
-.section-page-header{
+.page-header{
     position:sticky;
-
     top:0;
+
+    z-index:10;
 
     height:82px;
 
-    padding:0 5%;
-
     display:flex;
-
     align-items:center;
-
     justify-content:space-between;
 
-    background:
-        rgba(17,16,14,.9);
+    padding:0 5%;
 
+    background:rgba(17,16,14,.9);
     backdrop-filter:blur(18px);
 
     border-bottom:1px solid var(--line);
-
-    z-index:20;
 }
 
-.section-page-title{
+.page-title{
     font-family:"Playfair Display",serif;
-
-    font-size:24px;
+    font-size:25px;
 }
 
-.page-nav{
+.page-navigation{
     display:flex;
-
-    gap:8px;
-
-    align-items:center;
+    gap:6px;
 }
 
-.page-nav button{
-    border:1px solid rgba(238,230,215,.16);
+.page-navigation button{
+    border:1px solid var(--line);
 
     background:rgba(238,230,215,.04);
 
     color:var(--cream);
 
-    padding:8px 13px;
-
     border-radius:999px;
+
+    padding:8px 12px;
 
     font-size:11px;
 
     transition:.3s ease;
 }
 
-.page-nav button:hover{
+.page-navigation button:hover{
     background:var(--cream);
-
     color:var(--black);
 }
 
 
-/* =====================================================
-   SERVICES PAGE
-===================================================== */
+/* =========================
+   SERVICES
+========================= */
 
-.services-page-content{
-    width:min(1100px,90%);
+.services-content{
+    width:min(1050px,90%);
 
     margin:auto;
 
-    padding:
-        70px
-        0
-        100px;
+    padding:70px 0 100px;
 }
 
-.services-page-intro{
+.services-intro{
     max-width:700px;
-
-    margin-bottom:50px;
+    margin-bottom:45px;
 }
 
-.services-page-intro h2{
+.services-intro h2{
     font-family:"Playfair Display",serif;
 
-    font-size:
-        clamp(
-            42px,
-            6vw,
-            70px
-        );
+    font-size:clamp(42px,6vw,70px);
 
     line-height:1.05;
 }
 
-.services-page-intro p{
-    color:var(--muted);
-
+.services-intro p{
     margin-top:20px;
 
+    color:var(--muted);
     line-height:1.7;
 }
-
-
-/* service cards */
 
 .services-grid{
     display:grid;
 
-    grid-template-columns:
-        repeat(2,1fr);
+    grid-template-columns:repeat(2,1fr);
 
     gap:15px;
 }
 
-.big-service{
-    min-height:250px;
+.service-card{
+    min-height:235px;
 
     padding:32px;
 
+    border:1px solid var(--line);
     border-radius:25px;
 
     background:
         linear-gradient(
             145deg,
-            rgba(238,230,215,.12),
-            rgba(238,230,215,.035)
+            rgba(238,230,215,.11),
+            rgba(238,230,215,.025)
         );
 
-    border:1px solid var(--line);
-
-    transition:
-        transform .4s var(--transition),
-        background .3s ease;
+    transition:.4s var(--ease);
 }
 
-.big-service:hover{
-    transform:translateY(-7px);
+.service-card:hover{
+    transform:translateY(-6px);
 
     background:
         linear-gradient(
             145deg,
-            rgba(238,230,215,.18),
-            rgba(238,230,215,.05)
+            rgba(238,230,215,.17),
+            rgba(238,230,215,.04)
         );
 }
 
-.big-service-number{
-    color:#827a6e;
+.service-label{
+    color:#777168;
 
-    font-size:11px;
+    font-size:10px;
 
     letter-spacing:2px;
 }
 
-.big-service h3{
+.service-card h3{
+    margin-top:58px;
+
     font-family:"Playfair Display",serif;
 
-    font-size:34px;
-
-    margin-top:60px;
+    font-size:32px;
 }
 
-.big-service p{
-    margin-top:15px;
+.service-card p{
+    margin-top:13px;
 
-    color:#989188;
+    color:#999289;
 
     line-height:1.6;
-
-    max-width:450px;
 }
 
 
-/* =====================================================
-   CONTACT PAGE
-===================================================== */
+/* =========================
+   CONTACT
+========================= */
 
-.contact-page-content{
+.contact-content{
     width:min(900px,90%);
 
-    min-height:
-        calc(100svh - 82px);
+    min-height:calc(100svh - 82px);
 
     margin:auto;
 
     display:flex;
-
     align-items:center;
-
     justify-content:center;
-
-    padding:70px 0;
 }
 
 .contact-card{
     width:100%;
 
-    padding:
-        clamp(35px,7vw,75px);
+    padding:clamp(35px,7vw,75px);
 
-    border-radius:32px;
+    border-radius:30px;
 
     text-align:center;
+
+    border:1px solid var(--line);
 
     background:
         linear-gradient(
@@ -667,19 +503,12 @@ header{
             rgba(238,230,215,.12),
             rgba(238,230,215,.035)
         );
-
-    border:1px solid var(--line);
 }
 
 .contact-card h2{
     font-family:"Playfair Display",serif;
 
-    font-size:
-        clamp(
-            40px,
-            6vw,
-            70px
-        );
+    font-size:clamp(40px,6vw,68px);
 
     line-height:1.05;
 }
@@ -687,128 +516,107 @@ header{
 .contact-card p{
     max-width:650px;
 
-    margin:25px auto 0;
+    margin:23px auto 0;
 
     color:#989188;
 
     line-height:1.7;
 }
 
-.contact-button{
+.contact-email{
     display:inline-block;
 
     margin-top:30px;
-
-    background:var(--cream);
-
-    color:var(--black);
 
     padding:15px 25px;
 
     border-radius:999px;
 
+    background:var(--cream);
+
+    color:var(--black);
+
     font-weight:700;
 }
 
 
-/* =====================================================
-   CHAT PAGE
-===================================================== */
+/* =========================
+   CHAT
+========================= */
 
-.chat-page-content{
+.chat-content{
     width:min(900px,94%);
 
-    height:
-        calc(100svh - 82px);
+    height:calc(100svh - 82px);
 
     margin:auto;
 
-    padding:25px 0;
-
-    display:flex;
-
-    flex-direction:column;
+    padding:20px 0;
 }
 
-.chat-container{
-    flex:1;
-
-    min-height:0;
+.chat-box{
+    height:100%;
 
     display:flex;
-
     flex-direction:column;
-
-    border-radius:28px;
 
     overflow:hidden;
 
+    border-radius:27px;
+
     background:#eee7da;
+    color:#181612;
 
-    color:#171512;
-
-    box-shadow:
-        0 35px 100px rgba(0,0,0,.35);
+    box-shadow:0 30px 100px rgba(0,0,0,.35);
 }
 
-.chat-top{
+.chat-heading{
     padding:20px 24px;
 
-    background:
-        rgba(245,239,228,.9);
+    background:#f5efe5;
 
     border-bottom:1px solid rgba(0,0,0,.08);
 }
 
-.chat-top-title{
+.chat-heading h2{
     font-family:"Playfair Display",serif;
-
-    font-size:24px;
+    font-size:25px;
 }
 
-.chat-top-subtitle{
+.chat-heading p{
     margin-top:3px;
 
     font-size:11px;
-
-    color:#81786b;
+    color:#81796e;
 }
 
-.chat-messages{
+.messages{
     flex:1;
 
     overflow-y:auto;
 
-    padding:25px;
-
     display:flex;
-
     flex-direction:column;
 
     gap:13px;
+
+    padding:24px;
 }
 
 .message{
-    max-width:67%;
+    max-width:68%;
 
-    padding:
-        12px
-        15px;
+    padding:12px 15px;
 
     border-radius:18px;
 
     font-size:14px;
-
     line-height:1.55;
 
-    white-space:pre-wrap;
-
-    animation:
-        messageIn .3s ease;
+    animation:messageIn .25s ease;
 }
 
 @keyframes messageIn{
-
     from{
         opacity:0;
         transform:translateY(8px);
@@ -818,17 +626,14 @@ header{
         opacity:1;
         transform:none;
     }
-
 }
 
 .message.bot{
     align-self:flex-start;
 
-    background:
-        rgba(255,255,255,.78);
+    background:rgba(255,255,255,.78);
 
-    border:
-        1px solid rgba(0,0,0,.07);
+    border:1px solid rgba(0,0,0,.06);
 
     border-bottom-left-radius:6px;
 }
@@ -837,8 +642,7 @@ header{
     align-self:flex-end;
 
     background:#29261f;
-
-    color:#f4ede1;
+    color:#f5eee3;
 
     border-bottom-right-radius:6px;
 }
@@ -848,13 +652,11 @@ header{
 
     background:#f5efe4;
 
-    border-top:
-        1px solid rgba(0,0,0,.07);
+    border-top:1px solid rgba(0,0,0,.08);
 }
 
 .chat-input-row{
     display:flex;
-
     gap:8px;
 }
 
@@ -863,62 +665,56 @@ header{
 
     min-width:0;
 
-    border:
-        1px solid rgba(0,0,0,.1);
+    border:1px solid rgba(0,0,0,.11);
 
     background:#fffdf9;
 
-    border-radius:15px;
-
-    padding:13px;
+    color:#181612;
 
     outline:none;
 
-    color:#171512;
+    padding:13px;
+
+    border-radius:14px;
 }
 
 .chat-send{
-    width:47px;
+    width:48px;
 
-    border:none;
+    border:0;
 
-    border-radius:15px;
+    border-radius:14px;
 
-    background:#28251f;
-
+    background:#27241e;
     color:white;
 }
 
 .chat-status{
-    padding:7px 3px 0;
+    padding-top:6px;
 
     font-size:10px;
-
-    color:#91887c;
+    color:#92897d;
 }
 
 
-/* =====================================================
+/* =========================
    AUTH MODAL
-===================================================== */
+========================= */
 
 .modal{
     position:fixed;
-
     inset:0;
 
-    z-index:2000;
+    z-index:3000;
 
     display:none;
 
     align-items:center;
-
     justify-content:center;
 
     padding:20px;
 
-    background:
-        rgba(0,0,0,.7);
+    background:rgba(0,0,0,.72);
 
     backdrop-filter:blur(15px);
 }
@@ -932,133 +728,101 @@ header{
 
     padding:34px;
 
-    border-radius:28px;
+    border-radius:27px;
 
     background:#eee7da;
+    color:#181612;
 
-    color:#171512;
-
-    box-shadow:
-        0 30px 100px rgba(0,0,0,.5);
-
-    animation:
-        modalIn .35s var(--transition);
+    box-shadow:0 30px 100px rgba(0,0,0,.5);
 }
 
-@keyframes modalIn{
-
-    from{
-        opacity:0;
-        transform:
-            translateY(20px)
-            scale(.97);
-    }
-
-    to{
-        opacity:1;
-        transform:none;
-    }
-
-}
-
-.modal-head{
+.modal-header{
     display:flex;
-
     align-items:center;
-
     justify-content:space-between;
 
-    margin-bottom:25px;
+    margin-bottom:23px;
 }
 
-.modal-head h2{
+.modal-header h2{
     font-family:"Playfair Display",serif;
-
     font-size:29px;
 }
 
-.modal-close{
-    border:none;
-
+.close-modal{
+    border:0;
     background:none;
 
-    font-size:25px;
-
+    font-size:27px;
     color:#555;
 }
 
-.form-group{
+.field{
     margin-bottom:14px;
 }
 
-.form-group label{
+.field label{
     display:block;
 
-    font-size:12px;
-
-    color:#59534a;
-
     margin-bottom:6px;
+
+    font-size:12px;
+    color:#5f584e;
 }
 
-.form-group input{
+.field input{
     width:100%;
-
-    border:
-        1px solid rgba(0,0,0,.12);
-
-    background:#faf7f0;
-
-    color:#171512;
 
     padding:13px;
 
+    border:1px solid rgba(0,0,0,.12);
+
     border-radius:13px;
+
+    background:#faf7f0;
 
     outline:none;
 }
 
-.form-submit{
+.auth-submit{
     width:100%;
 
-    border:none;
-
-    background:#191714;
-
-    color:var(--cream);
+    margin-top:3px;
 
     padding:14px;
 
+    border:0;
+
     border-radius:13px;
 
-    font-weight:700;
+    background:#191714;
+    color:var(--cream);
 
-    margin-top:4px;
+    font-weight:700;
 }
 
-.form-error{
+.auth-error{
     display:none;
 
     margin-top:12px;
 
-    color:#a03d3d;
-
     font-size:12px;
+
+    color:#a43d3d;
 }
 
-.form-switch{
-    text-align:center;
-
+.switch-auth{
     margin-top:17px;
+
+    text-align:center;
 
     color:#777066;
 
     font-size:12px;
 }
 
-.form-switch button{
-    border:none;
-
+.switch-auth button{
+    border:0;
     background:none;
 
     text-decoration:underline;
@@ -1067,60 +831,52 @@ header{
 }
 
 
-/* =====================================================
+/* =========================
    MOBILE
-===================================================== */
+========================= */
 
 @media(max-width:700px){
 
-    header{
+    .header{
         height:72px;
-
-        padding:
-            0
-            4%;
+        padding:0 4%;
     }
 
     .logo{
-        font-size:23px;
+        font-size:24px;
     }
 
-    .header-btn{
-        padding:
-            8px
-            11px;
+    .auth-button{
+        padding:8px 11px;
+        font-size:10px;
+    }
 
+    .user-name{
+        padding:8px 11px;
         font-size:11px;
     }
 
     .home{
-        min-height:100svh;
-
         padding:
-            115px
-            5%
-            35px;
-
-        justify-content:center;
+            110px 5% 45px;
     }
 
-    .eyebrow{
-        margin-bottom:22px;
+    .top-options{
+        margin-bottom:31px;
+    }
 
-        font-size:9px;
-
-        letter-spacing:1.2px;
+    .top-option{
+        padding:11px 20px;
+        font-size:10px;
     }
 
     .hero h1{
-        font-size:45px;
-
+        font-size:44px;
         letter-spacing:-2px;
     }
 
-    .hero-description{
+    .hero-text{
         font-size:14px;
-
         line-height:1.65;
     }
 
@@ -1129,203 +885,142 @@ header{
     }
 
     .separator{
-        margin-top:48px;
+        margin-top:50px;
     }
 
-    .main-options{
-        grid-template-columns:1fr;
-
-        border-bottom:none;
-    }
-
-    .option{
-        min-height:100px;
-
-        padding:
-            22px
-            10px;
-
-        border-bottom:
-            1px solid var(--line);
-    }
-
-    .option + .option{
-        border-left:none;
-    }
-
-    .option-title{
-        font-size:23px;
-    }
-
-    .option-description{
-        margin-top:5px;
-    }
-
-    .option-arrow{
-        margin-top:8px;
-    }
-
-    .section-page-header{
+    .page-header{
         height:72px;
-
-        padding:
-            0
-            4%;
+        padding:0 4%;
     }
 
-    .section-page-title{
+    .page-title{
         font-size:21px;
     }
 
-    .page-nav{
+    .page-navigation{
         gap:4px;
     }
 
-    .page-nav button{
-        padding:
-            7px
-            9px;
-
+    .page-navigation button{
+        padding:7px 8px;
         font-size:9px;
     }
 
-    .services-page-content{
-        padding:
-            45px
-            0
-            70px;
+    .services-content{
+        padding:45px 0 70px;
     }
 
     .services-grid{
         grid-template-columns:1fr;
     }
 
-    .big-service{
+    .service-card{
         min-height:210px;
     }
 
-    .big-service h3{
+    .service-card h3{
         margin-top:45px;
-
-        font-size:31px;
+        font-size:29px;
     }
 
-    .chat-page-content{
-        width:94%;
-
-        height:
-            calc(100svh - 72px);
-
-        padding:
-            12px
-            0
-            18px;
+    .chat-content{
+        height:calc(100svh - 72px);
+        padding:12px 0 16px;
     }
 
-    .chat-container{
+    .chat-box{
         border-radius:23px;
     }
 
-    .chat-top{
-        padding:
-            17px
-            18px;
-    }
-
-    .chat-messages{
-        padding:
-            18px
-            13px;
+    .messages{
+        padding:17px 13px;
     }
 
     .message{
         max-width:84%;
-
         font-size:13px;
     }
 
-    .contact-page-content{
-        min-height:
-            calc(100svh - 72px);
+    .contact-content{
+        min-height:calc(100svh - 72px);
     }
 
     .contact-card{
-        padding:
-            35px
-            22px;
+        padding:38px 22px;
     }
-
 }
-
-
-/* very small phones */
 
 @media(max-width:380px){
 
     .logo{
-        font-size:20px;
+        font-size:21px;
     }
 
-    .header-btn{
-        padding:
-            7px
-            9px;
-
-        font-size:10px;
+    .auth-button{
+        padding:7px 8px;
+        font-size:9px;
     }
 
     .hero h1{
-        font-size:40px;
+        font-size:39px;
     }
 
+    .top-option{
+        padding:10px 15px;
+    }
 }
-
 </style>
 </head>
-
 
 <body>
 
 
-<!-- =====================================================
+<!-- =========================
      HEADER
-===================================================== -->
+========================= -->
 
-<header>
+<header class="header">
 
     <a href="#" class="logo">
         SparkyKrea
     </a>
 
-    <div class="header-actions">
+    <div class="auth-buttons" id="authButtons">
 
         <button
-            class="header-btn"
-            id="loginBtn"
+            class="auth-button"
+            id="loginButton"
             onclick="openAuth('login')">
+
             Iniciar sesión
+
         </button>
 
         <button
-            class="header-btn header-register"
-            id="registerBtn"
+            class="auth-button auth-register"
+            id="registerButton"
             onclick="openAuth('register')">
+
             Registrarse
+
         </button>
+
+    </div>
+
+
+    <div class="user-box" id="userBox">
 
         <div
-            class="user-pill"
-            id="userPill">
-            <span id="userName">
-                Usuario
-            </span>
+            class="user-name"
+            id="userName">
         </div>
 
         <button
-            class="logout-btn"
-            id="logoutBtn"
+            class="logout"
             onclick="logout()">
+
             Salir
+
         </button>
 
     </div>
@@ -1333,34 +1028,55 @@ header{
 </header>
 
 
-<!-- =====================================================
+<!-- =========================
      HOME
-===================================================== -->
+========================= -->
 
-<main
-    class="home"
-    id="home">
+<main class="home">
+
+    <!-- AQUÍ ESTÁN SOLO SERVICIOS Y CONTACTO -->
+
+    <div class="top-options">
+
+        <button
+            class="top-option"
+            onclick="openPage('services')">
+
+            SERVICIOS
+
+        </button>
+
+        <button
+            class="top-option"
+            onclick="openPage('contact')">
+
+            CONTÁCTANOS
+
+        </button>
+
+    </div>
+
 
     <section class="hero">
-
-        <div class="eyebrow">
-            IDEAS · ESTRATEGIA · RESULTADOS
-        </div>
 
         <h1>
             Convierte tus ideas en
             <span>algo que destaque.</span>
         </h1>
 
-        <p class="hero-description">
+
+        <p class="hero-text">
             Desarrolla campañas, conceptos, contenido y
             estrategias pensadas para que tu proyecto tenga
             una dirección clara y una presencia que conecte.
         </p>
 
+
+        <!-- ESTE ES EL CHAT -->
+
         <button
             class="start-button"
-            onclick="openSection('chat')">
+            onclick="openPage('chat')">
 
             Comenzar ahora →
 
@@ -1369,110 +1085,36 @@ header{
     </section>
 
 
-    <!-- separador -->
-
     <div class="separator"></div>
-
-
-    <!-- SOLO 3 OPCIONES -->
-
-    <section class="main-options">
-
-        <button
-            class="option"
-            onclick="openSection('chat')">
-
-            <div class="option-title">
-                Crear y conversar
-            </div>
-
-            <div class="option-description">
-                Desarrolla tu idea y trabaja sobre ella.
-            </div>
-
-            <div class="option-arrow">
-                →
-            </div>
-
-        </button>
-
-
-        <button
-            class="option"
-            onclick="openSection('services')">
-
-            <div class="option-title">
-                Servicios
-            </div>
-
-            <div class="option-description">
-                Descubre todo lo que podemos desarrollar.
-            </div>
-
-            <div class="option-arrow">
-                →
-            </div>
-
-        </button>
-
-
-        <button
-            class="option"
-            onclick="openSection('contact')">
-
-            <div class="option-title">
-                Contáctanos
-            </div>
-
-            <div class="option-description">
-                Déjanos saber tu opinión o escríbenos.
-            </div>
-
-            <div class="option-arrow">
-                →
-            </div>
-
-        </button>
-
-    </section>
 
 </main>
 
 
-
-<!-- =====================================================
+<!-- =========================
      CHAT PAGE
-===================================================== -->
+========================= -->
 
 <section
-    class="app-section"
-    id="chatSection">
+    class="page"
+    id="chatPage">
 
-    <div class="section-page-header">
+    <div class="page-header">
 
-        <div class="section-page-title">
+        <div class="page-title">
             SparkyKrea
         </div>
 
-        <div class="page-nav">
+        <div class="page-navigation">
 
-            <button
-                onclick="openSection('chat')">
-                Chat
-            </button>
-
-            <button
-                onclick="openSection('services')">
+            <button onclick="openPage('services')">
                 Servicios
             </button>
 
-            <button
-                onclick="openSection('contact')">
+            <button onclick="openPage('contact')">
                 Contacto
             </button>
 
-            <button
-                onclick="closeSection()">
+            <button onclick="closePages()">
                 Inicio
             </button>
 
@@ -1481,26 +1123,26 @@ header{
     </div>
 
 
-    <div class="chat-page-content">
+    <div class="chat-content">
 
-        <div class="chat-container">
+        <div class="chat-box">
 
-            <div class="chat-top">
+            <div class="chat-heading">
 
-                <div class="chat-top-title">
-                    Cuéntame qué quieres crear
-                </div>
+                <h2>
+                    Cuéntame qué deseas hacer
+                </h2>
 
-                <div class="chat-top-subtitle">
-                    Podemos desarrollar la idea contigo.
-                </div>
+                <p>
+                    Estamos aquí para trabajar tu idea contigo.
+                </p>
 
             </div>
 
 
             <div
-                class="chat-messages"
-                id="chatMessages">
+                class="messages"
+                id="messages">
             </div>
 
 
@@ -1517,10 +1159,13 @@ header{
                     <button
                         class="chat-send"
                         onclick="sendMessage()">
+
                         ↑
+
                     </button>
 
                 </div>
+
 
                 <div
                     class="chat-status"
@@ -1539,40 +1184,31 @@ header{
 </section>
 
 
-
-<!-- =====================================================
+<!-- =========================
      SERVICES PAGE
-===================================================== -->
+========================= -->
 
 <section
-    class="app-section"
-    id="servicesSection">
+    class="page"
+    id="servicesPage">
 
-    <div class="section-page-header">
+    <div class="page-header">
 
-        <div class="section-page-title">
+        <div class="page-title">
             Servicios
         </div>
 
-        <div class="page-nav">
+        <div class="page-navigation">
 
-            <button
-                onclick="openSection('chat')">
+            <button onclick="openPage('chat')">
                 Chat
             </button>
 
-            <button
-                onclick="openSection('services')">
-                Servicios
-            </button>
-
-            <button
-                onclick="openSection('contact')">
+            <button onclick="openPage('contact')">
                 Contacto
             </button>
 
-            <button
-                onclick="closeSection()">
+            <button onclick="closePages()">
                 Inicio
             </button>
 
@@ -1581,18 +1217,17 @@ header{
     </div>
 
 
-    <div class="services-page-content">
+    <div class="services-content">
 
-        <div class="services-page-intro">
+        <div class="services-intro">
 
             <h2>
-                Todo empieza con una buena idea.
+                Ideas que pueden convertirse en algo real.
             </h2>
 
             <p>
-                Trabajamos diferentes partes de un proyecto
-                para convertir una idea inicial en algo claro,
-                atractivo y preparado para avanzar.
+                Explora las áreas en las que podemos trabajar
+                para desarrollar y darle forma a tu proyecto.
             </p>
 
         </div>
@@ -1600,11 +1235,10 @@ header{
 
         <div class="services-grid">
 
+            <article class="service-card">
 
-            <article class="big-service">
-
-                <div class="big-service-number">
-                    MARKETING
+                <div class="service-label">
+                    ESTRATEGIA
                 </div>
 
                 <h3>
@@ -1612,17 +1246,16 @@ header{
                 </h3>
 
                 <p>
-                    Analizamos tu proyecto, público, objetivo
-                    y oportunidades para construir una
-                    dirección estratégica.
+                    Analizamos tu proyecto, público, objetivos
+                    y oportunidades para construir una dirección clara.
                 </p>
 
             </article>
 
 
-            <article class="big-service">
+            <article class="service-card">
 
-                <div class="big-service-number">
+                <div class="service-label">
                     PUBLICIDAD
                 </div>
 
@@ -1631,16 +1264,16 @@ header{
                 </h3>
 
                 <p>
-                    Conceptos, mensajes y campañas pensadas
-                    para presentar una marca, producto o servicio.
+                    Conceptos y campañas para presentar
+                    una marca, producto o servicio.
                 </p>
 
             </article>
 
 
-            <article class="big-service">
+            <article class="service-card">
 
-                <div class="big-service-number">
+                <div class="service-label">
                     CONTENIDO
                 </div>
 
@@ -1650,15 +1283,15 @@ header{
 
                 <p>
                     Ideas para imágenes, publicaciones,
-                    anuncios y contenido para plataformas digitales.
+                    anuncios y contenido digital.
                 </p>
 
             </article>
 
 
-            <article class="big-service">
+            <article class="service-card">
 
-                <div class="big-service-number">
+                <div class="service-label">
                     VIDEO
                 </div>
 
@@ -1674,9 +1307,9 @@ header{
             </article>
 
 
-            <article class="big-service">
+            <article class="service-card">
 
-                <div class="big-service-number">
+                <div class="service-label">
                     DIGITAL
                 </div>
 
@@ -1685,17 +1318,17 @@ header{
                 </h3>
 
                 <p>
-                    Ideas para proyectos, experiencias digitales
-                    y conceptos interactivos.
+                    Desarrollo de conceptos y experiencias
+                    para proyectos digitales.
                 </p>
 
             </article>
 
 
-            <article class="big-service">
+            <article class="service-card">
 
-                <div class="big-service-number">
-                    DESARROLLO
+                <div class="service-label">
+                    CREATIVIDAD
                 </div>
 
                 <h3>
@@ -1703,12 +1336,11 @@ header{
                 </h3>
 
                 <p>
-                    Tomamos una idea inicial y la convertimos
-                    en una propuesta más concreta.
+                    Convertimos una idea inicial en una
+                    propuesta más concreta y trabajada.
                 </p>
 
             </article>
-
 
         </div>
 
@@ -1717,40 +1349,31 @@ header{
 </section>
 
 
-
-<!-- =====================================================
+<!-- =========================
      CONTACT PAGE
-===================================================== -->
+========================= -->
 
 <section
-    class="app-section"
-    id="contactSection">
+    class="page"
+    id="contactPage">
 
-    <div class="section-page-header">
+    <div class="page-header">
 
-        <div class="section-page-title">
+        <div class="page-title">
             Contáctanos
         </div>
 
-        <div class="page-nav">
+        <div class="page-navigation">
 
-            <button
-                onclick="openSection('chat')">
+            <button onclick="openPage('chat')">
                 Chat
             </button>
 
-            <button
-                onclick="openSection('services')">
+            <button onclick="openPage('services')">
                 Servicios
             </button>
 
-            <button
-                onclick="openSection('contact')">
-                Contacto
-            </button>
-
-            <button
-                onclick="closeSection()">
+            <button onclick="closePages()">
                 Inicio
             </button>
 
@@ -1759,7 +1382,7 @@ header{
     </div>
 
 
-    <div class="contact-page-content">
+    <div class="contact-content">
 
         <div class="contact-card">
 
@@ -1768,14 +1391,15 @@ header{
             </h2>
 
             <p>
-                Si tienes una sugerencia, una crítica,
+                ¿Tienes una sugerencia, una crítica,
                 encontraste algún problema o simplemente
-                quieres contarnos algo sobre tu experiencia
-                con SparkyKrea, déjanos saber tu opinión.
+                quieres contarnos algo?
+                Déjanos saber tu opinión.
             </p>
 
+
             <a
-                class="contact-button"
+                class="contact-email"
                 href="mailto:guillermojose170512@gmail.com">
 
                 Contáctanos →
@@ -1789,10 +1413,9 @@ header{
 </section>
 
 
-
-<!-- =====================================================
+<!-- =========================
      LOGIN / REGISTER
-===================================================== -->
+========================= -->
 
 <div
     class="modal"
@@ -1800,14 +1423,14 @@ header{
 
     <div class="modal-box">
 
-        <div class="modal-head">
+        <div class="modal-header">
 
             <h2 id="authTitle">
                 Iniciar sesión
             </h2>
 
             <button
-                class="modal-close"
+                class="close-modal"
                 onclick="closeAuth()">
 
                 ×
@@ -1821,8 +1444,8 @@ header{
 
 
             <div
-                class="form-group"
-                id="nameGroup"
+                class="field"
+                id="firstNameField"
                 style="display:none">
 
                 <label>
@@ -1837,8 +1460,8 @@ header{
 
 
             <div
-                class="form-group"
-                id="surnameGroup"
+                class="field"
+                id="lastNameField"
                 style="display:none">
 
                 <label>
@@ -1852,7 +1475,7 @@ header{
             </div>
 
 
-            <div class="form-group">
+            <div class="field">
 
                 <label>
                     Correo electrónico
@@ -1866,7 +1489,7 @@ header{
             </div>
 
 
-            <div class="form-group">
+            <div class="field">
 
                 <label>
                     Contraseña
@@ -1882,7 +1505,7 @@ header{
 
 
             <button
-                class="form-submit"
+                class="auth-submit"
                 type="submit"
                 id="authSubmit">
 
@@ -1892,22 +1515,22 @@ header{
 
 
             <div
-                class="form-error"
+                class="auth-error"
                 id="authError">
             </div>
 
         </form>
 
 
-        <div class="form-switch">
+        <div class="switch-auth">
 
             <span id="switchText">
                 ¿No tienes una cuenta?
             </span>
 
             <button
-                id="switchAuth"
-                onclick="switchAuthMode()">
+                onclick="switchAuth()"
+                id="switchButton">
 
                 Registrarse
 
@@ -1920,12 +1543,21 @@ header{
 </div>
 
 
-
 <script>
 
 /* =====================================================
    SUPABASE
 ===================================================== */
+
+/*
+   AQUÍ VAMOS A PONER LAS DOS CREDENCIALES
+   DE TU PROYECTO SUPABASE.
+
+   NO pongas aquí una service_role key.
+
+   Cuando me pases la URL y la Publishable key
+   te digo exactamente dónde colocarlas.
+*/
 
 const SUPABASE_URL = "";
 
@@ -1938,80 +1570,44 @@ if(
     SUPABASE_PUBLISHABLE_KEY &&
     window.supabase
 ){
-
     supabaseClient =
         window.supabase.createClient(
             SUPABASE_URL,
             SUPABASE_PUBLISHABLE_KEY
         );
-
 }
 
 
 /* =====================================================
-   ESTADO
+   NAVEGACIÓN
 ===================================================== */
 
-let currentUser = null;
+function openPage(page){
 
-let authMode = "login";
+    const pages = [
+        "chatPage",
+        "servicesPage",
+        "contactPage"
+    ];
 
-let currentSection = null;
+    pages.forEach(id => {
 
+        document
+            .getElementById(id)
+            .classList.remove("active");
 
-/* =====================================================
-   NAVEGACIÓN ENTRE LUGARES
-===================================================== */
-
-function openSection(section){
-
-    const sections = {
-
-        chat:
-            document.getElementById(
-                "chatSection"
-            ),
-
-        services:
-            document.getElementById(
-                "servicesSection"
-            ),
-
-        contact:
-            document.getElementById(
-                "contactSection"
-            )
-
-    };
+    });
 
 
-    Object.values(sections).forEach(
-        element => {
-
-            element.classList.remove(
-                "active"
-            );
-
-        }
-    );
+    const target =
+        document.getElementById(
+            page + "Page"
+        );
 
 
-    const selected =
-        sections[section];
-
-
-    if(!selected){
-        return;
+    if(target){
+        target.classList.add("active");
     }
-
-
-    selected.classList.add(
-        "active"
-    );
-
-
-    currentSection =
-        section;
 
 
     document.body.style.overflow =
@@ -2019,15 +1615,15 @@ function openSection(section){
 
 
     if(
-        section === "chat" &&
+        page === "chat" &&
         document.getElementById(
-            "chatMessages"
+            "messages"
         ).children.length === 0
     ){
 
         setTimeout(
-            addWelcomeMessage,
-            350
+            welcomeMessage,
+            300
         );
 
     }
@@ -2035,25 +1631,20 @@ function openSection(section){
 }
 
 
-function closeSection(){
+function closePages(){
 
-    document.querySelectorAll(
-        ".app-section"
-    ).forEach(
-        section => {
+    document
+        .querySelectorAll(".page")
+        .forEach(page => {
 
-            section.classList.remove(
-                "active"
-            );
+            page.classList.remove("active");
 
-        }
-    );
+        });
 
-
-    currentSection = null;
 
     document.body.style.overflow =
         "";
+
 }
 
 
@@ -2067,38 +1658,24 @@ function getGreeting(){
         new Date().getHours();
 
 
-    if(
-        hour >= 5 &&
-        hour < 12
-    ){
-
+    if(hour >= 5 && hour < 12){
         return "Hola, buenos días.";
-
     }
 
-
-    if(
-        hour >= 12 &&
-        hour < 19
-    ){
-
+    if(hour >= 12 && hour < 19){
         return "Hola, buenas tardes.";
-
     }
-
 
     return "Hola, buenas noches.";
-
 }
 
 
-function addWelcomeMessage(){
+function welcomeMessage(){
 
     addMessage(
         "bot",
-
         getGreeting() +
-        " Cuéntame, ¿qué deseas hacer?"
+        " Cuéntame qué deseas hacer."
     );
 
 }
@@ -2108,314 +1685,131 @@ function addWelcomeMessage(){
    CHAT
 ===================================================== */
 
-function addMessage(
-    type,
-    text
-){
+function addMessage(type,text){
 
-    const element =
-        document.createElement(
-            "div"
-        );
+    const message =
+        document.createElement("div");
 
-
-    element.className =
+    message.className =
         "message " + type;
 
-
-    element.textContent =
+    message.textContent =
         text;
 
 
-    const container =
+    const messages =
         document.getElementById(
-            "chatMessages"
+            "messages"
         );
 
 
-    container.appendChild(
-        element
-    );
+    messages.appendChild(message);
 
-
-    container.scrollTop =
-        container.scrollHeight;
-
+    messages.scrollTop =
+        messages.scrollHeight;
 }
 
 
-/* =====================================================
-   DETECCIÓN DE CONTEXTO
-===================================================== */
+function localResponse(text){
 
-const gameTerms = {
-
-    valorant:[
-        "valorant",
-        "reyna",
-        "jett",
-        "sage",
-        "omen",
-        "raze",
-        "phoenix",
-        "viper",
-        "sova",
-        "neon"
-    ],
-
-    fortnite:[
-        "fortnite",
-        "skin",
-        "skins",
-        "battle royale"
-    ],
-
-    "call of duty":[
-        "call of duty",
-        "cod",
-        "warzone",
-        "modern warfare",
-        "black ops"
-    ],
-
-    "league of legends":[
-        "league of legends",
-        "lol",
-        "ahri",
-        "yasuo",
-        "jinx",
-        "lux",
-        "zed",
-        "akali"
-    ],
-
-    "free fire":[
-        "free fire",
-        "alok",
-        "kelly",
-        "hayato",
-        "moco",
-        "chrono"
-    ],
-
-    minecraft:[
-        "minecraft",
-        "creeper",
-        "steve"
-    ],
-
-    roblox:[
-        "roblox"
-    ],
-
-    gta:[
-        "gta",
-        "gta v",
-        "gta online"
-    ]
-
-};
+    const t =
+        text
+            .toLowerCase()
+            .trim();
 
 
-function detectContext(text){
-
-    const lower =
-        text.toLowerCase();
-
-
-    for(
-        const game in gameTerms
-    ){
-
-        for(
-            const term of gameTerms[game]
-        ){
-
-            if(
-                lower.includes(term)
-            ){
-
-                return {
-                    game,
-                    term
-                };
-
-            }
-
-        }
-
-    }
-
-
-    return null;
-
-}
-
-
-/* =====================================================
-   RESPUESTA TEMPORAL
-===================================================== */
-
-async function temporaryResponse(
-    text
-){
-
-    const context =
-        detectContext(text);
-
-
-    if(context){
-
-        if(
-            context.game ===
-                "valorant" &&
-            context.term ===
-                "reyna"
-        ){
-
-            return (
-                "Sí, te refieres a Reyna de Valorant. " +
-                "Podemos trabajar una imagen, publicidad, " +
-                "concepto de vídeo o contenido alrededor del personaje. " +
-                "¿Qué quieres crear con ella?"
-            );
-
-        }
-
-
-        if(
-            context.game ===
-                "fortnite"
-        ){
-
-            return (
-                "Entiendo que hablas de Fortnite. " +
-                "Si quieres utilizar un personaje o una skin, " +
-                "dime cuál y qué quieres crear."
-            );
-
-        }
-
-
-        if(
-            context.game ===
-                "call of duty"
-        ){
-
-            return (
-                "Entiendo que te refieres a Call of Duty. " +
-                "Podemos trabajar una idea relacionada con Warzone, " +
-                "un operador, una campaña o contenido."
-            );
-
-        }
-
-
-        if(
-            context.game ===
-                "league of legends"
-        ){
-
-            return (
-                "Entiendo que hablas de League of Legends. " +
-                "Si quieres utilizar un campeón, dime cuál y " +
-                "qué quieres crear alrededor de él."
-            );
-
-        }
-
-
-        if(
-            context.game ===
-                "free fire"
-        ){
-
-            return (
-                "Entiendo que te refieres a Free Fire. " +
-                "Dime qué personaje o elemento quieres utilizar " +
-                "y qué quieres crear."
-            );
-
-        }
-
-
-        return (
-            "Entiendo que estás hablando de " +
-            context.game +
-            ". Cuéntame qué quieres crear."
-        );
-
-    }
-
-
-    const lower =
-        text.toLowerCase();
-
+    /*
+       Esto solamente es un respaldo temporal.
+       Después conectaremos el modelo real aquí.
+    */
 
     if(
-        lower.includes("publicidad") ||
-        lower.includes("anuncio")
+        t.includes("reyna") ||
+        t.includes("valorant")
     ){
 
-        return (
-            "Perfecto. Cuéntame qué producto, servicio " +
-            "o proyecto quieres promocionar y desarrollamos " +
-            "la idea desde ahí."
-        );
+        return "Entiendo que hablas de Reyna de Valorant. Cuéntame qué quieres crear con el personaje.";
 
     }
 
 
     if(
-        lower.includes("video") ||
-        lower.includes("vídeo")
+        t.includes("fortnite")
     ){
 
-        return (
-            "Perfecto. Podemos estructurar el vídeo " +
-            "con escenas, tiempos, texto y formato. " +
-            "¿Qué quieres mostrar?"
-        );
+        return "Entiendo que hablas de Fortnite. Dime qué personaje, skin o concepto quieres trabajar.";
 
     }
 
 
     if(
-        lower.includes("imagen") ||
-        lower.includes("foto")
+        t.includes("call of duty") ||
+        t.includes("warzone")
     ){
 
-        return (
-            "Perfecto. Cuéntame qué quieres que aparezca " +
-            "en la imagen y para qué la vas a utilizar."
-        );
+        return "Entiendo que hablas de Call of Duty. Dime qué quieres crear: una imagen, vídeo, campaña o concepto.";
 
     }
 
 
-    return (
-        "Entiendo. Cuéntame un poco más sobre tu idea " +
-        "y qué resultado quieres conseguir."
-    );
+    if(
+        t === "lol" ||
+        t.includes("league of legends")
+    ){
 
+        return "Entiendo que hablas de League of Legends. Dime qué campeón o idea quieres desarrollar.";
+
+    }
+
+
+    if(
+        t.includes("free fire")
+    ){
+
+        return "Entiendo que hablas de Free Fire. Dime qué personaje o concepto quieres utilizar.";
+
+    }
+
+
+    if(
+        t.includes("imagen") ||
+        t.includes("foto")
+    ){
+
+        return "Perfecto. Cuéntame qué quieres que aparezca en la imagen y para qué la necesitas.";
+
+    }
+
+
+    if(
+        t.includes("video") ||
+        t.includes("vídeo")
+    ){
+
+        return "Perfecto. Podemos desarrollar el vídeo escena por escena. Cuéntame qué quieres mostrar.";
+
+    }
+
+
+    if(
+        t.includes("publicidad") ||
+        t.includes("anuncio")
+    ){
+
+        return "Perfecto. Cuéntame qué producto, servicio o proyecto quieres promocionar.";
+
+    }
+
+
+    return "Entiendo. Cuéntame qué tienes en mente y trabajamos la idea desde ahí.";
 }
 
-
-/* =====================================================
-   ENVIAR
-===================================================== */
 
 async function sendMessage(){
 
     const input =
         document.getElementById(
             "chatInput"
-        );
-
-
-    const status =
-        document.getElementById(
-            "chatStatus"
         );
 
 
@@ -2437,9 +1831,22 @@ async function sendMessage(){
     input.value = "";
 
 
-    status.textContent =
+    document.getElementById(
+        "chatStatus"
+    ).textContent =
         "Pensando...";
 
+
+    /*
+       SI SUPABASE ESTÁ CONECTADO,
+       AQUÍ posteriormente llamaremos
+       a nuestra Edge Function con el
+       modelo real.
+
+       Mientras tanto usamos respuesta
+       local para que la página no quede
+       vacía.
+    */
 
     await new Promise(
         resolve =>
@@ -2450,417 +1857,412 @@ async function sendMessage(){
     );
 
 
-    const response =
-        await temporaryResponse(
-            text
-        );
-
-
     addMessage(
         "bot",
-        response
+        localResponse(text)
     );
 
 
-    status.textContent =
+    document.getElementById(
+        "chatStatus"
+    ).textContent =
         "Escribe lo que tengas en mente.";
 
 }
 
 
-/* =====================================================
-   ENTER
-===================================================== */
+document
+    .getElementById("chatInput")
+    .addEventListener(
+        "keydown",
+        event => {
 
-document.getElementById(
-    "chatInput"
-).addEventListener(
-    "keydown",
-    event => {
+            if(event.key === "Enter"){
 
-        if(
-            event.key === "Enter"
-        ){
+                event.preventDefault();
 
-            event.preventDefault();
+                sendMessage();
 
-            sendMessage();
+            }
 
         }
-
-    }
-);
+    );
 
 
 /* =====================================================
    AUTH
 ===================================================== */
 
+let authMode = "login";
+
+
 function openAuth(mode){
 
     authMode =
         mode;
 
+    updateAuth();
 
-    updateAuthModal();
-
-
-    document.getElementById(
-        "authModal"
-    ).classList.add(
-        "active"
-    );
+    document
+        .getElementById("authModal")
+        .classList.add("active");
 
 }
 
 
 function closeAuth(){
 
-    document.getElementById(
-        "authModal"
-    ).classList.remove(
-        "active"
-    );
+    document
+        .getElementById("authModal")
+        .classList.remove("active");
 
 }
 
 
-function switchAuthMode(){
+function switchAuth(){
 
     authMode =
         authMode === "login"
             ? "register"
             : "login";
 
-
-    updateAuthModal();
+    updateAuth();
 
 }
 
 
-function updateAuthModal(){
+function updateAuth(){
 
     const register =
         authMode === "register";
 
 
-    document.getElementById(
-        "authTitle"
-    ).textContent =
-        register
-            ? "Crear cuenta"
-            : "Iniciar sesión";
+    document
+        .getElementById("authTitle")
+        .textContent =
+            register
+                ? "Crear cuenta"
+                : "Iniciar sesión";
 
 
-    document.getElementById(
-        "authSubmit"
-    ).textContent =
-        register
-            ? "Registrarme"
-            : "Iniciar sesión";
+    document
+        .getElementById("authSubmit")
+        .textContent =
+            register
+                ? "Registrarme"
+                : "Iniciar sesión";
 
 
-    document.getElementById(
-        "nameGroup"
-    ).style.display =
-        register
-            ? "block"
-            : "none";
+    document
+        .getElementById("firstNameField")
+        .style.display =
+            register
+                ? "block"
+                : "none";
 
 
-    document.getElementById(
-        "surnameGroup"
-    ).style.display =
-        register
-            ? "block"
-            : "none";
+    document
+        .getElementById("lastNameField")
+        .style.display =
+            register
+                ? "block"
+                : "none";
 
 
-    document.getElementById(
-        "switchText"
-    ).textContent =
-        register
-            ? "¿Ya tienes una cuenta?"
-            : "¿No tienes una cuenta?";
+    document
+        .getElementById("switchText")
+        .textContent =
+            register
+                ? "¿Ya tienes una cuenta?"
+                : "¿No tienes una cuenta?";
 
 
-    document.getElementById(
-        "switchAuth"
-    ).textContent =
-        register
-            ? "Iniciar sesión"
-            : "Registrarse";
+    document
+        .getElementById("switchButton")
+        .textContent =
+            register
+                ? "Iniciar sesión"
+                : "Registrarse";
 
 }
 
 
 /* =====================================================
-   AUTH SUBMIT
+   FORMULARIO AUTH
 ===================================================== */
 
-document.getElementById(
-    "authForm"
-).addEventListener(
-    "submit",
-    async event => {
+document
+    .getElementById("authForm")
+    .addEventListener(
+        "submit",
+        async event => {
 
-        event.preventDefault();
-
-
-        const errorBox =
-            document.getElementById(
-                "authError"
-            );
+            event.preventDefault();
 
 
-        errorBox.style.display =
-            "none";
-
-
-        if(!supabaseClient){
-
-            errorBox.textContent =
-                "Primero debemos conectar Supabase para activar las cuentas.";
-
-            errorBox.style.display =
-                "block";
-
-            return;
-
-        }
-
-
-        const email =
-            document.getElementById(
-                "email"
-            ).value.trim();
-
-
-        const password =
-            document.getElementById(
-                "password"
-            ).value;
-
-
-        try{
-
-            if(
-                authMode ===
-                "register"
-            ){
-
-                const firstName =
-                    document.getElementById(
-                        "firstName"
-                    ).value.trim();
-
-
-                const lastName =
-                    document.getElementById(
-                        "lastName"
-                    ).value.trim();
-
-
-                if(
-                    !firstName ||
-                    !lastName
-                ){
-
-                    throw new Error(
-                        "Escribe tu nombre y apellido."
-                    );
-
-                }
-
-
-                const {
-                    error
-                } =
-                    await supabaseClient
-                        .auth
-                        .signUp({
-
-                            email,
-
-                            password,
-
-                            options:{
-                                data:{
-                                    first_name:
-                                        firstName,
-
-                                    last_name:
-                                        lastName
-                                }
-                            }
-
-                        });
-
-
-                if(error){
-                    throw error;
-                }
-
-
-                closeAuth();
-
-
-                alert(
-                    "Cuenta creada correctamente."
+            const error =
+                document.getElementById(
+                    "authError"
                 );
 
 
-            }else{
-
-                const {
-                    data,
-                    error
-                } =
-                    await supabaseClient
-                        .auth
-                        .signInWithPassword({
-
-                            email,
-
-                            password
-
-                        });
+            error.style.display =
+                "none";
 
 
-                if(error){
-                    throw error;
-                }
+            /*
+               SIN SUPABASE NO PODEMOS HACER
+               AUTENTICACIÓN REAL.
+            */
 
+            if(!supabaseClient){
 
-                currentUser =
-                    data.user;
+                error.textContent =
+                    "Supabase todavía no está conectado. La interfaz ya está preparada para el inicio de sesión real.";
 
+                error.style.display =
+                    "block";
 
-                updateUserUI();
-
-                closeAuth();
+                return;
 
             }
 
-        }catch(error){
 
-            console.error(
-                error
-            );
-
-
-            errorBox.textContent =
-                error.message ||
-                "Ocurrió un error.";
+            const email =
+                document
+                    .getElementById("email")
+                    .value
+                    .trim();
 
 
-            errorBox.style.display =
-                "block";
+            const password =
+                document
+                    .getElementById("password")
+                    .value;
+
+
+            try{
+
+                if(
+                    authMode ===
+                    "register"
+                ){
+
+                    const firstName =
+                        document
+                            .getElementById(
+                                "firstName"
+                            )
+                            .value
+                            .trim();
+
+
+                    const lastName =
+                        document
+                            .getElementById(
+                                "lastName"
+                            )
+                            .value
+                            .trim();
+
+
+                    if(
+                        !firstName ||
+                        !lastName
+                    ){
+
+                        throw new Error(
+                            "Escribe tu nombre y apellido."
+                        );
+
+                    }
+
+
+                    const result =
+                        await supabaseClient
+                            .auth
+                            .signUp({
+
+                                email:
+                                    email,
+
+                                password:
+                                    password,
+
+                                options:{
+                                    data:{
+                                        first_name:
+                                            firstName,
+
+                                        last_name:
+                                            lastName
+                                    }
+                                }
+
+                            });
+
+
+                    if(result.error){
+                        throw result.error;
+                    }
+
+
+                    closeAuth();
+
+                    alert(
+                        "Cuenta creada correctamente."
+                    );
+
+
+                }else{
+
+                    const result =
+                        await supabaseClient
+                            .auth
+                            .signInWithPassword({
+
+                                email:
+                                    email,
+
+                                password:
+                                    password
+
+                            });
+
+
+                    if(result.error){
+                        throw result.error;
+                    }
+
+
+                    closeAuth();
+
+                }
+
+            }catch(err){
+
+                error.textContent =
+                    err.message ||
+                    "No se pudo completar la operación.";
+
+                error.style.display =
+                    "block";
+
+            }
 
         }
-
-    }
-);
+    );
 
 
 /* =====================================================
-   USUARIO
+   SESIÓN
 ===================================================== */
 
-function updateUserUI(){
+async function loadSession(){
 
-    if(!currentUser){
-
-        document.getElementById(
-            "loginBtn"
-        ).style.display =
-            "block";
-
-
-        document.getElementById(
-            "registerBtn"
-        ).style.display =
-            "block";
-
-
-        document.getElementById(
-            "userPill"
-        ).style.display =
-            "none";
-
-
-        document.getElementById(
-            "logoutBtn"
-        ).style.display =
-            "none";
-
-
+    if(!supabaseClient){
         return;
+    }
+
+
+    const result =
+        await supabaseClient
+            .auth
+            .getSession();
+
+
+    if(result.data.session){
+
+        setUser(
+            result.data.session.user
+        );
 
     }
 
 
+    supabaseClient.auth
+        .onAuthStateChange(
+            (event,session) => {
+
+                if(session){
+
+                    setUser(
+                        session.user
+                    );
+
+                }else{
+
+                    clearUser();
+
+                }
+
+            }
+        );
+
+}
+
+
+function setUser(user){
+
     const metadata =
-        currentUser.user_metadata ||
-        {};
+        user.user_metadata || {};
 
 
     const first =
-        metadata.first_name ||
-        "";
+        metadata.first_name || "";
 
 
     const last =
-        metadata.last_name ||
-        "";
+        metadata.last_name || "";
 
 
-    document.getElementById(
-        "userName"
-    ).textContent =
+    const name =
         (
             first +
             " " +
             last
-        ).trim() ||
-        currentUser.email;
+        ).trim();
 
 
-    document.getElementById(
-        "loginBtn"
-    ).style.display =
-        "none";
+    document
+        .getElementById("authButtons")
+        .style.display =
+            "none";
 
 
-    document.getElementById(
-        "registerBtn"
-    ).style.display =
-        "none";
+    document
+        .getElementById("userBox")
+        .style.display =
+            "flex";
 
 
-    document.getElementById(
-        "userPill"
-    ).style.display =
-        "flex";
-
-
-    document.getElementById(
-        "logoutBtn"
-    ).style.display =
-        "block";
+    document
+        .getElementById("userName")
+        .textContent =
+            name || user.email;
 
 }
 
 
-/* =====================================================
-   LOGOUT
-===================================================== */
+function clearUser(){
+
+    document
+        .getElementById("authButtons")
+        .style.display =
+            "flex";
+
+
+    document
+        .getElementById("userBox")
+        .style.display =
+            "none";
+
+}
+
 
 async function logout(){
 
-    if(
-        supabaseClient
-    ){
+    if(supabaseClient){
 
         await supabaseClient
             .auth
@@ -2868,110 +2270,45 @@ async function logout(){
 
     }
 
-
-    currentUser =
-        null;
-
-
-    updateUserUI();
+    clearUser();
 
 }
 
 
+loadSession();
+
+
 /* =====================================================
-   INICIALIZAR AUTH
+   CERRAR MODAL
 ===================================================== */
 
-async function initializeAuth(){
+document
+    .getElementById("authModal")
+    .addEventListener(
+        "click",
+        event => {
 
-    if(!supabaseClient){
+            if(
+                event.target.id ===
+                "authModal"
+            ){
 
-        updateUserUI();
-
-        return;
-
-    }
-
-
-    const {
-        data
-    } =
-        await supabaseClient
-            .auth
-            .getSession();
-
-
-    currentUser =
-        data.session
-            ? data.session.user
-            : null;
-
-
-    updateUserUI();
-
-
-    supabaseClient.auth
-        .onAuthStateChange(
-            (
-                event,
-                session
-            ) => {
-
-                currentUser =
-                    session
-                        ? session.user
-                        : null;
-
-
-                updateUserUI();
+                closeAuth();
 
             }
-        );
-
-}
-
-
-initializeAuth();
-
-
-/* =====================================================
-   CERRAR AUTH HACIENDO CLICK FUERA
-===================================================== */
-
-document.getElementById(
-    "authModal"
-).addEventListener(
-    "click",
-    event => {
-
-        if(
-            event.target.id ===
-            "authModal"
-        ){
-
-            closeAuth();
 
         }
+    );
 
-    }
-);
-
-
-/* =====================================================
-   ESC
-===================================================== */
 
 document.addEventListener(
     "keydown",
     event => {
 
-        if(
-            event.key === "Escape"
-        ){
+        if(event.key === "Escape"){
 
             closeAuth();
-
-            closeSection();
+            closePages();
 
         }
 
