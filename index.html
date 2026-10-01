@@ -2,32 +2,26 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#11100e">
-<meta name="description" content="SparkyKrea — ideas, estrategia, contenido y creatividad para proyectos que quieren crecer.">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0c0c0b">
 <title>SparkyKrea</title>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap');
+
 :root{
-  --black:#0d0c0a;
-  --black2:#12110f;
-  --panel:#171614;
-  --panel2:#1d1b18;
-  --cream:#f4e6cf;
-  --beige:#e7cba4;
-  --beige2:#c9aa7e;
-  --gray:#a5a19a;
-  --gray2:#706c65;
-  --line:rgba(244,230,207,.14);
-  --white:#f7f3ec;
-  --gold:#b99768;
-  --shadow:0 25px 80px rgba(0,0,0,.45);
-  --radius:28px;
+  --bg:#0b0b0a;
+  --bg2:#11110f;
+  --card:#171714;
+  --card2:#1c1b18;
+  --cream:#f0d0a0;
+  --cream2:#e6c38f;
+  --white:#f5f1e9;
+  --muted:#96938d;
+  --line:rgba(255,255,255,.10);
+  --line2:rgba(240,208,160,.22);
 }
 
 *{
@@ -38,12 +32,14 @@
 
 html{
   scroll-behavior:smooth;
+  background:var(--bg);
 }
 
 body{
   background:
-    radial-gradient(circle at 50% -10%,rgba(231,203,164,.09),transparent 35%),
-    linear-gradient(180deg,#0d0c0a,#11100e 55%,#0b0a09);
+    radial-gradient(circle at 80% 10%,rgba(240,208,160,.055),transparent 30%),
+    radial-gradient(circle at 15% 45%,rgba(255,255,255,.025),transparent 30%),
+    var(--bg);
   color:var(--white);
   font-family:"DM Sans",sans-serif;
   min-height:100vh;
@@ -52,7 +48,8 @@ body{
 
 button,
 input,
-textarea{
+textarea,
+select{
   font:inherit;
 }
 
@@ -65,19 +62,21 @@ a{
   text-decoration:none;
 }
 
-/* ---------------- HEADER ---------------- */
+/* HEADER */
 
 header{
-  height:86px;
-  border-bottom:1px solid var(--line);
+  position:fixed;
+  z-index:50;
+  top:0;
+  left:0;
+  width:100%;
+  height:82px;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:0 5vw;
-  position:sticky;
-  top:0;
-  z-index:50;
-  background:rgba(13,12,10,.84);
+  padding:0 clamp(22px,5vw,70px);
+  border-bottom:1px solid var(--line);
+  background:rgba(11,11,10,.84);
   backdrop-filter:blur(18px);
 }
 
@@ -86,827 +85,815 @@ header{
   align-items:center;
   gap:13px;
   font-family:"Playfair Display",serif;
-  font-size:30px;
-  color:var(--cream);
+  font-size:27px;
   white-space:nowrap;
 }
 
 .logo-mark{
-  color:var(--beige);
-  font-size:31px;
-  transform:rotate(-8deg);
+  width:38px;
+  height:38px;
+  border:1px solid var(--line2);
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  color:var(--cream);
+  font-size:18px;
 }
 
-.header-actions{
+.auth-area{
   display:flex;
   align-items:center;
   gap:10px;
 }
 
-.header-btn{
-  border:1px solid rgba(244,230,207,.25);
+.auth-btn{
+  border:1px solid var(--line);
   background:transparent;
-  color:var(--cream);
+  color:var(--white);
   padding:13px 20px;
   border-radius:999px;
-  transition:.3s ease;
+  transition:.25s;
 }
 
-.header-btn:hover{
-  background:rgba(244,230,207,.08);
-  transform:translateY(-2px);
+.auth-btn:hover{
+  border-color:var(--cream);
+  color:var(--cream);
 }
 
-.header-btn.primary{
-  background:var(--beige);
-  color:#17120d;
-  border-color:var(--beige);
+.auth-primary{
+  background:var(--cream);
+  color:#17130e;
+  border-color:var(--cream);
+}
+
+.auth-primary:hover{
+  background:var(--cream2);
+  color:#17130e;
+}
+
+.user-pill{
+  display:none;
+  align-items:center;
+  gap:10px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:8px 13px 8px 8px;
+}
+
+.user-avatar{
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:var(--cream);
+  color:#17130e;
   font-weight:700;
 }
 
-.header-btn.primary:hover{
-  background:#f1d8b4;
-  box-shadow:0 10px 30px rgba(231,203,164,.18);
+.user-name{
+  font-size:14px;
 }
 
-/* ---------------- HERO ---------------- */
+/* HERO */
 
 .hero{
-  max-width:1200px;
+  min-height:100svh;
+  display:flex;
+  align-items:center;
+  padding:130px clamp(22px,7vw,100px) 70px;
+}
+
+.hero-inner{
+  width:min(1050px,100%);
   margin:auto;
-  min-height:690px;
-  padding:100px 5vw 70px;
-  position:relative;
-  display:grid;
-  grid-template-columns:1fr;
-  align-items:center;
-  text-align:center;
 }
 
-.hero::before{
-  content:"";
-  position:absolute;
-  width:500px;
-  height:500px;
-  background:radial-gradient(circle,rgba(231,203,164,.09),transparent 70%);
-  left:50%;
-  top:0;
-  transform:translateX(-50%);
-  pointer-events:none;
-}
-
-.eyebrow{
+.badge{
   display:inline-flex;
-  align-items:center;
-  padding:11px 24px;
-  border:1px solid rgba(231,203,164,.25);
+  border:1px solid var(--line);
+  color:#c6c1b8;
+  padding:9px 15px;
   border-radius:999px;
-  letter-spacing:5px;
   font-size:12px;
-  color:#bcb5aa;
-  margin-bottom:40px;
-  animation:fadeUp .8s ease both;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  margin-bottom:28px;
 }
 
 .hero h1{
-  max-width:850px;
-  margin:auto;
+  max-width:950px;
   font-family:"Playfair Display",serif;
-  font-size:clamp(58px,8vw,108px);
-  line-height:.92;
-  letter-spacing:-3px;
+  font-size:clamp(48px,8vw,100px);
+  line-height:.98;
   font-weight:500;
-  color:#f5eee5;
-  animation:fadeUp .9s .08s ease both;
+  letter-spacing:-.045em;
 }
 
-.hero h1 em{
-  color:var(--beige);
-  font-weight:500;
+.hero h1 span{
+  color:var(--cream);
 }
 
-.hero-description{
-  max-width:700px;
-  margin:40px auto 0;
-  color:#9c9891;
-  font-size:18px;
-  line-height:1.8;
-  animation:fadeUp .9s .16s ease both;
+.hero p{
+  max-width:680px;
+  margin-top:30px;
+  color:var(--muted);
+  font-size:clamp(17px,2vw,20px);
+  line-height:1.75;
 }
 
-.hero-button{
+.hero-actions{
   margin-top:38px;
+}
+
+.start-btn{
+  border:0;
+  background:var(--cream);
+  color:#18130d;
+  padding:19px 27px;
+  border-radius:999px;
+  font-size:17px;
+  font-weight:700;
   display:inline-flex;
   align-items:center;
-  gap:35px;
-  padding:20px 29px;
-  border:0;
-  border-radius:999px;
-  background:var(--beige);
-  color:#16110c;
-  font-weight:700;
-  font-size:16px;
-  transition:.35s ease;
-  animation:fadeUp .9s .24s ease both;
+  gap:22px;
+  transition:.3s;
 }
 
-.hero-button:hover{
-  transform:translateY(-4px) scale(1.02);
-  box-shadow:0 20px 45px rgba(231,203,164,.16);
+.start-btn:hover{
+  transform:translateY(-3px);
+  background:#f4d7ac;
 }
 
-.hero-button span{
-  font-size:23px;
+.start-arrow{
+  font-size:22px;
 }
 
-/* ---------------- SERVICES ROTATOR ---------------- */
+/* SERVICES */
+
+.services-section{
+  padding:40px 0 120px;
+  overflow:hidden;
+}
 
 .services-wrap{
-  max-width:1200px;
-  margin:0 auto 120px;
-  padding:0 5vw;
+  width:min(1180px,92%);
+  margin:auto;
 }
 
-.service-stage{
-  height:390px;
-  position:relative;
+.services-head{
   display:flex;
-  align-items:center;
-  justify-content:center;
-  perspective:1000px;
+  justify-content:space-between;
+  align-items:end;
+  margin-bottom:35px;
+  gap:30px;
+}
+
+.services-head h2,
+.contact-section h2{
+  font-family:"Playfair Display",serif;
+  font-size:clamp(40px,6vw,72px);
+  line-height:1;
+  font-weight:500;
+}
+
+.services-head p{
+  color:var(--muted);
+  max-width:390px;
+  line-height:1.7;
+}
+
+.carousel{
+  position:relative;
+  height:500px;
+  perspective:1200px;
 }
 
 .service-card{
   position:absolute;
-  width:min(620px,82vw);
-  min-height:330px;
-  border:1px solid rgba(231,203,164,.18);
-  border-radius:30px;
+  left:50%;
+  top:50%;
+  width:min(610px,88vw);
+  min-height:430px;
+  transform:translate(-50%,-50%);
+  border:1px solid var(--line);
+  border-radius:34px;
   background:
-    radial-gradient(circle at 50% 0,rgba(231,203,164,.08),transparent 50%),
-    linear-gradient(145deg,#1d1b18,#11100e);
-  box-shadow:var(--shadow);
-  padding:55px;
-  text-align:left;
+    linear-gradient(145deg,rgba(255,255,255,.035),transparent 55%),
+    var(--card);
+  padding:48px;
+  box-shadow:0 35px 100px rgba(0,0,0,.38);
   transition:
-    transform .75s cubic-bezier(.22,.61,.36,1),
-    opacity .75s ease,
-    filter .75s ease;
+    transform .9s cubic-bezier(.2,.8,.2,1),
+    opacity .9s,
+    filter .9s;
 }
 
 .service-card.active{
-  transform:translateX(0) translateZ(80px) scale(1);
+  transform:translate(-50%,-50%) translateX(0) scale(1);
   opacity:1;
+  filter:none;
   z-index:5;
 }
 
 .service-card.prev{
-  transform:translateX(-190px) translateZ(-100px) scale(.78) rotateY(14deg);
-  opacity:.35;
+  transform:translate(-50%,-50%) translateX(-58%) scale(.88);
+  opacity:.40;
   z-index:2;
-  filter:blur(.4px);
 }
 
 .service-card.next{
-  transform:translateX(190px) translateZ(-100px) scale(.78) rotateY(-14deg);
-  opacity:.35;
+  transform:translate(-50%,-50%) translateX(58%) scale(.88);
+  opacity:.40;
   z-index:2;
 }
 
-.service-number{
-  width:64px;
-  height:64px;
-  border:1px solid rgba(231,203,164,.28);
-  border-radius:50%;
-  display:grid;
-  place-items:center;
-  color:var(--beige);
-  font-family:"Playfair Display",serif;
-  font-size:22px;
-  margin-bottom:48px;
+.service-card.far{
+  transform:translate(-50%,-50%) translateX(95%) scale(.78);
+  opacity:.12;
+  z-index:1;
 }
 
-.service-card h2{
-  font-family:"Playfair Display",serif;
-  font-size:48px;
-  font-weight:500;
-  margin-bottom:20px;
-  color:#f2eadf;
-}
-
-.service-card p{
-  color:#aaa49c;
-  font-size:17px;
-  line-height:1.7;
-  max-width:500px;
-}
-
-.service-card .service-line{
-  width:55px;
-  height:1px;
-  background:var(--beige2);
-  margin-top:35px;
-}
-
-/* ---------------- PROCESS ---------------- */
-
-.process{
-  max-width:1200px;
-  margin:auto;
-  padding:80px 5vw 110px;
-  border-top:1px solid var(--line);
-}
-
-.process-title{
-  font-family:"Playfair Display",serif;
-  font-size:48px;
-  font-weight:500;
-  max-width:600px;
+.card-kicker{
+  color:var(--cream);
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:.18em;
   margin-bottom:70px;
 }
 
-.process-grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-}
-
-.process-item{
-  padding:20px 30px;
-  border-left:1px solid var(--line);
-}
-
-.process-item:first-child{
-  border-left:0;
-}
-
-.process-num{
-  width:55px;
-  height:55px;
-  border:1px solid rgba(231,203,164,.3);
-  border-radius:50%;
-  display:grid;
-  place-items:center;
-  color:var(--beige);
-  margin-bottom:35px;
-}
-
-.process-item h3{
+.service-card h3{
   font-family:"Playfair Display",serif;
-  font-size:27px;
-  margin-bottom:15px;
-}
-
-.process-item p{
-  color:#8f8a83;
-  line-height:1.7;
-}
-
-/* ---------------- FOOTER ---------------- */
-
-footer{
-  border-top:1px solid var(--line);
-  padding:45px 5vw;
-  text-align:center;
-  color:#746f68;
-  font-size:13px;
-}
-
-footer strong{
-  color:var(--beige);
+  font-size:clamp(39px,6vw,64px);
   font-weight:500;
+  line-height:1.05;
 }
 
-/* ---------------- OVERLAY / CHAT ---------------- */
+.service-card p{
+  color:#aaa7a0;
+  font-size:17px;
+  line-height:1.75;
+  margin-top:28px;
+  max-width:500px;
+}
 
-.overlay{
+.card-line{
+  width:108px;
+  height:2px;
+  background:var(--cream);
+  margin-top:60px;
+}
+
+/* CONTACT */
+
+.contact-section{
+  border-top:1px solid var(--line);
+  padding:100px 0;
+}
+
+.contact-grid{
+  width:min(1180px,92%);
+  margin:auto;
+  display:grid;
+  grid-template-columns:1.2fr .8fr;
+  gap:30px;
+}
+
+.contact-card{
+  border:1px solid var(--line);
+  border-radius:30px;
+  background:var(--card);
+  padding:45px;
+}
+
+.contact-card p{
+  color:var(--muted);
+  line-height:1.75;
+  margin:24px 0;
+}
+
+.contact-btn{
+  display:inline-flex;
+  border:1px solid var(--line2);
+  border-radius:999px;
+  padding:14px 20px;
+  color:var(--cream);
+}
+
+/* CHAT */
+
+.chat-overlay{
   position:fixed;
   inset:0;
   z-index:100;
-  background:rgba(5,5,4,.78);
-  backdrop-filter:blur(18px);
+  background:#0b0b0a;
+  display:flex;
+  flex-direction:column;
   opacity:0;
-  pointer-events:none;
-  transition:.45s ease;
+  visibility:hidden;
+  transform:translateY(25px) scale(.98);
+  transition:.4s cubic-bezier(.2,.8,.2,1);
 }
 
-.overlay.open{
+.chat-overlay.open{
   opacity:1;
-  pointer-events:auto;
-}
-
-.chat-window{
-  position:absolute;
-  inset:3vh 3vw;
-  border:1px solid rgba(231,203,164,.18);
-  border-radius:32px;
-  overflow:hidden;
-  background:#0e0d0b;
-  box-shadow:0 40px 120px rgba(0,0,0,.65);
-  transform:translateY(35px) scale(.97);
-  transition:.5s cubic-bezier(.22,.61,.36,1);
-  display:grid;
-  grid-template-rows:auto 1fr auto;
-}
-
-.overlay.open .chat-window{
-  transform:translateY(0) scale(1);
+  visibility:visible;
+  transform:none;
 }
 
 .chat-header{
-  height:90px;
+  min-height:78px;
   border-bottom:1px solid var(--line);
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:0 28px;
+  padding:10px 24px;
 }
 
 .chat-brand{
   display:flex;
   align-items:center;
-  gap:15px;
+  gap:14px;
 }
 
-.chat-icon{
-  width:48px;
-  height:48px;
-  border:1px solid rgba(231,203,164,.3);
+.chat-brand-mark{
+  width:44px;
+  height:44px;
+  border:1px solid var(--line2);
   border-radius:50%;
   display:grid;
   place-items:center;
-  color:var(--beige);
+  color:var(--cream);
 }
 
-.chat-title{
+.chat-brand h3{
   font-family:"Playfair Display",serif;
   font-size:25px;
+  font-weight:500;
 }
 
-.chat-subtitle{
-  color:#77736d;
-  font-size:13px;
+.chat-brand p{
+  color:#85827c;
+  font-size:14px;
   margin-top:2px;
 }
 
 .close-chat{
-  width:48px;
-  height:48px;
-  border-radius:50%;
+  width:45px;
+  height:45px;
   border:1px solid var(--line);
-  background:#151411;
-  color:#d5cec3;
+  border-radius:50%;
+  background:transparent;
+  color:var(--white);
   font-size:25px;
-  transition:.3s;
 }
 
-.close-chat:hover{
-  transform:rotate(90deg);
-  background:#24211c;
-}
-
-.chat-body{
+.chat-main{
+  flex:1;
   overflow-y:auto;
-  padding:38px max(20px,5vw);
-  display:flex;
-  flex-direction:column;
-  gap:20px;
+  padding:30px max(20px,calc((100% - 920px)/2));
+  scroll-behavior:smooth;
 }
 
 .message{
-  max-width:min(700px,88%);
-  padding:20px 23px;
-  border-radius:23px;
+  max-width:760px;
+  padding:22px 25px;
+  border-radius:25px;
+  margin-bottom:18px;
   line-height:1.7;
   font-size:16px;
-  animation:messageIn .35s ease both;
+  white-space:pre-wrap;
 }
 
 .message.bot{
-  align-self:flex-start;
-  background:#1a1916;
+  background:#181815;
   border:1px solid rgba(255,255,255,.06);
-  color:#d6d0c7;
-  border-bottom-left-radius:7px;
 }
 
 .message.user{
-  align-self:flex-end;
-  background:var(--beige);
+  margin-left:auto;
+  background:var(--cream);
   color:#18130e;
-  border-bottom-right-radius:7px;
+  max-width:620px;
+}
+
+.quick-box{
+  background:#181815;
+  border:1px solid var(--line);
+  border-radius:25px;
+  padding:22px;
+  max-width:760px;
+}
+
+.quick-title{
+  margin-bottom:16px;
 }
 
 .quick-actions{
   display:flex;
   flex-wrap:wrap;
-  gap:10px;
-  margin-top:5px;
+  gap:9px;
 }
 
 .quick{
-  border:1px solid rgba(231,203,164,.22);
-  background:#171512;
-  color:#c9c1b6;
+  border:1px solid var(--line);
+  background:transparent;
+  color:#ddd8d0;
   border-radius:999px;
-  padding:11px 17px;
-  transition:.25s;
+  padding:11px 16px;
+  transition:.2s;
 }
 
 .quick:hover{
-  background:rgba(231,203,164,.11);
+  border-color:var(--cream);
   color:var(--cream);
-  transform:translateY(-2px);
 }
 
-.chat-input-area{
+.chat-bottom{
+  padding:14px max(16px,calc((100% - 920px)/2)) 18px;
   border-top:1px solid var(--line);
-  padding:18px 22px;
+  background:rgba(11,11,10,.95);
+}
+
+.chat-tools{
   display:flex;
-  gap:12px;
-  background:rgba(13,12,10,.94);
+  align-items:center;
+  gap:10px;
 }
 
-.chat-input{
+.upload-btn{
+  width:52px;
+  height:52px;
+  border:1px solid var(--line);
+  border-radius:50%;
+  background:transparent;
+  color:var(--cream);
+  font-size:25px;
+  flex:none;
+}
+
+.chat-input-wrap{
   flex:1;
-  border:1px solid rgba(231,203,164,.2);
-  border-radius:999px;
-  background:#151411;
-  color:white;
-  padding:17px 21px;
-  outline:none;
+  border:1px solid #3b3933;
+  border-radius:30px;
+  display:flex;
+  align-items:center;
+  min-height:56px;
+  padding:0 7px 0 18px;
+  transition:.2s;
 }
 
-.chat-input:focus{
-  border-color:rgba(231,203,164,.55);
+.chat-input-wrap:focus-within{
+  border-color:var(--cream);
 }
 
-.send-button{
-  width:57px;
-  height:57px;
+#chatInput{
+  flex:1;
+  resize:none;
+  background:transparent;
+  color:var(--white);
   border:0;
+  outline:0;
+  min-width:0;
+  height:27px;
+  max-height:100px;
+}
+
+#chatInput::placeholder{
+  color:#73716d;
+}
+
+.send-btn{
+  width:44px;
+  height:44px;
   border-radius:50%;
-  background:var(--beige);
-  color:#18130e;
-  font-size:23px;
-  transition:.25s;
+  border:0;
+  background:var(--cream);
+  color:#17130e;
+  font-size:22px;
 }
 
-.send-button:hover{
-  transform:translateY(-2px) scale(1.04);
+.image-preview{
+  display:none;
+  padding:8px 0 0;
 }
 
-.attach-button{
-  width:57px;
-  height:57px;
-  border-radius:50%;
-  border:1px solid rgba(231,203,164,.22);
-  background:#151411;
-  color:var(--beige);
-  font-size:21px;
+.image-preview img{
+  width:70px;
+  height:70px;
+  object-fit:cover;
+  border-radius:15px;
+  border:1px solid var(--line2);
 }
 
-/* ---------------- AUTH ---------------- */
+.image-preview.show{
+  display:block;
+}
 
-.auth-modal{
+/* AUTH MODAL */
+
+.modal{
   position:fixed;
   inset:0;
   z-index:200;
-  background:rgba(5,5,4,.8);
-  backdrop-filter:blur(18px);
+  background:rgba(0,0,0,.72);
+  backdrop-filter:blur(12px);
   display:grid;
   place-items:center;
-  opacity:0;
-  pointer-events:none;
-  transition:.35s;
   padding:20px;
+  opacity:0;
+  visibility:hidden;
+  transition:.25s;
 }
 
-.auth-modal.open{
+.modal.open{
   opacity:1;
-  pointer-events:auto;
+  visibility:visible;
 }
 
 .auth-box{
-  width:min(480px,100%);
-  background:#151411;
-  border:1px solid rgba(231,203,164,.2);
+  width:min(460px,100%);
+  background:#151512;
+  border:1px solid var(--line);
   border-radius:30px;
-  padding:40px;
-  box-shadow:var(--shadow);
-  transform:translateY(25px);
-  transition:.4s;
+  padding:32px;
+  position:relative;
 }
 
-.auth-modal.open .auth-box{
-  transform:translateY(0);
-}
-
-.auth-top{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:30px;
-}
-
-.auth-top h2{
+.auth-box h2{
   font-family:"Playfair Display",serif;
-  font-size:38px;
+  font-size:35px;
   font-weight:500;
 }
 
-.auth-close{
-  width:42px;
-  height:42px;
+.auth-box p{
+  color:var(--muted);
+  margin:10px 0 25px;
+  line-height:1.5;
+}
+
+.modal-close{
+  position:absolute;
+  top:18px;
+  right:18px;
+  width:40px;
+  height:40px;
   border-radius:50%;
-  border:1px solid var(--line);
   background:transparent;
-  color:#aaa;
-}
-
-.form{
-  display:flex;
-  flex-direction:column;
-  gap:13px;
-}
-
-.form input{
-  width:100%;
-  background:#0e0d0b;
-  border:1px solid rgba(231,203,164,.16);
-  border-radius:15px;
-  padding:15px;
+  border:1px solid var(--line);
   color:white;
+  font-size:20px;
+}
+
+.form-group{
+  margin-bottom:13px;
+}
+
+.form-group input{
+  width:100%;
+  background:#0d0d0c;
+  border:1px solid var(--line);
+  color:white;
+  padding:15px;
+  border-radius:15px;
   outline:none;
 }
 
-.form input:focus{
-  border-color:rgba(231,203,164,.5);
+.form-group input:focus{
+  border-color:var(--cream);
 }
 
-.form button{
-  margin-top:8px;
+.form-submit{
+  width:100%;
   border:0;
-  background:var(--beige);
-  color:#17120d;
-  padding:16px;
+  background:var(--cream);
+  color:#17130e;
+  padding:15px;
   border-radius:999px;
   font-weight:700;
+  margin-top:8px;
 }
 
 .auth-switch{
   text-align:center;
-  margin-top:20px;
-  color:#7e7972;
+  margin-top:18px;
+  color:#88857e;
+  font-size:14px;
 }
 
 .auth-switch button{
   border:0;
   background:none;
-  color:var(--beige);
-  cursor:pointer;
-}
-
-/* ---------------- USER ---------------- */
-
-.user-name{
-  display:none;
-  align-items:center;
-  gap:10px;
-  padding:10px 16px;
-  border:1px solid rgba(231,203,164,.18);
-  border-radius:999px;
   color:var(--cream);
 }
 
-.user-name.visible{
-  display:flex;
+.form-error{
+  color:#df9c91;
+  font-size:14px;
+  margin-top:12px;
 }
 
-.user-avatar{
-  width:28px;
-  height:28px;
-  border-radius:50%;
+/* IMAGE GENERATOR */
+
+.generator-panel{
+  display:none;
+  margin:0 auto 20px;
+  max-width:760px;
+  border:1px solid var(--line);
+  background:#151512;
+  border-radius:25px;
+  padding:22px;
+}
+
+.generator-panel.open{
+  display:block;
+}
+
+.generator-panel textarea{
+  width:100%;
+  min-height:100px;
+  resize:vertical;
+  background:#0d0d0c;
+  border:1px solid var(--line);
+  border-radius:15px;
+  color:white;
+  padding:15px;
+  outline:0;
+}
+
+.generator-options{
   display:grid;
-  place-items:center;
-  background:var(--beige);
-  color:#17120d;
-  font-size:12px;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:12px;
+}
+
+.generator-options select{
+  background:#0d0d0c;
+  border:1px solid var(--line);
+  border-radius:12px;
+  color:white;
+  padding:12px;
+}
+
+.generate-image-btn{
+  margin-top:12px;
+  border:0;
+  background:var(--cream);
+  color:#17130e;
+  border-radius:999px;
+  padding:13px 20px;
   font-weight:700;
 }
 
-/* ---------------- TOAST ---------------- */
-
-.toast{
-  position:fixed;
-  bottom:25px;
-  left:50%;
-  transform:translate(-50%,20px);
-  background:#24211d;
-  border:1px solid rgba(231,203,164,.25);
-  color:#e7dfd4;
-  padding:14px 20px;
-  border-radius:999px;
-  opacity:0;
-  pointer-events:none;
-  z-index:500;
-  transition:.3s;
+.generated-image{
+  margin-top:18px;
+  max-width:100%;
+  border-radius:20px;
+  display:none;
 }
 
-.toast.show{
-  opacity:1;
-  transform:translate(-50%,0);
-}
+/* RESPONSIVE */
 
-/* ---------------- ANIMATIONS ---------------- */
-
-@keyframes fadeUp{
-  from{
-    opacity:0;
-    transform:translateY(25px);
-  }
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
-}
-
-@keyframes messageIn{
-  from{
-    opacity:0;
-    transform:translateY(10px);
-  }
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
-}
-
-/* ---------------- MOBILE ---------------- */
-
-@media(max-width:800px){
+@media(max-width:760px){
 
   header{
-    height:82px;
-    padding:0 20px;
+    height:70px;
+    padding:0 16px;
   }
 
   .logo{
-    font-size:27px;
+    font-size:21px;
+    gap:8px;
   }
 
-  .header-btn{
-    padding:11px 14px;
-    font-size:13px;
+  .logo-mark{
+    width:31px;
+    height:31px;
+    font-size:14px;
+  }
+
+  .auth-area{
+    gap:6px;
+  }
+
+  .auth-btn{
+    padding:10px 12px;
+    font-size:12px;
+  }
+
+  .user-pill{
+    padding:5px 8px 5px 5px;
+  }
+
+  .user-avatar{
+    width:30px;
+    height:30px;
+  }
+
+  .user-name{
+    font-size:12px;
   }
 
   .hero{
-    min-height:auto;
-    padding:90px 24px 60px;
-  }
-
-  .eyebrow{
-    letter-spacing:3px;
-    font-size:10px;
-    margin-bottom:34px;
+    padding:110px 22px 55px;
   }
 
   .hero h1{
-    font-size:59px;
-    line-height:.9;
-    letter-spacing:-2px;
+    font-size:clamp(43px,13vw,65px);
+    letter-spacing:-.035em;
   }
 
-  .hero-description{
+  .hero p{
     font-size:16px;
-    line-height:1.75;
-    margin-top:32px;
   }
 
-  .hero-button{
-    margin-top:32px;
-    padding:18px 25px;
+  .services-section{
+    padding-top:15px;
   }
 
-  .services-wrap{
-    margin-bottom:80px;
+  .services-head{
+    display:block;
   }
 
-  .service-stage{
-    height:350px;
+  .services-head h2{
+    margin-bottom:20px;
+  }
+
+  .carousel{
+    height:470px;
   }
 
   .service-card{
-    min-height:310px;
-    padding:34px;
-    width:82vw;
+    min-height:410px;
+    padding:32px;
+    border-radius:28px;
   }
 
   .service-card.prev{
-    transform:translateX(-75px) scale(.75);
-    opacity:.18;
+    transform:translate(-50%,-50%) translateX(-43%) scale(.83);
+    opacity:.22;
   }
 
   .service-card.next{
-    transform:translateX(75px) scale(.75);
-    opacity:.18;
+    transform:translate(-50%,-50%) translateX(43%) scale(.83);
+    opacity:.22;
   }
 
-  .service-card h2{
-    font-size:39px;
+  .service-card.far{
+    opacity:0;
+  }
+
+  .card-kicker{
+    margin-bottom:55px;
+  }
+
+  .service-card h3{
+    font-size:41px;
   }
 
   .service-card p{
     font-size:15px;
   }
 
-  .process{
-    padding:50px 24px 80px;
-  }
-
-  .process-title{
-    font-size:40px;
-    margin-bottom:40px;
-  }
-
-  .process-grid{
+  .contact-grid{
     grid-template-columns:1fr;
   }
 
-  .process-item,
-  .process-item:first-child{
-    border-left:0;
-    border-top:1px solid var(--line);
-    padding:34px 0;
-  }
-
-  .chat-window{
-    inset:0;
-    border-radius:0;
-    border:0;
+  .contact-card{
+    padding:30px;
   }
 
   .chat-header{
-    padding:0 18px;
-    height:82px;
+    padding:10px 15px;
   }
 
-  .chat-body{
-    padding:25px 18px;
+  .chat-main{
+    padding:20px 15px;
   }
 
   .message{
     font-size:15px;
-    max-width:92%;
+    padding:18px 19px;
+    border-radius:20px;
   }
 
-  .chat-input-area{
-    padding:13px;
+  .chat-bottom{
+    padding:10px 12px 12px;
   }
 
-  .attach-button,
-  .send-button{
-    width:52px;
-    height:52px;
+  .upload-btn{
+    width:48px;
+    height:48px;
   }
 
-  .auth-box{
-    padding:28px 22px;
+  .send-btn{
+    width:42px;
+    height:42px;
   }
 
-  .auth-top h2{
-    font-size:32px;
-  }
-}
-
-@media(max-width:430px){
-
-  .header-actions{
-    gap:6px;
-  }
-
-  .header-btn{
-    padding:10px 12px;
-    font-size:12px;
-  }
-
-  .logo{
-    font-size:24px;
-  }
-
-  .logo-mark{
-    font-size:25px;
-  }
-
-  .hero h1{
-    font-size:52px;
-  }
-
-  .service-card{
-    padding:30px;
-  }
-
-  .service-number{
-    margin-bottom:32px;
+  .generator-options{
+    grid-template-columns:1fr;
   }
 }
 </style>
@@ -915,164 +902,152 @@ footer strong{
 <body>
 
 <header>
-
-  <a href="#" class="logo">
-    <span class="logo-mark">〽</span>
+  <a class="logo" href="#">
+    <span class="logo-mark">ϟ</span>
     <span>SparkyKrea</span>
   </a>
 
-  <div class="header-actions">
+  <div class="auth-area">
+    <button class="auth-btn" id="loginBtn">Iniciar sesión</button>
+    <button class="auth-btn auth-primary" id="registerBtn">Registrarse</button>
 
-    <div id="userName" class="user-name">
-      <span id="userAvatar" class="user-avatar">S</span>
-      <span id="userNameText">Usuario</span>
+    <div class="user-pill" id="userPill">
+      <div class="user-avatar" id="userAvatar">S</div>
+      <span class="user-name" id="userName"></span>
+      <button id="logoutBtn" style="border:0;background:none;color:#aaa;font-size:12px">Salir</button>
     </div>
-
-    <button id="loginBtn" class="header-btn">
-      Iniciar sesión
-    </button>
-
-    <button id="registerBtn" class="header-btn primary">
-      Registrarse
-    </button>
-
   </div>
-
 </header>
 
 
 <main>
 
 <section class="hero">
+  <div class="hero-inner">
 
-  <div>
-
-    <div class="eyebrow">
-      IDEAS · ESTRATEGIA · RESULTADOS
+    <div class="badge">
+      IDEAS · ESTRATEGIA · CONTENIDO
     </div>
 
     <h1>
-      Damos forma a tus
-      <em>ideas.</em>
+      Una idea clara merece
+      <span>una estrategia a su altura.</span>
     </h1>
 
-    <p class="hero-description">
-      Convertimos lo que tienes en mente en estrategias,
-      contenido y propuestas creativas pensadas para tu proyecto.
+    <p>
+      Convertimos lo que tienes en mente en conceptos, campañas,
+      contenido y decisiones concretas para que tu proyecto avance
+      con una dirección clara.
     </p>
 
-    <button id="startBtn" class="hero-button">
-      Comenzar ahora
-      <span>→</span>
-    </button>
+    <div class="hero-actions">
+      <button class="start-btn" id="startBtn">
+        Comenzar ahora
+        <span class="start-arrow">→</span>
+      </button>
+    </div>
+
+  </div>
+</section>
+
+
+<section class="services-section">
+
+  <div class="services-wrap">
+
+    <div class="services-head">
+      <h2>Lo que podemos<br>construir contigo.</h2>
+
+      <p>
+        Desde una idea inicial hasta una propuesta lista para
+        convertirse en contenido, publicidad o estrategia.
+      </p>
+    </div>
+
+    <div class="carousel" id="carousel">
+
+      <article class="service-card active">
+        <div class="card-kicker">Estrategia</div>
+        <h3>Marketing y estrategia</h3>
+        <p>
+          Analizamos tu proyecto, tu público, tu competencia
+          y lo que quieres conseguir para convertir una idea
+          en una dirección concreta.
+        </p>
+        <div class="card-line"></div>
+      </article>
+
+      <article class="service-card next">
+        <div class="card-kicker">Contenido</div>
+        <h3>Contenido y vídeo</h3>
+        <p>
+          Creamos conceptos, escenas, estructura y guiones
+          adaptados a la duración y formato que necesites.
+        </p>
+        <div class="card-line"></div>
+      </article>
+
+      <article class="service-card far">
+        <div class="card-kicker">Creatividad</div>
+        <h3>Creación visual</h3>
+        <p>
+          Desarrollamos propuestas visuales para campañas,
+          productos, redes sociales y conceptos publicitarios.
+        </p>
+        <div class="card-line"></div>
+      </article>
+
+      <article class="service-card prev">
+        <div class="card-kicker">Publicidad</div>
+        <h3>Publicidad</h3>
+        <p>
+          Diseñamos ideas publicitarias pensando en el mensaje,
+          el público, el formato y la acción que quieres provocar.
+        </p>
+        <div class="card-line"></div>
+      </article>
+
+      <article class="service-card far">
+        <div class="card-kicker">Redes</div>
+        <h3>Redes sociales</h3>
+        <p>
+          Ideas y estructuras de contenido pensadas para que
+          cada publicación tenga un propósito.
+        </p>
+        <div class="card-line"></div>
+      </article>
+
+    </div>
 
   </div>
 
 </section>
 
 
-<section class="services-wrap">
+<section class="contact-section">
 
-  <div class="service-stage" id="serviceStage">
+  <div class="contact-grid">
 
-    <article class="service-card active">
-      <div class="service-number">01</div>
-      <h2>Marketing y estrategia</h2>
+    <div>
+      <h2>Hablemos de lo<br>que necesitas.</h2>
+    </div>
+
+    <div class="contact-card">
+
+      <h3>¿Tienes una consulta, sugerencia o algún inconveniente?</h3>
+
       <p>
-        Analizamos tu idea, tu público y tus objetivos
-        para construir una dirección clara para tu proyecto.
+        Queremos que tu experiencia con SparkyKrea sea cada vez mejor.
+        Puedes comunicarte con nosotros para compartir una duda,
+        reportar un problema o plantear una propuesta.
       </p>
-      <div class="service-line"></div>
-    </article>
 
-    <article class="service-card next">
-      <div class="service-number">02</div>
-      <h2>Redes sociales</h2>
-      <p>
-        Contenido y conceptos pensados para conectar
-        con las personas que quieres alcanzar.
-      </p>
-      <div class="service-line"></div>
-    </article>
+      <!-- CAMBIA ESTE CORREO CUANDO CREES EL CORREO OFICIAL -->
+      <a class="contact-btn" href="mailto:REEMPLAZA_CON_TU_CORREO">
+        Contactar con SparkyKrea →
+      </a>
 
-    <article class="service-card next">
-      <div class="service-number">03</div>
-      <h2>Diseño</h2>
-      <p>
-        Identidad visual, piezas gráficas y conceptos
-        que hacen que una idea pueda verse.
-      </p>
-      <div class="service-line"></div>
-    </article>
-
-    <article class="service-card next">
-      <div class="service-number">04</div>
-      <h2>Publicidad</h2>
-      <p>
-        Conceptos y campañas creadas alrededor
-        de lo que quieres comunicar.
-      </p>
-      <div class="service-line"></div>
-    </article>
-
-    <article class="service-card next">
-      <div class="service-number">05</div>
-      <h2>Contenido y videos</h2>
-      <p>
-        Ideas, escenas, guiones y conceptos visuales
-        adaptados al formato que necesites.
-      </p>
-      <div class="service-line"></div>
-    </article>
-
-  </div>
-
-</section>
-
-
-<section class="process">
-
-  <h2 class="process-title">
-    Un proceso construido alrededor de tu idea.
-  </h2>
-
-  <div class="process-grid">
-
-    <article class="process-item">
-      <div class="process-num">01</div>
-      <h3>Analizamos</h3>
-      <p>
-        Revisamos lo que nos cuentas y los materiales
-        que compartes.
-      </p>
-    </article>
-
-    <article class="process-item">
-      <div class="process-num">02</div>
-      <h3>Comprendemos</h3>
-      <p>
-        Entendemos tu objetivo, tu público y el resultado
-        que quieres conseguir.
-      </p>
-    </article>
-
-    <article class="process-item">
-      <div class="process-num">03</div>
-      <h3>Preguntamos</h3>
-      <p>
-        Hacemos preguntas específicas cuando necesitamos
-        conocer más detalles.
-      </p>
-    </article>
-
-    <article class="process-item">
-      <div class="process-num">04</div>
-      <h3>Creamos</h3>
-      <p>
-        Convertimos la información en una propuesta
-        concreta, estructurada y personalizada.
-      </p>
-    </article>
+    </div>
 
   </div>
 
@@ -1081,184 +1056,134 @@ footer strong{
 </main>
 
 
-<footer>
-  <strong>by SparkyKrea</strong>
-</footer>
+<!-- CHAT -->
+
+<div class="chat-overlay" id="chatOverlay">
+
+  <div class="chat-header">
+
+    <div class="chat-brand">
+
+      <div class="chat-brand-mark">ϟ</div>
+
+      <div>
+        <h3>SparkyKrea</h3>
+        <p>Cuéntame qué quieres crear</p>
+      </div>
+
+    </div>
+
+    <button class="close-chat" id="closeChat">×</button>
+
+  </div>
 
 
-<!-- ================= CHAT ================= -->
+  <div class="chat-main" id="chatMessages">
 
-<div id="chatOverlay" class="overlay">
+    <div class="message bot" id="welcomeMessage">
+      Hola 👋
 
-  <section class="chat-window">
+      Cuéntame qué quieres conseguir. Puedes escribirlo como te salga,
+      incluso si tienes errores al escribir o no sabes exactamente cómo explicarlo.
 
-    <div class="chat-header">
+      Si compartes una imagen, también puedo analizarla.
+    </div>
 
-      <div class="chat-brand">
+    <div class="quick-box">
 
-        <div class="chat-icon">ϟ</div>
+      <div class="quick-title">¿Qué quieres trabajar?</div>
 
-        <div>
-          <div class="chat-title">SparkyKrea</div>
-          <div class="chat-subtitle">
-            Cuéntame qué quieres crear
-          </div>
-        </div>
+      <div class="quick-actions">
+
+        <button class="quick" data-context="publicidad">
+          Publicidad
+        </button>
+
+        <button class="quick" data-context="video">
+          Vídeo
+        </button>
+
+        <button class="quick" data-context="imagen">
+          Imagen
+        </button>
+
+        <button class="quick" data-context="estrategia">
+          Estrategia
+        </button>
+
+        <button class="quick" data-context="videojuego">
+          Videojuego
+        </button>
 
       </div>
 
-      <button id="closeChat" class="close-chat">
-        ×
+    </div>
+
+    <div class="generator-panel" id="generatorPanel">
+
+      <textarea
+        id="imagePrompt"
+        placeholder="Describe la imagen que quieres crear..."
+      ></textarea>
+
+      <div class="generator-options">
+
+        <select id="imageFormat">
+          <option value="1024x1024">1:1 — Cuadrada</option>
+          <option value="1024x1536">9:16 — Vertical</option>
+          <option value="1536x1024">16:9 — Horizontal</option>
+        </select>
+
+        <select id="imageQuality">
+          <option value="medium">Calidad media</option>
+          <option value="high">Alta calidad</option>
+        </select>
+
+      </div>
+
+      <button class="generate-image-btn" id="generateImageBtn">
+        Crear imagen
       </button>
 
-    </div>
-
-
-    <div id="chatBody" class="chat-body">
-
-      <div class="message bot">
-        <span id="greeting"></span>
-        <br><br>
-        Cuéntame qué quieres hacer. Puedes escribirlo
-        como te salga; no necesitas explicarlo perfectamente.
-      </div>
-
-      <div class="message bot">
-
-        ¿Qué estás buscando?
-
-        <div class="quick-actions">
-
-          <button class="quick" data-text="Quiero crear una publicidad">
-            Publicidad
-          </button>
-
-          <button class="quick" data-text="Quiero crear un video">
-            Video
-          </button>
-
-          <button class="quick" data-text="Quiero crear una imagen">
-            Imagen
-          </button>
-
-          <button class="quick" data-text="Tengo una idea de negocio">
-            Idea de negocio
-          </button>
-
-        </div>
-
-      </div>
+      <img class="generated-image" id="generatedImage">
 
     </div>
 
+  </div>
 
-    <div class="chat-input-area">
+
+  <div class="chat-bottom">
+
+    <div class="image-preview" id="imagePreview">
+      <img id="previewImg">
+    </div>
+
+    <div class="chat-tools">
 
       <input
-        id="imageInput"
         type="file"
+        id="imageInput"
         accept="image/*"
         hidden
       >
 
-      <button
-        id="attachBtn"
-        class="attach-button"
-        title="Adjuntar imagen"
-      >
+      <button class="upload-btn" id="uploadBtn">
         +
       </button>
 
-      <input
-        id="chatInput"
-        class="chat-input"
-        autocomplete="off"
-        placeholder="Escribe lo que tienes en mente..."
-      >
+      <div class="chat-input-wrap">
 
-      <button
-        id="sendBtn"
-        class="send-button"
-      >
-        ↑
-      </button>
+        <textarea
+          id="chatInput"
+          rows="1"
+          placeholder="Escribe lo que tienes en mente..."
+        ></textarea>
 
-    </div>
-
-  </section>
-
-</div>
-
-
-<!-- ================= AUTH ================= -->
-
-<div id="authModal" class="auth-modal">
-
-  <div class="auth-box">
-
-    <div class="auth-top">
-
-      <h2 id="authTitle">
-        Iniciar sesión
-      </h2>
-
-      <button id="authClose" class="auth-close">
-        ×
-      </button>
-
-    </div>
-
-
-    <form id="authForm" class="form">
-
-      <div id="nameFields" style="display:none;">
-
-        <input
-          id="firstName"
-          type="text"
-          placeholder="Nombre"
-        >
-
-        <br>
-
-        <input
-          id="lastName"
-          type="text"
-          placeholder="Apellido"
-        >
+        <button class="send-btn" id="sendBtn">
+          ↑
+        </button>
 
       </div>
-
-      <input
-        id="email"
-        type="email"
-        placeholder="Correo electrónico"
-        required
-      >
-
-      <input
-        id="password"
-        type="password"
-        placeholder="Contraseña"
-        required
-      >
-
-      <button type="submit" id="authSubmit">
-        Iniciar sesión
-      </button>
-
-    </form>
-
-
-    <div class="auth-switch">
-
-      <span id="switchText">
-        ¿No tienes una cuenta?
-      </span>
-
-      <button id="switchAuth">
-        Registrarse
-      </button>
 
     </div>
 
@@ -1267,113 +1192,151 @@ footer strong{
 </div>
 
 
-<div id="toast" class="toast"></div>
+<!-- AUTH -->
+
+<div class="modal" id="authModal">
+
+  <div class="auth-box">
+
+    <button class="modal-close" id="authClose">×</button>
+
+    <h2 id="authTitle">Iniciar sesión</h2>
+
+    <p id="authDescription">
+      Accede a tu espacio de SparkyKrea.
+    </p>
+
+    <form id="authForm">
+
+      <div class="form-group register-only" style="display:none">
+        <input
+          id="firstName"
+          type="text"
+          placeholder="Nombre"
+          autocomplete="given-name"
+        >
+      </div>
+
+      <div class="form-group register-only" style="display:none">
+        <input
+          id="lastName"
+          type="text"
+          placeholder="Apellido"
+          autocomplete="family-name"
+        >
+      </div>
+
+      <div class="form-group">
+        <input
+          id="email"
+          type="email"
+          placeholder="Correo electrónico"
+          autocomplete="email"
+          required
+        >
+      </div>
+
+      <div class="form-group">
+        <input
+          id="password"
+          type="password"
+          placeholder="Contraseña"
+          autocomplete="current-password"
+          required
+        >
+      </div>
+
+      <button class="form-submit" id="authSubmit">
+        Iniciar sesión
+      </button>
+
+      <div class="form-error" id="authError"></div>
+
+    </form>
+
+    <div class="auth-switch">
+      <span id="switchText">¿No tienes una cuenta?</span>
+      <button id="switchAuth">Registrarse</button>
+    </div>
+
+  </div>
+
+</div>
 
 
 <script>
-
 /* =========================================================
    CONFIGURACIÓN
    ========================================================= */
 
 /*
-  AQUÍ COLOCAREMOS SUPABASE MÁS ADELANTE.
+   PON AQUÍ LOS DATOS DE TU PROYECTO SUPABASE.
 
-  NO pongas aquí una clave secreta de OpenAI.
+   Ejemplo:
 
-  La IA se conectará mediante una función segura del servidor.
+   const SUPABASE_URL =
+     "https://xxxxxxxxxxxx.supabase.co";
+
+   const SUPABASE_KEY =
+     "sb_publishable_xxxxxxxxx";
+
+   IMPORTANTE:
+   Aquí SOLO va la publishable key de Supabase.
+   NUNCA pongas aquí una service_role key ni una clave de OpenAI.
 */
 
-const SUPABASE_URL = "";
-const SUPABASE_PUBLISHABLE_KEY = "";
-
-/*
-  Este es el correo que tendrá el rol de administrador.
-  El permiso REAL debe comprobarse también en la base de datos.
-*/
-
-const ADMIN_EMAIL = "guillermojose170512@gmail.com";
+const SUPABASE_URL = "PON_AQUI_TU_SUPABASE_URL";
+const SUPABASE_KEY = "PON_AQUI_TU_SUPABASE_PUBLISHABLE_KEY";
 
 
 /* =========================================================
-   SERVICIOS
+   SUPABASE
    ========================================================= */
 
-const services = document.querySelectorAll(".service-card");
+let supabaseClient = null;
 
-let currentService = 0;
-
-function updateServices(){
-
-  services.forEach((card,index)=>{
-
-    card.classList.remove(
-      "active",
-      "prev",
-      "next"
-    );
-
-    const previous =
-      (currentService - 1 + services.length)
-      % services.length;
-
-    const next =
-      (currentService + 1)
-      % services.length;
-
-    if(index === currentService){
-      card.classList.add("active");
-    }
-
-    else if(index === previous){
-      card.classList.add("prev");
-    }
-
-    else{
-      card.classList.add("next");
-    }
-
-  });
-
+if(
+  SUPABASE_URL.startsWith("http") &&
+  !SUPABASE_URL.includes("PON_AQUI")
+){
+  supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
 }
-
-function rotateServices(){
-
-  currentService =
-    (currentService + 1) % services.length;
-
-  updateServices();
-
-}
-
-/*
-  Más rápido que antes.
-  Cambia automáticamente.
-*/
-
-setInterval(
-  rotateServices,
-  2200
-);
-
-updateServices();
 
 
 /* =========================================================
-   CHAT
+   ELEMENTOS
    ========================================================= */
 
-const overlay =
-  document.getElementById("chatOverlay");
+const loginBtn = document.getElementById("loginBtn");
+const registerBtn = document.getElementById("registerBtn");
 
-const startBtn =
-  document.getElementById("startBtn");
+const userPill = document.getElementById("userPill");
+const userName = document.getElementById("userName");
+const userAvatar = document.getElementById("userAvatar");
+const logoutBtn = document.getElementById("logoutBtn");
 
-const closeChat =
-  document.getElementById("closeChat");
+const authModal = document.getElementById("authModal");
+const authClose = document.getElementById("authClose");
+const authForm = document.getElementById("authForm");
+const authTitle = document.getElementById("authTitle");
+const authDescription = document.getElementById("authDescription");
+const authSubmit = document.getElementById("authSubmit");
+const authError = document.getElementById("authError");
+const switchAuth = document.getElementById("switchAuth");
+const switchText = document.getElementById("switchText");
 
-const chatBody =
-  document.getElementById("chatBody");
+const registerFields =
+  document.querySelectorAll(".register-only");
+
+const chatOverlay = document.getElementById("chatOverlay");
+const closeChat = document.getElementById("closeChat");
+const startBtn = document.getElementById("startBtn");
+
+const chatMessages =
+  document.getElementById("chatMessages");
 
 const chatInput =
   document.getElementById("chatInput");
@@ -1381,344 +1344,60 @@ const chatInput =
 const sendBtn =
   document.getElementById("sendBtn");
 
-const attachBtn =
-  document.getElementById("attachBtn");
+const uploadBtn =
+  document.getElementById("uploadBtn");
 
 const imageInput =
   document.getElementById("imageInput");
 
+const imagePreview =
+  document.getElementById("imagePreview");
 
-function getGreeting(){
+const previewImg =
+  document.getElementById("previewImg");
 
-  const hour = new Date().getHours();
+const generatorPanel =
+  document.getElementById("generatorPanel");
 
-  if(hour >= 5 && hour < 12)
-    return "Buenos días 👋";
+const imagePrompt =
+  document.getElementById("imagePrompt");
 
-  if(hour >= 12 && hour < 19)
-    return "Buenas tardes 👋";
+const imageFormat =
+  document.getElementById("imageFormat");
 
-  return "Buenas noches 👋";
+const imageQuality =
+  document.getElementById("imageQuality");
 
-}
+const generateImageBtn =
+  document.getElementById("generateImageBtn");
 
-document.getElementById("greeting").textContent =
-  getGreeting();
-
-
-function openChat(){
-
-  overlay.classList.add("open");
-
-  document.body.style.overflow = "hidden";
-
-  setTimeout(()=>{
-    chatInput.focus();
-  },500);
-
-}
-
-
-function closeChatWindow(){
-
-  overlay.classList.remove("open");
-
-  document.body.style.overflow = "";
-
-}
-
-
-startBtn.addEventListener(
-  "click",
-  openChat
-);
-
-closeChat.addEventListener(
-  "click",
-  closeChatWindow
-);
-
-
-function addMessage(text,type="bot"){
-
-  const message =
-    document.createElement("div");
-
-  message.className =
-    "message " + type;
-
-  message.textContent =
-    text;
-
-  chatBody.appendChild(message);
-
-  chatBody.scrollTop =
-    chatBody.scrollHeight;
-
-}
+const generatedImage =
+  document.getElementById("generatedImage");
 
 
 /* =========================================================
-   RESPUESTA TEMPORAL
-
-   Esto será reemplazado por la IA real cuando conectemos
-   la función segura de Supabase/OpenAI.
+   AUTH
    ========================================================= */
 
-function localAssistant(text){
+let authMode = "login";
 
-  const t =
-    text
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g,"");
 
-  if(
-    t.includes("valorant") ||
-    t.includes("videojuego") ||
-    t.includes("juego")
-  ){
+function openAuth(mode){
 
-    return `
-Entiendo. Quieres trabajar una propuesta relacionada
-con un videojuego.
-
-Para desarrollar bien la estrategia necesito saber algo:
-
-¿Quieres promocionar el juego en general,
-un personaje/campeón específico, una partida,
-una actualización o algún producto relacionado?
-
-También puedo preparar después el concepto,
-las escenas y el guion según la duración que quieras.
-`;
-
-  }
-
-  if(
-    t.includes("panader") ||
-    t.includes("pan")
-  ){
-
-    return `
-Entiendo. Parece que quieres trabajar una propuesta
-para una panadería.
-
-Para no hacerte una estrategia genérica necesito saber:
-
-¿Qué quieres destacar principalmente:
-el local, un producto concreto, una promoción,
-la experiencia de visitar la panadería o conseguir
-más clientes?
-
-Después podremos definir duración, tomas y guion.
-`;
-
-  }
-
-  if(
-    t.includes("cafe") ||
-    t.includes("café")
-  ){
-
-    return `
-Perfecto, podemos plantear una propuesta alrededor
-del café.
-
-¿Quieres promocionar el café como producto,
-el local, una bebida específica o la experiencia
-de consumirlo?
-
-Si tienes una imagen del producto o del lugar,
-también puedes adjuntarla.
-`;
-
-  }
-
-  return `
-Entiendo la idea.
-
-No hace falta que la escribas perfectamente.
-Voy a tener en cuenta lo que me cuentes y,
-cuando esté conectada la parte de análisis,
-podremos trabajar también con imágenes.
-
-Para seguir, dime qué quieres conseguir
-con esto y para quién está pensado.
-`;
-
-}
-
-
-function sendMessage(){
-
-  const text =
-    chatInput.value.trim();
-
-  if(!text) return;
-
-  addMessage(
-    text,
-    "user"
-  );
-
-  chatInput.value = "";
-
-  setTimeout(()=>{
-
-    addMessage(
-      localAssistant(text),
-      "bot"
-    );
-
-  },500);
-
-}
-
-
-sendBtn.addEventListener(
-  "click",
-  sendMessage
-);
-
-
-chatInput.addEventListener(
-  "keydown",
-  event=>{
-
-    if(event.key === "Enter"){
-      event.preventDefault();
-      sendMessage();
-    }
-
-  }
-);
-
-
-/* =========================================================
-   BOTONES RÁPIDOS
-   ========================================================= */
-
-document
-  .querySelectorAll(".quick")
-  .forEach(button=>{
-
-    button.addEventListener(
-      "click",
-      ()=>{
-
-        const text =
-          button.dataset.text;
-
-        chatInput.value =
-          text;
-
-        sendMessage();
-
-      }
-    );
-
-  });
-
-
-/* =========================================================
-   IMÁGENES
-   ========================================================= */
-
-attachBtn.addEventListener(
-  "click",
-  ()=>{
-    imageInput.click();
-  }
-);
-
-
-imageInput.addEventListener(
-  "change",
-  ()=>{
-
-    const file =
-      imageInput.files[0];
-
-    if(!file) return;
-
-    addMessage(
-      "📎 Imagen adjuntada: " + file.name,
-      "user"
-    );
-
-    setTimeout(()=>{
-
-      addMessage(
-        "Recibí la imagen. La analizaré junto con lo que me cuentes para entender mejor el proyecto.",
-        "bot"
-      );
-
-    },600);
-
-  }
-);
-
-
-/* =========================================================
-   AUTENTICACIÓN — ESTRUCTURA
-   ========================================================= */
-
-const authModal =
-  document.getElementById("authModal");
-
-const authTitle =
-  document.getElementById("authTitle");
-
-const authSubmit =
-  document.getElementById("authSubmit");
-
-const switchAuth =
-  document.getElementById("switchAuth");
-
-const switchText =
-  document.getElementById("switchText");
-
-const nameFields =
-  document.getElementById("nameFields");
-
-const authForm =
-  document.getElementById("authForm");
-
-const authClose =
-  document.getElementById("authClose");
-
-let registerMode = false;
-
-
-function openAuth(register=false){
-
-  registerMode =
-    register;
-
-  updateAuthUI();
+  authMode = mode;
 
   authModal.classList.add("open");
 
-}
+  authError.textContent = "";
 
+  if(mode === "register"){
 
-function closeAuth(){
+    authTitle.textContent = "Crear cuenta";
 
-  authModal.classList.remove("open");
+    authDescription.textContent =
+      "Crea tu cuenta para guardar tu espacio y tus proyectos.";
 
-}
-
-
-function updateAuthUI(){
-
-  if(registerMode){
-
-    authTitle.textContent =
-      "Crear cuenta";
-
-    authSubmit.textContent =
-      "Registrarme";
+    authSubmit.textContent = "Registrarme";
 
     switchText.textContent =
       "¿Ya tienes una cuenta?";
@@ -1726,15 +1405,16 @@ function updateAuthUI(){
     switchAuth.textContent =
       "Iniciar sesión";
 
-    nameFields.style.display =
-      "block";
+    registerFields.forEach(
+      el => el.style.display = "block"
+    );
 
-  }
+  }else{
 
-  else{
+    authTitle.textContent = "Iniciar sesión";
 
-    authTitle.textContent =
-      "Iniciar sesión";
+    authDescription.textContent =
+      "Accede a tu espacio de SparkyKrea.";
 
     authSubmit.textContent =
       "Iniciar sesión";
@@ -1745,122 +1425,856 @@ function updateAuthUI(){
     switchAuth.textContent =
       "Registrarse";
 
-    nameFields.style.display =
-      "none";
+    registerFields.forEach(
+      el => el.style.display = "none"
+    );
 
   }
 
 }
 
 
-document
-  .getElementById("loginBtn")
-  .addEventListener(
-    "click",
-    ()=>openAuth(false)
-  );
+loginBtn.onclick =
+  () => openAuth("login");
+
+registerBtn.onclick =
+  () => openAuth("register");
+
+authClose.onclick =
+  () => authModal.classList.remove("open");
+
+authModal.addEventListener("click",e=>{
+  if(e.target === authModal){
+    authModal.classList.remove("open");
+  }
+});
 
 
-document
-  .getElementById("registerBtn")
-  .addEventListener(
-    "click",
-    ()=>openAuth(true)
-  );
+switchAuth.onclick = ()=>{
+
+  if(authMode === "login"){
+    openAuth("register");
+  }else{
+    openAuth("login");
+  }
+
+};
 
 
-switchAuth.addEventListener(
-  "click",
-  ()=>{
+authForm.addEventListener("submit",async e=>{
 
-    registerMode =
-      !registerMode;
+  e.preventDefault();
 
-    updateAuthUI();
+  authError.textContent = "";
+
+  if(!supabaseClient){
+
+    authError.textContent =
+      "Primero conecta Supabase en la configuración del código.";
+
+    return;
+  }
+
+  const email =
+    document.getElementById("email").value.trim();
+
+  const password =
+    document.getElementById("password").value;
+
+  try{
+
+    if(authMode === "register"){
+
+      const firstName =
+        document.getElementById("firstName").value.trim();
+
+      const lastName =
+        document.getElementById("lastName").value.trim();
+
+      if(!firstName || !lastName){
+
+        authError.textContent =
+          "Escribe tu nombre y apellido.";
+
+        return;
+      }
+
+      const {data,error} =
+        await supabaseClient.auth.signUp({
+
+          email,
+          password,
+
+          options:{
+            data:{
+              first_name:firstName,
+              last_name:lastName
+            }
+          }
+
+        });
+
+      if(error) throw error;
+
+      if(!data.session){
+
+        authError.textContent =
+          "Cuenta creada. Revisa tu correo para confirmar la cuenta.";
+
+        return;
+      }
+
+    }else{
+
+      const {error} =
+        await supabaseClient.auth.signInWithPassword({
+          email,
+          password
+        });
+
+      if(error) throw error;
+
+    }
+
+    authModal.classList.remove("open");
+
+  }catch(error){
+
+    authError.textContent =
+      error.message || "No se pudo completar la operación.";
 
   }
-);
+
+});
 
 
-authClose.addEventListener(
-  "click",
-  closeAuth
-);
+async function updateUserUI(){
 
+  if(!supabaseClient){
+    return;
+  }
 
-authForm.addEventListener(
-  "submit",
-  event=>{
+  const {
+    data:{
+      user
+    }
+  } = await supabaseClient.auth.getUser();
 
-    event.preventDefault();
+  if(user){
 
-    const email =
-      document.getElementById("email").value.trim();
+    let first =
+      user.user_metadata?.first_name || "";
 
-    const first =
-      document.getElementById("firstName").value.trim();
-
-    const last =
-      document.getElementById("lastName").value.trim();
-
+    let last =
+      user.user_metadata?.last_name || "";
 
     /*
-      TEMPORAL
-
-      La autenticación real se conectará a Supabase.
+      Si el perfil existe, utilizamos los datos guardados
+      en la tabla profiles.
     */
 
-    if(registerMode && (!first || !last)){
+    const {data:profile} =
+      await supabaseClient
+        .from("profiles")
+        .select("first_name,last_name")
+        .eq("id",user.id)
+        .maybeSingle();
 
-      showToast(
-        "Introduce tu nombre y apellido."
-      );
+    if(profile){
 
-      return;
+      first =
+        profile.first_name || first;
 
-    }
-
-
-    if(registerMode){
-
-      showToast(
-        "La cuenta quedará conectada al sistema de usuarios."
-      );
+      last =
+        profile.last_name || last;
 
     }
 
-    else{
+    const fullName =
+      `${first} ${last}`.trim() ||
+      user.email.split("@")[0];
 
-      showToast(
-        "El inicio de sesión quedará conectado al sistema de cuentas."
-      );
+    loginBtn.style.display = "none";
+    registerBtn.style.display = "none";
 
-    }
+    userPill.style.display = "flex";
+
+    userName.textContent =
+      fullName;
+
+    userAvatar.textContent =
+      fullName.charAt(0).toUpperCase();
+
+  }else{
+
+    loginBtn.style.display = "";
+    registerBtn.style.display = "";
+
+    userPill.style.display = "none";
 
   }
-);
+
+}
+
+
+logoutBtn.onclick = async ()=>{
+
+  if(!supabaseClient) return;
+
+  await supabaseClient.auth.signOut();
+
+  updateUserUI();
+
+};
+
+
+if(supabaseClient){
+
+  supabaseClient.auth.onAuthStateChange(
+    () => updateUserUI()
+  );
+
+  updateUserUI();
+
+}
 
 
 /* =========================================================
-   TOAST
+   CARRUSEL
    ========================================================= */
 
-function showToast(text){
+const cards =
+  [...document.querySelectorAll(".service-card")];
 
-  const toast =
-    document.getElementById("toast");
+let carouselIndex = 0;
 
-  toast.textContent =
-    text;
+function renderCarousel(){
 
-  toast.classList.add("show");
+  cards.forEach((card,i)=>{
 
-  setTimeout(()=>{
-    toast.classList.remove("show");
-  },3000);
+    let diff =
+      (i - carouselIndex + cards.length)
+      % cards.length;
+
+    card.className =
+      "service-card";
+
+    if(diff === 0){
+      card.classList.add("active");
+    }else if(diff === 1){
+      card.classList.add("next");
+    }else if(diff === cards.length - 1){
+      card.classList.add("prev");
+    }else{
+      card.classList.add("far");
+    }
+
+  });
 
 }
 
+/*
+   Más lento que antes, pero sigue moviéndose solo.
+*/
+
+setInterval(()=>{
+
+  carouselIndex =
+    (carouselIndex + 1) % cards.length;
+
+  renderCarousel();
+
+},3800);
+
+renderCarousel();
+
+
+/* =========================================================
+   CHAT
+   ========================================================= */
+
+function openChat(context = null){
+
+  chatOverlay.classList.add("open");
+
+  document.body.style.overflow =
+    "hidden";
+
+  if(context){
+
+    const prompts = {
+
+      publicidad:
+        "Quiero trabajar una publicidad.",
+
+      video:
+        "Quiero crear un vídeo.",
+
+      imagen:
+        "Quiero crear una imagen.",
+
+      estrategia:
+        "Quiero trabajar una estrategia.",
+
+      videojuego:
+        "Quiero crear contenido relacionado con un videojuego."
+
+    };
+
+    const text =
+      prompts[context];
+
+    if(text){
+
+      addUserMessage(text);
+
+      setTimeout(()=>{
+
+        const replies = {
+
+          publicidad:
+            "Perfecto. Primero dime qué producto, servicio, marca o proyecto quieres promocionar y qué quieres conseguir con la publicidad.",
+
+          video:
+            "Perfecto. Vamos a construirlo paso a paso. ¿Qué quieres promocionar y qué duración buscas: 10, 20, 40, 60 segundos o una duración personalizada?",
+
+          imagen:
+            "Perfecto. Cuéntame qué quieres mostrar, dónde debería ocurrir y qué formato necesitas. También puedes subir una imagen de referencia.",
+
+          estrategia:
+            "Perfecto. Cuéntame qué proyecto tienes, quién es tu público y qué resultado quieres conseguir.",
+
+          videojuego:
+            "Perfecto. Dime el videojuego. Si es Valorant, Fortnite, League of Legends, Call of Duty, Free Fire u otro, también puedes decirme el personaje, campeón, operador, skin o elemento específico que quieras utilizar."
+
+        };
+
+        addBotMessage(
+          replies[context]
+        );
+
+      },450);
+
+    }
+
+  }
+
+}
+
+
+function closeChatPanel(){
+
+  chatOverlay.classList.remove("open");
+
+  document.body.style.overflow = "";
+
+}
+
+
+startBtn.onclick =
+  () => openChat();
+
+closeChat.onclick =
+  closeChatPanel;
+
+
+document.querySelectorAll(".quick").forEach(btn=>{
+
+  btn.onclick = ()=>{
+
+    const context =
+      btn.dataset.context;
+
+    if(context === "imagen"){
+
+      generatorPanel.classList.add("open");
+
+    }
+
+    openChat(context);
+
+  };
+
+});
+
+
+function addUserMessage(text){
+
+  const el =
+    document.createElement("div");
+
+  el.className =
+    "message user";
+
+  el.textContent =
+    text;
+
+  chatMessages.appendChild(el);
+
+  scrollChat();
+
+}
+
+
+function addBotMessage(text){
+
+  const el =
+    document.createElement("div");
+
+  el.className =
+    "message bot";
+
+  el.textContent =
+    text;
+
+  chatMessages.appendChild(el);
+
+  scrollChat();
+
+}
+
+
+function addImageMessage(src){
+
+  const el =
+    document.createElement("div");
+
+  el.className =
+    "message user";
+
+  const img =
+    document.createElement("img");
+
+  img.src = src;
+
+  img.style.maxWidth = "230px";
+  img.style.borderRadius = "16px";
+  img.style.display = "block";
+
+  el.appendChild(img);
+
+  chatMessages.appendChild(el);
+
+  scrollChat();
+
+}
+
+
+function scrollChat(){
+
+  chatMessages.scrollTop =
+    chatMessages.scrollHeight;
+
+}
+
+
+/* =========================================================
+   IMAGEN SUBIDA
+   ========================================================= */
+
+let selectedImageData = null;
+
+
+uploadBtn.onclick =
+  () => imageInput.click();
+
+
+imageInput.addEventListener("change",()=>{
+
+  const file =
+    imageInput.files[0];
+
+  if(!file) return;
+
+  const reader =
+    new FileReader();
+
+  reader.onload = ()=>{
+
+    selectedImageData =
+      reader.result;
+
+    previewImg.src =
+      reader.result;
+
+    imagePreview.classList.add("show");
+
+    addImageMessage(
+      reader.result
+    );
+
+    addBotMessage(
+      "Ya tengo la imagen. Ahora dime qué quieres conseguir con ella: analizarla, mejorar la idea, convertirla en publicidad, crear una propuesta visual o preparar contenido."
+    );
+
+  };
+
+  reader.readAsDataURL(file);
+
+});
+
+
+/* =========================================================
+   ENVIAR MENSAJE
+   ========================================================= */
+
+sendBtn.onclick =
+  sendMessage;
+
+
+chatInput.addEventListener(
+  "keydown",
+  e=>{
+
+    if(
+      e.key === "Enter" &&
+      !e.shiftKey
+    ){
+
+      e.preventDefault();
+
+      sendMessage();
+
+    }
+
+  }
+);
+
+
+async function sendMessage(){
+
+  const text =
+    chatInput.value.trim();
+
+  if(!text && !selectedImageData){
+    return;
+  }
+
+  if(text){
+
+    addUserMessage(text);
+
+    chatInput.value = "";
+
+  }
+
+  const loading =
+    document.createElement("div");
+
+  loading.className =
+    "message bot";
+
+  loading.textContent =
+    "Estoy revisando lo que me dijiste…";
+
+  chatMessages.appendChild(loading);
+
+  scrollChat();
+
+  try{
+
+    if(!supabaseClient){
+
+      throw new Error(
+        "SUPABASE_NOT_CONFIGURED"
+      );
+
+    }
+
+    const payload = {
+
+      action:"chat",
+
+      message:text,
+
+      image:selectedImageData,
+
+      time:new Date().toISOString(),
+
+      context:{
+        site:"SparkyKrea"
+      }
+
+    };
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient.functions.invoke(
+        "sparky-chat",
+        {
+          body:payload
+        }
+      );
+
+    if(error) throw error;
+
+    loading.remove();
+
+    addBotMessage(
+      data?.text ||
+      "Perfecto. Cuéntame un poco más y seguimos construyendo la idea."
+    );
+
+    /*
+       Si el backend devuelve una imagen generada,
+       la mostramos automáticamente.
+    */
+
+    if(data?.image){
+
+      const img =
+        document.createElement("img");
+
+      img.src =
+        `data:image/png;base64,${data.image}`;
+
+      img.style.maxWidth = "100%";
+      img.style.borderRadius = "20px";
+      img.style.marginTop = "12px";
+
+      chatMessages.appendChild(img);
+
+      scrollChat();
+
+    }
+
+  }catch(error){
+
+    loading.remove();
+
+    /*
+       Este fallback solo se utiliza si todavía
+       no has conectado la Edge Function.
+    */
+
+    const lower =
+      text.toLowerCase();
+
+    if(
+      /valorant|val[oó]rant|reyna|jett|sage|omen/.test(lower)
+    ){
+
+      addBotMessage(
+        "Sí, entendí la referencia. Estamos hablando de Valorant. Si quieres trabajar con un personaje concreto, dime por ejemplo Reyna, Jett, Sage u Omen y puedo plantear la idea alrededor de ese personaje. También dime si buscas una publicidad, una imagen o un vídeo."
+      );
+
+    }else if(
+      /fortnite|skin|battle royale/.test(lower)
+    ){
+
+      addBotMessage(
+        "Entendido: es contenido relacionado con Fortnite. Dime qué quieres utilizar —personaje, skin, objeto, partida o concepto— y qué quieres crear con ello."
+      );
+
+    }else if(
+      /league|lol|lol\.|campe[oó]n/.test(lower)
+    ){
+
+      addBotMessage(
+        "Entendido. Si hablamos de League of Legends, dime qué campeón quieres utilizar y si quieres crear una imagen, publicidad, vídeo o concepto para redes."
+      );
+
+    }else if(
+      /call of duty|cod|warzone|operador/.test(lower)
+    ){
+
+      addBotMessage(
+        "Perfecto. Entiendo que hablamos de Call of Duty. Dime si quieres trabajar con Warzone, otro modo, un operador, arma, skin o una idea específica."
+      );
+
+    }else if(
+      /free fire|freefire/.test(lower)
+    ){
+
+      addBotMessage(
+        "Entendido: Free Fire. Dime qué personaje, skin, evento o elemento quieres utilizar y qué tipo de contenido quieres crear."
+      );
+
+    }else if(
+      /lolll|jaj|xd|jeje|haha/.test(lower)
+    ){
+
+      addBotMessage(
+        "Jajaja, te entendí 😄. No pasa nada si escribes rápido o con errores. Dime simplemente qué quieres crear y voy siguiendo la idea contigo."
+      );
+
+    }else{
+
+      addBotMessage(
+        "Te sigo. Puedes explicármelo con tus palabras, aunque esté incompleto o tenga errores. Dime qué quieres crear, para quién sería y qué resultado quieres conseguir."
+      );
+
+    }
+
+  }
+
+}
+
+
+/* =========================================================
+   CREACIÓN DE IMÁGENES
+   ========================================================= */
+
+generateImageBtn.onclick =
+  generateImage;
+
+
+async function generateImage(){
+
+  const prompt =
+    imagePrompt.value.trim();
+
+  if(!prompt){
+
+    alert(
+      "Describe primero la imagen que quieres crear."
+    );
+
+    return;
+
+  }
+
+  generateImageBtn.disabled = true;
+
+  generateImageBtn.textContent =
+    "Creando…";
+
+  try{
+
+    if(!supabaseClient){
+
+      throw new Error(
+        "SUPABASE_NOT_CONFIGURED"
+      );
+
+    }
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient.functions.invoke(
+        "sparky-chat",
+        {
+          body:{
+            action:"generate_image",
+            prompt,
+            size:imageFormat.value,
+            quality:imageQuality.value
+          }
+        }
+      );
+
+    if(error) throw error;
+
+    if(!data?.image){
+
+      throw new Error(
+        "No se recibió la imagen."
+      );
+
+    }
+
+    generatedImage.src =
+      `data:image/png;base64,${data.image}`;
+
+    generatedImage.style.display =
+      "block";
+
+  }catch(error){
+
+    alert(
+      "La creación de imágenes todavía necesita que conectemos la función del servidor."
+    );
+
+  }finally{
+
+    generateImageBtn.disabled = false;
+
+    generateImageBtn.textContent =
+      "Crear imagen";
+
+  }
+
+}
+
+
+/* =========================================================
+   ATAJOS DE VIDEOJUEGOS
+   ========================================================= */
+
+/*
+   Esto ayuda al frontend incluso antes de conectar
+   el modelo real.
+*/
+
+const GAME_ALIASES = {
+
+  valorant:[
+    "valorant",
+    "valórant",
+    "valornat",
+    "valrant",
+    "reyna",
+    "jett",
+    "sage",
+    "omen",
+    "raze",
+    "cypher",
+    "viper"
+  ],
+
+  fortnite:[
+    "fortnite",
+    "fortnite",
+    "skin",
+    "battle royale"
+  ],
+
+  lol:[
+    "league of legends",
+    "league",
+    "lol",
+    "campeon",
+    "campeón",
+    "ahri",
+    "yasuo",
+    "jinx",
+    "lux",
+    "zed"
+  ],
+
+  cod:[
+    "call of duty",
+    "cod",
+    "warzone",
+    "operator",
+    "operador"
+  ],
+
+  freefire:[
+    "free fire",
+    "freefire",
+    "garena",
+    "alvaro",
+    "hayato",
+    "kelly"
+  ]
+
+};
+
+
+/* =========================================================
+   AUTO-ABRIR CHAT SI SE USA #chat
+   ========================================================= */
+
+if(
+  location.hash === "#chat"
+){
+  openChat();
+}
 </script>
 
 </body>
