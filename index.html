@@ -1,1 +1,447 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>SparkyKrea | Marketing Digital</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #080512;
+            color: white;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(8, 5, 18, 0.95);
+            border-bottom: 1px solid #241542;
+            padding: 18px 7%;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            color: #a855f7;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 15px;
+        }
+
+        nav a:hover {
+            color: #c084fc;
+        }
+
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px 20px;
+            background:
+                radial-gradient(circle at center, #32135f 0%, #080512 55%);
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-size: clamp(45px, 9vw, 85px);
+            line-height: 1;
+            margin-bottom: 25px;
+        }
+
+        .hero h1 span {
+            color: #a855f7;
+        }
+
+        .hero p {
+            color: #c8bfd4;
+            font-size: 19px;
+            line-height: 1.6;
+            margin-bottom: 35px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 15px 30px;
+            border-radius: 10px;
+            background: #9333ea;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .button:hover {
+            background: #a855f7;
+            transform: translateY(-3px);
+        }
+
+        section {
+            padding: 90px 7%;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 38px;
+            margin-bottom: 50px;
+        }
+
+        .title span {
+            color: #a855f7;
+        }
+
+        .services {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .card {
+            background: #110b20;
+            border: 1px solid #2d1a47;
+            border-radius: 18px;
+            padding: 35px 25px;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-7px);
+            border-color: #9333ea;
+        }
+
+        .icon {
+            font-size: 45px;
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+
+        .card p {
+            color: #aaa0b5;
+            line-height: 1.6;
+        }
+
+        .plans {
+            background: #0c0715;
+        }
+
+        .pricing {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .price-card {
+            background: #110b20;
+            border: 1px solid #2d1a47;
+            border-radius: 18px;
+            padding: 35px 25px;
+            text-align: center;
+        }
+
+        .price-card.pro {
+            border: 2px solid #9333ea;
+            transform: scale(1.03);
+        }
+
+        .price-card h3 {
+            font-size: 25px;
+            margin-bottom: 20px;
+        }
+
+        .price {
+            font-size: 42px;
+            font-weight: bold;
+            color: #c084fc;
+            margin-bottom: 25px;
+        }
+
+        .price-card ul {
+            list-style: none;
+            color: #c8bfd4;
+            line-height: 2;
+            margin-bottom: 25px;
+        }
+
+        .contact {
+            text-align: center;
+        }
+
+        .contact p {
+            color: #aaa0b5;
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            border-top: 1px solid #241542;
+            color: #81778b;
+        }
+
+        @media (max-width: 800px) {
+
+            nav ul {
+                gap: 12px;
+            }
+
+            nav a {
+                font-size: 13px;
+            }
+
+            .services,
+            .pricing {
+                grid-template-columns: 1fr;
+            }
+
+            .price-card.pro {
+                transform: none;
+            }
+
+            section {
+                padding: 70px 20px;
+            }
+
+            .hero {
+                min-height: 80vh;
+            }
+        }
+
+        @media (max-width: 500px) {
+
+            nav {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .title {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <nav>
+        <div class="logo">⚡ SparkyKrea</div>
+
+        <ul>
+            <li><a href="#inicio">Inicio</a></li>
+            <li><a href="#servicios">Servicios</a></li>
+            <li><a href="#planes">Planes</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+
+    <section class="hero" id="inicio">
+        <div class="hero-content">
+
+            <h1>
+                Haz que tu marca <span>brille.</span>
+            </h1>
+
+            <p>
+                Impulsamos tu presencia digital con diseño,
+                redes sociales y estrategias de marketing
+                pensadas para hacer crecer tu negocio.
+            </p>
+
+            <a href="#servicios" class="button">
+                Ver servicios
+            </a>
+
+        </div>
+    </section>
+
+
+    <section id="servicios">
+
+        <h2 class="title">
+            Nuestros <span>servicios</span>
+        </h2>
+
+        <div class="services">
+
+            <div class="card">
+                <div class="icon">🎨</div>
+                <h3>Diseño</h3>
+                <p>
+                    Creamos diseños modernos para que tu marca
+                    tenga una identidad visual única.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="icon">📱</div>
+                <h3>Redes sociales</h3>
+                <p>
+                    Contenido atractivo para conectar con tu
+                    audiencia y hacer crecer tus redes.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="icon">🚀</div>
+                <h3>Marketing</h3>
+                <p>
+                    Estrategias digitales para conseguir más
+                    clientes y aumentar tu presencia online.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="plans" id="planes">
+
+        <h2 class="title">
+            Nuestros <span>planes</span>
+        </h2>
+
+        <div class="pricing">
+
+            <div class="price-card">
+                <h3>Starter</h3>
+
+                <div class="price">$19</div>
+
+                <ul>
+                    <li>✓ Diseño básico</li>
+                    <li>✓ 5 publicaciones</li>
+                    <li>✓ Soporte</li>
+                </ul>
+
+                <a href="#contacto" class="button">
+                    Elegir
+                </a>
+            </div>
+
+
+            <div class="price-card pro">
+
+                <h3>Pro</h3>
+
+                <div class="price">$49</div>
+
+                <ul>
+                    <li>✓ Diseño profesional</li>
+                    <li>✓ 15 publicaciones</li>
+                    <li>✓ Estrategia digital</li>
+                    <li>✓ Soporte prioritario</li>
+                </ul>
+
+                <a href="#contacto" class="button">
+                    Elegir
+                </a>
+
+            </div>
+
+
+            <div class="price-card">
+
+                <h3>Business</h3>
+
+                <div class="price">$99</div>
+
+                <ul>
+                    <li>✓ Diseño premium</li>
+                    <li>✓ 30 publicaciones</li>
+                    <li>✓ Marketing completo</li>
+                    <li>✓ Soporte prioritario</li>
+                </ul>
+
+                <a href="#contacto" class="button">
+                    Elegir
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="contact" id="contacto">
+
+        <h2 class="title">
+            ¿Listo para <span>brillar?</span>
+        </h2>
+
+        <p>
+            Escríbenos y comencemos a trabajar en tu proyecto.
+        </p>
+
+        <a
+            href="mailto:contacto@sparkykrea.com"
+            class="button">
+            Contactarnos
+        </a>
+
+    </section>
+
+</main>
+
+
+<footer>
+    © 2026 SparkyKrea — Todos los derechos reservados.
+</footer>
+
+</body>
+</html>
