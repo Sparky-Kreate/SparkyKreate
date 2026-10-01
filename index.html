@@ -1,1694 +1,1356 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#050505">
-
-<title>SparkyKrea</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
-<style>
-
-/* =========================================================
-   SPARKYKREA — BASE
-========================================================= */
-
-:root{
-  --black:#050505;
-  --black2:#090909;
-  --black3:#101010;
-
-  --white:#f8f7f3;
-  --soft:#bdb9b0;
-
-  /* BEIGE PRINCIPAL */
-  --beige:#d9c39f;
-  --beige-light:#f0dfbd;
-  --beige-dark:#a98f67;
-
-  /* PASTEL MUY SUAVE */
-  --pastel-pink:#d9bfc2;
-  --pastel-blue:#bfcbd5;
-  --pastel-green:#c7d0c1;
-  --pastel-lilac:#c9bfd4;
-
-  --border:rgba(217,195,159,.25);
-  --border-strong:rgba(217,195,159,.48);
-
-  --max:1180px;
-
-  --shadow:
-    0 25px 80px rgba(0,0,0,.55);
-
-  --radius:28px;
-}
-
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>SparkyKrea</title>
+
+  <!-- FUENTES ANTERIORES -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: #090908;
+      color: #f4f0e8;
+      font-family: "DM Sans", sans-serif;
+      overflow-x: hidden;
+    }
+
+    button,
+    input,
+    textarea {
+      font-family: "DM Sans", sans-serif;
+    }
+
+    /* =========================
+       CONTENEDOR
+    ========================= */
+
+    .page {
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    /* =========================
+       HEADER
+    ========================= */
+
+    header {
+      width: 100%;
+      padding: 22px 32px;
+    }
+
+    .header-inner {
+      width: min(1180px, 100%);
+      margin: 0 auto;
 
-html{
-  scroll-behavior:smooth;
-  background:var(--black);
-}
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
 
-body{
-  background:
-    radial-gradient(circle at 50% 18%, rgba(217,195,159,.075), transparent 25%),
-    radial-gradient(circle at 15% 55%, rgba(201,191,212,.035), transparent 25%),
-    var(--black);
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
 
-  color:var(--white);
+      color: #eee9df;
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: -0.4px;
+    }
+
+    /* =========================
+       LOGO
+    ========================= */
 
-  font-family:"DM Sans",sans-serif;
+    .logo {
+      width: 38px;
+      height: 38px;
+      border: 2px solid #d8c7a5;
+      border-radius: 50%;
+      position: relative;
+      flex-shrink: 0;
+    }
 
-  min-height:100vh;
-  overflow-x:hidden;
-}
+    .logo::before,
+    .logo::after {
+      content: "";
+      position: absolute;
 
-button,
-input{
-  font-family:inherit;
-}
+      width: 23px;
+      height: 2px;
 
-button{
-  cursor:pointer;
-}
+      background: #d8c7a5;
 
-/* =========================================================
-   PAGE
-========================================================= */
+      left: 50%;
+      top: 50%;
 
-.page{
-  width:100%;
-  min-height:100vh;
-}
+      transform-origin: center;
+    }
 
-.container{
-  width:min(calc(100% - 40px),var(--max));
-  margin:0 auto;
-}
+    .logo::before {
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
 
-/* =========================================================
-   HEADER
-========================================================= */
+    .logo::after {
+      transform: translate(-50%, -50%) rotate(-45deg);
+    }
 
-.header{
-  width:100%;
-  border-bottom:1px solid rgba(217,195,159,.13);
-  background:rgba(5,5,5,.88);
-  backdrop-filter:blur(18px);
-  position:sticky;
-  top:0;
-  z-index:50;
-}
+    .logo-dot {
+      position: absolute;
 
-.header-inner{
-  width:min(calc(100% - 40px),var(--max));
-  margin:auto;
+      width: 8px;
+      height: 8px;
 
-  min-height:78px;
+      background: #d8c7a5;
 
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:20px;
-}
+      border-radius: 50%;
 
-/* LOGO */
+      left: 50%;
+      top: 50%;
 
-.brand{
-  display:flex;
-  align-items:center;
-  gap:12px;
+      transform: translate(-50%, -50%);
+    }
 
-  color:var(--white);
-  text-decoration:none;
+    /* =========================
+       AUTH
+    ========================= */
 
-  font-family:"Manrope",sans-serif;
-  font-size:18px;
-  font-weight:800;
+    .auth-buttons {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-  white-space:nowrap;
-}
+    .auth-btn {
+      border: 1px solid rgba(216,199,165,.35);
+      background: transparent;
 
-.logo-mark{
-  width:40px;
-  height:40px;
+      color: #eee9df;
 
-  border:2px solid var(--beige);
-  border-radius:50%;
+      padding: 10px 17px;
 
-  position:relative;
+      border-radius: 999px;
 
-  box-shadow:
-    0 0 0 5px rgba(217,195,159,.045),
-    0 0 25px rgba(217,195,159,.08);
+      cursor: pointer;
 
-  flex-shrink:0;
-}
+      font-size: 14px;
+      font-weight: 500;
 
-.logo-mark::before,
-.logo-mark::after{
-  content:"";
-  position:absolute;
+      transition: .25s ease;
+    }
 
-  width:17px;
-  height:2px;
+    .auth-btn:hover {
+      background: #d8c7a5;
+      color: #171510;
+    }
 
-  background:var(--beige-light);
+    .register-btn {
+      background: #d8c7a5;
+      color: #171510;
+      border-color: #d8c7a5;
+    }
 
-  left:50%;
-  top:50%;
+    .register-btn:hover {
+      background: #eee1c7;
+    }
 
-  transform-origin:center;
-}
+    /* =========================
+       HERO
+    ========================= */
 
-.logo-mark::before{
-  transform:translate(-50%,-50%) rotate(45deg);
-}
+    .hero {
+      width: min(1050px, calc(100% - 32px));
 
-.logo-mark::after{
-  transform:translate(-50%,-50%) rotate(-45deg);
-}
+      margin: 0 auto;
 
-.logo-dot{
-  position:absolute;
+      text-align: center;
 
-  width:6px;
-  height:6px;
+      padding: 80px 20px 75px;
+    }
 
-  border-radius:50%;
+    .hero-logo {
+      width: 110px;
+      height: 110px;
 
-  background:var(--beige-light);
+      border: 2px solid #d8c7a5;
 
-  left:50%;
-  top:50%;
+      border-radius: 50%;
 
-  transform:translate(-50%,-50%);
-}
+      margin: 0 auto 52px;
 
-/* AUTH */
+      position: relative;
+    }
 
-.header-actions{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
+    .hero-logo::before,
+    .hero-logo::after {
+      content: "";
 
-.header-btn{
-  border:0;
-  background:none;
+      position: absolute;
 
-  color:var(--white);
+      width: 65px;
+      height: 3px;
 
-  padding:10px 14px;
+      background: #d8c7a5;
 
-  font-size:14px;
-  font-weight:600;
+      left: 50%;
+      top: 50%;
+    }
 
-  border-radius:999px;
+    .hero-logo::before {
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
 
-  transition:.25s ease;
-}
+    .hero-logo::after {
+      transform: translate(-50%, -50%) rotate(-45deg);
+    }
 
-.header-btn:hover{
-  color:var(--beige-light);
-}
+    .hero-logo-dot {
+      position: absolute;
 
-.header-btn.outline{
-  border:1px solid var(--border-strong);
-  background:rgba(217,195,159,.035);
-}
+      width: 18px;
+      height: 18px;
 
-.header-btn.outline:hover{
-  background:rgba(217,195,159,.11);
-  border-color:var(--beige);
-}
+      border-radius: 50%;
 
-/* =========================================================
-   HERO
-========================================================= */
+      background: #d8c7a5;
 
-.hero{
-  width:100%;
+      left: 50%;
+      top: 50%;
 
-  min-height:calc(100vh - 79px);
+      transform: translate(-50%, -50%);
+    }
 
-  display:flex;
-  align-items:center;
-  justify-content:center;
+    /* =========================
+       TITULOS
+    ========================= */
 
-  padding:70px 0 65px;
+    h1,
+    h2,
+    h3 {
+      font-family: "Playfair Display", serif;
+    }
 
-  position:relative;
-}
+    .hero h1 {
+      max-width: 900px;
 
-.hero::before{
-  content:"";
+      margin: 0 auto;
 
-  position:absolute;
+      font-size: clamp(46px, 6vw, 78px);
 
-  width:620px;
-  height:360px;
+      line-height: .98;
 
-  background:radial-gradient(
-    circle,
-    rgba(217,195,159,.085),
-    transparent 68%
-  );
+      letter-spacing: -2.5px;
 
-  top:15%;
-  left:50%;
+      font-weight: 600;
 
-  transform:translateX(-50%);
+      color: #f4f0e8;
+    }
 
-  pointer-events:none;
-}
+    .hero h1 span {
+      color: #d8c7a5;
+    }
 
-.hero-inner{
-  width:min(calc(100% - 40px),920px);
+    .hero-text {
+      max-width: 720px;
 
-  margin:auto;
+      margin: 38px auto 0;
 
-  text-align:center;
+      color: #a9a69f;
 
-  position:relative;
-  z-index:2;
+      font-size: clamp(17px, 2vw, 21px);
 
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-}
+      line-height: 1.65;
+    }
 
-/* CENTRAL LOGO */
+    /* =========================
+       BOTON PRINCIPAL
+    ========================= */
 
-.hero-logo{
-  width:92px;
-  height:92px;
+    .main-btn {
+      margin-top: 42px;
 
-  border:2px solid var(--beige);
+      padding: 17px 30px;
 
-  border-radius:50%;
+      border-radius: 999px;
 
-  position:relative;
+      border: 1px solid #8f836c;
 
-  margin-bottom:35px;
+      background: #292720;
 
-  box-shadow:
-    0 0 0 8px rgba(217,195,159,.035),
-    0 0 55px rgba(217,195,159,.09);
-}
+      color: #e7d8b8;
 
-.hero-logo::before,
-.hero-logo::after{
-  content:"";
+      font-size: 17px;
 
-  position:absolute;
+      font-weight: 600;
 
-  width:40px;
-  height:2px;
+      cursor: pointer;
 
-  background:var(--beige-light);
+      transition:
+        transform .25s ease,
+        background .25s ease,
+        color .25s ease;
+    }
 
-  left:50%;
-  top:50%;
-}
+    .main-btn:hover {
+      transform: translateY(-3px);
 
-.hero-logo::before{
-  transform:translate(-50%,-50%) rotate(45deg);
-}
+      background: #d8c7a5;
 
-.hero-logo::after{
-  transform:translate(-50%,-50%) rotate(-45deg);
-}
+      color: #171510;
+    }
 
-.hero-logo span{
-  position:absolute;
+    /* =========================
+       SERVICIOS
+    ========================= */
 
-  width:10px;
-  height:10px;
+    .services {
+      width: min(1180px, calc(100% - 32px));
 
-  border-radius:50%;
+      margin: 0 auto;
 
-  background:var(--beige-light);
+      padding: 55px 0 80px;
 
-  left:50%;
-  top:50%;
+      text-align: center;
+    }
 
-  transform:translate(-50%,-50%);
-}
+    .section-label {
+      color: #d8c7a5;
 
-/* HERO TEXT */
+      font-size: 13px;
 
-.hero h1{
-  font-family:"Manrope",sans-serif;
+      font-weight: 700;
 
-  font-size:clamp(42px,6vw,76px);
+      letter-spacing: 6px;
 
-  line-height:.99;
+      margin-bottom: 20px;
+    }
 
-  letter-spacing:-.055em;
+    .services h2 {
+      font-size: clamp(38px, 5vw, 60px);
 
-  font-weight:800;
+      line-height: 1;
 
-  max-width:850px;
+      max-width: 800px;
 
-  margin-bottom:25px;
-}
+      margin: 0 auto;
 
-.hero h1 .accent{
-  color:var(--beige-light);
-}
+      letter-spacing: -1.5px;
+    }
 
-.hero p{
-  max-width:680px;
+    .services-description {
+      max-width: 700px;
 
-  color:#aaa69f;
+      margin: 27px auto 0;
 
-  font-size:clamp(16px,2vw,20px);
+      color: #a9a69f;
 
-  line-height:1.65;
+      font-size: 17px;
 
-  margin-bottom:35px;
-}
+      line-height: 1.65;
+    }
 
-.primary-btn{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
+    /* =========================
+       CARRUSEL
+    ========================= */
 
-  min-width:190px;
+    .carousel-wrapper {
+      width: 100%;
 
-  padding:16px 25px;
+      overflow: hidden;
 
-  border-radius:999px;
+      margin-top: 50px;
+    }
 
-  border:1px solid var(--border-strong);
+    .carousel {
+      display: flex;
 
-  background:
-    linear-gradient(
-      135deg,
-      rgba(217,195,159,.18),
-      rgba(217,195,159,.055)
-    );
+      gap: 18px;
 
-  color:var(--beige-light);
+      width: max-content;
 
-  font-size:15px;
-  font-weight:700;
+      animation: carouselMove 22s linear infinite;
+    }
 
-  box-shadow:
-    0 15px 45px rgba(0,0,0,.35),
-    inset 0 1px rgba(255,255,255,.05);
+    .service-card {
+      width: 310px;
+      min-height: 230px;
 
-  transition:.3s ease;
-}
+      padding: 32px;
 
-.primary-btn:hover{
-  transform:translateY(-3px);
+      border-radius: 28px;
 
-  background:
-    linear-gradient(
-      135deg,
-      rgba(217,195,159,.27),
-      rgba(217,195,159,.08)
-    );
+      background: #11110f;
 
-  border-color:var(--beige);
-}
+      border: 1px solid #39352e;
 
-/* =========================================================
-   SERVICES
-========================================================= */
+      text-align: left;
 
-.services{
-  width:100%;
+      flex-shrink: 0;
 
-  padding:55px 0 65px;
-}
+      position: relative;
+    }
 
-.section-head{
-  text-align:center;
+    .service-card:nth-child(2) {
+      border-color: rgba(185,200,177,.55);
+    }
 
-  max-width:720px;
+    .service-card:nth-child(3) {
+      border-color: rgba(215,185,180,.55);
+    }
 
-  margin:0 auto 34px;
-}
+    .service-card:nth-child(4) {
+      border-color: rgba(200,191,220,.55);
+    }
 
-.section-label{
-  color:var(--beige);
+    .service-card:nth-child(5) {
+      border-color: rgba(185,201,216,.55);
+    }
 
-  font-size:12px;
-  font-weight:800;
+    .service-card h3 {
+      font-size: 27px;
 
-  letter-spacing:.32em;
+      line-height: 1.1;
 
-  text-transform:uppercase;
+      margin-bottom: 17px;
 
-  margin-bottom:13px;
-}
+      color: #eee9df;
+    }
 
-.section-title{
-  font-family:"Manrope",sans-serif;
+    .service-card p {
+      color: #9e9a92;
 
-  font-size:clamp(31px,4vw,50px);
+      font-size: 15px;
 
-  line-height:1.05;
+      line-height: 1.6;
+    }
 
-  letter-spacing:-.045em;
+    .card-line {
+      width: 45px;
+      height: 3px;
 
-  margin-bottom:15px;
-}
+      background: #d8c7a5;
 
-.section-description{
-  color:#99958e;
+      margin-bottom: 28px;
 
-  line-height:1.65;
+      border-radius: 10px;
+    }
 
-  font-size:15px;
-}
+    @keyframes carouselMove {
 
-/* CAROUSEL */
+      0% {
+        transform: translateX(0);
+      }
 
-.carousel{
-  position:relative;
+      100% {
+        transform: translateX(-50%);
+      }
 
-  width:100%;
+    }
 
-  min-height:315px;
+    /* =========================
+       CONTACTO
+    ========================= */
 
-  overflow:hidden;
+    .contact {
+      width: min(900px, calc(100% - 32px));
 
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
+      margin: 0 auto;
 
-.service-card{
-  position:absolute;
+      padding: 65px 25px 80px;
 
-  width:min(780px,90%);
+      text-align: center;
 
-  min-height:285px;
+      border-top: 1px solid #292721;
+    }
 
-  padding:38px;
+    .contact h2 {
+      font-size: clamp(38px, 5vw, 58px);
 
-  border-radius:var(--radius);
+      line-height: 1;
 
-  border:1px solid var(--border);
+      margin-bottom: 25px;
+    }
 
-  background:
-    linear-gradient(
-      145deg,
-      rgba(217,195,159,.075),
-      rgba(255,255,255,.018)
-    );
+    .contact p {
+      max-width: 680px;
 
-  box-shadow:var(--shadow);
+      margin: 0 auto;
 
-  opacity:0;
+      color: #a9a69f;
 
-  transform:
-    translateX(45px)
-    scale(.96);
+      font-size: 17px;
 
-  transition:
-    opacity .7s ease,
-    transform .7s ease;
-}
+      line-height: 1.7;
+    }
 
-.service-card.active{
-  opacity:1;
+    .contact-btn {
+      margin-top: 30px;
 
-  transform:
-    translateX(0)
-    scale(1);
-}
+      padding: 15px 26px;
 
-.service-number{
-  color:var(--beige);
+      border-radius: 999px;
 
-  font-size:12px;
-  font-weight:800;
+      border: 1px solid #d8c7a5;
 
-  letter-spacing:.25em;
+      background: #d8c7a5;
 
-  margin-bottom:35px;
-}
+      color: #181712;
 
-.service-card h3{
-  font-family:"Manrope",sans-serif;
+      font-weight: 700;
 
-  font-size:clamp(25px,4vw,38px);
+      cursor: pointer;
+    }
 
-  letter-spacing:-.035em;
+    /* =========================
+       FOOTER
+    ========================= */
 
-  margin-bottom:13px;
-}
+    footer {
+      width: 100%;
 
-.service-card p{
-  max-width:620px;
+      text-align: center;
 
-  color:#a39f98;
+      padding: 30px 20px 35px;
 
-  line-height:1.65;
+      border-top: 1px solid #24231f;
 
-  font-size:15px;
-}
+      color: #d8c7a5;
+    }
 
-.service-line{
-  width:55px;
-  height:2px;
+    footer strong {
+      display: block;
 
-  margin-top:30px;
+      font-size: 15px;
 
-  background:linear-gradient(
-    90deg,
-    var(--beige),
-    transparent
-  );
-}
+      margin-bottom: 5px;
+    }
 
-/* PASTEL DETAILS */
+    footer span {
+      font-size: 13px;
 
-.service-card:nth-child(1){
-  box-shadow:
-    0 30px 80px rgba(217,195,159,.08);
-}
+      color: #aaa59a;
+    }
 
-.service-card:nth-child(2){
-  box-shadow:
-    0 30px 80px rgba(217,191,194,.07);
-}
+    /* =========================
+       MODAL
+    ========================= */
 
-.service-card:nth-child(3){
-  box-shadow:
-    0 30px 80px rgba(191,203,213,.07);
-}
+    .modal {
+      position: fixed;
 
-.service-card:nth-child(4){
-  box-shadow:
-    0 30px 80px rgba(199,208,193,.07);
-}
+      inset: 0;
 
-.carousel-dots{
-  display:flex;
-  justify-content:center;
-  gap:8px;
+      background: rgba(5,5,4,.94);
 
-  margin-top:22px;
-}
+      display: none;
 
-.dot{
-  width:7px;
-  height:7px;
+      align-items: center;
 
-  border-radius:50%;
+      justify-content: center;
 
-  background:#36332f;
+      padding: 20px;
 
-  transition:.3s;
-}
+      z-index: 1000;
+    }
 
-.dot.active{
-  width:25px;
+    .modal.active {
+      display: flex;
+    }
 
-  border-radius:999px;
+    .modal-box {
+      width: min(430px, 100%);
 
-  background:var(--beige);
-}
+      background: #11110f;
 
-/* =========================================================
-   CONTACT
-========================================================= */
+      border: 1px solid #4a4439;
 
-.contact{
-  width:100%;
+      border-radius: 25px;
 
-  padding:55px 0 65px;
-}
+      padding: 30px;
 
-.contact-box{
-  width:min(100%,900px);
+      position: relative;
+    }
 
-  margin:auto;
+    .modal-box h2 {
+      font-size: 34px;
 
-  padding:55px 45px;
+      margin-bottom: 8px;
+    }
 
-  border-radius:32px;
+    .modal-box > p {
+      color: #96928a;
 
-  text-align:center;
+      margin-bottom: 25px;
+    }
 
-  border:1px solid rgba(217,195,159,.25);
+    .close-modal {
+      position: absolute;
 
-  background:
-    radial-gradient(
-      circle at 50% 0%,
-      rgba(217,195,159,.09),
-      transparent 60%
-    ),
-    rgba(255,255,255,.018);
+      top: 18px;
+      right: 20px;
 
-  box-shadow:
-    0 30px 90px rgba(0,0,0,.45);
-}
+      border: none;
 
-.contact-box h2{
-  font-family:"Manrope",sans-serif;
+      background: transparent;
 
-  font-size:clamp(29px,4vw,48px);
+      color: #d8c7a5;
 
-  letter-spacing:-.045em;
+      font-size: 25px;
 
-  margin-bottom:17px;
-}
+      cursor: pointer;
+    }
 
-.contact-box p{
-  color:#aaa69f;
+    .field {
+      margin-bottom: 15px;
+    }
 
-  max-width:650px;
+    .field label {
+      display: block;
 
-  margin:0 auto 27px;
+      font-size: 13px;
 
-  line-height:1.7;
-}
+      color: #c9c3b7;
 
-/* =========================================================
-   FOOTER
-========================================================= */
+      margin-bottom: 7px;
+    }
 
-.footer{
-  border-top:1px solid rgba(217,195,159,.13);
+    .field input {
+      width: 100%;
 
-  padding:28px 0;
+      padding: 14px 15px;
 
-  margin-top:10px;
-}
+      background: #0a0a09;
 
-.footer-inner{
-  width:min(calc(100% - 40px),var(--max));
+      border: 1px solid #39362f;
 
-  margin:auto;
+      border-radius: 12px;
 
-  display:flex;
+      color: white;
 
-  align-items:center;
-  justify-content:space-between;
+      outline: none;
+    }
 
-  gap:20px;
-}
+    .field input:focus {
+      border-color: #d8c7a5;
+    }
 
-.footer strong{
-  color:var(--beige-light);
-}
+    .submit-btn {
+      width: 100%;
 
-.footer span{
-  color:#77736d;
+      padding: 15px;
 
-  font-size:13px;
-}
+      border: none;
 
-/* =========================================================
-   MODAL AUTH
-========================================================= */
+      border-radius: 12px;
 
-.modal{
-  position:fixed;
+      background: #d8c7a5;
 
-  inset:0;
+      color: #171510;
 
-  z-index:200;
+      font-weight: 700;
 
-  background:rgba(0,0,0,.78);
+      cursor: pointer;
 
-  backdrop-filter:blur(18px);
+      margin-top: 7px;
+    }
 
-  display:none;
+    /* =========================
+       CHAT
+    ========================= */
 
-  align-items:center;
-  justify-content:center;
+    .chat-overlay {
+      position: fixed;
 
-  padding:20px;
-}
+      inset: 0;
 
-.modal.open{
-  display:flex;
-}
+      background: #080807;
 
-.auth-box{
-  width:min(100%,440px);
+      z-index: 2000;
 
-  padding:35px;
+      display: none;
 
-  border-radius:28px;
+      flex-direction: column;
+    }
 
-  background:#0b0b0b;
+    .chat-overlay.active {
+      display: flex;
+    }
 
-  border:1px solid var(--border);
+    .chat-header {
+      height: 70px;
 
-  box-shadow:0 30px 100px rgba(0,0,0,.7);
+      border-bottom: 1px solid #292721;
 
-  animation:modalIn .3s ease;
-}
+      display: flex;
 
-@keyframes modalIn{
-  from{
-    opacity:0;
-    transform:translateY(15px) scale(.98);
-  }
+      align-items: center;
 
-  to{
-    opacity:1;
-    transform:none;
-  }
-}
+      justify-content: space-between;
 
-.auth-top{
-  display:flex;
+      padding: 0 25px;
+    }
 
-  justify-content:space-between;
-  align-items:center;
+    .chat-brand {
+      display: flex;
 
-  margin-bottom:25px;
-}
+      align-items: center;
 
-.auth-top h2{
-  font-family:"Manrope",sans-serif;
+      gap: 10px;
 
-  font-size:28px;
-}
+      font-weight: 600;
+    }
 
-.close-btn{
-  width:38px;
-  height:38px;
+    .chat-logo {
+      width: 32px;
+      height: 32px;
 
-  border-radius:50%;
+      border: 1.5px solid #d8c7a5;
 
-  border:1px solid var(--border);
+      border-radius: 50%;
 
-  background:#111;
+      position: relative;
+    }
 
-  color:var(--beige-light);
+    .chat-logo::before,
+    .chat-logo::after {
+      content: "";
 
-  font-size:20px;
-}
+      position: absolute;
 
-.auth-form{
-  display:flex;
-  flex-direction:column;
+      width: 19px;
+      height: 1.5px;
 
-  gap:13px;
-}
+      background: #d8c7a5;
 
-.auth-form input{
-  width:100%;
+      left: 50%;
+      top: 50%;
+    }
 
-  padding:15px 16px;
+    .chat-logo::before {
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
 
-  border-radius:14px;
+    .chat-logo::after {
+      transform: translate(-50%, -50%) rotate(-45deg);
+    }
 
-  border:1px solid rgba(217,195,159,.18);
+    .chat-close {
+      border: none;
 
-  background:#111;
+      background: transparent;
 
-  color:var(--white);
+      color: #d8c7a5;
 
-  outline:none;
+      font-size: 28px;
 
-  font-size:15px;
+      cursor: pointer;
+    }
 
-  transition:.2s;
-}
+    .chat-content {
+      width: min(850px, calc(100% - 32px));
 
-.auth-form input:focus{
-  border-color:var(--beige);
-  box-shadow:0 0 0 3px rgba(217,195,159,.07);
-}
+      flex: 1;
 
-.auth-submit{
-  margin-top:7px;
+      overflow-y: auto;
 
-  padding:15px;
+      margin: 0 auto;
 
-  border-radius:14px;
+      padding: 35px 0 120px;
+    }
 
-  border:1px solid var(--border-strong);
+    .message {
+      margin-bottom: 20px;
 
-  background:var(--beige);
+      max-width: 75%;
 
-  color:#15120e;
+      padding: 14px 17px;
 
-  font-weight:800;
-}
+      border-radius: 18px;
 
-.auth-switch{
-  margin-top:18px;
+      line-height: 1.55;
 
-  text-align:center;
+      font-size: 15px;
+    }
 
-  color:#88847e;
+    .message.bot {
+      background: #151512;
 
-  font-size:13px;
-}
+      border: 1px solid #312e27;
 
-.auth-switch button{
-  border:0;
-  background:none;
+      color: #ddd8cd;
 
-  color:var(--beige-light);
+      margin-right: auto;
 
-  font-weight:700;
-}
+      border-bottom-left-radius: 5px;
+    }
 
-/* =========================================================
-   CHAT
-========================================================= */
+    .message.user {
+      background: #d8c7a5;
 
-.chat-overlay{
-  position:fixed;
+      color: #171510;
 
-  inset:0;
+      margin-left: auto;
 
-  z-index:150;
+      border-bottom-right-radius: 5px;
+    }
 
-  background:#050505;
+    .chat-input-area {
+      position: fixed;
 
-  display:none;
+      bottom: 0;
+      left: 0;
+      right: 0;
 
-  flex-direction:column;
-}
+      padding: 15px 20px;
 
-.chat-overlay.open{
-  display:flex;
-}
+      background: rgba(8,8,7,.98);
 
-.chat-header{
-  height:72px;
+      border-top: 1px solid #292721;
+    }
 
-  flex-shrink:0;
+    .chat-input-box {
+      width: min(850px, 100%);
 
-  border-bottom:1px solid rgba(217,195,159,.15);
+      margin: 0 auto;
 
-  display:flex;
+      display: flex;
 
-  align-items:center;
+      gap: 10px;
+    }
 
-  justify-content:space-between;
+    .chat-input {
+      flex: 1;
 
-  padding:0 18px;
+      border: 1px solid #39362f;
 
-  background:#070707;
-}
+      background: #11110f;
 
-.chat-brand{
-  display:flex;
-  align-items:center;
-  gap:10px;
+      color: white;
 
-  color:var(--white);
+      border-radius: 15px;
 
-  font-weight:800;
-}
+      padding: 14px;
 
-.chat-logo{
-  width:34px;
-  height:34px;
+      outline: none;
+    }
 
-  border-radius:50%;
+    .chat-send {
+      width: 50px;
 
-  border:1.5px solid var(--beige);
+      border: none;
 
-  position:relative;
-}
+      border-radius: 15px;
 
-.chat-logo::before,
-.chat-logo::after{
-  content:"";
+      background: #d8c7a5;
 
-  position:absolute;
+      color: #171510;
 
-  width:14px;
-  height:1.5px;
+      font-size: 19px;
 
-  background:var(--beige-light);
+      cursor: pointer;
+    }
 
-  left:50%;
-  top:50%;
-}
+    /* =========================
+       TABLET
+    ========================= */
 
-.chat-logo::before{
-  transform:translate(-50%,-50%) rotate(45deg);
-}
+    @media (max-width: 800px) {
 
-.chat-logo::after{
-  transform:translate(-50%,-50%) rotate(-45deg);
-}
+      header {
+        padding: 18px 17px;
+      }
 
-.chat-close{
-  width:40px;
-  height:40px;
+      .brand {
+        font-size: 16px;
+      }
 
-  border-radius:50%;
+      .auth-buttons {
+        gap: 6px;
+      }
 
-  border:1px solid var(--border);
+      .auth-btn {
+        padding: 9px 12px;
 
-  background:#111;
+        font-size: 12px;
+      }
 
-  color:var(--beige-light);
+      .hero {
+        padding-top: 55px;
+        padding-bottom: 55px;
+      }
 
-  font-size:21px;
-}
+      .hero-logo {
+        width: 95px;
+        height: 95px;
 
-.chat-body{
-  flex:1;
+        margin-bottom: 38px;
+      }
 
-  width:min(100%,950px);
+      .hero-logo::before,
+      .hero-logo::after {
+        width: 56px;
+      }
 
-  margin:auto;
+      .hero h1 {
+        font-size: clamp(39px, 8vw, 60px);
 
-  padding:30px 20px 15px;
+        letter-spacing: -1.8px;
+      }
 
-  overflow-y:auto;
+      .hero-text {
+        font-size: 16px;
+      }
 
-  display:flex;
+      .services {
+        padding-top: 40px;
+      }
 
-  flex-direction:column;
+    }
 
-  gap:16px;
-}
+    /* =========================
+       TELEFONO
+    ========================= */
 
-.chat-welcome{
-  margin:auto;
+    @media (max-width: 520px) {
 
-  text-align:center;
+      header {
+        padding: 14px 13px;
+      }
 
-  max-width:600px;
-}
+      .header-inner {
+        gap: 8px;
+      }
 
-.chat-welcome .mini-logo{
-  width:55px;
-  height:55px;
+      .logo {
+        width: 32px;
+        height: 32px;
+      }
 
-  margin:0 auto 20px;
+      .logo::before,
+      .logo::after {
+        width: 19px;
+      }
 
-  border-radius:50%;
+      .logo-dot {
+        width: 6px;
+        height: 6px;
+      }
 
-  border:1px solid var(--beige);
+      .brand {
+        gap: 8px;
 
-  position:relative;
-}
+        font-size: 14px;
+      }
 
-.chat-welcome .mini-logo::before,
-.chat-welcome .mini-logo::after{
-  content:"";
+      .auth-buttons {
+        gap: 4px;
+      }
 
-  position:absolute;
+      .auth-btn {
+        padding: 8px 10px;
 
-  width:23px;
-  height:1.5px;
+        font-size: 11px;
+      }
 
-  background:var(--beige);
+      .hero {
+        width: calc(100% - 24px);
 
-  top:50%;
-  left:50%;
-}
+        padding: 45px 8px 45px;
+      }
 
-.chat-welcome .mini-logo::before{
-  transform:translate(-50%,-50%) rotate(45deg);
-}
+      .hero-logo {
+        width: 84px;
+        height: 84px;
 
-.chat-welcome .mini-logo::after{
-  transform:translate(-50%,-50%) rotate(-45deg);
-}
+        margin-bottom: 32px;
+      }
 
-.chat-welcome h2{
-  font-family:"Manrope",sans-serif;
+      .hero-logo::before,
+      .hero-logo::after {
+        width: 48px;
 
-  font-size:clamp(28px,5vw,44px);
+        height: 2px;
+      }
 
-  letter-spacing:-.04em;
+      .hero-logo-dot {
+        width: 14px;
+        height: 14px;
+      }
 
-  margin-bottom:10px;
-}
+      .hero h1 {
+        font-size: 43px;
 
-.chat-welcome p{
-  color:#88847e;
-}
+        line-height: 1.02;
 
-.message{
-  max-width:76%;
+        letter-spacing: -1.7px;
+      }
 
-  padding:13px 16px;
+      .hero-text {
+        margin-top: 27px;
 
-  border-radius:17px;
+        font-size: 15.5px;
 
-  line-height:1.55;
+        line-height: 1.65;
+      }
 
-  font-size:14px;
+      .main-btn {
+        margin-top: 31px;
 
-  animation:messageIn .25s ease;
-}
+        padding: 15px 25px;
 
-@keyframes messageIn{
-  from{
-    opacity:0;
-    transform:translateY(7px);
-  }
+        font-size: 15px;
+      }
 
-  to{
-    opacity:1;
-    transform:none;
-  }
-}
+      .services {
+        width: calc(100% - 24px);
 
-.message.bot{
-  align-self:flex-start;
+        padding: 40px 0 55px;
+      }
 
-  background:#111;
+      .section-label {
+        font-size: 11px;
 
-  border:1px solid rgba(217,195,159,.13);
+        letter-spacing: 5px;
+      }
 
-  color:#ddd8cf;
+      .services h2 {
+        font-size: 38px;
 
-  border-bottom-left-radius:5px;
-}
+        line-height: 1.05;
+      }
 
-.message.user{
-  align-self:flex-end;
+      .services-description {
+        font-size: 15px;
 
-  background:
-    linear-gradient(
-      135deg,
-      rgba(217,195,159,.2),
-      rgba(217,195,159,.08)
-    );
+        margin-top: 20px;
+      }
 
-  border:1px solid rgba(217,195,159,.3);
+      .carousel-wrapper {
+        margin-top: 35px;
+      }
 
-  color:var(--beige-light);
+      .service-card {
+        width: 285px;
 
-  border-bottom-right-radius:5px;
-}
+        min-height: 210px;
 
-.chat-input-area{
-  width:min(100%,950px);
+        padding: 27px;
+      }
 
-  margin:auto;
+      .service-card h3 {
+        font-size: 25px;
+      }
 
-  padding:12px 20px 22px;
-}
+      .contact {
+        width: calc(100% - 24px);
 
-.chat-input-box{
-  display:flex;
+        padding: 50px 8px 60px;
+      }
 
-  align-items:flex-end;
+      .contact h2 {
+        font-size: 39px;
+      }
 
-  gap:10px;
+      .contact p {
+        font-size: 15px;
+      }
 
-  padding:8px;
+      footer {
+        padding-bottom: 28px;
+      }
 
-  background:#0d0d0d;
+      .message {
+        max-width: 88%;
+      }
 
-  border:1px solid rgba(217,195,159,.2);
+    }
 
-  border-radius:20px;
-}
-
-.chat-input{
-  flex:1;
-
-  min-height:45px;
-  max-height:130px;
-
-  resize:none;
-
-  border:0;
-  outline:none;
-
-  background:transparent;
-
-  color:var(--white);
-
-  padding:12px;
-
-  font-size:15px;
-}
-
-.chat-send{
-  width:45px;
-  height:45px;
-
-  border-radius:14px;
-
-  border:1px solid var(--border);
-
-  background:var(--beige);
-
-  color:#17130e;
-
-  font-size:18px;
-
-  font-weight:800;
-}
-
-/* =========================================================
-   ADMIN
-========================================================= */
-
-.admin-panel{
-  display:none;
-
-  position:fixed;
-
-  inset:0;
-
-  z-index:300;
-
-  background:#050505;
-
-  overflow:auto;
-}
-
-.admin-panel.open{
-  display:block;
-}
-
-.admin-inner{
-  width:min(calc(100% - 40px),1100px);
-
-  margin:0 auto;
-
-  padding:35px 0 60px;
-}
-
-.admin-header{
-  display:flex;
-
-  align-items:center;
-  justify-content:space-between;
-
-  margin-bottom:30px;
-}
-
-.admin-header h2{
-  font-family:"Manrope",sans-serif;
-
-  font-size:32px;
-}
-
-.admin-close{
-  border:1px solid var(--border);
-
-  background:#111;
-
-  color:var(--beige-light);
-
-  padding:10px 15px;
-
-  border-radius:999px;
-}
-
-.user-count{
-  padding:25px;
-
-  border:1px solid var(--border);
-
-  border-radius:22px;
-
-  background:#0c0c0c;
-
-  margin-bottom:20px;
-}
-
-.user-count strong{
-  display:block;
-
-  color:var(--beige-light);
-
-  font-size:42px;
-
-  margin-top:8px;
-}
-
-.users-table{
-  overflow-x:auto;
-
-  border:1px solid var(--border);
-
-  border-radius:22px;
-}
-
-.users-table table{
-  width:100%;
-
-  border-collapse:collapse;
-
-  min-width:650px;
-}
-
-.users-table th,
-.users-table td{
-  text-align:left;
-
-  padding:15px;
-
-  border-bottom:1px solid rgba(217,195,159,.09);
-
-  font-size:14px;
-}
-
-.users-table th{
-  color:var(--beige);
-
-  font-size:12px;
-
-  text-transform:uppercase;
-
-  letter-spacing:.1em;
-}
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media(max-width:700px){
-
-  .container,
-  .header-inner,
-  .footer-inner{
-    width:min(calc(100% - 28px),var(--max));
-  }
-
-  .header-inner{
-    min-height:68px;
-  }
-
-  .brand{
-    font-size:16px;
-    gap:9px;
-  }
-
-  .logo-mark{
-    width:34px;
-    height:34px;
-  }
-
-  .header-actions{
-    gap:3px;
-  }
-
-  .header-btn{
-    padding:8px 9px;
-    font-size:12px;
-  }
-
-  .header-btn.outline{
-    padding:8px 11px;
-  }
-
-  .hero{
-    min-height:auto;
-
-    padding:
-      65px
-      0
-      55px;
-  }
-
-  .hero-inner{
-    width:min(calc(100% - 24px),700px);
-  }
-
-  .hero-logo{
-    width:78px;
-    height:78px;
-
-    margin-bottom:28px;
-  }
-
-  .hero h1{
-    font-size:clamp(38px,11vw,58px);
-
-    line-height:1.01;
-
-    max-width:600px;
-  }
-
-  .hero p{
-    font-size:15px;
-
-    line-height:1.6;
-
-    max-width:530px;
-
-    margin-bottom:27px;
-  }
-
-  .primary-btn{
-    padding:15px 23px;
-  }
-
-  .services{
-    padding:42px 0 50px;
-  }
-
-  .section-head{
-    margin-bottom:25px;
-  }
-
-  .carousel{
-    min-height:285px;
-  }
-
-  .service-card{
-    width:94%;
-
-    min-height:255px;
-
-    padding:28px;
-  }
-
-  .service-number{
-    margin-bottom:25px;
-  }
-
-  .contact{
-    padding:40px 0 50px;
-  }
-
-  .contact-box{
-    padding:38px 24px;
-  }
-
-  .footer-inner{
-    flex-direction:column;
-
-    text-align:center;
-  }
-
-  .auth-box{
-    padding:27px 21px;
-  }
-
-  .message{
-    max-width:86%;
-  }
-}
-
-/* =========================================================
-   DESKTOP — EVITA ESPACIOS GIGANTES
-========================================================= */
-
-@media(min-width:1000px){
-
-  .hero{
-    min-height:620px;
-
-    padding:55px 0;
-  }
-
-  .hero-logo{
-    width:82px;
-    height:82px;
-
-    margin-bottom:27px;
-  }
-
-  .hero h1{
-    font-size:64px;
-
-    max-width:820px;
-
-    margin-bottom:19px;
-  }
-
-  .hero p{
-    font-size:17px;
-
-    max-width:640px;
-
-    margin-bottom:26px;
-  }
-
-  .services{
-    padding:45px 0 50px;
-  }
-
-  .contact{
-    padding:45px 0 50px;
-  }
-}
-
-/* =========================================================
-   ACCESSIBILITY
-========================================================= */
-
-button:focus-visible,
-input:focus-visible{
-  outline:2px solid var(--beige);
-  outline-offset:3px;
-}
-
-</style>
+  </style>
 </head>
 
 <body>
 
 <div class="page">
 
-<!-- =====================================================
-     HEADER
-===================================================== -->
+  <!-- =========================
+       HEADER
+  ========================= -->
 
-<header class="header">
+  <header>
 
-  <div class="header-inner">
+    <div class="header-inner">
 
-    <a href="#" class="brand">
-      <span class="logo-mark">
-        <span class="logo-dot"></span>
-      </span>
+      <a href="#" class="brand">
 
-      <span>SparkyKrea</span>
-    </a>
+        <div class="logo">
+          <div class="logo-dot"></div>
+        </div>
 
-    <div class="header-actions">
+        <span>SparkyKrea</span>
 
-      <button
-        class="header-btn"
-        onclick="openAuth('login')"
-      >
-        Iniciar sesión
-      </button>
+      </a>
 
-      <button
-        class="header-btn outline"
-        onclick="openAuth('register')"
-      >
-        Registrarse
-      </button>
+      <div class="auth-buttons">
 
-      <button
-        id="userButton"
-        class="header-btn outline"
-        style="display:none"
-        onclick="showAccountMenu()"
-      >
-        Usuario
-      </button>
+        <button
+          class="auth-btn"
+          onclick="openModal('login')"
+        >
+          Iniciar sesión
+        </button>
 
-    </div>
+        <button
+          class="auth-btn register-btn"
+          onclick="openModal('register')"
+        >
+          Registrarse
+        </button>
 
-  </div>
-
-</header>
-
-
-<!-- =====================================================
-     HERO
-===================================================== -->
-
-<main>
-
-<section class="hero">
-
-  <div class="hero-inner">
-
-    <div class="hero-logo">
-      <span></span>
-    </div>
-
-    <h1>
-      Damos forma a ideas que
-      <span class="accent">merecen hacerse realidad.</span>
-    </h1>
-
-    <p>
-      Estrategia, creatividad y desarrollo para convertir una visión
-      en una propuesta clara, atractiva y bien construida.
-    </p>
-
-    <button
-      class="primary-btn"
-      onclick="openChat()"
-    >
-      Comenzar ahora
-      <span>→</span>
-    </button>
-
-  </div>
-
-</section>
-
-
-<!-- =====================================================
-     SERVICES
-===================================================== -->
-
-<section class="services">
-
-  <div class="container">
-
-    <div class="section-head">
-
-      <div class="section-label">
-        Servicios
       </div>
 
-      <h2 class="section-title">
-        Construimos cada idea desde su esencia.
-      </h2>
+    </div>
 
-      <p class="section-description">
-        Analizamos lo que tienes, entendemos hacia dónde quieres llegar
-        y damos forma a una propuesta con sentido.
+  </header>
+
+
+  <!-- =========================
+       HERO
+  ========================= -->
+
+  <main>
+
+    <section class="hero">
+
+      <div class="hero-logo">
+
+        <div class="hero-logo-dot"></div>
+
+      </div>
+
+      <h1>
+        Damos forma a
+        <br>
+        ideas que <span>merecen</span>
+        <br>
+        hacerse realidad.
+      </h1>
+
+      <p class="hero-text">
+        Estrategia, creatividad y desarrollo para convertir
+        una visión en una propuesta clara, atractiva y bien
+        construida.
       </p>
 
-    </div>
+      <button
+        class="main-btn"
+        onclick="openChat()"
+      >
+        Comenzar ahora&nbsp; →
+      </button>
+
+    </section>
 
 
-    <div class="carousel">
+    <!-- =========================
+         SERVICIOS
+    ========================= -->
 
-      <article class="service-card active">
-
-        <div class="service-number">
-          01
-        </div>
-
-        <h3>
-          Marketing y estrategia
-        </h3>
-
-        <p>
-          Analizamos tu proyecto, tu público y tus objetivos para
-          construir una estrategia clara y coherente.
-        </p>
-
-        <div class="service-line"></div>
-
-      </article>
-
-
-      <article class="service-card">
-
-        <div class="service-number">
-          02
-        </div>
-
-        <h3>
-          Contenido creativo
-        </h3>
-
-        <p>
-          Desarrollamos conceptos, campañas, ideas visuales y contenido
-          pensado para comunicar de una forma atractiva y coherente.
-        </p>
-
-        <div class="service-line"></div>
-
-      </article>
-
-
-      <article class="service-card">
-
-        <div class="service-number">
-          03
-        </div>
-
-        <h3>
-          Identidad y presencia
-        </h3>
-
-        <p>
-          Damos personalidad a tus ideas para que puedan presentarse
-          con una imagen sólida, moderna y reconocible.
-        </p>
-
-        <div class="service-line"></div>
-
-      </article>
-
-
-      <article class="service-card">
-
-        <div class="service-number">
-          04
-        </div>
-
-        <h3>
-          Desarrollo de ideas
-        </h3>
-
-        <p>
-          Convertimos conceptos iniciales en propuestas estructuradas,
-          claras y preparadas para avanzar.
-        </p>
-
-        <div class="service-line"></div>
-
-      </article>
-
-    </div>
-
-
-    <div class="carousel-dots">
-
-      <span class="dot active"></span>
-      <span class="dot"></span>
-      <span class="dot"></span>
-      <span class="dot"></span>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- =====================================================
-     CONTACT
-===================================================== -->
-
-<section class="contact">
-
-  <div class="container">
-
-    <div class="contact-box">
+    <section class="services">
 
       <div class="section-label">
-        Hablemos
+        SERVICIOS
       </div>
 
       <h2>
-        Tu opinión también forma parte de SparkyKrea.
+        Construimos cada idea
+        <br>
+        desde su esencia.
+      </h2>
+
+      <p class="services-description">
+        Analizamos lo que tienes, entendemos hacia dónde
+        quieres llegar y damos forma a una propuesta con
+        sentido.
+      </p>
+
+
+      <div class="carousel-wrapper">
+
+        <div class="carousel">
+
+          <article class="service-card">
+
+            <div class="card-line"></div>
+
+            <h3>
+              Marketing y estrategia
+            </h3>
+
+            <p>
+              Analizamos tu propuesta y construimos
+              una dirección clara para hacerla crecer.
+            </p>
+
+          </article>
+
+
+          <article class="service-card">
+
+            <div class="card-line"></div>
+
+            <h3>
+              Contenido creativo
+            </h3>
+
+            <p>
+              Ideas, conceptos y contenido pensado
+              para conectar con las personas.
+            </p>
+
+          </article>
+
+
+          <article class="service-card">
+
+            <div class="card-line"></div>
+
+            <h3>
+              Identidad y presencia
+            </h3>
+
+            <p>
+              Creamos una identidad coherente,
+              reconocible y alineada con tu proyecto.
+            </p>
+
+          </article>
+
+
+          <article class="service-card">
+
+            <div class="card-line"></div>
+
+            <h3>
+              Desarrollo y experiencia
+            </h3>
+
+            <p>
+              Convertimos conceptos en experiencias
+              digitales claras y funcionales.
+            </p>
+
+          </article>
+
+
+          <article class="service-card">
+
+            <div class="card-line"></div>
+
+            <h3>
+              Campañas y crecimiento
+            </h3>
+
+            <p>
+              Organizamos ideas y acciones para llevar
+              tu proyecto hacia nuevos objetivos.
+            </p>
+
+          </article>
+
+
+          <!-- DUPLICADOS PARA EL LOOP -->
+
+          <article class="service-card">
+
+            <div class="card-line"></div>
+
+            <h3>
+              Marketing y estrategia
+            </h3>
+
+            <p>
+              Analizamos tu propuesta y construimos
+              una dirección clara para hacerla crecer.
+            </p>
+
+          </article>
+
+
+          <article class="service-card">
+
+            <div class="card-line"></div>
+
+            <h3>
+              Contenido creativo
+            </h3>
+
+            <p>
+              Ideas, conceptos y contenido pensado
+              para conectar con las personas.
+            </p>
+
+          </article>
+
+
+          <article class="service-card">
+
+            <div class="card-line"></div>
+
+            <h3>
+              Identidad y presencia
+            </h3>
+
+            <p>
+              Creamos una identidad coherente,
+              reconocible y alineada con tu proyecto.
+            </p>
+
+          </article>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =========================
+         CONTACTO
+    ========================= -->
+
+    <section class="contact">
+
+      <div class="section-label">
+        CONTACTO
+      </div>
+
+      <h2>
+        Tu opinión también
+        <br>
+        forma parte de SparkyKrea.
       </h2>
 
       <p>
@@ -1698,29 +1360,22 @@ input:focus-visible{
       </p>
 
       <button
-        class="primary-btn"
-        onclick="contactUs()"
+        class="contact-btn"
+        onclick="contactar()"
       >
-        Contáctanos
-        <span>→</span>
+        Contáctanos →
       </button>
 
-    </div>
+    </section>
 
-  </div>
-
-</section>
-
-</main>
+  </main>
 
 
-<!-- =====================================================
-     FOOTER
-===================================================== -->
+  <!-- =========================
+       FOOTER
+  ========================= -->
 
-<footer class="footer">
-
-  <div class="footer-inner">
+  <footer>
 
     <strong>
       by SparkyKreate
@@ -1730,135 +1385,140 @@ input:focus-visible{
       asesoría de marketing
     </span>
 
-  </div>
-
-</footer>
+  </footer>
 
 </div>
 
 
-<!-- =====================================================
-     AUTH MODAL
-===================================================== -->
+<!-- =========================
+     LOGIN / REGISTRO
+========================= -->
 
 <div
   class="modal"
   id="authModal"
-  onclick="closeAuthOutside(event)"
+  onclick="outsideModal(event)"
 >
 
   <div
-    class="auth-box"
+    class="modal-box"
     onclick="event.stopPropagation()"
   >
 
-    <div class="auth-top">
+    <button
+      class="close-modal"
+      onclick="closeModal()"
+    >
+      ×
+    </button>
 
-      <h2 id="authTitle">
-        Iniciar sesión
-      </h2>
+    <h2 id="modalTitle">
+      Iniciar sesión
+    </h2>
 
-      <button
-        class="close-btn"
-        onclick="closeAuth()"
-      >
-        ×
-      </button>
-
-    </div>
+    <p id="modalDescription">
+      Accede a tu espacio en SparkyKrea.
+    </p>
 
 
-    <form
-      class="auth-form"
-      id="authForm"
-      onsubmit="handleAuth(event)"
+    <div
+      class="field"
+      id="nameField"
+      style="display:none;"
     >
 
-      <div id="registerFields">
-
-        <input
-          id="firstName"
-          type="text"
-          placeholder="Nombre"
-          autocomplete="given-name"
-        >
-
-        <input
-          id="lastName"
-          type="text"
-          placeholder="Apellido"
-          autocomplete="family-name"
-        >
-
-      </div>
-
+      <label>
+        Nombre
+      </label>
 
       <input
-        id="email"
-        type="email"
-        placeholder="Correo electrónico"
-        required
-        autocomplete="email"
+        type="text"
+        id="firstName"
+        placeholder="Tu nombre"
       >
-
-
-      <input
-        id="password"
-        type="password"
-        placeholder="Contraseña"
-        required
-        minlength="6"
-        autocomplete="current-password"
-      >
-
-
-      <button
-        class="auth-submit"
-        type="submit"
-        id="authSubmit"
-      >
-        Iniciar sesión
-      </button>
-
-    </form>
-
-
-    <div class="auth-switch">
-
-      <span id="authSwitchText">
-        ¿No tienes una cuenta?
-      </span>
-
-      <button
-        id="authSwitchButton"
-        onclick="switchAuthMode()"
-      >
-        Registrarse
-      </button>
 
     </div>
+
+
+    <div
+      class="field"
+      id="surnameField"
+      style="display:none;"
+    >
+
+      <label>
+        Apellido
+      </label>
+
+      <input
+        type="text"
+        id="lastName"
+        placeholder="Tu apellido"
+      >
+
+    </div>
+
+
+    <div class="field">
+
+      <label>
+        Correo electrónico
+      </label>
+
+      <input
+        type="email"
+        id="email"
+        placeholder="correo@ejemplo.com"
+      >
+
+    </div>
+
+
+    <div class="field">
+
+      <label>
+        Contraseña
+      </label>
+
+      <input
+        type="password"
+        id="password"
+        placeholder="Tu contraseña"
+      >
+
+    </div>
+
+
+    <button
+      class="submit-btn"
+      onclick="submitAuth()"
+    >
+      Continuar
+    </button>
 
   </div>
 
 </div>
 
 
-<!-- =====================================================
+<!-- =========================
      CHAT
-===================================================== -->
+========================= -->
 
 <div
   class="chat-overlay"
   id="chatOverlay"
 >
 
-  <header class="chat-header">
+  <div class="chat-header">
 
     <div class="chat-brand">
 
       <div class="chat-logo"></div>
 
-      <span>SparkyKrea</span>
+      <span>
+        SparkyKrea
+      </span>
 
     </div>
 
@@ -1869,29 +1529,19 @@ input:focus-visible{
       ×
     </button>
 
-  </header>
+  </div>
 
 
   <div
-    class="chat-body"
-    id="chatBody"
+    class="chat-content"
+    id="chatContent"
   >
 
     <div
-      class="chat-welcome"
-      id="chatWelcome"
+      class="message bot"
+      id="welcomeMessage"
     >
-
-      <div class="mini-logo"></div>
-
-      <h2 id="chatGreeting">
-        Bienvenido.
-      </h2>
-
-      <p>
-        Cuéntame qué deseas trabajar.
-      </p>
-
+      Hola. Cuéntame qué deseas hacer.
     </div>
 
   </div>
@@ -1901,12 +1551,13 @@ input:focus-visible{
 
     <div class="chat-input-box">
 
-      <textarea
+      <input
         class="chat-input"
         id="chatInput"
-        placeholder="Escribe tu idea..."
-        rows="1"
-      ></textarea>
+        type="text"
+        placeholder="Escribe aquí..."
+        onkeydown="handleEnter(event)"
+      >
 
       <button
         class="chat-send"
@@ -1922,1035 +1573,362 @@ input:focus-visible{
 </div>
 
 
-<!-- =====================================================
-     ADMIN PANEL
-===================================================== -->
-
-<div
-  class="admin-panel"
-  id="adminPanel"
->
-
-  <div class="admin-inner">
-
-    <div class="admin-header">
-
-      <h2>
-        Panel de administración
-      </h2>
-
-      <button
-        class="admin-close"
-        onclick="closeAdmin()"
-      >
-        Cerrar
-      </button>
-
-    </div>
-
-
-    <div class="user-count">
-
-      Usuarios registrados
-
-      <strong id="userCount">
-        0
-      </strong>
-
-    </div>
-
-
-    <div class="users-table">
-
-      <table>
-
-        <thead>
-
-          <tr>
-            <th>Nombre</th>
-            <th>Apellido</th>
-            <th>Correo</th>
-            <th>Rol</th>
-            <th>Fecha</th>
-          </tr>
-
-        </thead>
-
-        <tbody id="usersTableBody">
-
-        </tbody>
-
-      </table>
-
-    </div>
-
-  </div>
-
-</div>
-
-
-<!-- =====================================================
-     SUPABASE
-===================================================== -->
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script>
 
-/* =========================================================
-   SUPABASE
-   PONDREMOS ESTOS DATOS EN EL SIGUIENTE PASO
-========================================================= */
+  /* =========================
+     MODAL
+  ========================= */
 
-const SUPABASE_URL = "PON_AQUI_TU_PROJECT_URL";
-const SUPABASE_KEY = "PON_AQUI_TU_PUBLISHABLE_KEY";
-
-let supabaseClient = null;
-
-if(
-  !SUPABASE_URL.includes("PON_AQUI") &&
-  !SUPABASE_KEY.includes("PON_AQUI")
-){
-  supabaseClient =
-    window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_KEY
-    );
-}
+  let authMode = "login";
 
 
-/* =========================================================
-   AUTH STATE
-========================================================= */
+  function openModal(mode) {
 
-let authMode = "login";
-let currentUser = null;
-let currentProfile = null;
+    authMode = mode;
 
+    const modal =
+      document.getElementById("authModal");
 
-/* =========================================================
-   ABRIR LOGIN / REGISTRO
-========================================================= */
+    const title =
+      document.getElementById("modalTitle");
 
-function openAuth(mode){
+    const description =
+      document.getElementById("modalDescription");
 
-  authMode = mode;
+    const nameField =
+      document.getElementById("nameField");
 
-  document
-    .getElementById("authModal")
-    .classList.add("open");
-
-  updateAuthUI();
-}
+    const surnameField =
+      document.getElementById("surnameField");
 
 
-function closeAuth(){
-
-  document
-    .getElementById("authModal")
-    .classList.remove("open");
-}
+    modal.classList.add("active");
 
 
-function closeAuthOutside(event){
+    if (mode === "register") {
 
-  if(event.target.id === "authModal"){
-    closeAuth();
-  }
+      title.textContent =
+        "Crear cuenta";
 
-}
+      description.textContent =
+        "Crea tu espacio en SparkyKrea.";
 
+      nameField.style.display =
+        "block";
 
-function switchAuthMode(){
+      surnameField.style.display =
+        "block";
 
-  authMode =
-    authMode === "login"
-      ? "register"
-      : "login";
+    } else {
 
-  updateAuthUI();
-}
+      title.textContent =
+        "Iniciar sesión";
 
+      description.textContent =
+        "Accede a tu espacio en SparkyKrea.";
 
-function updateAuthUI(){
+      nameField.style.display =
+        "none";
 
-  const title =
-    document.getElementById("authTitle");
+      surnameField.style.display =
+        "none";
 
-  const registerFields =
-    document.getElementById("registerFields");
-
-  const submit =
-    document.getElementById("authSubmit");
-
-  const switchText =
-    document.getElementById("authSwitchText");
-
-  const switchButton =
-    document.getElementById("authSwitchButton");
-
-  if(authMode === "register"){
-
-    title.textContent =
-      "Crear cuenta";
-
-    registerFields.style.display =
-      "flex";
-
-    registerFields.style.flexDirection =
-      "column";
-
-    registerFields.style.gap =
-      "13px";
-
-    submit.textContent =
-      "Crear cuenta";
-
-    switchText.textContent =
-      "¿Ya tienes una cuenta?";
-
-    switchButton.textContent =
-      "Iniciar sesión";
-
-  }else{
-
-    title.textContent =
-      "Iniciar sesión";
-
-    registerFields.style.display =
-      "none";
-
-    submit.textContent =
-      "Iniciar sesión";
-
-    switchText.textContent =
-      "¿No tienes una cuenta?";
-
-    switchButton.textContent =
-      "Registrarse";
+    }
 
   }
 
-}
 
+  function closeModal() {
 
-/* =========================================================
-   REGISTRO / LOGIN
-========================================================= */
-
-async function handleAuth(event){
-
-  event.preventDefault();
-
-  const email =
     document
-      .getElementById("email")
-      .value
-      .trim();
+      .getElementById("authModal")
+      .classList.remove("active");
 
-  const password =
-    document
-      .getElementById("password")
-      .value;
-
-  if(!supabaseClient){
-
-    alert(
-      "Primero conectaremos Supabase. Todavía faltan las claves del proyecto."
-    );
-
-    return;
   }
 
 
-  const submit =
-    document.getElementById("authSubmit");
+  function outsideModal(event) {
 
-  submit.disabled = true;
+    if (
+      event.target.id === "authModal"
+    ) {
 
-  submit.textContent =
-    "Procesando...";
+      closeModal();
+
+    }
+
+  }
 
 
-  try{
+  function submitAuth() {
 
-    if(authMode === "register"){
+    const email =
+      document.getElementById("email").value;
+
+    const password =
+      document.getElementById("password").value;
+
+
+    if (!email || !password) {
+
+      alert(
+        "Completa tu correo y contraseña."
+      );
+
+      return;
+
+    }
+
+
+    if (authMode === "register") {
 
       const firstName =
-        document
-          .getElementById("firstName")
-          .value
-          .trim();
+        document.getElementById("firstName").value;
 
       const lastName =
-        document
-          .getElementById("lastName")
-          .value
-          .trim();
+        document.getElementById("lastName").value;
 
 
-      if(!firstName || !lastName){
+      if (!firstName || !lastName) {
 
         alert(
-          "Escribe tu nombre y apellido."
+          "Completa tu nombre y apellido."
         );
 
         return;
-      }
-
-
-      const { data, error } =
-        await supabaseClient.auth.signUp({
-
-          email,
-          password,
-
-          options:{
-            data:{
-              first_name:firstName,
-              last_name:lastName
-            }
-          }
-
-        });
-
-
-      if(error)
-        throw error;
-
-
-      if(data.session){
-
-        alert(
-          "Cuenta creada correctamente."
-        );
-
-        closeAuth();
-
-      }else{
-
-        alert(
-          "Cuenta creada. Revisa tu correo para confirmar la cuenta."
-        );
-
-        closeAuth();
 
       }
 
-    }else{
+      alert(
+        "El registro se conectará a la base de datos."
+      );
 
-      const { data, error } =
-        await supabaseClient.auth.signInWithPassword({
+    } else {
 
-          email,
-          password
-
-        });
-
-
-      if(error)
-        throw error;
-
-
-      currentUser =
-        data.user;
-
-      await loadProfile();
-
-      closeAuth();
+      alert(
+        "El inicio de sesión se conectará a la base de datos."
+      );
 
     }
 
-  }catch(error){
-
-    console.error(error);
-
-    alert(
-      "No se pudo completar la operación:\n\n"
-      + error.message
-    );
-
-  }finally{
-
-    submit.disabled = false;
-
-    submit.textContent =
-      authMode === "register"
-        ? "Crear cuenta"
-        : "Iniciar sesión";
-
-  }
-
-}
-
-
-/* =========================================================
-   PERFIL
-========================================================= */
-
-async function loadProfile(){
-
-  if(!supabaseClient || !currentUser)
-    return;
-
-
-  const { data, error } =
-    await supabaseClient
-      .from("profiles")
-      .select("*")
-      .eq("id",currentUser.id)
-      .single();
-
-
-  if(error){
-
-    console.error(error);
-
-    return;
   }
 
 
-  currentProfile =
-    data;
+  /* =========================
+     CHAT
+  ========================= */
 
+  function openChat() {
 
-  updateHeaderUser();
+    const chat =
+      document.getElementById("chatOverlay");
 
-}
+    chat.classList.add("active");
 
+    document.body.style.overflow =
+      "hidden";
 
-function updateHeaderUser(){
 
-  const loginButtons =
-    document.querySelectorAll(
-      ".header-actions > .header-btn:not(#userButton)"
-    );
+    updateGreeting();
 
-  const userButton =
-    document.getElementById("userButton");
 
+    setTimeout(() => {
 
-  if(currentProfile){
+      document
+        .getElementById("chatInput")
+        .focus();
 
-    loginButtons.forEach(
-      button =>
-        button.style.display = "none"
-    );
-
-
-    userButton.style.display =
-      "block";
-
-
-    userButton.textContent =
-      currentProfile.first_name
-      + " "
-      + currentProfile.last_name;
-
-  }
-
-}
-
-
-/* =========================================================
-   CUENTA
-========================================================= */
-
-async function showAccountMenu(){
-
-  if(!currentProfile)
-    return;
-
-
-  const isAdmin =
-    currentProfile.role === "admin";
-
-
-  let message =
-    "Sesión iniciada como "
-    + currentProfile.first_name
-    + " "
-    + currentProfile.last_name
-    + ".";
-
-
-  if(isAdmin){
-
-    const openAdminPanel =
-      confirm(
-        message
-        + "\n\n¿Quieres abrir el panel de administración?"
-      );
-
-
-    if(openAdminPanel){
-
-      await openAdmin();
-
-    }else{
-
-      await signOut();
-
-    }
-
-  }else{
-
-    const logout =
-      confirm(
-        message
-        + "\n\n¿Quieres cerrar sesión?"
-      );
-
-
-    if(logout)
-      await signOut();
-
-  }
-
-}
-
-
-/* =========================================================
-   CERRAR SESIÓN
-========================================================= */
-
-async function signOut(){
-
-  if(supabaseClient){
-
-    await supabaseClient.auth.signOut();
-
-  }
-
-  currentUser = null;
-  currentProfile = null;
-
-  location.reload();
-
-}
-
-
-/* =========================================================
-   ADMIN
-========================================================= */
-
-async function openAdmin(){
-
-  if(!supabaseClient || !currentProfile)
-    return;
-
-
-  if(currentProfile.role !== "admin"){
-
-    alert(
-      "No tienes permisos de administrador."
-    );
-
-    return;
-  }
-
-
-  const { data, error } =
-    await supabaseClient
-      .from("profiles")
-      .select(
-        "first_name,last_name,email,role,created_at"
-      )
-      .order(
-        "created_at",
-        {
-          ascending:false
-        }
-      );
-
-
-  if(error){
-
-    alert(
-      "No se pudieron cargar los usuarios:\n\n"
-      + error.message
-    );
-
-    return;
-  }
-
-
-  document
-    .getElementById("adminPanel")
-    .classList.add("open");
-
-
-  document
-    .getElementById("userCount")
-    .textContent =
-      data.length;
-
-
-  const tbody =
-    document.getElementById(
-      "usersTableBody"
-    );
-
-
-  tbody.innerHTML = "";
-
-
-  data.forEach(user => {
-
-    const row =
-      document.createElement("tr");
-
-
-    const date =
-      new Date(
-        user.created_at
-      ).toLocaleDateString(
-        "es-ES"
-      );
-
-
-    row.innerHTML = `
-
-      <td>${escapeHtml(user.first_name)}</td>
-
-      <td>${escapeHtml(user.last_name)}</td>
-
-      <td>${escapeHtml(user.email)}</td>
-
-      <td>${escapeHtml(user.role)}</td>
-
-      <td>${date}</td>
-
-    `;
-
-
-    tbody.appendChild(row);
-
-  });
-
-}
-
-
-function closeAdmin(){
-
-  document
-    .getElementById("adminPanel")
-    .classList.remove("open");
-
-}
-
-
-function escapeHtml(value){
-
-  return String(value)
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
-
-}
-
-
-/* =========================================================
-   AUTH SESSION AL CARGAR
-========================================================= */
-
-async function initializeAuth(){
-
-  if(!supabaseClient)
-    return;
-
-
-  const {
-    data:{
-      session
-    }
-  } =
-    await supabaseClient
-      .auth
-      .getSession();
-
-
-  if(session){
-
-    currentUser =
-      session.user;
-
-    await loadProfile();
+    }, 200);
 
   }
 
 
-  supabaseClient
-    .auth
-    .onAuthStateChange(
-      async (event,session) => {
-
-        if(session){
-
-          currentUser =
-            session.user;
-
-          await loadProfile();
-
-        }else{
-
-          currentUser = null;
-          currentProfile = null;
-
-        }
-
-      }
-    );
-
-}
-
-
-/* =========================================================
-   CHAT
-========================================================= */
-
-function openChat(){
-
-  document
-    .getElementById("chatOverlay")
-    .classList.add("open");
-
-
-  updateGreeting();
-
-
-  setTimeout(() => {
+  function closeChat() {
 
     document
-      .getElementById("chatInput")
-      .focus();
+      .getElementById("chatOverlay")
+      .classList.remove("active");
 
-  },250);
-
-}
-
-
-function closeChat(){
-
-  document
-    .getElementById("chatOverlay")
-    .classList.remove("open");
-
-}
-
-
-function updateGreeting(){
-
-  const hour =
-    new Date().getHours();
-
-
-  let greeting;
-
-
-  if(hour < 12){
-
-    greeting =
-      "Buenos días.";
-
-  }else if(hour < 19){
-
-    greeting =
-      "Buenas tardes.";
-
-  }else{
-
-    greeting =
-      "Buenas noches.";
+    document.body.style.overflow =
+      "";
 
   }
 
 
-  document
-    .getElementById("chatGreeting")
-    .textContent =
-      greeting;
+  function updateGreeting() {
 
-}
+    const hour =
+      new Date().getHours();
 
+    let greeting =
+      "Hola.";
 
-/* =========================================================
-   CHAT MENSAJES
-========================================================= */
+    if (hour >= 5 && hour < 12) {
 
-function addMessage(
-  text,
-  type
-){
+      greeting =
+        "Buenos días.";
 
-  const welcome =
-    document.getElementById(
-      "chatWelcome"
-    );
+    } else if (
+      hour >= 12 &&
+      hour < 19
+    ) {
 
+      greeting =
+        "Buenas tardes.";
 
-  if(welcome)
-    welcome.remove();
+    } else {
 
-
-  const body =
-    document.getElementById(
-      "chatBody"
-    );
-
-
-  const message =
-    document.createElement(
-      "div"
-    );
-
-
-  message.className =
-    "message "
-    + type;
-
-
-  message.textContent =
-    text;
-
-
-  body.appendChild(message);
-
-
-  body.scrollTop =
-    body.scrollHeight;
-
-}
-
-
-function sendMessage(){
-
-  const input =
-    document.getElementById(
-      "chatInput"
-    );
-
-
-  const text =
-    input.value.trim();
-
-
-  if(!text)
-    return;
-
-
-  addMessage(
-    text,
-    "user"
-  );
-
-
-  input.value = "";
-
-
-  /*
-    RESPUESTA TEMPORAL.
-
-    Más adelante la reemplazaremos
-    por el sistema real conectado
-    al backend.
-  */
-
-  setTimeout(() => {
-
-    const lower =
-      text.toLowerCase();
-
-
-    if(
-      lower.includes("valorant") ||
-      lower.includes("reyna") ||
-      lower.includes("jett") ||
-      lower.includes("sage") ||
-      lower.includes("omen") ||
-      lower.includes("raze")
-    ){
-
-      addMessage(
-        "Entiendo. Estás trabajando con Valorant. Cuéntame qué quieres crear: contenido, una campaña, una pieza visual, una idea para redes o algo relacionado con un agente específico.",
-        "bot"
-      );
-
-      return;
+      greeting =
+        "Buenas noches.";
 
     }
 
 
-    if(
-      lower.includes("fortnite")
-    ){
+    document
+      .getElementById("welcomeMessage")
+      .textContent =
+      greeting +
+      " Cuéntame qué deseas hacer.";
 
-      addMessage(
-        "Perfecto. Es una idea relacionada con Fortnite. Dime si quieres trabajar con una skin, personaje, concepto visual, campaña o contenido para redes.",
-        "bot"
-      );
-
-      return;
-
-    }
+  }
 
 
-    if(
-      lower.includes("call of duty") ||
-      lower.includes("warzone")
-    ){
+  function handleEnter(event) {
 
-      addMessage(
-        "Perfecto. Entiendo que trabajamos con Call of Duty. Podemos desarrollar una idea alrededor de Warzone, un operador, un arma, una campaña o contenido.",
-        "bot"
-      );
+    if (event.key === "Enter") {
 
-      return;
+      sendMessage();
 
     }
 
-
-    if(
-      lower.includes("league of legends") ||
-      lower.includes("lol ") ||
-      lower === "lol"
-    ){
-
-      addMessage(
-        "Entendido. Estás hablando de League of Legends. Dime qué campeón, concepto o tipo de contenido quieres desarrollar.",
-        "bot"
-      );
-
-      return;
-
-    }
+  }
 
 
-    if(
-      lower.includes("free fire")
-    ){
+  function sendMessage() {
 
-      addMessage(
-        "Perfecto. Podemos trabajar una idea para Free Fire. Cuéntame si quieres enfocarte en un personaje, campaña, contenido o pieza visual.",
-        "bot"
-      );
+    const input =
+      document.getElementById("chatInput");
 
-      return;
+    const text =
+      input.value.trim();
 
-    }
+
+    if (!text) return;
 
 
     addMessage(
-      "Entiendo. Cuéntame un poco más sobre la idea y te ayudaré a convertirla en una propuesta clara.",
-      "bot"
+      text,
+      "user"
     );
 
-  },450);
 
-}
+    input.value = "";
 
 
-document
-  .getElementById("chatInput")
-  .addEventListener(
-    "keydown",
-    function(event){
+    setTimeout(() => {
 
-      if(
-        event.key === "Enter" &&
-        !event.shiftKey
-      ){
+      let response =
+        "Cuéntame un poco más sobre tu idea y qué resultado quieres conseguir.";
 
-        event.preventDefault();
+      const lower =
+        text.toLowerCase();
 
-        sendMessage();
+
+      if (
+        lower.includes("juego") ||
+        lower.includes("videojuego")
+      ) {
+
+        response =
+          "Perfecto. Podemos trabajar la idea del juego, su concepto, público, estilo visual, mecánicas y estrategia para presentarlo.";
 
       }
 
-    }
-  );
+      else if (
+        lower.includes("marketing") ||
+        lower.includes("publicidad")
+      ) {
+
+        response =
+          "Perfecto. Podemos analizar tu propuesta, definir el público, el mensaje, el contenido y una estrategia para promocionarla.";
+
+      }
+
+      else if (
+        lower.includes("logo") ||
+        lower.includes("marca")
+      ) {
+
+        response =
+          "Podemos trabajar la identidad de tu marca: concepto, personalidad, estilo visual, colores y la forma de comunicarla.";
+
+      }
+
+      else if (
+        lower.includes("hola") ||
+        lower.includes("hey") ||
+        lower.includes("buenas")
+      ) {
+
+        response =
+          "¡Hola! Cuéntame qué tienes en mente y lo vamos construyendo paso a paso.";
+
+      }
 
 
-/* =========================================================
-   CAROUSEL AUTOMÁTICO
-========================================================= */
+      addMessage(
+        response,
+        "bot"
+      );
 
-const cards =
-  document.querySelectorAll(
-    ".service-card"
-  );
+    }, 500);
 
-const dots =
-  document.querySelectorAll(
-    ".dot"
-  );
-
-let currentSlide = 0;
+  }
 
 
-function showSlide(index){
+  function addMessage(
+    text,
+    type
+  ) {
 
-  cards.forEach(
-    card =>
-      card.classList.remove("active")
-  );
-
-  dots.forEach(
-    dot =>
-      dot.classList.remove("active")
-  );
+    const container =
+      document.getElementById("chatContent");
 
 
-  cards[index]
-    .classList.add("active");
+    const message =
+      document.createElement("div");
 
 
-  dots[index]
-    .classList.add("active");
+    message.className =
+      "message " + type;
 
 
-  currentSlide =
-    index;
-
-}
+    message.textContent =
+      text;
 
 
-setInterval(() => {
-
-  showSlide(
-    (currentSlide + 1)
-    % cards.length
-  );
-
-},6500);
+    container.appendChild(
+      message
+    );
 
 
-/* =========================================================
-   CONTACTO
-========================================================= */
+    container.scrollTop =
+      container.scrollHeight;
 
-function contactUs(){
-
-  /*
-    Todavía no ponemos el correo definitivo.
-    Lo conectaremos cuando tengas el correo
-    oficial de SparkyKrea.
-  */
-
-  alert(
-    "Aquí conectaremos el correo oficial de SparkyKrea."
-  );
-
-}
+  }
 
 
-/* =========================================================
-   INICIO
-========================================================= */
+  /* =========================
+     CONTACTO
+  ========================= */
 
-initializeAuth();
+  function contactar() {
+
+    alert(
+      "Aquí colocaremos el correo oficial de SparkyKrea."
+    );
+
+  }
 
 </script>
 
