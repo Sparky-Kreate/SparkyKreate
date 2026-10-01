@@ -7,24 +7,29 @@
 <title>SparkyKrea</title>
 
 <style>
+
 :root{
     --black:#050505;
-    --black2:#0a0a0a;
+    --black2:#090909;
     --black3:#111111;
 
-    --white:#f7f5f1;
-    --gray:#a4a19c;
-    --gray2:#6f6d69;
+    --white:#f8f6f2;
+    --gray:#aaa6a0;
+    --gray2:#77736e;
 
-    /* BEIGE SOLO COMO ACENTO */
+    /* PALETA */
     --beige:#d8c19a;
-    --beige2:#ead8b9;
-    --beige3:#b89d70;
+    --cream:#ead8b9;
+    --sand:#cbb28b;
+
+    --pink:#d8b8bd;
+    --lavender:#c5bfd8;
+    --peach:#dfc2a5;
 
     --border:rgba(255,255,255,.08);
-    --beige-border:rgba(216,193,154,.45);
+    --beige-border:rgba(216,193,154,.38);
 
-    --vvh:100vh;
+    --vvh:100svh;
 }
 
 *{
@@ -40,6 +45,7 @@ html{
 body{
     background:var(--black);
     color:var(--white);
+
     font-family:
         Inter,
         ui-sans-serif,
@@ -48,6 +54,7 @@ body{
         BlinkMacSystemFont,
         "Segoe UI",
         sans-serif;
+
     overflow-x:hidden;
 }
 
@@ -66,27 +73,35 @@ a{
     text-decoration:none;
 }
 
+
 /* =====================================================
    HEADER
 ===================================================== */
 
 header{
     position:fixed;
+
     top:0;
     left:0;
+
     width:100%;
-    height:74px;
+    height:70px;
 
     display:flex;
     align-items:center;
     justify-content:space-between;
 
-    padding:0 5vw;
+    padding:
+        0 clamp(14px,4vw,60px);
 
-    background:rgba(5,5,5,.88);
+    background:
+        rgba(5,5,5,.86);
+
     backdrop-filter:blur(18px);
 
-    border-bottom:1px solid rgba(216,193,154,.10);
+    border-bottom:
+        1px solid
+        rgba(216,193,154,.12);
 
     z-index:1000;
 }
@@ -94,12 +109,19 @@ header{
 .brand{
     display:flex;
     align-items:center;
-    gap:11px;
 
-    font-size:18px;
-    font-weight:650;
-    letter-spacing:-.4px;
+    gap:10px;
+
+    min-width:0;
+
+    font-size:
+        clamp(15px,2vw,18px);
+
+    font-weight:700;
+
+    white-space:nowrap;
 }
+
 
 /* =====================================================
    LOGO
@@ -109,7 +131,9 @@ header{
     width:34px;
     height:34px;
 
-    border:1.5px solid var(--beige);
+    border:
+        1.5px solid
+        var(--beige);
 
     border-radius:50%;
 
@@ -122,7 +146,8 @@ header{
     flex-shrink:0;
 
     box-shadow:
-        0 0 20px rgba(216,193,154,.07);
+        0 0 25px
+        rgba(216,193,154,.10);
 }
 
 .logo::before{
@@ -133,7 +158,7 @@ header{
     width:17px;
     height:1.5px;
 
-    background:var(--beige);
+    background:var(--cream);
 
     transform:rotate(45deg);
 }
@@ -146,7 +171,7 @@ header{
     width:17px;
     height:1.5px;
 
-    background:var(--beige);
+    background:var(--cream);
 
     transform:rotate(-45deg);
 }
@@ -155,13 +180,14 @@ header{
     width:5px;
     height:5px;
 
-    border-radius:50%;
+    background:var(--beige);
 
-    background:var(--beige2);
+    border-radius:50%;
 
     position:relative;
     z-index:2;
 }
+
 
 /* =====================================================
    AUTH
@@ -170,323 +196,469 @@ header{
 .auth-buttons{
     display:flex;
     align-items:center;
-    gap:9px;
+
+    gap:4px;
+
+    flex-shrink:0;
 }
 
 .auth-btn{
     border:none;
+
     background:transparent;
 
-    color:#e8e6e2;
+    color:#ddd9d3;
 
-    padding:10px 14px;
+    padding:
+        9px 12px;
 
-    border-radius:12px;
+    border-radius:11px;
 
-    font-size:14px;
+    font-size:
+        clamp(11px,1.7vw,14px);
+
+    white-space:nowrap;
 
     transition:.25s ease;
 }
 
 .auth-btn:hover{
-    background:rgba(216,193,154,.07);
-    color:var(--beige2);
+    color:var(--cream);
+
+    background:
+        rgba(216,193,154,.07);
 }
 
 .auth-btn.register{
-    border:1px solid var(--beige-border);
-    color:var(--beige2);
+    border:
+        1px solid
+        var(--beige-border);
+
+    color:var(--cream);
+
+    background:
+        rgba(216,193,154,.035);
 }
 
 .auth-btn.register:hover{
-    background:rgba(216,193,154,.11);
+    background:
+        rgba(216,193,154,.12);
 }
+
+
+/* =====================================================
+   USER
+===================================================== */
 
 .user-pill{
     display:none;
 
     align-items:center;
 
-    padding:9px 14px;
+    padding:
+        8px 13px;
 
     border-radius:999px;
 
-    border:1px solid var(--beige-border);
+    border:
+        1px solid
+        var(--beige-border);
 
-    background:rgba(216,193,154,.07);
+    color:var(--cream);
 
-    color:var(--beige2);
+    background:
+        rgba(216,193,154,.06);
 
-    font-size:14px;
+    font-size:13px;
+
+    white-space:nowrap;
 }
+
 
 /* =====================================================
    HERO
 ===================================================== */
 
 .hero{
-    min-height:100svh;
+
+    min-height:
+        calc(var(--vvh) - 10px);
+
+    padding:
+        92px 20px
+        45px;
 
     display:flex;
+
     align-items:center;
     justify-content:center;
 
     text-align:center;
 
-    padding:
-        115px 20px
-        75px;
-
     position:relative;
+
+    overflow:hidden;
 }
 
+
+/* brillo pastel */
+
 .hero::before{
+
     content:"";
 
     position:absolute;
 
-    width:520px;
-    height:520px;
+    width:
+        clamp(280px,45vw,600px);
+
+    height:
+        clamp(280px,45vw,600px);
 
     border-radius:50%;
 
     background:
         radial-gradient(
             circle,
-            rgba(216,193,154,.08),
-            transparent 68%
+            rgba(216,193,154,.11) 0%,
+            rgba(216,193,154,.035) 35%,
+            transparent 70%
         );
 
-    filter:blur(18px);
+    filter:blur(15px);
+
+    pointer-events:none;
+}
+
+.hero::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:280px;
+    height:180px;
+
+    background:
+        radial-gradient(
+            ellipse,
+            rgba(197,191,216,.035),
+            transparent 70%
+        );
+
+    top:25%;
+    right:10%;
 
     pointer-events:none;
 }
 
 .hero-content{
-    width:100%;
-    max-width:850px;
 
-    position:relative;
-    z-index:2;
+    width:100%;
+
+    max-width:
+        min(900px,100%);
 
     margin:auto;
+
+    position:relative;
+
+    z-index:2;
 }
+
 
 /* =====================================================
    HERO LOGO
 ===================================================== */
 
 .hero-logo{
-    width:94px;
-    height:94px;
+
+    width:
+        clamp(70px,9vw,100px);
+
+    height:
+        clamp(70px,9vw,100px);
 
     margin:
-        0 auto 36px;
+        0 auto
+        clamp(22px,3vw,34px);
 
     border-width:2px;
 
     box-shadow:
-        0 0 50px rgba(216,193,154,.08);
+        0 0 50px
+        rgba(216,193,154,.12);
 }
 
 .hero-logo::before,
 .hero-logo::after{
-    width:45px;
+
+    width:
+        clamp(34px,4vw,48px);
 }
 
 .hero-logo .logo-center{
+
     width:8px;
     height:8px;
 }
 
+
 /* =====================================================
-   HERO TEXT
+   HERO TITULO
 ===================================================== */
 
 .hero h1{
+
     width:100%;
-    max-width:850px;
+
+    max-width:900px;
 
     margin:auto;
 
     font-size:
-        clamp(40px,7vw,82px);
-
-    line-height:.99;
-
-    letter-spacing:-4px;
-
-    font-weight:700;
-
-    background:
-        linear-gradient(
-            180deg,
-            #ffffff 0%,
-            #d8d5d0 100%
+        clamp(
+            36px,
+            6.2vw,
+            78px
         );
 
-    -webkit-background-clip:text;
-    background-clip:text;
+    line-height:
+        .98;
 
-    color:transparent;
+    letter-spacing:
+        clamp(-3.5px,-.4vw,-2px);
+
+    font-weight:750;
+
+    color:#f5f3ef;
+
+    text-wrap:balance;
 }
 
-.hero p{
-    max-width:680px;
-
-    margin:
-        26px auto 34px;
-
-    color:#aaa7a1;
-
-    font-size:
-        clamp(15px,2vw,19px);
-
-    line-height:1.7;
-}
 
 /* =====================================================
-   BOTÓN PRINCIPAL
+   HERO TEXTO
+===================================================== */
+
+.hero p{
+
+    width:100%;
+
+    max-width:650px;
+
+    margin:
+        clamp(18px,2.5vw,25px)
+        auto
+        clamp(22px,3vw,31px);
+
+    color:#aaa6a0;
+
+    font-size:
+        clamp(14px,1.8vw,18px);
+
+    line-height:1.6;
+
+    text-wrap:balance;
+}
+
+
+/* =====================================================
+   BOTON
 ===================================================== */
 
 .primary-btn{
+
     display:inline-flex;
 
     align-items:center;
     justify-content:center;
 
-    min-width:195px;
+    min-width:
+        clamp(175px,22vw,210px);
 
-    padding:16px 25px;
+    padding:
+        14px 23px;
 
     border-radius:999px;
 
     border:
         1px solid
-        rgba(216,193,154,.65);
+        rgba(216,193,154,.60);
 
     background:
+
         linear-gradient(
             135deg,
-            rgba(216,193,154,.20),
-            rgba(216,193,154,.08)
+            rgba(216,193,154,.18),
+            rgba(216,193,154,.06)
         );
 
-    color:var(--beige2);
+    color:var(--cream);
 
-    font-weight:700;
+    font-weight:750;
+
+    font-size:
+        clamp(13px,1.6vw,16px);
 
     box-shadow:
-        0 10px 35px rgba(0,0,0,.35);
+        0 12px 40px
+        rgba(0,0,0,.35);
 
     transition:.3s ease;
 }
 
 .primary-btn:hover{
-    transform:translateY(-3px);
+
+    transform:
+        translateY(-3px);
+
+    border-color:
+        rgba(234,216,185,.75);
 
     background:
-        rgba(216,193,154,.20);
+        rgba(216,193,154,.16);
 
     box-shadow:
-        0 15px 45px rgba(216,193,154,.08);
+        0 18px 45px
+        rgba(216,193,154,.08);
 }
 
-.primary-btn:active{
-    transform:scale(.97);
-}
 
 /* =====================================================
    SECCIONES
 ===================================================== */
 
 .section{
+
+    width:100%;
+
     padding:
-        90px 5vw;
+        55px
+        clamp(16px,4vw,60px);
+
+    position:relative;
 }
 
+
 .section-header{
+
     width:100%;
+
     max-width:850px;
 
     margin:
-        0 auto 42px;
+        0 auto
+        28px;
 
     text-align:center;
 }
 
 .section-kicker{
+
     color:var(--beige);
 
     text-transform:uppercase;
 
     letter-spacing:4px;
 
-    font-size:11px;
+    font-size:10px;
 
     font-weight:800;
 
-    margin-bottom:14px;
+    margin-bottom:11px;
 }
 
 .section-header h2{
+
     font-size:
-        clamp(32px,5vw,54px);
+        clamp(29px,4.5vw,52px);
 
     line-height:1.05;
 
-    letter-spacing:-2.7px;
+    letter-spacing:
+        clamp(-2.5px,-.2vw,-1.5px);
+
+    text-wrap:balance;
 }
 
 .section-header p{
+
     max-width:620px;
 
     margin:
-        18px auto 0;
+        14px auto 0;
 
-    color:#8e8b86;
+    color:#8f8b85;
 
-    line-height:1.7;
+    font-size:
+        clamp(13px,1.7vw,16px);
+
+    line-height:1.6;
 }
 
+
 /* =====================================================
-   SERVICES
+   SERVICIOS
 ===================================================== */
 
 .services-section{
-    padding-top:75px;
-    padding-bottom:90px;
+
+    padding-top:35px;
+
+    padding-bottom:55px;
 
     overflow:hidden;
 }
 
 .services-track{
+
     width:100%;
-    max-width:1100px;
+
+    max-width:1150px;
 
     margin:auto;
 
-    min-height:390px;
+    height:
+        clamp(310px,43vw,390px);
 
     display:flex;
+
     align-items:center;
     justify-content:center;
 
     position:relative;
 }
 
+
+/* =====================================================
+   CARDS
+===================================================== */
+
 .service-card{
+
     position:absolute;
 
-    width:min(680px,82vw);
+    width:
+        min(680px,82vw);
 
-    min-height:315px;
+    height:
+        clamp(270px,32vw,320px);
 
-    padding:40px;
+    padding:
+        clamp(25px,4vw,40px);
 
-    border-radius:28px;
+    border-radius:
+        clamp(20px,3vw,28px);
 
     background:
+
+        radial-gradient(
+            circle at top right,
+            rgba(216,193,154,.07),
+            transparent 42%
+        ),
+
         linear-gradient(
             145deg,
             #151515,
@@ -495,23 +667,25 @@ header{
 
     border:
         1px solid
-        rgba(216,193,154,.12);
+        rgba(216,193,154,.14);
 
     box-shadow:
-        0 30px 80px rgba(0,0,0,.55);
+        0 30px 80px
+        rgba(0,0,0,.55);
 
     opacity:0;
 
     transform:
-        translateX(90px)
+        translateX(80px)
         scale(.92);
 
     transition:
-        opacity .7s ease,
-        transform .7s cubic-bezier(.2,.7,.2,1);
+        opacity .65s ease,
+        transform .65s cubic-bezier(.2,.7,.2,1);
 }
 
 .service-card.active{
+
     opacity:1;
 
     transform:
@@ -521,61 +695,139 @@ header{
     z-index:5;
 
     border-color:
-        rgba(216,193,154,.34);
+        rgba(216,193,154,.35);
 }
 
 .service-card.prev{
-    opacity:.25;
+
+    opacity:.20;
 
     transform:
-        translateX(-290px)
-        scale(.88);
+        translateX(-260px)
+        scale(.87);
 
     z-index:2;
 }
 
 .service-card.next{
-    opacity:.25;
+
+    opacity:.20;
 
     transform:
-        translateX(290px)
-        scale(.88);
+        translateX(260px)
+        scale(.87);
 
     z-index:2;
 }
 
+
+/* pastel glow cards */
+
+.service-card:nth-child(2)::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:150px;
+    height:150px;
+
+    right:-50px;
+    top:-50px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(216,184,189,.10),
+            transparent 70%
+        );
+
+    pointer-events:none;
+}
+
+.service-card:nth-child(3)::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:150px;
+    height:150px;
+
+    right:-50px;
+    top:-50px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(197,191,216,.10),
+            transparent 70%
+        );
+
+    pointer-events:none;
+}
+
+.service-card:nth-child(4)::after{
+
+    content:"";
+
+    position:absolute;
+
+    width:150px;
+    height:150px;
+
+    right:-50px;
+    top:-50px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(223,194,165,.10),
+            transparent 70%
+        );
+
+    pointer-events:none;
+}
+
+
 .service-number{
+
     color:var(--beige);
 
-    font-size:12px;
+    font-size:11px;
 
     font-weight:800;
 
     letter-spacing:3px;
 
-    margin-bottom:32px;
+    margin-bottom:
+        clamp(20px,3vw,30px);
 }
 
 .service-card h3{
+
     font-size:
-        clamp(28px,4vw,42px);
+        clamp(26px,4vw,41px);
 
-    letter-spacing:-1.6px;
+    letter-spacing:-1.5px;
 
-    margin-bottom:18px;
+    margin-bottom:14px;
 }
 
 .service-card p{
-    color:#96938e;
 
-    line-height:1.75;
+    color:#96928c;
+
+    line-height:1.65;
 
     max-width:560px;
 
-    font-size:16px;
+    font-size:
+        clamp(13px,1.6vw,16px);
 }
 
 .service-line{
+
     width:70px;
     height:2px;
 
@@ -583,122 +835,154 @@ header{
         linear-gradient(
             90deg,
             var(--beige),
-            transparent
+            rgba(216,193,154,0)
         );
 
-    margin-top:34px;
+    margin-top:25px;
 }
+
 
 /* =====================================================
    DOTS
 ===================================================== */
 
 .carousel-dots{
+
     display:flex;
 
     justify-content:center;
 
-    gap:8px;
+    align-items:center;
 
-    margin-top:22px;
+    gap:7px;
+
+    margin-top:16px;
 }
 
 .dot{
-    width:7px;
-    height:7px;
+
+    width:6px;
+    height:6px;
 
     border-radius:50%;
 
-    background:#333;
+    background:#373737;
 
     transition:.3s ease;
 }
 
 .dot.active{
-    width:25px;
+
+    width:24px;
 
     border-radius:999px;
 
     background:var(--beige);
+
+    box-shadow:
+        0 0 12px
+        rgba(216,193,154,.20);
 }
+
 
 /* =====================================================
    CONTACTO
 ===================================================== */
 
 .contact-section{
+
+    width:100%;
+
     padding:
-        80px 5vw
-        105px;
+        50px
+        clamp(16px,4vw,60px)
+        65px;
 
     display:flex;
+
     align-items:center;
     justify-content:center;
 }
 
 .contact-box{
+
     width:100%;
+
     max-width:950px;
 
-    margin:auto;
-
     padding:
-        clamp(35px,7vw,70px);
+        clamp(30px,6vw,65px);
 
-    border-radius:30px;
+    border-radius:
+        clamp(22px,3vw,30px);
 
     text-align:center;
 
     border:
         1px solid
-        rgba(216,193,154,.24);
+        rgba(216,193,154,.25);
 
     background:
+
         radial-gradient(
             circle at top right,
             rgba(216,193,154,.09),
             transparent 42%
         ),
+
+        radial-gradient(
+            circle at bottom left,
+            rgba(197,191,216,.035),
+            transparent 38%
+        ),
+
         #0b0b0b;
 
     box-shadow:
-        0 30px 80px rgba(0,0,0,.35);
+        0 30px 80px
+        rgba(0,0,0,.35);
 }
 
 .contact-box h2{
-    font-size:
-        clamp(30px,5vw,52px);
 
-    letter-spacing:-2.5px;
+    font-size:
+        clamp(29px,4.7vw,51px);
+
+    letter-spacing:-2px;
 
     line-height:1.05;
 
-    margin-bottom:20px;
+    margin-bottom:17px;
 }
 
 .contact-box p{
+
     max-width:660px;
 
     margin:
-        0 auto 28px;
+        0 auto 25px;
 
-    color:#94918c;
+    color:#94908a;
 
-    line-height:1.75;
+    font-size:
+        clamp(13px,1.7vw,16px);
+
+    line-height:1.65;
 }
 
 .contact-btn{
+
     display:inline-flex;
 
     align-items:center;
     justify-content:center;
 
     padding:
-        14px 23px;
+        13px 22px;
 
     border-radius:999px;
 
-    color:var(--beige2);
+    color:var(--cream);
 
     border:
         1px solid
@@ -711,20 +995,27 @@ header{
 }
 
 .contact-btn:hover{
+
     background:
         rgba(216,193,154,.11);
 
-    transform:translateY(-2px);
+    transform:
+        translateY(-2px);
 }
+
 
 /* =====================================================
    FOOTER
 ===================================================== */
 
 footer{
+
+    width:100%;
+
     padding:
-        28px 5vw
-        35px;
+        24px
+        clamp(16px,4vw,60px)
+        30px;
 
     border-top:
         1px solid
@@ -735,22 +1026,25 @@ footer{
     justify-content:space-between;
     align-items:center;
 
-    color:#70706d;
+    color:#6f6c67;
 
-    font-size:13px;
+    font-size:12px;
 }
 
 footer strong{
+
     color:var(--beige);
 
     font-weight:700;
 }
+
 
 /* =====================================================
    MODALES
 ===================================================== */
 
 .modal{
+
     position:fixed;
 
     inset:0;
@@ -762,7 +1056,7 @@ footer strong{
     align-items:center;
     justify-content:center;
 
-    padding:20px;
+    padding:18px;
 
     background:
         rgba(0,0,0,.78);
@@ -771,20 +1065,30 @@ footer strong{
 }
 
 .modal.show{
+
     display:flex;
 
-    animation:modalIn .3s ease;
+    animation:
+        modalIn .3s ease;
 }
 
 @keyframes modalIn{
+
     from{opacity:0}
     to{opacity:1}
 }
 
 .modal-box{
-    width:min(430px,100%);
 
-    padding:30px;
+    width:
+        min(430px,100%);
+
+    max-height:
+        calc(100svh - 30px);
+
+    overflow-y:auto;
+
+    padding:28px;
 
     background:#0d0d0d;
 
@@ -792,35 +1096,21 @@ footer strong{
         1px solid
         rgba(216,193,154,.25);
 
-    border-radius:25px;
+    border-radius:24px;
 
     position:relative;
 
     box-shadow:
-        0 30px 100px rgba(0,0,0,.65);
-
-    animation:boxIn .35s ease;
-}
-
-@keyframes boxIn{
-    from{
-        transform:
-            translateY(20px)
-            scale(.97);
-    }
-
-    to{
-        transform:
-            translateY(0)
-            scale(1);
-    }
+        0 30px 100px
+        rgba(0,0,0,.65);
 }
 
 .modal-close{
+
     position:absolute;
 
-    top:15px;
-    right:16px;
+    top:13px;
+    right:14px;
 
     width:35px;
     height:35px;
@@ -837,44 +1127,50 @@ footer strong{
 }
 
 .modal-logo{
-    margin-bottom:22px;
+
+    margin-bottom:20px;
 }
 
 .modal-box h2{
-    font-size:28px;
 
-    margin-bottom:8px;
-}
-
-.modal-sub{
-    color:#858585;
-
-    font-size:14px;
-
-    line-height:1.6;
-
-    margin-bottom:24px;
-}
-
-.form-group{
-    margin-bottom:14px;
-}
-
-.form-group label{
-    display:block;
-
-    color:#aaa;
-
-    font-size:12px;
+    font-size:27px;
 
     margin-bottom:7px;
 }
 
+.modal-sub{
+
+    color:#858585;
+
+    font-size:13px;
+
+    line-height:1.6;
+
+    margin-bottom:21px;
+}
+
+.form-group{
+
+    margin-bottom:13px;
+}
+
+.form-group label{
+
+    display:block;
+
+    color:#aaa;
+
+    font-size:11px;
+
+    margin-bottom:6px;
+}
+
 .form-group input{
+
     width:100%;
 
     padding:
-        13px 14px;
+        12px 13px;
 
     border:
         1px solid
@@ -886,48 +1182,47 @@ footer strong{
 
     outline:none;
 
-    border-radius:12px;
+    border-radius:11px;
 }
 
 .form-group input:focus{
+
     border-color:
         rgba(216,193,154,.55);
 }
 
 .form-submit{
+
     width:100%;
 
-    margin-top:7px;
+    margin-top:6px;
 
-    padding:14px;
+    padding:13px;
 
     border:none;
 
-    border-radius:13px;
+    border-radius:12px;
 
     background:var(--beige);
 
     color:#111;
 
     font-weight:800;
-
-    transition:.25s ease;
 }
 
-.form-submit:hover{
-    background:var(--beige2);
-}
 
 /* =====================================================
    CHAT
 ===================================================== */
 
 .chat-overlay{
+
     position:fixed;
 
     inset:0;
 
     width:100%;
+
     height:var(--vvh);
 
     z-index:2000;
@@ -942,12 +1237,15 @@ footer strong{
 }
 
 .chat-overlay.open{
+
     display:flex;
 
-    animation:chatIn .35s ease;
+    animation:
+        chatIn .3s ease;
 }
 
 @keyframes chatIn{
+
     from{
         opacity:0;
         transform:scale(.985);
@@ -960,7 +1258,8 @@ footer strong{
 }
 
 .chat-header{
-    height:72px;
+
+    height:68px;
 
     flex-shrink:0;
 
@@ -970,7 +1269,8 @@ footer strong{
 
     justify-content:space-between;
 
-    padding:0 18px;
+    padding:
+        0 clamp(12px,3vw,25px);
 
     background:#050505;
 
@@ -980,54 +1280,69 @@ footer strong{
 }
 
 .chat-left{
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
 
-.chat-menu{
-    width:38px;
-    height:38px;
-
-    border:none;
-
-    border-radius:11px;
-
-    background:#111;
-
-    color:#cfcfcf;
-
-    font-size:19px;
-}
-
-.chat-brand{
     display:flex;
 
     align-items:center;
 
     gap:9px;
 
+    min-width:0;
+}
+
+.chat-menu{
+
+    width:37px;
+    height:37px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:#111;
+
+    color:#cfcfcf;
+
+    font-size:18px;
+
+    flex-shrink:0;
+}
+
+.chat-brand{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
     font-weight:650;
+
+    white-space:nowrap;
 }
 
 .chat-brand .logo{
+
     width:29px;
     height:29px;
 }
 
 .chat-brand .logo::before,
 .chat-brand .logo::after{
+
     width:13px;
 }
 
 .chat-brand .logo-center{
+
     width:4px;
     height:4px;
 }
 
 .chat-close{
-    width:39px;
-    height:39px;
+
+    width:38px;
+    height:38px;
 
     border:none;
 
@@ -1038,15 +1353,17 @@ footer strong{
     color:#aaa;
 
     font-size:22px;
+
+    flex-shrink:0;
 }
 
-.chat-close:hover{
-    color:var(--beige2);
 
-    background:#181818;
-}
+/* =====================================================
+   CHAT BODY
+===================================================== */
 
 .chat-body{
+
     flex:1;
 
     min-height:0;
@@ -1059,48 +1376,39 @@ footer strong{
 }
 
 .chat-messages{
+
     flex:1;
 
     overflow-y:auto;
 
     padding:
-        25px 18px 20px;
+        20px
+        clamp(12px,4vw,30px);
 
     display:flex;
 
     flex-direction:column;
 
-    gap:14px;
+    gap:12px;
 }
 
 .message{
-    max-width:min(760px,85%);
+
+    max-width:
+        min(760px,84%);
 
     padding:
-        13px 15px;
+        12px 14px;
 
-    border-radius:17px;
+    border-radius:16px;
 
     font-size:14px;
 
-    line-height:1.6;
-
-    animation:messageIn .25s ease;
-}
-
-@keyframes messageIn{
-    from{
-        opacity:0;
-        transform:translateY(7px);
-    }
-
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
+    line-height:1.55;
 }
 
 .message.bot{
+
     align-self:flex-start;
 
     background:#111;
@@ -1115,6 +1423,7 @@ footer strong{
 }
 
 .message.user{
+
     align-self:flex-end;
 
     background:
@@ -1130,20 +1439,23 @@ footer strong{
 }
 
 .message.bot strong{
-    color:var(--beige2);
+
+    color:var(--cream);
 }
+
 
 /* =====================================================
    CHAT INPUT
 ===================================================== */
 
 .chat-input-area{
+
     flex-shrink:0;
 
     padding:
-        12px 15px
-        max(15px,env(safe-area-inset-bottom));
-
+        10px
+        max(10px,env(safe-area-inset-bottom));
+    
     background:#050505;
 
     border-top:
@@ -1152,7 +1464,9 @@ footer strong{
 }
 
 .chat-input-box{
+
     width:100%;
+
     max-width:900px;
 
     margin:auto;
@@ -1161,9 +1475,9 @@ footer strong{
 
     align-items:flex-end;
 
-    gap:8px;
+    gap:7px;
 
-    padding:8px;
+    padding:7px;
 
     background:#101010;
 
@@ -1171,55 +1485,57 @@ footer strong{
         1px solid
         rgba(216,193,154,.16);
 
-    border-radius:17px;
+    border-radius:16px;
 }
 
 .chat-input-box textarea{
+
     flex:1;
 
-    min-height:42px;
-    max-height:120px;
+    min-height:40px;
+
+    max-height:115px;
 
     resize:none;
 
     border:none;
+
     outline:none;
 
     background:transparent;
 
     color:white;
 
-    padding:10px 8px;
+    padding:9px 7px;
 
-    line-height:1.45;
+    line-height:1.4;
 }
 
 .chat-input-box textarea::placeholder{
+
     color:#666;
 }
 
 .chat-action{
-    width:42px;
-    height:42px;
+
+    width:40px;
+    height:40px;
 
     flex-shrink:0;
 
     border:none;
 
-    border-radius:12px;
+    border-radius:11px;
 
     background:#181818;
 
     color:#aaa;
 
-    font-size:17px;
-}
-
-.chat-action:hover{
-    color:var(--beige2);
+    font-size:16px;
 }
 
 .chat-send{
+
     background:var(--beige);
 
     color:#111;
@@ -1227,17 +1543,20 @@ footer strong{
     font-weight:900;
 }
 
+
 /* =====================================================
    HISTORIAL
 ===================================================== */
 
 .history-panel{
+
     position:absolute;
 
     top:0;
     left:0;
 
-    width:min(330px,86vw);
+    width:
+        min(330px,86vw);
 
     height:100%;
 
@@ -1249,7 +1568,8 @@ footer strong{
         1px solid
         rgba(216,193,154,.15);
 
-    transform:translateX(-100%);
+    transform:
+        translateX(-100%);
 
     transition:.35s ease;
 
@@ -1257,70 +1577,58 @@ footer strong{
 }
 
 .history-panel.open{
-    transform:translateX(0);
+
+    transform:
+        translateX(0);
 }
 
 .history-title{
+
     display:flex;
 
     align-items:center;
 
     justify-content:space-between;
 
-    margin-bottom:18px;
+    margin-bottom:17px;
 }
 
 .history-title h3{
-    font-size:17px;
+
+    font-size:16px;
 }
 
 .new-chat{
+
     border:
         1px solid
         var(--beige-border);
 
-    color:var(--beige2);
+    color:var(--cream);
 
     background:transparent;
 
     border-radius:10px;
 
-    padding:8px 11px;
+    padding:7px 10px;
 
-    font-size:12px;
+    font-size:11px;
 }
 
-.history-list{
-    display:flex;
-
-    flex-direction:column;
-
-    gap:7px;
-}
-
-.history-item{
-    padding:11px;
-
-    border-radius:11px;
-
-    background:#121212;
-
-    color:#aaa;
-
-    font-size:13px;
-}
 
 /* =====================================================
    IMAGE PANEL
 ===================================================== */
 
 .image-panel{
+
     position:absolute;
 
-    right:15px;
-    bottom:88px;
+    right:12px;
+    bottom:82px;
 
-    width:min(360px,calc(100vw - 30px));
+    width:
+        min(360px,calc(100vw - 24px));
 
     background:#0e0e0e;
 
@@ -1328,42 +1636,47 @@ footer strong{
         1px solid
         rgba(216,193,154,.25);
 
-    border-radius:20px;
+    border-radius:19px;
 
-    padding:20px;
+    padding:18px;
 
     z-index:15;
 
     display:none;
 
     box-shadow:
-        0 20px 70px rgba(0,0,0,.65);
+        0 20px 70px
+        rgba(0,0,0,.65);
 }
 
 .image-panel.open{
+
     display:block;
 }
 
 .image-panel h3{
-    font-size:18px;
 
-    margin-bottom:7px;
+    font-size:17px;
+
+    margin-bottom:6px;
 }
 
 .image-panel p{
+
     color:#777;
 
-    font-size:13px;
+    font-size:12px;
 
     line-height:1.5;
 
-    margin-bottom:15px;
+    margin-bottom:13px;
 }
 
 .image-panel textarea{
+
     width:100%;
 
-    min-height:100px;
+    min-height:95px;
 
     resize:none;
 
@@ -1377,21 +1690,22 @@ footer strong{
 
     color:white;
 
-    border-radius:12px;
+    border-radius:11px;
 
-    padding:12px;
+    padding:11px;
 
-    margin-bottom:10px;
+    margin-bottom:9px;
 }
 
 .image-generate{
+
     width:100%;
 
-    padding:12px;
+    padding:11px;
 
     border:none;
 
-    border-radius:12px;
+    border-radius:11px;
 
     background:var(--beige);
 
@@ -1400,15 +1714,17 @@ footer strong{
     font-weight:800;
 }
 
+
 /* =====================================================
    TOAST
 ===================================================== */
 
 .toast{
+
     position:fixed;
 
     left:50%;
-    bottom:25px;
+    bottom:22px;
 
     transform:
         translate(-50%,20px);
@@ -1422,11 +1738,11 @@ footer strong{
     color:#ddd;
 
     padding:
-        11px 15px;
+        10px 14px;
 
-    border-radius:12px;
+    border-radius:11px;
 
-    font-size:13px;
+    font-size:12px;
 
     opacity:0;
 
@@ -1438,197 +1754,328 @@ footer strong{
 }
 
 .toast.show{
+
     opacity:1;
 
     transform:
         translate(-50%,0);
 }
 
+
 /* =====================================================
-   MOBILE
+   TABLET / MOVIL
 ===================================================== */
 
 @media(max-width:700px){
 
     header{
-        height:68px;
+
+        height:64px;
 
         padding:
-            0 15px;
+            0 12px;
     }
 
     .brand{
-        font-size:16px;
+
+        gap:8px;
+
+        font-size:15px;
+    }
+
+    .brand .logo{
+
+        width:31px;
+        height:31px;
+    }
+
+    .brand .logo::before,
+    .brand .logo::after{
+
+        width:15px;
     }
 
     .auth-buttons{
-        gap:2px;
+
+        gap:0;
     }
 
     .auth-btn{
-        padding:
-            8px 9px;
-
-        font-size:12px;
-    }
-
-    .hero{
-        min-height:100svh;
 
         padding:
-            105px 18px
-            65px;
-    }
-
-    .hero-content{
-        max-width:100%;
-    }
-
-    .hero-logo{
-        width:76px;
-        height:76px;
-
-        margin-bottom:28px;
-    }
-
-    .hero-logo::before,
-    .hero-logo::after{
-        width:37px;
-    }
-
-    .hero h1{
-        font-size:
-            clamp(37px,10.8vw,60px);
-
-        letter-spacing:-2.7px;
-    }
-
-    .hero p{
-        max-width:650px;
-
-        font-size:15px;
-
-        line-height:1.65;
-
-        margin:
-            20px auto 29px;
-    }
-
-    .section{
-        padding:
-            70px 17px;
-    }
-
-    .services-section{
-        padding-top:55px;
-    }
-
-    .services-track{
-        min-height:390px;
-    }
-
-    .service-card{
-        width:
-            calc(100vw - 34px);
-
-        min-height:330px;
-
-        padding:
-            28px 24px;
-    }
-
-    .service-card.prev{
-        transform:
-            translateX(-130px)
-            scale(.88);
-    }
-
-    .service-card.next{
-        transform:
-            translateX(130px)
-            scale(.88);
-    }
-
-    .service-card h3{
-        font-size:30px;
-    }
-
-    .contact-section{
-        padding:
-            60px 17px
-            75px;
-    }
-
-    .contact-box{
-        padding:
-            38px 22px;
-    }
-
-    footer{
-        flex-direction:column;
-
-        text-align:center;
-
-        gap:9px;
-    }
-
-    .message{
-        max-width:88%;
-    }
-
-    .chat-messages{
-        padding:
-            20px 14px;
-    }
-
-    .chat-input-area{
-        padding-left:10px;
-        padding-right:10px;
-    }
-}
-
-@media(max-width:390px){
-
-    .auth-btn{
-        padding:
-            7px;
+            8px 8px;
 
         font-size:11px;
     }
 
+    .hero{
+
+        min-height:
+            calc(var(--vvh) - 5px);
+
+        padding:
+            84px 16px
+            40px;
+    }
+
+    .hero-logo{
+
+        margin-bottom:24px;
+    }
+
     .hero h1{
-        font-size:37px;
+
+        font-size:
+            clamp(
+                35px,
+                10.2vw,
+                58px
+            );
+
+        letter-spacing:-2.6px;
+    }
+
+    .hero p{
+
+        font-size:14px;
+
+        max-width:620px;
+
+        margin:
+            18px auto
+            24px;
+    }
+
+    .primary-btn{
+
+        padding:
+            13px 21px;
+    }
+
+    .section{
+
+        padding:
+            42px 15px;
+    }
+
+    .services-section{
+
+        padding-top:35px;
+
+        padding-bottom:45px;
+    }
+
+    .section-header{
+
+        margin-bottom:20px;
+    }
+
+    .section-header p{
+
+        margin-top:11px;
+    }
+
+    .services-track{
+
+        height:320px;
+    }
+
+    .service-card{
+
+        width:
+            calc(100vw - 30px);
+
+        height:270px;
+
+        padding:25px 22px;
+    }
+
+    .service-card.prev{
+
+        transform:
+            translateX(-110px)
+            scale(.87);
+    }
+
+    .service-card.next{
+
+        transform:
+            translateX(110px)
+            scale(.87);
+    }
+
+    .service-card h3{
+
+        font-size:28px;
+    }
+
+    .service-card p{
+
+        font-size:13px;
+    }
+
+    .contact-section{
+
+        padding:
+            38px 15px
+            48px;
+    }
+
+    .contact-box{
+
+        padding:
+            34px 21px;
+    }
+
+    footer{
+
+        flex-direction:column;
+
+        gap:7px;
+
+        text-align:center;
     }
 }
 
+
 /* =====================================================
-   DESKTOP
+   PANTALLAS MUY PEQUEÑAS
+===================================================== */
+
+@media(max-width:380px){
+
+    .brand{
+
+        font-size:14px;
+    }
+
+    .auth-btn{
+
+        padding:
+            7px 6px;
+
+        font-size:10px;
+    }
+
+    .hero h1{
+
+        font-size:34px;
+
+        letter-spacing:-2.3px;
+    }
+
+    .hero p{
+
+        font-size:13px;
+    }
+
+    .services-track{
+
+        height:305px;
+    }
+
+    .service-card{
+
+        height:265px;
+    }
+}
+
+
+/* =====================================================
+   PANTALLAS GRANDES
 ===================================================== */
 
 @media(min-width:1000px){
 
     .hero{
-        padding-top:120px;
+
+        padding:
+            90px 40px
+            35px;
     }
 
     .services-section{
-        min-height:650px;
 
-        display:flex;
+        padding-top:35px;
 
-        flex-direction:column;
-
-        justify-content:center;
+        padding-bottom:50px;
     }
 
     .contact-section{
-        min-height:500px;
+
+        padding-top:45px;
+
+        padding-bottom:55px;
     }
 }
+
+
+/* =====================================================
+   SI EL ANCHO SE REDUCE MUCHO
+===================================================== */
+
+@media(max-width:500px){
+
+    header .auth-btn.register{
+
+        max-width:92px;
+
+        overflow:hidden;
+
+        text-overflow:ellipsis;
+    }
+}
+
+
+/* =====================================================
+   ORIENTACION HORIZONTAL EN MOVIL
+===================================================== */
+
+@media(max-height:600px) and (orientation:landscape){
+
+    .hero{
+
+        min-height:auto;
+
+        padding-top:85px;
+
+        padding-bottom:35px;
+    }
+
+    .hero-logo{
+
+        width:58px;
+        height:58px;
+
+        margin-bottom:15px;
+    }
+
+    .hero h1{
+
+        font-size:35px;
+    }
+
+    .hero p{
+
+        margin:
+            12px auto
+            18px;
+    }
+
+    .section{
+
+        padding-top:35px;
+
+        padding-bottom:35px;
+    }
+}
+
 </style>
 </head>
 
+
 <body>
+
 
 <!-- =====================================================
      HEADER
@@ -1646,7 +2093,11 @@ footer strong{
 
     </a>
 
-    <div class="auth-buttons" id="authButtons">
+
+    <div
+        class="auth-buttons"
+        id="authButtons"
+    >
 
         <button
             class="auth-btn"
@@ -1664,11 +2115,18 @@ footer strong{
 
     </div>
 
-    <div class="user-pill" id="userPill">
+
+    <div
+        class="user-pill"
+        id="userPill"
+    >
+
         <span id="userName"></span>
+
     </div>
 
 </header>
+
 
 
 <!-- =====================================================
@@ -1682,17 +2140,22 @@ footer strong{
     <div class="hero-content">
 
         <div class="logo hero-logo">
+
             <span class="logo-center"></span>
+
         </div>
+
 
         <h1>
             Damos forma a ideas que merecen hacerse realidad.
         </h1>
 
+
         <p>
             Estrategia, creatividad y desarrollo para convertir
             una visión en una propuesta clara, atractiva y bien construida.
         </p>
+
 
         <button
             class="primary-btn"
@@ -1706,11 +2169,14 @@ footer strong{
 </section>
 
 
+
 <!-- =====================================================
      SERVICIOS
 ===================================================== -->
 
-<section class="section services-section">
+<section
+    class="section services-section"
+>
 
     <div class="section-header">
 
@@ -1731,6 +2197,7 @@ footer strong{
 
 
     <div class="services-track">
+
 
         <article class="service-card active">
 
@@ -1811,6 +2278,7 @@ footer strong{
 
         </article>
 
+
     </div>
 
 
@@ -1824,6 +2292,7 @@ footer strong{
     </div>
 
 </section>
+
 
 
 <!-- =====================================================
@@ -1862,6 +2331,7 @@ footer strong{
 </main>
 
 
+
 <!-- =====================================================
      FOOTER
 ===================================================== -->
@@ -1879,11 +2349,15 @@ footer strong{
 </footer>
 
 
+
 <!-- =====================================================
      LOGIN
 ===================================================== -->
 
-<div class="modal" id="loginModal">
+<div
+    class="modal"
+    id="loginModal"
+>
 
     <div class="modal-box">
 
@@ -1894,9 +2368,13 @@ footer strong{
             ×
         </button>
 
+
         <div class="logo modal-logo">
+
             <span class="logo-center"></span>
+
         </div>
+
 
         <h2>
             Bienvenido
@@ -1906,7 +2384,10 @@ footer strong{
             Inicia sesión para continuar.
         </p>
 
-        <form onsubmit="fakeLogin(event)">
+
+        <form
+            onsubmit="fakeLogin(event)"
+        >
 
             <div class="form-group">
 
@@ -1923,6 +2404,7 @@ footer strong{
 
             </div>
 
+
             <div class="form-group">
 
                 <label>
@@ -1936,6 +2418,7 @@ footer strong{
                 >
 
             </div>
+
 
             <button
                 class="form-submit"
@@ -1951,11 +2434,15 @@ footer strong{
 </div>
 
 
+
 <!-- =====================================================
      REGISTRO
 ===================================================== -->
 
-<div class="modal" id="registerModal">
+<div
+    class="modal"
+    id="registerModal"
+>
 
     <div class="modal-box">
 
@@ -1966,9 +2453,13 @@ footer strong{
             ×
         </button>
 
+
         <div class="logo modal-logo">
+
             <span class="logo-center"></span>
+
         </div>
+
 
         <h2>
             Crear cuenta
@@ -1978,7 +2469,10 @@ footer strong{
             Crea tu cuenta para comenzar.
         </p>
 
-        <form onsubmit="fakeRegister(event)">
+
+        <form
+            onsubmit="fakeRegister(event)"
+        >
 
             <div class="form-group">
 
@@ -1995,6 +2489,7 @@ footer strong{
 
             </div>
 
+
             <div class="form-group">
 
                 <label>
@@ -2009,6 +2504,7 @@ footer strong{
                 >
 
             </div>
+
 
             <div class="form-group">
 
@@ -2025,6 +2521,7 @@ footer strong{
 
             </div>
 
+
             <div class="form-group">
 
                 <label>
@@ -2040,6 +2537,7 @@ footer strong{
 
             </div>
 
+
             <button
                 class="form-submit"
                 type="submit"
@@ -2054,13 +2552,18 @@ footer strong{
 </div>
 
 
+
 <!-- =====================================================
      CHAT
 ===================================================== -->
 
-<div class="chat-overlay" id="chatOverlay">
+<div
+    class="chat-overlay"
+    id="chatOverlay"
+>
 
     <div class="chat-header">
+
 
         <div class="chat-left">
 
@@ -2071,10 +2574,13 @@ footer strong{
                 ☰
             </button>
 
+
             <div class="chat-brand">
 
                 <span class="logo">
+
                     <span class="logo-center"></span>
+
                 </span>
 
                 <span>
@@ -2084,6 +2590,7 @@ footer strong{
             </div>
 
         </div>
+
 
         <button
             class="chat-close"
@@ -2095,7 +2602,9 @@ footer strong{
     </div>
 
 
+
     <div class="chat-body">
+
 
         <aside
             class="history-panel"
@@ -2117,12 +2626,8 @@ footer strong{
 
             </div>
 
-            <div
-                class="history-list"
-                id="historyList"
-            ></div>
-
         </aside>
+
 
 
         <div
@@ -2139,6 +2644,7 @@ footer strong{
             </div>
 
         </div>
+
 
 
         <div
@@ -2169,9 +2675,11 @@ footer strong{
         </div>
 
 
+
         <div class="chat-input-area">
 
             <div class="chat-input-box">
+
 
                 <button
                     class="chat-action"
@@ -2179,6 +2687,7 @@ footer strong{
                 >
                     +
                 </button>
+
 
                 <input
                     type="file"
@@ -2188,12 +2697,14 @@ footer strong{
                     onchange="imageSelected(event)"
                 >
 
+
                 <button
                     class="chat-action"
                     onclick="toggleImagePanel()"
                 >
                     ◇
                 </button>
+
 
                 <textarea
                     id="chatInput"
@@ -2202,12 +2713,14 @@ footer strong{
                     onkeydown="handleChatKey(event)"
                 ></textarea>
 
+
                 <button
                     class="chat-action chat-send"
                     onclick="sendMessage()"
                 >
                     ↑
                 </button>
+
 
             </div>
 
@@ -2218,16 +2731,19 @@ footer strong{
 </div>
 
 
+
 <div
     class="toast"
     id="toast"
 ></div>
 
 
+
 <script>
 
+
 /* =====================================================
-   VIEWPORT ANDROID
+   ANDROID VIEWPORT
 ===================================================== */
 
 function updateViewport(){
@@ -2272,6 +2788,7 @@ function openModal(type){
 
 }
 
+
 function closeModal(type){
 
     const id =
@@ -2285,19 +2802,25 @@ function closeModal(type){
 
 }
 
-document.querySelectorAll(".modal").forEach(modal => {
 
-    modal.addEventListener("click", event => {
+document
+    .querySelectorAll(".modal")
+    .forEach(modal => {
 
-        if(event.target === modal){
+        modal.addEventListener(
+            "click",
+            event => {
 
-            modal.classList.remove("show");
+                if(event.target === modal){
 
-        }
+                    modal.classList.remove("show");
+
+                }
+
+            }
+        );
 
     });
-
-});
 
 
 /* =====================================================
@@ -2309,23 +2832,30 @@ function fakeLogin(event){
     event.preventDefault();
 
     const email =
-        document.getElementById("loginEmail").value;
+        document
+            .getElementById("loginEmail")
+            .value;
 
     const name =
         email.split("@")[0];
 
     closeModal("login");
 
-    document.getElementById("authButtons").style.display =
-        "none";
+    document
+        .getElementById("authButtons")
+        .style.display = "none";
 
-    document.getElementById("userPill").style.display =
-        "flex";
+    document
+        .getElementById("userPill")
+        .style.display = "flex";
 
-    document.getElementById("userName").textContent =
-        name;
+    document
+        .getElementById("userName")
+        .textContent = name;
 
-    showToast("Sesión iniciada");
+    showToast(
+        "Sesión iniciada"
+    );
 
 }
 
@@ -2339,23 +2869,33 @@ function fakeRegister(event){
     event.preventDefault();
 
     const name =
-        document.getElementById("registerName").value;
+        document
+            .getElementById("registerName")
+            .value;
 
     const surname =
-        document.getElementById("registerSurname").value;
+        document
+            .getElementById("registerSurname")
+            .value;
 
     closeModal("register");
 
-    document.getElementById("authButtons").style.display =
-        "none";
+    document
+        .getElementById("authButtons")
+        .style.display = "none";
 
-    document.getElementById("userPill").style.display =
-        "flex";
+    document
+        .getElementById("userPill")
+        .style.display = "flex";
 
-    document.getElementById("userName").textContent =
-        name + " " + surname;
+    document
+        .getElementById("userName")
+        .textContent =
+            name + " " + surname;
 
-    showToast("Cuenta creada");
+    showToast(
+        "Cuenta creada"
+    );
 
 }
 
@@ -2378,11 +2918,14 @@ function showToast(text){
     clearTimeout(toastTimer);
 
     toastTimer =
-        setTimeout(() => {
+        setTimeout(
+            () => {
 
-            toast.classList.remove("show");
+                toast.classList.remove("show");
 
-        },2500);
+            },
+            2500
+        );
 
 }
 
@@ -2392,71 +2935,108 @@ function showToast(text){
 ===================================================== */
 
 const serviceCards =
-    document.querySelectorAll(".service-card");
+    document.querySelectorAll(
+        ".service-card"
+    );
 
 const dots =
-    document.querySelectorAll(".dot");
+    document.querySelectorAll(
+        ".dot"
+    );
 
 let currentService = 0;
 
+
 function updateServices(){
 
-    serviceCards.forEach((card,index) => {
+    serviceCards.forEach(
+        (card,index) => {
 
-        card.classList.remove(
-            "active",
-            "prev",
-            "next"
-        );
+            card.classList.remove(
+                "active",
+                "prev",
+                "next"
+            );
 
-        if(index === currentService){
 
-            card.classList.add("active");
+            if(
+                index === currentService
+            ){
+
+                card.classList.add(
+                    "active"
+                );
+
+            }
+
+
+            else if(
+                index ===
+                (
+                    currentService
+                    - 1
+                    + serviceCards.length
+                )
+                %
+                serviceCards.length
+            ){
+
+                card.classList.add(
+                    "prev"
+                );
+
+            }
+
+
+            else if(
+                index ===
+                (
+                    currentService + 1
+                )
+                %
+                serviceCards.length
+            ){
+
+                card.classList.add(
+                    "next"
+                );
+
+            }
 
         }
+    );
 
-        else if(
-            index ===
-            (currentService - 1 + serviceCards.length)
-            % serviceCards.length
-        ){
 
-            card.classList.add("prev");
+    dots.forEach(
+        (dot,index) => {
 
-        }
-
-        else if(
-            index ===
-            (currentService + 1)
-            % serviceCards.length
-        ){
-
-            card.classList.add("next");
+            dot.classList.toggle(
+                "active",
+                index === currentService
+            );
 
         }
-
-    });
-
-    dots.forEach((dot,index) => {
-
-        dot.classList.toggle(
-            "active",
-            index === currentService
-        );
-
-    });
+    );
 
 }
 
-setInterval(() => {
 
-    currentService =
-        (currentService + 1)
-        % serviceCards.length;
+setInterval(
+    () => {
 
-    updateServices();
+        currentService =
+            (
+                currentService + 1
+            )
+            %
+            serviceCards.length;
 
-},5600);
+        updateServices();
+
+    },
+    5600
+);
+
 
 updateServices();
 
@@ -2466,42 +3046,59 @@ updateServices();
 ===================================================== */
 
 const chatOverlay =
-    document.getElementById("chatOverlay");
+    document.getElementById(
+        "chatOverlay"
+    );
 
 const chatMessages =
-    document.getElementById("chatMessages");
+    document.getElementById(
+        "chatMessages"
+    );
 
 const chatInput =
-    document.getElementById("chatInput");
+    document.getElementById(
+        "chatInput"
+    );
 
 const historyPanel =
-    document.getElementById("historyPanel");
+    document.getElementById(
+        "historyPanel"
+    );
 
 const imagePanel =
-    document.getElementById("imagePanel");
+    document.getElementById(
+        "imagePanel"
+    );
 
 
 function openChat(){
 
-    chatOverlay.classList.add("open");
+    chatOverlay.classList.add(
+        "open"
+    );
 
     document.body.style.overflow =
         "hidden";
 
     updateGreeting();
 
-    setTimeout(() => {
+    setTimeout(
+        () => {
 
-        chatInput.focus();
+            chatInput.focus();
 
-    },400);
+        },
+        300
+    );
 
 }
 
 
 function closeChat(){
 
-    chatOverlay.classList.remove("open");
+    chatOverlay.classList.remove(
+        "open"
+    );
 
     document.body.style.overflow =
         "";
@@ -2511,14 +3108,18 @@ function closeChat(){
 
 function toggleHistory(){
 
-    historyPanel.classList.toggle("open");
+    historyPanel.classList.toggle(
+        "open"
+    );
 
 }
 
 
 function toggleImagePanel(){
 
-    imagePanel.classList.toggle("open");
+    imagePanel.classList.toggle(
+        "open"
+    );
 
 }
 
@@ -2534,34 +3135,47 @@ function updateGreeting(){
 
     let greeting;
 
-    if(hour >= 5 && hour < 12){
 
-        greeting = "Buenos días.";
+    if(
+        hour >= 5 &&
+        hour < 12
+    ){
+
+        greeting =
+            "Buenos días.";
 
     }
 
-    else if(hour >= 12 && hour < 19){
+    else if(
+        hour >= 12 &&
+        hour < 19
+    ){
 
-        greeting = "Buenas tardes.";
+        greeting =
+            "Buenas tardes.";
 
     }
 
     else{
 
-        greeting = "Buenas noches.";
+        greeting =
+            "Buenas noches.";
 
     }
+
 
     const first =
         document.getElementById(
             "initialGreeting"
         );
 
+
     if(first){
 
         first.innerHTML =
             greeting +
-            "<br><br>Cuéntame qué deseas hacer.";
+            "<br><br>" +
+            "Cuéntame qué deseas hacer.";
 
     }
 
@@ -2569,7 +3183,7 @@ function updateGreeting(){
 
 
 /* =====================================================
-   CHAT INPUT
+   CHAT
 ===================================================== */
 
 function handleChatKey(event){
@@ -2606,23 +3220,30 @@ function sendMessage(){
 
     chatInput.value = "";
 
-    setTimeout(() => {
 
-        generateLocalResponse(text);
+    setTimeout(
+        () => {
 
-    },450);
+            generateLocalResponse(
+                text
+            );
+
+        },
+        450
+    );
 
 }
 
 
-/* =====================================================
-   MENSAJE
-===================================================== */
-
-function addMessage(text,type){
+function addMessage(
+    text,
+    type
+){
 
     const message =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
     message.className =
         "message " + type;
@@ -2630,7 +3251,9 @@ function addMessage(text,type){
     message.innerHTML =
         text;
 
-    chatMessages.appendChild(message);
+    chatMessages.appendChild(
+        message
+    );
 
     chatMessages.scrollTop =
         chatMessages.scrollHeight;
@@ -2648,9 +3271,12 @@ function generateLocalResponse(text){
         text
             .toLowerCase()
             .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g,"");
+            .replace(
+                /[\u0300-\u036f]/g,
+                ""
+            );
 
-    let response = "";
+    let response;
 
 
     if(
@@ -2668,6 +3294,7 @@ function generateLocalResponse(text){
 
     }
 
+
     else if(
         normalized.includes("fortnite") ||
         normalized.includes("skin")
@@ -2677,6 +3304,7 @@ function generateLocalResponse(text){
             "Entendido. Podemos trabajar una idea relacionada con <strong>Fortnite</strong>, por ejemplo una skin, personaje, campaña o contenido. Cuéntame qué quieres conseguir.";
 
     }
+
 
     else if(
         normalized.includes("call of duty") ||
@@ -2688,6 +3316,7 @@ function generateLocalResponse(text){
             "Entendido. Podemos desarrollar una propuesta relacionada con <strong>Call of Duty</strong> o Warzone. Dime si quieres trabajar una campaña, personaje, arma, mapa, vídeo o contenido.";
 
     }
+
 
     else if(
         normalized.includes("league") ||
@@ -2702,6 +3331,7 @@ function generateLocalResponse(text){
 
     }
 
+
     else if(
         normalized.includes("free fire") ||
         normalized.includes("alok") ||
@@ -2712,6 +3342,7 @@ function generateLocalResponse(text){
             "Entendido. Podemos trabajar una idea relacionada con <strong>Free Fire</strong>, desde personajes y contenido hasta publicidad. Cuéntame qué quieres desarrollar.";
 
     }
+
 
     else if(
         normalized.includes("publicidad") ||
@@ -2725,6 +3356,7 @@ function generateLocalResponse(text){
 
     }
 
+
     else if(
         normalized.includes("video") ||
         normalized.includes("vídeo")
@@ -2734,6 +3366,7 @@ function generateLocalResponse(text){
             "Claro. Podemos estructurar el vídeo por escenas y tiempos. Por ejemplo: <strong>0:00–0:10</strong> presentación, después desarrollo y finalmente llamada a la acción. ¿Qué quieres promocionar o contar?";
 
     }
+
 
     else if(
         normalized.includes("imagen") ||
@@ -2746,6 +3379,7 @@ function generateLocalResponse(text){
 
     }
 
+
     else if(
         normalized.includes("marketing") ||
         normalized.includes("estrategia") ||
@@ -2757,6 +3391,7 @@ function generateLocalResponse(text){
             "Perfecto. Podemos analizar tu proyecto desde el punto de vista de marketing y estrategia. Cuéntame qué tienes actualmente y qué resultado quieres conseguir.";
 
     }
+
 
     else if(
         normalized === "hola" ||
@@ -2771,6 +3406,7 @@ function generateLocalResponse(text){
 
     }
 
+
     else if(
         normalized.length < 8
     ){
@@ -2780,12 +3416,14 @@ function generateLocalResponse(text){
 
     }
 
+
     else{
 
         response =
             "Entiendo. Vamos a trabajar esa idea. Cuéntame qué quieres conseguir, qué tienes pensado hasta ahora y qué resultado te gustaría obtener.";
 
     }
+
 
     addMessage(
         response,
@@ -2804,17 +3442,24 @@ function newChat(){
     chatMessages.innerHTML = "";
 
     const message =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
     message.className =
         "message bot";
 
     message.innerHTML =
-        "Nueva conversación.<br><br>Cuéntame qué deseas hacer.";
+        "Nueva conversación.<br><br>" +
+        "Cuéntame qué deseas hacer.";
 
-    chatMessages.appendChild(message);
+    chatMessages.appendChild(
+        message
+    );
 
-    historyPanel.classList.remove("open");
+    historyPanel.classList.remove(
+        "open"
+    );
 
     chatInput.focus();
 
@@ -2850,7 +3495,9 @@ function generateImageIdea(){
 
     const prompt =
         document
-            .getElementById("imagePrompt")
+            .getElementById(
+                "imagePrompt"
+            )
             .value
             .trim();
 
@@ -2864,7 +3511,9 @@ function generateImageIdea(){
 
     }
 
-    imagePanel.classList.remove("open");
+    imagePanel.classList.remove(
+        "open"
+    );
 
     addMessage(
         "Quiero crear una imagen con este concepto: " +
@@ -2872,14 +3521,18 @@ function generateImageIdea(){
         "user"
     );
 
-    setTimeout(() => {
 
-        addMessage(
-            "Perfecto. Ya tengo el concepto. Después conectaremos el generador para crear la imagen real.",
-            "bot"
-        );
+    setTimeout(
+        () => {
 
-    },500);
+            addMessage(
+                "Perfecto. Ya tengo el concepto. Después conectaremos el generador para crear la imagen real.",
+                "bot"
+            );
+
+        },
+        500
+    );
 
 }
 
@@ -2894,7 +3547,9 @@ document.addEventListener(
 
         if(
             event.key === "Escape" &&
-            chatOverlay.classList.contains("open")
+            chatOverlay.classList.contains(
+                "open"
+            )
         ){
 
             closeChat();
