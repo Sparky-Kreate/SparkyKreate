@@ -3,1702 +3,3039 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#090909">
+
 <title>SparkyKrea</title>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
+/* =========================================================
+   BASE
+========================================================= */
 
 :root{
-  --black:#090909;
-  --black2:#10100f;
-  --card:#171714;
-  --cream:#f4eddf;
-  --cream2:#d9d0c0;
-  --gray:#8e8b84;
-  --line:rgba(244,237,223,.12);
-  --vvh:100dvh;
+    --black:#050505;
+    --black2:#0b0b0b;
+    --black3:#111111;
+
+    --white:#f5f5f3;
+    --gray:#a5a5a5;
+    --gray2:#6e6e6e;
+
+    /* BEIGE SOLO COMO ACENTO */
+    --beige:#d7c2a0;
+    --beige-light:#f0e2cb;
+    --beige-dark:#a58e6e;
+
+    --border:rgba(255,255,255,.09);
+    --border-beige:rgba(215,194,160,.45);
+
+    --radius:22px;
+    --vvh:100vh;
 }
 
 *{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
 html{
-  scroll-behavior:smooth;
+    scroll-behavior:smooth;
 }
 
 body{
-  background:var(--black);
-  color:var(--cream);
-  font-family:"DM Sans",sans-serif;
-  overflow-x:hidden;
+    background:var(--black);
+    color:var(--white);
+    font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+
+    overflow-x:hidden;
 }
 
 button,
-input,
-textarea{
-  font:inherit;
+input{
+    font:inherit;
 }
 
 button{
-  cursor:pointer;
+    cursor:pointer;
 }
 
 a{
-  color:inherit;
-  text-decoration:none;
+    color:inherit;
+    text-decoration:none;
 }
 
-/* =========================
+/* =========================================================
    HEADER
-========================= */
+========================================================= */
 
 header{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:76px;
-  z-index:100;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 34px;
-  background:rgba(9,9,9,.76);
-  backdrop-filter:blur(18px);
-  border-bottom:1px solid rgba(244,237,223,.07);
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:76px;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:0 5vw;
+
+    background:rgba(5,5,5,.82);
+    backdrop-filter:blur(18px);
+
+    border-bottom:1px solid rgba(255,255,255,.05);
+
+    z-index:1000;
 }
 
 .brand{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  font-weight:600;
-  font-size:18px;
-  letter-spacing:-.03em;
+    display:flex;
+    align-items:center;
+    gap:11px;
+
+    font-size:18px;
+    font-weight:650;
+    letter-spacing:-.4px;
 }
 
-.logo-mark{
-  width:31px;
-  height:31px;
-  border:1.5px solid var(--cream);
-  border-radius:50%;
-  position:relative;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+/* =========================================================
+   LOGO
+========================================================= */
+
+.logo{
+    width:34px;
+    height:34px;
+
+    border:1.5px solid var(--beige);
+
+    border-radius:50%;
+
+    position:relative;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    flex-shrink:0;
 }
 
-.logo-mark::before{
-  content:"";
-  position:absolute;
-  width:18px;
-  height:1.5px;
-  background:var(--cream);
-  transform:rotate(-32deg);
+.logo::before{
+    content:"";
+
+    width:17px;
+    height:1.5px;
+
+    background:var(--beige);
+
+    position:absolute;
+
+    transform:rotate(45deg);
 }
 
-.logo-mark::after{
-  content:"";
-  position:absolute;
-  width:18px;
-  height:1.5px;
-  background:var(--cream);
-  transform:rotate(32deg);
+.logo::after{
+    content:"";
+
+    width:17px;
+    height:1.5px;
+
+    background:var(--beige);
+
+    position:absolute;
+
+    transform:rotate(-45deg);
 }
+
+.logo-center{
+    width:5px;
+    height:5px;
+
+    border-radius:50%;
+
+    background:var(--beige);
+
+    position:relative;
+    z-index:2;
+}
+
+/* =========================================================
+   AUTH BUTTONS
+========================================================= */
 
 .auth-buttons{
-  display:flex;
-  align-items:center;
-  gap:10px;
+    display:flex;
+    align-items:center;
+    gap:10px;
 }
 
 .auth-btn{
-  border:0;
-  background:none;
-  color:var(--cream);
-  padding:10px 13px;
-  font-size:14px;
+    border:none;
+    background:none;
+
+    color:var(--white);
+
+    padding:10px 14px;
+
+    border-radius:12px;
+
+    font-size:14px;
+
+    transition:
+        background .25s ease,
+        color .25s ease,
+        transform .25s ease;
+}
+
+.auth-btn:hover{
+    background:rgba(255,255,255,.06);
 }
 
 .auth-btn.register{
-  border:1px solid var(--line);
-  border-radius:999px;
-  padding:11px 17px;
-  transition:.25s ease;
+    border:1px solid var(--border-beige);
+    color:var(--beige-light);
 }
 
 .auth-btn.register:hover{
-  background:var(--cream);
-  color:var(--black);
+    background:rgba(215,194,160,.10);
+    transform:translateY(-1px);
 }
+
+/* =========================================================
+   LOGGED USER
+========================================================= */
 
 .user-pill{
-  display:none;
-  border:1px solid var(--line);
-  border-radius:999px;
-  padding:10px 15px;
-  color:var(--cream);
-  font-size:14px;
+    display:none;
+
+    align-items:center;
+    gap:9px;
+
+    padding:9px 13px;
+
+    border:1px solid rgba(215,194,160,.35);
+
+    border-radius:999px;
+
+    background:rgba(215,194,160,.06);
+
+    color:var(--beige-light);
+
+    font-size:14px;
 }
 
-/* =========================
+/* =========================================================
    HERO
-========================= */
+========================================================= */
 
 .hero{
-  min-height:100svh;
-  padding:150px 24px 90px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
+    min-height:100vh;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    text-align:center;
+
+    padding:
+        120px 24px
+        80px;
+
+    position:relative;
 }
 
-.hero-inner{
-  width:min(820px,100%);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
+.hero::before{
+    content:"";
+
+    position:absolute;
+
+    width:500px;
+    height:500px;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(215,194,160,.07),
+            transparent 68%
+        );
+
+    filter:blur(15px);
+
+    pointer-events:none;
 }
 
-.hero .logo-mark{
-  width:68px;
-  height:68px;
-  margin-bottom:30px;
-  border-width:2px;
-  animation:logoIn .9s ease both;
+.hero-content{
+    max-width:850px;
+
+    position:relative;
+    z-index:2;
 }
 
-.hero .logo-mark::before,
-.hero .logo-mark::after{
-  width:39px;
+/* LOGO GRANDE */
+
+.hero-logo{
+    width:88px;
+    height:88px;
+
+    margin:0 auto 34px;
+
+    border-width:2px;
 }
 
-.hero-kicker{
-  color:#77736c;
-  font-size:11px;
-  letter-spacing:7px;
-  margin-bottom:22px;
-  text-transform:uppercase;
+.hero-logo::before{
+    width:44px;
 }
+
+.hero-logo::after{
+    width:44px;
+}
+
+.hero-logo .logo-center{
+    width:8px;
+    height:8px;
+}
+
+/* TEXTO */
 
 .hero h1{
-  font-family:"Playfair Display",serif;
-  font-size:clamp(50px,8vw,88px);
-  line-height:.94;
-  letter-spacing:-.055em;
-  font-weight:600;
-  max-width:800px;
+    font-size:
+        clamp(42px, 7vw, 82px);
+
+    line-height:.98;
+
+    letter-spacing:-4px;
+
+    font-weight:650;
+
+    max-width:850px;
+
+    margin:auto;
+
+    background:
+        linear-gradient(
+            180deg,
+            #ffffff 0%,
+            #dcdcdc 100%
+        );
+
+    -webkit-background-clip:text;
+    background-clip:text;
+
+    color:transparent;
 }
 
 .hero p{
-  max-width:610px;
-  margin:28px auto 36px;
-  color:#96928b;
-  font-size:17px;
-  line-height:1.7;
+    max-width:670px;
+
+    margin:27px auto 34px;
+
+    color:#a9a9a9;
+
+    font-size:
+        clamp(16px, 2vw, 19px);
+
+    line-height:1.7;
 }
 
+/* =========================================================
+   BUTTON PRINCIPAL
+========================================================= */
+
 .primary-btn{
-  border:1px solid rgba(244,237,223,.18);
-  background:transparent;
-  color:var(--cream);
-  border-radius:999px;
-  padding:15px 25px;
-  transition:.35s ease;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    min-width:190px;
+
+    padding:15px 23px;
+
+    border-radius:999px;
+
+    border:1px solid var(--border-beige);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(215,194,160,.16),
+            rgba(255,255,255,.04)
+        );
+
+    color:var(--beige-light);
+
+    font-weight:600;
+
+    transition:
+        transform .3s ease,
+        background .3s ease,
+        box-shadow .3s ease;
 }
 
 .primary-btn:hover{
-  background:var(--cream);
-  color:var(--black);
-  transform:translateY(-2px);
+    transform:translateY(-3px);
+
+    background:
+        rgba(215,194,160,.16);
+
+    box-shadow:
+        0 12px 40px rgba(0,0,0,.4);
 }
 
-/* =========================
-   GENERAL SECTIONS
-========================= */
+.primary-btn:active{
+    transform:scale(.97);
+}
+
+/* =========================================================
+   SECTIONS
+========================================================= */
+
+section{
+    position:relative;
+}
 
 .section{
-  padding:115px 24px;
-  border-top:1px solid rgba(244,237,223,.07);
+    padding:
+        90px 5vw;
 }
 
-.section-inner{
-  width:min(1100px,100%);
-  margin:auto;
+.section-header{
+    max-width:850px;
+    margin:0 auto 42px;
+
+    text-align:center;
 }
 
 .section-kicker{
-  text-align:center;
-  color:#716e68;
-  font-size:11px;
-  letter-spacing:7px;
-  text-transform:uppercase;
-  margin-bottom:23px;
+    color:var(--beige);
+
+    text-transform:uppercase;
+
+    letter-spacing:3px;
+
+    font-size:11px;
+
+    font-weight:700;
+
+    margin-bottom:13px;
 }
 
-.section-title{
-  font-family:"Playfair Display",serif;
-  text-align:center;
-  font-size:clamp(50px,7vw,72px);
-  line-height:1;
-  letter-spacing:-.05em;
-  margin-bottom:55px;
+.section-header h2{
+    font-size:
+        clamp(32px, 5vw, 54px);
+
+    letter-spacing:-2.5px;
+
+    line-height:1.05;
 }
 
-/* =========================
+.section-header p{
+    color:#929292;
+
+    max-width:600px;
+
+    margin:17px auto 0;
+
+    line-height:1.7;
+}
+
+/* =========================================================
    SERVICES
-========================= */
+========================================================= */
 
-.services{
-  padding-top:105px;
-  padding-bottom:120px;
+.services-section{
+    padding-top:65px;
+    padding-bottom:80px;
+
+    overflow:hidden;
 }
 
-.services-carousel{
-  position:relative;
-  height:460px;
-  width:100%;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  overflow:hidden;
+.services-track{
+    max-width:1100px;
+
+    margin:auto;
+
+    position:relative;
+
+    min-height:390px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
 
 .service-card{
-  position:absolute;
-  width:min(650px,88vw);
-  min-height:370px;
-  border:1px solid rgba(244,237,223,.12);
-  border-radius:32px;
-  background:linear-gradient(
-    145deg,
-    rgba(35,35,31,.98),
-    rgba(20,20,18,.98)
-  );
-  padding:55px 48px;
-  transition:
-    transform .8s cubic-bezier(.22,.61,.36,1),
-    opacity .8s ease,
-    filter .8s ease;
-  box-shadow:0 30px 90px rgba(0,0,0,.28);
+    position:absolute;
+
+    width:min(680px, 82vw);
+
+    min-height:310px;
+
+    padding:38px;
+
+    border-radius:28px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #151515,
+            #0b0b0b
+        );
+
+    border:1px solid rgba(255,255,255,.09);
+
+    box-shadow:
+        0 30px 80px rgba(0,0,0,.5);
+
+    opacity:0;
+
+    transform:
+        translateX(90px)
+        scale(.92);
+
+    transition:
+        opacity .7s ease,
+        transform .7s cubic-bezier(.2,.7,.2,1),
+        filter .7s ease;
 }
 
 .service-card.active{
-  transform:translateX(0) scale(1);
-  opacity:1;
-  z-index:5;
-  filter:none;
+    opacity:1;
+
+    transform:
+        translateX(0)
+        scale(1);
+
+    z-index:5;
+
+    border-color:
+        rgba(215,194,160,.30);
 }
 
 .service-card.prev{
-  transform:translateX(-58%) scale(.88);
-  opacity:.28;
-  z-index:2;
-  filter:blur(.3px);
+    opacity:.28;
+
+    transform:
+        translateX(-290px)
+        scale(.88);
+
+    z-index:2;
+
+    filter:blur(.3px);
 }
 
 .service-card.next{
-  transform:translateX(58%) scale(.88);
-  opacity:.28;
-  z-index:2;
-  filter:blur(.3px);
+    opacity:.28;
+
+    transform:
+        translateX(290px)
+        scale(.88);
+
+    z-index:2;
+
+    filter:blur(.3px);
 }
 
 .service-number{
-  color:#77736c;
-  letter-spacing:5px;
-  font-size:11px;
-  margin-bottom:48px;
+    color:var(--beige);
+
+    font-size:12px;
+
+    font-weight:700;
+
+    letter-spacing:2px;
+
+    margin-bottom:34px;
 }
 
 .service-card h3{
-  font-family:"Playfair Display",serif;
-  font-size:48px;
-  letter-spacing:-.04em;
-  margin-bottom:22px;
+    font-size:
+        clamp(28px, 4vw, 42px);
+
+    letter-spacing:-1.5px;
+
+    margin-bottom:18px;
 }
 
 .service-card p{
-  color:#99958d;
-  font-size:17px;
-  line-height:1.7;
-  max-width:520px;
+    color:#969696;
+
+    line-height:1.75;
+
+    max-width:560px;
+
+    font-size:16px;
 }
 
+.service-line{
+    width:60px;
+    height:1px;
+
+    background:var(--beige);
+
+    margin-top:35px;
+
+    opacity:.7;
+}
+
+/* DOTS */
+
 .carousel-dots{
-  display:flex;
-  justify-content:center;
-  gap:8px;
-  margin-top:24px;
+    display:flex;
+    justify-content:center;
+
+    gap:8px;
+
+    margin-top:22px;
 }
 
 .dot{
-  width:6px;
-  height:6px;
-  border-radius:50%;
-  background:#4c4a45;
-  transition:.3s ease;
+    width:7px;
+    height:7px;
+
+    border-radius:50%;
+
+    background:#333;
+
+    transition:.3s ease;
 }
 
 .dot.active{
-  width:23px;
-  border-radius:10px;
-  background:var(--cream);
+    width:24px;
+
+    border-radius:999px;
+
+    background:var(--beige);
 }
 
-/* =========================
+/* =========================================================
    CONTACTO
-========================= */
+========================================================= */
 
-.contact{
-  padding-top:110px;
-  padding-bottom:120px;
+.contact-section{
+    padding:
+        80px 5vw
+        100px;
 }
 
-.contact-content{
-  max-width:850px;
-  margin:auto;
-  text-align:center;
+.contact-box{
+    max-width:950px;
+
+    margin:auto;
+
+    padding:
+        clamp(32px, 7vw, 70px);
+
+    border-radius:30px;
+
+    border:1px solid rgba(215,194,160,.22);
+
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(215,194,160,.08),
+            transparent 40%
+        ),
+        #0b0b0b;
+
+    text-align:center;
 }
 
-.contact h2{
-  font-family:"Playfair Display",serif;
-  font-size:clamp(48px,7vw,72px);
-  line-height:.98;
-  letter-spacing:-.05em;
-  margin-bottom:28px;
+.contact-box h2{
+    font-size:
+        clamp(30px, 5vw, 52px);
+
+    letter-spacing:-2px;
+
+    margin-bottom:20px;
 }
 
-.contact p{
-  max-width:680px;
-  margin:0 auto 42px;
-  color:#949089;
-  font-size:17px;
-  line-height:1.7;
+.contact-box p{
+    color:#999;
+
+    max-width:650px;
+
+    margin:0 auto 28px;
+
+    line-height:1.75;
 }
 
 .contact-btn{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  border:1px solid rgba(244,237,223,.15);
-  border-radius:999px;
-  padding:16px 27px;
-  transition:.3s ease;
+    display:inline-flex;
+
+    align-items:center;
+    justify-content:center;
+
+    padding:14px 22px;
+
+    border-radius:999px;
+
+    color:var(--beige-light);
+
+    border:1px solid var(--border-beige);
+
+    background:transparent;
+
+    transition:.3s ease;
 }
 
 .contact-btn:hover{
-  background:var(--cream);
-  color:var(--black);
-  transform:translateY(-2px);
+    background:rgba(215,194,160,.08);
+
+    transform:translateY(-2px);
 }
 
-/* =========================
+/* =========================================================
    FOOTER
-========================= */
+========================================================= */
 
 footer{
-  border-top:1px solid rgba(244,237,223,.08);
-  padding:28px 24px;
-  text-align:center;
+    padding:
+        28px 5vw
+        35px;
+
+    border-top:1px solid rgba(255,255,255,.06);
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    gap:20px;
+
+    color:#777;
+
+    font-size:13px;
 }
 
-.footer-main{
-  color:var(--cream);
-  font-size:14px;
+footer strong{
+    color:var(--beige);
+
+    font-weight:600;
 }
 
-.footer-sub{
-  color:#8e897f;
-  font-size:12px;
-  margin-top:5px;
-}
-
-/* =========================
-   CHAT
-========================= */
-
-.chat-overlay{
-  position:fixed;
-  inset:0;
-  width:100%;
-  height:var(--vvh);
-  background:#050505;
-  z-index:500;
-  display:none;
-  flex-direction:column;
-  overflow:hidden;
-}
-
-.chat-overlay.open{
-  display:flex;
-  animation:chatIn .35s ease both;
-}
-
-.chat-header{
-  flex:none;
-  height:70px;
-  padding:0 18px;
-  border-bottom:1px solid rgba(244,237,223,.09);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  background:#080808;
-}
-
-.chat-left{
-  display:flex;
-  align-items:center;
-  gap:13px;
-}
-
-.menu-btn,
-.close-chat{
-  border:0;
-  background:none;
-  color:var(--cream);
-  font-size:25px;
-  width:40px;
-  height:40px;
-}
-
-.chat-brand{
-  display:flex;
-  align-items:center;
-  gap:9px;
-  font-size:16px;
-  font-weight:600;
-}
-
-.chat-brand .logo-mark{
-  width:27px;
-  height:27px;
-}
-
-.chat-brand .logo-mark::before,
-.chat-brand .logo-mark::after{
-  width:16px;
-}
-
-.chat-body{
-  flex:1;
-  min-height:0;
-  overflow-y:auto;
-  padding:25px 18px;
-}
-
-.messages{
-  width:min(800px,100%);
-  margin:auto;
-  display:flex;
-  flex-direction:column;
-  gap:16px;
-}
-
-.message{
-  max-width:78%;
-  padding:13px 16px;
-  border-radius:17px;
-  line-height:1.55;
-  font-size:15px;
-}
-
-.message.bot{
-  align-self:flex-start;
-  background:#151513;
-  color:#ddd6c9;
-  border:1px solid rgba(244,237,223,.08);
-}
-
-.message.user{
-  align-self:flex-end;
-  background:var(--cream);
-  color:#111;
-}
-
-.chat-bottom{
-  flex:none;
-  padding:12px 15px max(15px,env(safe-area-inset-bottom));
-  background:#080808;
-  border-top:1px solid rgba(244,237,223,.08);
-}
-
-.chat-input-wrap{
-  width:min(850px,100%);
-  margin:auto;
-  display:flex;
-  align-items:flex-end;
-  gap:9px;
-}
-
-.upload-btn{
-  flex:none;
-  width:46px;
-  height:46px;
-  border:1px solid rgba(244,237,223,.12);
-  border-radius:50%;
-  background:#11110f;
-  color:var(--cream);
-}
-
-.chat-input{
-  flex:1;
-  min-height:46px;
-  max-height:130px;
-  resize:none;
-  border:1px solid rgba(244,237,223,.12);
-  border-radius:23px;
-  padding:12px 17px;
-  background:#11110f;
-  color:var(--cream);
-  outline:none;
-}
-
-.send-btn{
-  flex:none;
-  width:46px;
-  height:46px;
-  border:0;
-  border-radius:50%;
-  background:var(--cream);
-  color:#111;
-}
-
-/* =========================
-   HISTORY
-========================= */
-
-.history{
-  position:absolute;
-  top:0;
-  left:0;
-  width:min(320px,85vw);
-  height:100%;
-  background:#0d0d0c;
-  border-right:1px solid rgba(244,237,223,.1);
-  z-index:20;
-  transform:translateX(-100%);
-  transition:.35s ease;
-  padding:80px 18px 20px;
-}
-
-.history.open{
-  transform:translateX(0);
-}
-
-.history-title{
-  font-family:"Playfair Display",serif;
-  font-size:30px;
-  margin-bottom:25px;
-}
-
-.new-chat{
-  width:100%;
-  padding:13px;
-  border:1px solid rgba(244,237,223,.12);
-  background:#151513;
-  color:var(--cream);
-  border-radius:12px;
-  margin-bottom:18px;
-}
-
-.history-empty{
-  color:#77736c;
-  font-size:14px;
-  line-height:1.5;
-}
-
-.history-backdrop{
-  display:none;
-  position:absolute;
-  inset:0;
-  background:rgba(0,0,0,.55);
-  z-index:15;
-}
-
-.history-backdrop.open{
-  display:block;
-}
-
-/* =========================
-   MODALS
-========================= */
+/* =========================================================
+   LOGIN / REGISTER MODAL
+========================================================= */
 
 .modal{
-  position:fixed;
-  inset:0;
-  z-index:800;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  background:rgba(0,0,0,.75);
-  padding:20px;
+    position:fixed;
+
+    inset:0;
+
+    z-index:3000;
+
+    display:none;
+
+    align-items:center;
+    justify-content:center;
+
+    padding:20px;
+
+    background:rgba(0,0,0,.76);
+
+    backdrop-filter:blur(14px);
 }
 
-.modal.open{
-  display:flex;
+.modal.show{
+    display:flex;
+
+    animation:
+        modalIn .35s ease;
+}
+
+@keyframes modalIn{
+    from{
+        opacity:0;
+    }
+
+    to{
+        opacity:1;
+    }
 }
 
 .modal-box{
-  width:min(420px,100%);
-  background:#151513;
-  border:1px solid rgba(244,237,223,.12);
-  border-radius:25px;
-  padding:30px;
+    width:min(430px, 100%);
+
+    background:#0d0d0d;
+
+    border:
+        1px solid
+        rgba(215,194,160,.20);
+
+    border-radius:25px;
+
+    padding:30px;
+
+    position:relative;
+
+    box-shadow:
+        0 30px 100px rgba(0,0,0,.65);
+
+    animation:
+        boxIn .4s cubic-bezier(.2,.8,.2,1);
 }
 
-.modal-box h3{
-  font-family:"Playfair Display",serif;
-  font-size:34px;
-  margin-bottom:25px;
-}
+@keyframes boxIn{
+    from{
+        transform:
+            translateY(25px)
+            scale(.97);
+    }
 
-.form{
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-}
-
-.form input{
-  width:100%;
-  padding:14px 15px;
-  border-radius:12px;
-  border:1px solid rgba(244,237,223,.12);
-  background:#0d0d0c;
-  color:var(--cream);
-  outline:none;
-}
-
-.form button{
-  padding:14px;
-  border:0;
-  border-radius:12px;
-  background:var(--cream);
-  color:#111;
-  margin-top:5px;
+    to{
+        transform:
+            translateY(0)
+            scale(1);
+    }
 }
 
 .modal-close{
-  float:right;
-  border:0;
-  background:none;
-  color:var(--cream);
-  font-size:23px;
+    position:absolute;
+
+    top:15px;
+    right:16px;
+
+    width:35px;
+    height:35px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:#181818;
+
+    color:#aaa;
+
+    font-size:20px;
+
+    transition:.25s ease;
 }
 
-/* =========================
-   ANIMATIONS
-========================= */
+.modal-close:hover{
+    color:white;
 
-@keyframes logoIn{
-  from{
-    opacity:0;
-    transform:scale(.7) rotate(-20deg);
-  }
-  to{
-    opacity:1;
-    transform:scale(1) rotate(0);
-  }
+    background:#222;
+}
+
+.modal-logo{
+    margin-bottom:22px;
+}
+
+.modal-box h2{
+    font-size:28px;
+
+    letter-spacing:-1px;
+
+    margin-bottom:8px;
+}
+
+.modal-box .modal-sub{
+    color:#858585;
+
+    font-size:14px;
+
+    line-height:1.6;
+
+    margin-bottom:24px;
+}
+
+.form-group{
+    margin-bottom:14px;
+}
+
+.form-group label{
+    display:block;
+
+    color:#aaa;
+
+    font-size:12px;
+
+    margin-bottom:7px;
+}
+
+.form-group input{
+    width:100%;
+
+    border:1px solid rgba(255,255,255,.09);
+
+    background:#141414;
+
+    color:white;
+
+    outline:none;
+
+    border-radius:12px;
+
+    padding:13px 14px;
+
+    transition:.25s ease;
+}
+
+.form-group input:focus{
+    border-color:
+        rgba(215,194,160,.55);
+}
+
+.form-submit{
+    width:100%;
+
+    margin-top:7px;
+
+    padding:14px;
+
+    border:none;
+
+    border-radius:13px;
+
+    background:var(--beige);
+
+    color:#111;
+
+    font-weight:700;
+
+    transition:.25s ease;
+}
+
+.form-submit:hover{
+    background:var(--beige-light);
+
+    transform:translateY(-1px);
+}
+
+/* =========================================================
+   CHAT OVERLAY
+========================================================= */
+
+.chat-overlay{
+    position:fixed;
+
+    inset:0;
+
+    width:100%;
+
+    height:var(--vvh);
+
+    z-index:2000;
+
+    background:#050505;
+
+    display:none;
+
+    flex-direction:column;
+
+    overflow:hidden;
+}
+
+.chat-overlay.open{
+    display:flex;
+
+    animation:
+        chatIn .38s cubic-bezier(.2,.8,.2,1);
 }
 
 @keyframes chatIn{
-  from{
-    opacity:0;
-    transform:scale(1.02);
-  }
-  to{
-    opacity:1;
-    transform:scale(1);
-  }
+    from{
+        opacity:0;
+        transform:scale(.985);
+    }
+
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
 }
 
-/* =========================
+/* =========================================================
+   CHAT HEADER
+========================================================= */
+
+.chat-header{
+    height:72px;
+
+    flex-shrink:0;
+
+    display:flex;
+    align-items:center;
+
+    justify-content:space-between;
+
+    padding:
+        0 18px;
+
+    border-bottom:
+        1px solid rgba(255,255,255,.07);
+
+    background:#050505;
+}
+
+.chat-left{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.chat-menu{
+    width:38px;
+    height:38px;
+
+    border:none;
+
+    background:#111;
+
+    border-radius:11px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    color:#ccc;
+
+    font-size:19px;
+}
+
+.chat-brand{
+    display:flex;
+    align-items:center;
+    gap:9px;
+
+    font-weight:650;
+}
+
+.chat-brand .logo{
+    width:28px;
+    height:28px;
+}
+
+.chat-brand .logo::before,
+.chat-brand .logo::after{
+    width:13px;
+}
+
+.chat-brand .logo-center{
+    width:4px;
+    height:4px;
+}
+
+.chat-close{
+    width:39px;
+    height:39px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:#111;
+
+    color:#aaa;
+
+    font-size:22px;
+
+    transition:.25s ease;
+}
+
+.chat-close:hover{
+    background:#1b1b1b;
+    color:white;
+}
+
+/* =========================================================
+   CHAT BODY
+========================================================= */
+
+.chat-body{
+    flex:1;
+
+    min-height:0;
+
+    display:flex;
+    flex-direction:column;
+
+    position:relative;
+}
+
+.chat-messages{
+    flex:1;
+
+    overflow-y:auto;
+
+    padding:
+        25px
+        18px
+        20px;
+
+    display:flex;
+    flex-direction:column;
+
+    gap:14px;
+
+    overscroll-behavior:contain;
+}
+
+.chat-messages::-webkit-scrollbar{
+    width:5px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb{
+    background:#252525;
+
+    border-radius:20px;
+}
+
+/* MENSAJES */
+
+.message{
+    max-width:min(760px, 85%);
+
+    padding:13px 15px;
+
+    border-radius:17px;
+
+    font-size:14px;
+
+    line-height:1.6;
+
+    animation:
+        messageIn .25s ease;
+}
+
+@keyframes messageIn{
+    from{
+        opacity:0;
+        transform:translateY(7px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.message.bot{
+    align-self:flex-start;
+
+    background:#111;
+
+    border:
+        1px solid rgba(255,255,255,.07);
+
+    color:#ddd;
+
+    border-top-left-radius:6px;
+}
+
+.message.user{
+    align-self:flex-end;
+
+    background:
+        rgba(215,194,160,.12);
+
+    border:
+        1px solid rgba(215,194,160,.18);
+
+    color:#eee;
+
+    border-bottom-right-radius:6px;
+}
+
+.message.bot strong{
+    color:var(--beige-light);
+}
+
+/* =========================================================
+   CHAT INPUT
+========================================================= */
+
+.chat-input-area{
+    flex-shrink:0;
+
+    padding:
+        12px
+        15px
+        max(15px, env(safe-area-inset-bottom));
+
+    background:#050505;
+
+    border-top:
+        1px solid rgba(255,255,255,.06);
+}
+
+.chat-input-box{
+    width:100%;
+
+    max-width:900px;
+
+    margin:auto;
+
+    display:flex;
+    align-items:flex-end;
+
+    gap:8px;
+
+    padding:8px;
+
+    background:#101010;
+
+    border:
+        1px solid rgba(255,255,255,.08);
+
+    border-radius:17px;
+}
+
+.chat-input-box textarea{
+    flex:1;
+
+    min-height:42px;
+    max-height:120px;
+
+    resize:none;
+
+    border:none;
+
+    outline:none;
+
+    background:transparent;
+
+    color:white;
+
+    padding:
+        10px 8px;
+
+    line-height:1.45;
+}
+
+.chat-input-box textarea::placeholder{
+    color:#666;
+}
+
+.chat-action{
+    width:42px;
+    height:42px;
+
+    flex-shrink:0;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:#181818;
+
+    color:#aaa;
+
+    font-size:17px;
+}
+
+.chat-action:hover{
+    background:#222;
+    color:var(--beige-light);
+}
+
+.chat-send{
+    background:var(--beige);
+
+    color:#111;
+
+    font-weight:800;
+}
+
+.chat-send:hover{
+    background:var(--beige-light);
+}
+
+/* =========================================================
+   CHAT HISTORY
+========================================================= */
+
+.history-panel{
+    position:absolute;
+
+    top:0;
+    left:0;
+
+    width:min(330px, 86vw);
+
+    height:100%;
+
+    z-index:20;
+
+    background:#0b0b0b;
+
+    border-right:
+        1px solid rgba(255,255,255,.08);
+
+    transform:translateX(-100%);
+
+    transition:.35s cubic-bezier(.2,.8,.2,1);
+
+    padding:20px;
+}
+
+.history-panel.open{
+    transform:translateX(0);
+}
+
+.history-title{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    margin-bottom:18px;
+}
+
+.history-title h3{
+    font-size:17px;
+}
+
+.new-chat{
+    border:1px solid rgba(215,194,160,.3);
+
+    color:var(--beige-light);
+
+    background:transparent;
+
+    border-radius:10px;
+
+    padding:8px 11px;
+
+    font-size:12px;
+}
+
+.history-list{
+    display:flex;
+    flex-direction:column;
+
+    gap:7px;
+}
+
+.history-item{
+    padding:11px;
+
+    border-radius:11px;
+
+    background:#121212;
+
+    color:#aaa;
+
+    font-size:13px;
+
+    cursor:pointer;
+}
+
+.history-item:hover{
+    background:#181818;
+}
+
+/* =========================================================
+   IMAGE GENERATOR PANEL
+========================================================= */
+
+.image-panel{
+    position:absolute;
+
+    right:15px;
+    bottom:88px;
+
+    width:min(360px, calc(100vw - 30px));
+
+    background:#0e0e0e;
+
+    border:
+        1px solid rgba(215,194,160,.25);
+
+    border-radius:20px;
+
+    padding:20px;
+
+    z-index:15;
+
+    display:none;
+
+    box-shadow:
+        0 20px 70px rgba(0,0,0,.65);
+}
+
+.image-panel.open{
+    display:block;
+
+    animation:
+        panelIn .25s ease;
+}
+
+@keyframes panelIn{
+    from{
+        opacity:0;
+        transform:translateY(10px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.image-panel h3{
+    font-size:18px;
+
+    margin-bottom:7px;
+}
+
+.image-panel p{
+    color:#777;
+
+    font-size:13px;
+
+    line-height:1.5;
+
+    margin-bottom:15px;
+}
+
+.image-panel textarea{
+    width:100%;
+
+    min-height:100px;
+
+    resize:none;
+
+    outline:none;
+
+    border:
+        1px solid rgba(255,255,255,.08);
+
+    background:#151515;
+
+    color:white;
+
+    border-radius:12px;
+
+    padding:12px;
+
+    margin-bottom:10px;
+}
+
+.image-generate{
+    width:100%;
+
+    padding:12px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:var(--beige);
+
+    color:#111;
+
+    font-weight:700;
+}
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+.toast{
+    position:fixed;
+
+    left:50%;
+
+    bottom:25px;
+
+    transform:
+        translate(-50%, 20px);
+
+    background:#171717;
+
+    border:
+        1px solid rgba(215,194,160,.25);
+
+    color:#ddd;
+
+    padding:11px 15px;
+
+    border-radius:12px;
+
+    font-size:13px;
+
+    opacity:0;
+
+    pointer-events:none;
+
+    transition:.3s ease;
+
+    z-index:5000;
+}
+
+.toast.show{
+    opacity:1;
+
+    transform:
+        translate(-50%, 0);
+}
+
+/* =========================================================
    MOBILE
-========================= */
+========================================================= */
 
 @media(max-width:700px){
 
-  header{
-    height:67px;
-    padding:0 16px;
-  }
+    header{
+        height:68px;
 
-  .brand{
-    font-size:16px;
-  }
+        padding:
+            0 15px;
+    }
 
-  .logo-mark{
-    width:28px;
-    height:28px;
-  }
+    .brand{
+        font-size:16px;
+    }
 
-  .auth-buttons{
-    gap:3px;
-  }
+    .auth-buttons{
+        gap:3px;
+    }
 
-  .auth-btn{
-    font-size:13px;
-    padding:8px;
-  }
+    .auth-btn{
+        padding:8px 9px;
 
-  .auth-btn.register{
-    padding:9px 12px;
-  }
+        font-size:12px;
+    }
 
-  .hero{
-    padding:120px 20px 65px;
-    min-height:88svh;
-  }
+    .hero{
+        min-height:100svh;
 
-  .hero .logo-mark{
-    width:58px;
-    height:58px;
-    margin-bottom:25px;
-  }
+        padding:
+            105px 20px
+            65px;
+    }
 
-  .hero h1{
-    font-size:51px;
-  }
+    .hero-logo{
+        width:72px;
+        height:72px;
 
-  .hero p{
-    font-size:15px;
-    line-height:1.6;
-    margin:22px auto 29px;
-  }
+        margin-bottom:27px;
+    }
 
-  .section{
-    padding:82px 17px;
-  }
+    .hero-logo::before,
+    .hero-logo::after{
+        width:36px;
+    }
 
-  .section-title{
-    font-size:50px;
-    margin-bottom:38px;
-  }
+    .hero h1{
+        font-size:
+            clamp(38px, 11vw, 60px);
 
-  .services{
-    padding-top:82px;
-    padding-bottom:90px;
-  }
+        letter-spacing:-2.8px;
+    }
 
-  .services-carousel{
-    height:410px;
-  }
+    .hero p{
+        font-size:15px;
 
-  .service-card{
-    width:88vw;
-    min-height:350px;
-    padding:38px 30px;
-    border-radius:28px;
-  }
+        line-height:1.65;
 
-  .service-card.prev{
-    transform:translateX(-70%) scale(.84);
-  }
+        margin-top:20px;
+    }
 
-  .service-card.next{
-    transform:translateX(70%) scale(.84);
-  }
+    .section{
+        padding:
+            70px 17px;
+    }
 
-  .service-card h3{
-    font-size:40px;
-  }
+    .section-header{
+        margin-bottom:30px;
+    }
 
-  .service-card p{
-    font-size:15px;
-  }
+    .services-section{
+        padding-top:55px;
+    }
 
-  .contact{
-    padding-top:82px;
-    padding-bottom:90px;
-  }
+    .services-track{
+        min-height:390px;
+    }
 
-  .contact h2{
-    font-size:49px;
-  }
+    .service-card{
+        width:calc(100vw - 34px);
 
-  .contact p{
-    font-size:15px;
-    line-height:1.65;
-  }
+        min-height:330px;
 
-  footer{
-    padding:24px 15px;
-  }
+        padding:28px 24px;
+    }
+
+    .service-card.prev{
+        transform:
+            translateX(-130px)
+            scale(.88);
+    }
+
+    .service-card.next{
+        transform:
+            translateX(130px)
+            scale(.88);
+    }
+
+    .service-card h3{
+        font-size:30px;
+    }
+
+    .contact-section{
+        padding:
+            60px 17px
+            75px;
+    }
+
+    .contact-box{
+        padding:35px 22px;
+    }
+
+    footer{
+        flex-direction:column;
+
+        text-align:center;
+
+        padding:
+            25px 20px
+            30px;
+    }
+
+    .message{
+        max-width:88%;
+
+        font-size:14px;
+    }
+
+    .chat-messages{
+        padding:
+            20px 14px;
+    }
+
+    .chat-input-area{
+        padding-left:10px;
+        padding-right:10px;
+    }
+
+    .chat-action{
+        width:40px;
+        height:40px;
+    }
+}
+
+@media(max-width:390px){
+
+    .auth-btn{
+        padding:
+            7px 7px;
+
+        font-size:11px;
+    }
+
+    .brand{
+        gap:7px;
+    }
+
+    .brand .logo{
+        width:29px;
+        height:29px;
+    }
+
+    .brand .logo::before,
+    .brand .logo::after{
+        width:14px;
+    }
+
+    .hero h1{
+        font-size:37px;
+    }
+}
+
+/* =========================================================
+   DESKTOP
+========================================================= */
+
+@media(min-width:1000px){
+
+    .hero{
+        padding-top:120px;
+    }
+
+    .services-section{
+        min-height:650px;
+
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+    }
+
+    .contact-section{
+        min-height:500px;
+
+        display:flex;
+        align-items:center;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<!-- =========================
+<!-- =======================================================
      HEADER
-========================= -->
+======================================================= -->
 
 <header>
 
-  <a href="#" class="brand">
-    <span class="logo-mark"></span>
-    <span>SparkyKrea</span>
-  </a>
+    <a href="#" class="brand">
 
-  <div class="auth-buttons" id="authButtons">
-    <button class="auth-btn" onclick="openModal('loginModal')">
-      Iniciar sesión
-    </button>
+        <span class="logo">
+            <span class="logo-center"></span>
+        </span>
 
-    <button class="auth-btn register" onclick="openModal('registerModal')">
-      Registrarse
-    </button>
-  </div>
+        <span>SparkyKrea</span>
 
-  <div class="user-pill" id="userPill"></div>
+    </a>
+
+    <div class="auth-buttons" id="authButtons">
+
+        <button
+            class="auth-btn"
+            onclick="openModal('login')"
+        >
+            Iniciar sesión
+        </button>
+
+        <button
+            class="auth-btn register"
+            onclick="openModal('register')"
+        >
+            Registrarse
+        </button>
+
+    </div>
+
+    <div class="user-pill" id="userPill">
+        <span id="userName"></span>
+    </div>
 
 </header>
 
 
-<!-- =========================
+<!-- =======================================================
      HERO
-========================= -->
+======================================================= -->
 
 <main>
 
 <section class="hero">
 
-  <div class="hero-inner">
+    <div class="hero-content">
 
-    <span class="logo-mark"></span>
+        <div class="logo hero-logo">
+            <span class="logo-center"></span>
+        </div>
 
-    <div class="hero-kicker">
-      IDEAS · ESTRATEGIA · RESULTADOS
+        <h1>
+            Damos forma a ideas que merecen hacerse realidad.
+        </h1>
+
+        <p>
+            Estrategia, creatividad y desarrollo para convertir
+            una visión en una propuesta clara, atractiva y bien construida.
+        </p>
+
+        <button
+            class="primary-btn"
+            onclick="openChat()"
+        >
+            Comenzar ahora →
+        </button>
+
     </div>
-
-    <h1>
-      Convierte tus ideas<br>
-      en algo real.
-    </h1>
-
-    <p>
-      Una experiencia pensada para desarrollar ideas,
-      estrategias y contenido de forma clara,
-      creativa y profesional.
-    </p>
-
-    <button class="primary-btn" onclick="openChat()">
-      Comenzar ahora →
-    </button>
-
-  </div>
 
 </section>
 
 
-<!-- =========================
+<!-- =======================================================
      SERVICIOS
-     AHORA VA PRIMERO
-========================= -->
+======================================================= -->
 
-<section class="section services" id="servicios">
+<section class="section services-section">
 
-  <div class="section-inner">
+    <div class="section-header">
 
-    <div class="section-kicker">
-      LO QUE PODEMOS DESARROLLAR
-    </div>
+        <div class="section-kicker">
+            Servicios
+        </div>
 
-    <h2 class="section-title">
-      Servicios
-    </h2>
-
-    <div class="services-carousel" id="servicesCarousel">
-
-      <article class="service-card active">
-        <div class="service-number">01 · ESTRATEGIA</div>
-
-        <h3>Estrategia</h3>
+        <h2>
+            Construimos cada idea desde su esencia.
+        </h2>
 
         <p>
-          Ideas, análisis y propuestas pensadas para
-          convertir una intención en un proyecto claro
-          y con dirección.
+            Analizamos lo que tienes, entendemos hacia dónde quieres llegar
+            y damos forma a una propuesta con sentido.
         </p>
-      </article>
-
-
-      <article class="service-card next">
-        <div class="service-number">02 · PUBLICIDAD</div>
-
-        <h3>Publicidad</h3>
-
-        <p>
-          Conceptos, campañas y propuestas pensadas
-          para conectar con las personas correctas.
-        </p>
-      </article>
-
-
-      <article class="service-card">
-        <div class="service-number">03 · CONTENIDO</div>
-
-        <h3>Contenido</h3>
-
-        <p>
-          Desarrollo de ideas para piezas visuales,
-          publicaciones y contenido adaptado a cada
-          proyecto.
-        </p>
-      </article>
-
-
-      <article class="service-card">
-        <div class="service-number">04 · VIDEO</div>
-
-        <h3>Video</h3>
-
-        <p>
-          Conceptos, guiones y estructuras visuales
-          para desarrollar contenido audiovisual.
-        </p>
-      </article>
-
-
-      <article class="service-card prev">
-        <div class="service-number">05 · DESARROLLO</div>
-
-        <h3>Desarrollo</h3>
-
-        <p>
-          Ideas digitales llevadas a experiencias
-          funcionales y pensadas para las personas.
-        </p>
-      </article>
 
     </div>
 
-    <div class="carousel-dots" id="carouselDots"></div>
 
-  </div>
+    <div class="services-track" id="servicesTrack">
+
+        <article class="service-card active">
+
+            <div class="service-number">
+                01
+            </div>
+
+            <h3>
+                Marketing y estrategia
+            </h3>
+
+            <p>
+                Analizamos tu proyecto, producto o contenido para encontrar
+                oportunidades, definir objetivos y construir una estrategia clara.
+            </p>
+
+            <div class="service-line"></div>
+
+        </article>
+
+
+        <article class="service-card">
+
+            <div class="service-number">
+                02
+            </div>
+
+            <h3>
+                Contenido creativo
+            </h3>
+
+            <p>
+                Desarrollamos conceptos, campañas, ideas visuales y contenido
+                pensado para comunicar de una forma atractiva y coherente.
+            </p>
+
+            <div class="service-line"></div>
+
+        </article>
+
+
+        <article class="service-card">
+
+            <div class="service-number">
+                03
+            </div>
+
+            <h3>
+                Publicidad
+            </h3>
+
+            <p>
+                Convertimos una idea en una propuesta publicitaria con estructura,
+                mensaje, duración, formato y dirección creativa.
+            </p>
+
+            <div class="service-line"></div>
+
+        </article>
+
+
+        <article class="service-card">
+
+            <div class="service-number">
+                04
+            </div>
+
+            <h3>
+                Desarrollo de ideas
+            </h3>
+
+            <p>
+                Si sabes lo que quieres pero todavía no tienes claro cómo hacerlo,
+                trabajamos contigo para convertirlo en algo concreto.
+            </p>
+
+            <div class="service-line"></div>
+
+        </article>
+
+    </div>
+
+
+    <div class="carousel-dots" id="carouselDots">
+
+        <span class="dot active"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+
+    </div>
 
 </section>
 
 
-<!-- =========================
+<!-- =======================================================
      CONTACTO
-     AHORA VA DEBAJO
-========================= -->
+======================================================= -->
 
-<section class="section contact" id="contacto">
+<section class="contact-section">
 
-  <div class="contact-content">
+    <div class="contact-box">
 
-    <div class="section-kicker">
-      TU OPINIÓN IMPORTA
+        <div class="section-kicker">
+            Tu opinión
+        </div>
+
+        <h2>
+            Tu opinión también forma parte de SparkyKrea.
+        </h2>
+
+        <p>
+            Queremos saber qué piensas. ¿Tienes una sugerencia,
+            una crítica, encontraste algún problema o simplemente
+            quieres contarnos algo? Déjanos saber tu opinión.
+        </p>
+
+        <a
+            class="contact-btn"
+            href="mailto:TU_CORREO_AQUI@gmail.com?subject=Comentario%20sobre%20SparkyKrea"
+        >
+            Contáctanos →
+        </a>
+
     </div>
-
-    <h2>
-      Déjanos tu<br>
-      comentario.
-    </h2>
-
-    <p>
-      Queremos saber qué piensas de SparkyKrea.
-      Cuéntanos qué mejorarías, qué te gustaría
-      encontrar o cualquier comentario que quieras
-      compartir con nosotros.
-    </p>
-
-    <!--
-      CUANDO CREES EL GMAIL DE SPARKYKREA,
-      CAMBIA SOLO "TU_CORREO_AQUI@gmail.com"
-    -->
-
-    <a
-      class="contact-btn"
-      href="mailto:TU_CORREO_AQUI@gmail.com?subject=Comentario%20sobre%20SparkyKrea"
-    >
-      Contáctanos →
-    </a>
-
-  </div>
 
 </section>
 
 </main>
 
 
-<!-- =========================
+<!-- =======================================================
      FOOTER
-========================= -->
+======================================================= -->
 
 <footer>
 
-  <div class="footer-main">
-    by SparkyKreate
-  </div>
+    <span>
+        by <strong>SparkyKreate</strong>
+    </span>
 
-  <div class="footer-sub">
-    asesoría de marketing
-  </div>
+    <span>
+        asesoría de marketing
+    </span>
 
 </footer>
 
 
-<!-- =========================
-     CHAT
-========================= -->
-
-<div class="chat-overlay" id="chatOverlay">
-
-  <div class="chat-header">
-
-    <div class="chat-left">
-
-      <button
-        class="menu-btn"
-        onclick="toggleHistory()"
-        aria-label="Abrir historial"
-      >
-        ☰
-      </button>
-
-      <div class="chat-brand">
-        <span class="logo-mark"></span>
-        <span>SparkyKrea</span>
-      </div>
-
-    </div>
-
-    <button
-      class="close-chat"
-      onclick="closeChat()"
-      aria-label="Cerrar"
-    >
-      ×
-    </button>
-
-  </div>
-
-
-  <aside class="history" id="history">
-
-    <div class="history-title">
-      Historial
-    </div>
-
-    <button class="new-chat" onclick="newChat()">
-      + Nuevo chat
-    </button>
-
-    <div class="history-empty">
-      Tus conversaciones aparecerán aquí.
-    </div>
-
-  </aside>
-
-  <div
-    class="history-backdrop"
-    id="historyBackdrop"
-    onclick="toggleHistory()"
-  ></div>
-
-
-  <div class="chat-body">
-
-    <div class="messages" id="messages">
-
-      <div class="message bot" id="welcomeMessage">
-        Hola. Cuéntame qué deseas hacer.
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <div class="chat-bottom">
-
-    <div class="chat-input-wrap">
-
-      <button
-        class="upload-btn"
-        onclick="document.getElementById('imageInput').click()"
-        title="Subir imagen"
-      >
-        +
-      </button>
-
-      <input
-        type="file"
-        id="imageInput"
-        accept="image/*"
-        hidden
-        onchange="handleImage(event)"
-      >
-
-      <textarea
-        id="chatInput"
-        class="chat-input"
-        rows="1"
-        placeholder="Escribe lo que quieres desarrollar..."
-        onkeydown="handleEnter(event)"
-      ></textarea>
-
-      <button
-        class="send-btn"
-        onclick="sendMessage()"
-        aria-label="Enviar"
-      >
-        ↑
-      </button>
-
-    </div>
-
-  </div>
-
-</div>
-
-
-<!-- =========================
-     LOGIN
-========================= -->
+<!-- =======================================================
+     LOGIN MODAL
+======================================================= -->
 
 <div class="modal" id="loginModal">
 
-  <div class="modal-box">
+    <div class="modal-box">
 
-    <button
-      class="modal-close"
-      onclick="closeModal('loginModal')"
-    >
-      ×
-    </button>
+        <button
+            class="modal-close"
+            onclick="closeModal('login')"
+        >
+            ×
+        </button>
 
-    <h3>Iniciar sesión</h3>
+        <div class="logo modal-logo">
+            <span class="logo-center"></span>
+        </div>
 
-    <form class="form" onsubmit="fakeLogin(event)">
+        <h2>
+            Bienvenido
+        </h2>
 
-      <input
-        type="email"
-        placeholder="Correo electrónico"
-        required
-      >
+        <p class="modal-sub">
+            Inicia sesión para continuar.
+        </p>
 
-      <input
-        type="password"
-        placeholder="Contraseña"
-        required
-      >
+        <form onsubmit="fakeLogin(event)">
 
-      <button type="submit">
-        Entrar
-      </button>
+            <div class="form-group">
 
-    </form>
+                <label>
+                    Correo electrónico
+                </label>
 
-  </div>
+                <input
+                    id="loginEmail"
+                    type="email"
+                    placeholder="tu@email.com"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Contraseña
+                </label>
+
+                <input
+                    type="password"
+                    placeholder="Tu contraseña"
+                    required
+                >
+
+            </div>
+
+
+            <button
+                class="form-submit"
+                type="submit"
+            >
+                Iniciar sesión
+            </button>
+
+        </form>
+
+    </div>
 
 </div>
 
 
-<!-- =========================
-     REGISTRO
-========================= -->
+<!-- =======================================================
+     REGISTER MODAL
+======================================================= -->
 
 <div class="modal" id="registerModal">
 
-  <div class="modal-box">
+    <div class="modal-box">
 
-    <button
-      class="modal-close"
-      onclick="closeModal('registerModal')"
-    >
-      ×
-    </button>
+        <button
+            class="modal-close"
+            onclick="closeModal('register')"
+        >
+            ×
+        </button>
 
-    <h3>Crear cuenta</h3>
+        <div class="logo modal-logo">
+            <span class="logo-center"></span>
+        </div>
 
-    <form class="form" onsubmit="fakeRegister(event)">
+        <h2>
+            Crear cuenta
+        </h2>
 
-      <input
-        type="text"
-        placeholder="Nombre"
-        required
-      >
+        <p class="modal-sub">
+            Crea tu cuenta para comenzar.
+        </p>
 
-      <input
-        type="text"
-        placeholder="Apellido"
-        required
-      >
+        <form onsubmit="fakeRegister(event)">
 
-      <input
-        type="email"
-        placeholder="Correo electrónico"
-        required
-      >
+            <div class="form-group">
 
-      <input
-        type="password"
-        placeholder="Contraseña"
-        required
-      >
+                <label>
+                    Nombre
+                </label>
 
-      <button type="submit">
-        Registrarme
-      </button>
+                <input
+                    id="registerName"
+                    type="text"
+                    placeholder="Tu nombre"
+                    required
+                >
 
-    </form>
+            </div>
 
-  </div>
+
+            <div class="form-group">
+
+                <label>
+                    Apellido
+                </label>
+
+                <input
+                    id="registerSurname"
+                    type="text"
+                    placeholder="Tu apellido"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Correo electrónico
+                </label>
+
+                <input
+                    id="registerEmail"
+                    type="email"
+                    placeholder="tu@email.com"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>
+                    Contraseña
+                </label>
+
+                <input
+                    type="password"
+                    placeholder="Crea una contraseña"
+                    minlength="6"
+                    required
+                >
+
+            </div>
+
+
+            <button
+                class="form-submit"
+                type="submit"
+            >
+                Registrarse
+            </button>
+
+        </form>
+
+    </div>
 
 </div>
+
+
+<!-- =======================================================
+     CHAT
+======================================================= -->
+
+<div class="chat-overlay" id="chatOverlay">
+
+    <div class="chat-header">
+
+        <div class="chat-left">
+
+            <button
+                class="chat-menu"
+                onclick="toggleHistory()"
+                aria-label="Historial"
+            >
+                ☰
+            </button>
+
+            <div class="chat-brand">
+
+                <span class="logo">
+                    <span class="logo-center"></span>
+                </span>
+
+                <span>
+                    SparkyKrea
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <button
+            class="chat-close"
+            onclick="closeChat()"
+            aria-label="Cerrar"
+        >
+            ×
+        </button>
+
+    </div>
+
+
+    <div class="chat-body">
+
+        <!-- HISTORIAL -->
+
+        <aside
+            class="history-panel"
+            id="historyPanel"
+        >
+
+            <div class="history-title">
+
+                <h3>
+                    Conversaciones
+                </h3>
+
+                <button
+                    class="new-chat"
+                    onclick="newChat()"
+                >
+                    Nueva
+                </button>
+
+            </div>
+
+            <div
+                class="history-list"
+                id="historyList"
+            ></div>
+
+        </aside>
+
+
+        <!-- MENSAJES -->
+
+        <div
+            class="chat-messages"
+            id="chatMessages"
+        >
+
+            <div class="message bot" id="initialGreeting">
+                Hola. Cuéntame qué deseas hacer.
+            </div>
+
+        </div>
+
+
+        <!-- IMAGE PANEL -->
+
+        <div
+            class="image-panel"
+            id="imagePanel"
+        >
+
+            <h3>
+                Crear una imagen
+            </h3>
+
+            <p>
+                Describe lo que quieres visualizar y podremos
+                trabajar sobre esa idea.
+            </p>
+
+            <textarea
+                id="imagePrompt"
+                placeholder="Ejemplo: una publicidad moderna para una bebida..."
+            ></textarea>
+
+            <button
+                class="image-generate"
+                onclick="generateImageIdea()"
+            >
+                Crear concepto
+            </button>
+
+        </div>
+
+
+        <!-- INPUT -->
+
+        <div class="chat-input-area">
+
+            <div class="chat-input-box">
+
+                <button
+                    class="chat-action"
+                    onclick="document.getElementById('imageUpload').click()"
+                    title="Subir imagen"
+                >
+                    +
+                </button>
+
+                <input
+                    type="file"
+                    id="imageUpload"
+                    accept="image/*"
+                    hidden
+                    onchange="imageSelected(event)"
+                >
+
+                <button
+                    class="chat-action"
+                    onclick="toggleImagePanel()"
+                    title="Crear imagen"
+                >
+                    ◇
+                </button>
+
+                <textarea
+                    id="chatInput"
+                    rows="1"
+                    placeholder="Cuéntame tu idea..."
+                    onkeydown="handleChatKey(event)"
+                ></textarea>
+
+                <button
+                    class="chat-action chat-send"
+                    onclick="sendMessage()"
+                    title="Enviar"
+                >
+                    ↑
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- TOAST -->
+
+<div
+    class="toast"
+    id="toast"
+></div>
 
 
 <script>
 
-/* =========================
-   VIEWPORT
-========================= */
+/* =========================================================
+   VISUAL VIEWPORT
+   Hace que el chat funcione mejor en Android
+========================================================= */
 
 function updateViewport(){
-  if(window.visualViewport){
-    document.documentElement.style.setProperty(
-      "--vvh",
-      window.visualViewport.height + "px"
-    );
-  }
+
+    if(window.visualViewport){
+
+        document.documentElement.style.setProperty(
+            "--vvh",
+            window.visualViewport.height + "px"
+        );
+
+    }
+
 }
 
 updateViewport();
 
 if(window.visualViewport){
-  window.visualViewport.addEventListener(
-    "resize",
-    updateViewport
-  );
 
-  window.visualViewport.addEventListener(
-    "scroll",
-    updateViewport
-  );
+    window.visualViewport.addEventListener(
+        "resize",
+        updateViewport
+    );
+
 }
 
 
-/* =========================
+/* =========================================================
+   MODALES
+========================================================= */
+
+function openModal(type){
+
+    const modal =
+        document.getElementById(
+            type === "login"
+                ? "loginModal"
+                : "registerModal"
+        );
+
+    modal.classList.add("show");
+
+}
+
+function closeModal(type){
+
+    const modal =
+        document.getElementById(
+            type === "login"
+                ? "loginModal"
+                : "registerModal"
+        );
+
+    modal.classList.remove("show");
+
+}
+
+
+/* =========================================================
+   CERRAR MODALES TOCANDO AFUERA
+========================================================= */
+
+document.querySelectorAll(".modal").forEach(modal => {
+
+    modal.addEventListener("click", e => {
+
+        if(e.target === modal){
+
+            modal.classList.remove("show");
+
+        }
+
+    });
+
+});
+
+
+/* =========================================================
+   LOGIN TEMPORAL
+   DESPUÉS LO CONECTAMOS A SUPABASE
+========================================================= */
+
+function fakeLogin(event){
+
+    event.preventDefault();
+
+    const email =
+        document.getElementById("loginEmail").value;
+
+    const name =
+        email.split("@")[0];
+
+    closeModal("login");
+
+    document.getElementById("authButtons").style.display =
+        "none";
+
+    document.getElementById("userPill").style.display =
+        "flex";
+
+    document.getElementById("userName").textContent =
+        name;
+
+    showToast("Sesión iniciada");
+
+}
+
+
+/* =========================================================
+   REGISTRO TEMPORAL
+========================================================= */
+
+function fakeRegister(event){
+
+    event.preventDefault();
+
+    const name =
+        document.getElementById("registerName").value;
+
+    const surname =
+        document.getElementById("registerSurname").value;
+
+    closeModal("register");
+
+    document.getElementById("authButtons").style.display =
+        "none";
+
+    document.getElementById("userPill").style.display =
+        "flex";
+
+    document.getElementById("userName").textContent =
+        name + " " + surname;
+
+    showToast("Cuenta creada");
+
+}
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+let toastTimer;
+
+function showToast(text){
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.textContent = text;
+
+    toast.classList.add("show");
+
+    clearTimeout(toastTimer);
+
+    toastTimer = setTimeout(() => {
+
+        toast.classList.remove("show");
+
+    }, 2500);
+
+}
+
+
+/* =========================================================
+   SERVICIOS - CARRUSEL AUTOMÁTICO
+========================================================= */
+
+const serviceCards =
+    document.querySelectorAll(".service-card");
+
+const dots =
+    document.querySelectorAll(".dot");
+
+let currentService = 0;
+
+function updateServices(){
+
+    serviceCards.forEach((card, index) => {
+
+        card.classList.remove(
+            "active",
+            "prev",
+            "next"
+        );
+
+        if(index === currentService){
+
+            card.classList.add("active");
+
+        }
+
+        else if(
+            index ===
+            (currentService - 1 + serviceCards.length)
+            % serviceCards.length
+        ){
+
+            card.classList.add("prev");
+
+        }
+
+        else if(
+            index ===
+            (currentService + 1)
+            % serviceCards.length
+        ){
+
+            card.classList.add("next");
+
+        }
+
+    });
+
+
+    dots.forEach((dot,index) => {
+
+        dot.classList.toggle(
+            "active",
+            index === currentService
+        );
+
+    });
+
+}
+
+setInterval(() => {
+
+    currentService =
+        (currentService + 1)
+        % serviceCards.length;
+
+    updateServices();
+
+}, 5600);
+
+updateServices();
+
+
+/* =========================================================
    CHAT
-========================= */
+========================================================= */
 
 const chatOverlay =
-  document.getElementById("chatOverlay");
+    document.getElementById("chatOverlay");
+
+const chatMessages =
+    document.getElementById("chatMessages");
 
 const chatInput =
-  document.getElementById("chatInput");
+    document.getElementById("chatInput");
 
-const messages =
-  document.getElementById("messages");
+const historyPanel =
+    document.getElementById("historyPanel");
 
-const history =
-  document.getElementById("history");
-
-const historyBackdrop =
-  document.getElementById("historyBackdrop");
+const imagePanel =
+    document.getElementById("imagePanel");
 
 
 function openChat(){
 
-  chatOverlay.classList.add("open");
+    chatOverlay.classList.add("open");
 
-  document.body.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
 
-  const hour = new Date().getHours();
+    updateGreeting();
 
-  let greeting = "Hola.";
+    setTimeout(() => {
 
-  if(hour >= 5 && hour < 12){
-    greeting = "Buenos días.";
-  }
-  else if(hour >= 12 && hour < 19){
-    greeting = "Buenas tardes.";
-  }
-  else{
-    greeting = "Buenas noches.";
-  }
+        chatInput.focus();
 
-  document.getElementById("welcomeMessage").textContent =
-    greeting + " Cuéntame qué deseas hacer.";
+    }, 400);
 
 }
 
 
 function closeChat(){
 
-  chatOverlay.classList.remove("open");
+    chatOverlay.classList.remove("open");
 
-  document.body.style.overflow = "";
-
-  history.classList.remove("open");
-  historyBackdrop.classList.remove("open");
+    document.body.style.overflow = "";
 
 }
 
 
 function toggleHistory(){
 
-  history.classList.toggle("open");
-  historyBackdrop.classList.toggle("open");
+    historyPanel.classList.toggle("open");
 
 }
 
 
-function newChat(){
+function toggleImagePanel(){
 
-  messages.innerHTML = "";
-
-  const msg =
-    document.createElement("div");
-
-  msg.className = "message bot";
-
-  const hour = new Date().getHours();
-
-  let greeting = "Hola.";
-
-  if(hour >= 5 && hour < 12){
-    greeting = "Buenos días.";
-  }
-  else if(hour >= 12 && hour < 19){
-    greeting = "Buenas tardes.";
-  }
-  else{
-    greeting = "Buenas noches.";
-  }
-
-  msg.textContent =
-    greeting + " Cuéntame qué deseas hacer.";
-
-  messages.appendChild(msg);
-
-  chatInput.value = "";
-
-  history.classList.remove("open");
-  historyBackdrop.classList.remove("open");
-
-  chatInput.focus();
+    imagePanel.classList.toggle("open");
 
 }
 
 
-function handleEnter(event){
+/* =========================================================
+   SALUDO SEGÚN HORA
+========================================================= */
 
-  if(event.key === "Enter" && !event.shiftKey){
+function updateGreeting(){
 
-    event.preventDefault();
+    const hour =
+        new Date().getHours();
 
-    sendMessage();
+    let greeting;
 
-  }
+    if(hour >= 5 && hour < 12){
+
+        greeting = "Buenos días.";
+
+    }
+
+    else if(hour >= 12 && hour < 19){
+
+        greeting = "Buenas tardes.";
+
+    }
+
+    else{
+
+        greeting = "Buenas noches.";
+
+    }
+
+    const first =
+        document.getElementById("initialGreeting");
+
+    if(first){
+
+        first.innerHTML =
+            greeting +
+            "<br><br>Cuéntame qué deseas hacer.";
+
+    }
+
+}
+
+
+/* =========================================================
+   ENVIAR MENSAJE
+========================================================= */
+
+function handleChatKey(event){
+
+    if(
+        event.key === "Enter" &&
+        !event.shiftKey
+    ){
+
+        event.preventDefault();
+
+        sendMessage();
+
+    }
 
 }
 
 
 function sendMessage(){
 
-  const text =
-    chatInput.value.trim();
+    const text =
+        chatInput.value.trim();
 
-  if(!text) return;
+    if(!text){
 
-  addMessage(text,"user");
-
-  chatInput.value = "";
-
-  setTimeout(() => {
-
-    /*
-      ESTA RESPUESTA ES TEMPORAL.
-      MÁS ADELANTE LA CONECTAREMOS
-      CON EL SISTEMA REAL.
-    */
-
-    let response =
-      "Entendido. Cuéntame un poco más sobre la idea que quieres desarrollar.";
-
-    const lower =
-      text.toLowerCase();
-
-    if(
-      lower.includes("valorant") ||
-      lower.includes("reyna") ||
-      lower.includes("jett") ||
-      lower.includes("sage")
-    ){
-
-      response =
-        "Perfecto. Entiendo que estás hablando de Valorant. Cuéntame qué quieres desarrollar alrededor del personaje, contenido o idea.";
-
-    }
-    else if(
-      lower.includes("fortnite")
-    ){
-
-      response =
-        "Entendido, hablamos de Fortnite. Dime qué personaje, skin o concepto quieres trabajar.";
-
-    }
-    else if(
-      lower.includes("league") ||
-      lower.includes("lol") ||
-      lower.includes("jinx") ||
-      lower.includes("ahri") ||
-      lower.includes("yasuo")
-    ){
-
-      response =
-        "Entendido, hablamos de League of Legends. Dime qué campeón o concepto quieres desarrollar.";
-
-    }
-    else if(
-      lower.includes("free fire")
-    ){
-
-      response =
-        "Perfecto. Entiendo que te refieres a Free Fire. Cuéntame qué personaje o contenido quieres crear.";
-
-    }
-    else if(
-      lower.includes("publicidad") ||
-      lower.includes("anuncio")
-    ){
-
-      response =
-        "Perfecto. Podemos trabajar la idea publicitaria. Cuéntame qué producto, servicio o marca quieres promocionar.";
-
-    }
-    else if(
-      lower.includes("video")
-    ){
-
-      response =
-        "Perfecto. Podemos estructurar el video. Dime qué quieres promocionar o mostrar y qué duración tienes pensada.";
+        return;
 
     }
 
-    addMessage(response,"bot");
+    addMessage(
+        text,
+        "user"
+    );
 
-  },500);
+    chatInput.value = "";
+
+    setTimeout(() => {
+
+        generateLocalResponse(text);
+
+    }, 450);
 
 }
 
+
+/* =========================================================
+   AÑADIR MENSAJE
+========================================================= */
 
 function addMessage(text,type){
 
-  const message =
-    document.createElement("div");
+    const message =
+        document.createElement("div");
 
-  message.className =
-    "message " + type;
+    message.className =
+        "message " + type;
 
-  message.textContent = text;
+    message.innerHTML =
+        text;
 
-  messages.appendChild(message);
+    chatMessages.appendChild(message);
 
-  const body =
-    document.querySelector(".chat-body");
-
-  body.scrollTop =
-    body.scrollHeight;
+    chatMessages.scrollTop =
+        chatMessages.scrollHeight;
 
 }
 
 
-function handleImage(event){
+/* =========================================================
+   RESPUESTA CONTEXTUAL TEMPORAL
+========================================================= */
 
-  const file =
-    event.target.files[0];
+function generateLocalResponse(text){
 
-  if(!file) return;
+    const normalized =
+        text
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g,"");
 
-  addMessage(
-    "Imagen seleccionada: " + file.name,
-    "user"
-  );
-
-  setTimeout(() => {
-
-    addMessage(
-      "Recibí la imagen. Más adelante podré analizarla y trabajar contigo sobre lo que aparece en ella.",
-      "bot"
-    );
-
-  },500);
-
-}
+    let response = "";
 
 
-/* =========================
-   CARRUSEL AUTOMÁTICO
-========================= */
+    /* VALORANT */
 
-const cards =
-  Array.from(
-    document.querySelectorAll(".service-card")
-  );
-
-const dotsContainer =
-  document.getElementById("carouselDots");
-
-let currentService = 0;
-
-cards.forEach((_,index) => {
-
-  const dot =
-    document.createElement("span");
-
-  dot.className =
-    "dot";
-
-  if(index === 0){
-    dot.classList.add("active");
-  }
-
-  dotsContainer.appendChild(dot);
-
-});
-
-
-const dots =
-  Array.from(
-    document.querySelectorAll(".dot")
-  );
-
-
-function updateCarousel(){
-
-  cards.forEach((card,index) => {
-
-    card.classList.remove(
-      "active",
-      "prev",
-      "next"
-    );
-
-    let difference =
-      (index - currentService + cards.length)
-      % cards.length;
-
-    if(difference === 0){
-
-      card.classList.add("active");
-
-    }
-    else if(difference === 1){
-
-      card.classList.add("next");
-
-    }
-    else if(
-      difference === cards.length - 1
+    if(
+        normalized.includes("valorant") ||
+        normalized.includes("reyna") ||
+        normalized.includes("jett") ||
+        normalized.includes("sage") ||
+        normalized.includes("omen") ||
+        normalized.includes("raze") ||
+        normalized.includes("phoenix")
     ){
 
-      card.classList.add("prev");
+        response =
+            "Perfecto. Si estás trabajando con <strong>Valorant</strong>, puedo ayudarte a desarrollar la idea alrededor del personaje, contenido, publicidad o concepto que tengas. ¿Qué quieres crear exactamente?";
 
     }
 
-  });
+
+    /* FORTNITE */
+
+    else if(
+        normalized.includes("fortnite") ||
+        normalized.includes("skin")
+    ){
+
+        response =
+            "Entendido. Podemos trabajar una idea relacionada con <strong>Fortnite</strong>, por ejemplo una skin, personaje, campaña o contenido. Cuéntame qué quieres conseguir.";
+
+    }
 
 
-  dots.forEach((dot,index) => {
+    /* CALL OF DUTY */
 
-    dot.classList.toggle(
-      "active",
-      index === currentService
+    else if(
+        normalized.includes("call of duty") ||
+        normalized.includes("warzone") ||
+        normalized.includes("cod")
+    ){
+
+        response =
+            "Entendido. Podemos desarrollar una propuesta relacionada con <strong>Call of Duty</strong> o Warzone. Dime si quieres trabajar una campaña, personaje, arma, mapa, vídeo o contenido.";
+
+    }
+
+
+    /* LEAGUE OF LEGENDS */
+
+    else if(
+        normalized.includes("league") ||
+        normalized.includes("lol") ||
+        normalized.includes("ahri") ||
+        normalized.includes("yasuo") ||
+        normalized.includes("jinx")
+    ){
+
+        response =
+            "Perfecto. Si te refieres a <strong>League of Legends</strong>, podemos trabajar con un campeón, una campaña, un concepto visual o una idea de contenido. ¿Qué tienes pensado?";
+
+    }
+
+
+    /* FREE FIRE */
+
+    else if(
+        normalized.includes("free fire") ||
+        normalized.includes("alok") ||
+        normalized.includes("kelly")
+    ){
+
+        response =
+            "Entendido. Podemos trabajar una idea relacionada con <strong>Free Fire</strong>, desde personajes y contenido hasta publicidad. Cuéntame qué quieres desarrollar.";
+
+    }
+
+
+    /* PUBLICIDAD */
+
+    else if(
+        normalized.includes("publicidad") ||
+        normalized.includes("anuncio") ||
+        normalized.includes("ads") ||
+        normalized.includes("publicitar")
+    ){
+
+        response =
+            "Perfecto. Para una publicidad podemos definir el producto, público, mensaje, formato, duración y estilo. ¿Qué producto o servicio quieres promocionar?";
+
+    }
+
+
+    /* VIDEO */
+
+    else if(
+        normalized.includes("video") ||
+        normalized.includes("vídeo")
+    ){
+
+        response =
+            "Claro. Podemos estructurar el vídeo por escenas y tiempos. Por ejemplo: <strong>0:00–0:10</strong> presentación, después desarrollo y finalmente llamada a la acción. ¿Qué quieres promocionar o contar?";
+
+    }
+
+
+    /* IMAGEN */
+
+    else if(
+        normalized.includes("imagen") ||
+        normalized.includes("foto") ||
+        normalized.includes("visual")
+    ){
+
+        response =
+            "Perfecto. Podemos construir el concepto visual. Dime qué quieres que aparezca, el estilo, el formato y para qué lo vas a utilizar.";
+
+    }
+
+
+    /* MARKETING */
+
+    else if(
+        normalized.includes("marketing") ||
+        normalized.includes("estrategia") ||
+        normalized.includes("marca") ||
+        normalized.includes("negocio")
+    ){
+
+        response =
+            "Perfecto. Podemos analizar tu proyecto desde el punto de vista de marketing y estrategia. Cuéntame qué tienes actualmente y qué resultado quieres conseguir.";
+
+    }
+
+
+    /* SALUDOS */
+
+    else if(
+        normalized === "hola" ||
+        normalized.startsWith("hola ") ||
+        normalized.includes("buenas") ||
+        normalized === "hey" ||
+        normalized === "hello"
+    ){
+
+        response =
+            "¡Hola! Cuéntame qué tienes en mente y empezamos a darle forma.";
+
+    }
+
+
+    /* MENSAJES CORTOS / SLANG */
+
+    else if(
+        normalized.length < 8
+    ){
+
+        response =
+            "Jajaja, te sigo 😄. Cuéntame un poquito más y voy siguiendo la idea contigo.";
+
+    }
+
+
+    /* DEFAULT */
+
+    else{
+
+        response =
+            "Entiendo. Vamos a trabajar esa idea. Cuéntame qué quieres conseguir, qué tienes pensado hasta ahora y qué resultado te gustaría obtener.";
+
+    }
+
+
+    addMessage(
+        response,
+        "bot"
     );
 
-  });
+}
+
+
+/* =========================================================
+   NUEVO CHAT
+========================================================= */
+
+function newChat(){
+
+    chatMessages.innerHTML = "";
+
+    const message =
+        document.createElement("div");
+
+    message.className =
+        "message bot";
+
+    message.innerHTML =
+        "Nueva conversación.<br><br>Cuéntame qué deseas hacer.";
+
+    chatMessages.appendChild(message);
+
+    historyPanel.classList.remove("open");
+
+    chatInput.focus();
 
 }
 
 
-setInterval(() => {
+/* =========================================================
+   SUBIR IMAGEN
+========================================================= */
 
-  currentService =
-    (currentService + 1) % cards.length;
+function imageSelected(event){
 
-  updateCarousel();
+    const file =
+        event.target.files[0];
 
-},5200);
+    if(!file){
 
-
-/* =========================
-   MODALES
-========================= */
-
-function openModal(id){
-
-  document
-    .getElementById(id)
-    .classList.add("open");
-
-}
-
-
-function closeModal(id){
-
-  document
-    .getElementById(id)
-    .classList.remove("open");
-
-}
-
-
-function fakeLogin(event){
-
-  event.preventDefault();
-
-  closeModal("loginModal");
-
-  alert(
-    "El inicio de sesión lo conectaremos a Supabase."
-  );
-
-}
-
-
-function fakeRegister(event){
-
-  event.preventDefault();
-
-  closeModal("registerModal");
-
-  alert(
-    "El registro lo conectaremos a Supabase."
-  );
-
-}
-
-
-/* =========================
-   CERRAR MODAL AL TOCAR FUERA
-========================= */
-
-document.querySelectorAll(".modal")
-.forEach(modal => {
-
-  modal.addEventListener("click",event => {
-
-    if(event.target === modal){
-
-      modal.classList.remove("open");
+        return;
 
     }
 
-  });
+    addMessage(
+        "He seleccionado la imagen <strong>" +
+        file.name +
+        "</strong>. Cuando conectemos el análisis de imágenes podremos trabajar directamente sobre ella.",
+        "user"
+    );
 
-});
+}
+
+
+/* =========================================================
+   CONCEPTO DE IMAGEN
+========================================================= */
+
+function generateImageIdea(){
+
+    const prompt =
+        document
+            .getElementById("imagePrompt")
+            .value
+            .trim();
+
+    if(!prompt){
+
+        showToast("Describe primero la imagen");
+
+        return;
+
+    }
+
+    imagePanel.classList.remove("open");
+
+    addMessage(
+        "Quiero crear una imagen con este concepto: " +
+        prompt,
+        "user"
+    );
+
+    setTimeout(() => {
+
+        addMessage(
+            "Perfecto. Ya tengo el concepto. Más adelante conectaremos el generador para convertir esta descripción en una imagen real.",
+            "bot"
+        );
+
+    },500);
+
+}
+
+
+/* =========================================================
+   HISTORIAL TEMPORAL
+========================================================= */
+
+function saveHistory(title){
+
+    const list =
+        document.getElementById("historyList");
+
+    const item =
+        document.createElement("div");
+
+    item.className =
+        "history-item";
+
+    item.textContent =
+        title;
+
+    list.prepend(item);
+
+}
+
+
+/* =========================================================
+   ESCAPE
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if(
+            event.key === "Escape" &&
+            chatOverlay.classList.contains("open")
+        ){
+
+            closeChat();
+
+        }
+
+    }
+);
 
 </script>
 
