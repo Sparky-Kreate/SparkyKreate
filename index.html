@@ -10,25 +10,35 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
+
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
+
+
+/* =====================================================
+   BASE
+===================================================== */
 
 :root{
     --black:#11100e;
-    --black2:#181715;
+    --black-soft:#181715;
+
     --cream:#eee6d7;
-    --cream2:#f5efe4;
-    --beige:#d8c8ad;
-    --beige2:#cbb897;
-    --gray:#aaa49a;
-    --white:#faf8f3;
-    --line:rgba(238,230,215,.12);
-    --shadow:0 25px 70px rgba(0,0,0,.32);
+    --cream-light:#f6f0e6;
+    --beige:#d5c4a6;
+
+    --text:#f7f3eb;
+    --muted:#9d988f;
+
+    --line:rgba(238,230,215,.16);
+
+    --transition:
+        cubic-bezier(.22,1,.36,1);
 }
 
 *{
-    box-sizing:border-box;
     margin:0;
     padding:0;
+    box-sizing:border-box;
 }
 
 html{
@@ -37,16 +47,15 @@ html{
 
 body{
     background:var(--black);
-    color:var(--white);
+    color:var(--text);
     font-family:"DM Sans",sans-serif;
     overflow-x:hidden;
 }
 
 button,
 input,
-textarea,
-select{
-    font:inherit;
+textarea{
+    font-family:inherit;
 }
 
 button{
@@ -54,53 +63,65 @@ button{
 }
 
 a{
-    color:inherit;
     text-decoration:none;
+    color:inherit;
 }
 
-/* =========================
+
+/* =====================================================
    HEADER
-========================= */
+===================================================== */
 
 header{
     position:fixed;
     top:0;
     left:0;
     width:100%;
-    z-index:100;
-    padding:20px 5%;
+    height:82px;
+
     display:flex;
     align-items:center;
     justify-content:space-between;
-    background:linear-gradient(
-        to bottom,
-        rgba(17,16,14,.94),
-        rgba(17,16,14,.55),
-        transparent
-    );
+
+    padding:0 5%;
+
+    z-index:1000;
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(17,16,14,.98),
+            rgba(17,16,14,.88)
+        );
+
+    border-bottom:1px solid var(--line);
 }
 
 .logo{
     font-family:"Playfair Display",serif;
-    font-size:26px;
+    font-size:27px;
     font-weight:700;
-    letter-spacing:-.7px;
+    letter-spacing:-1px;
     white-space:nowrap;
 }
 
-.header-right{
+.header-actions{
     display:flex;
     align-items:center;
-    gap:10px;
+    gap:9px;
 }
 
 .header-btn{
-    border:1px solid rgba(238,230,215,.22);
+    border:1px solid rgba(238,230,215,.2);
     background:rgba(238,230,215,.04);
+
     color:var(--cream);
-    padding:10px 16px;
+
+    padding:10px 17px;
+
     border-radius:999px;
-    transition:.25s ease;
+
+    transition:.3s var(--transition);
 }
 
 .header-btn:hover{
@@ -109,7 +130,7 @@ header{
     transform:translateY(-2px);
 }
 
-.register-btn{
+.header-register{
     background:var(--cream);
     color:var(--black);
     border-color:var(--cream);
@@ -117,71 +138,122 @@ header{
 
 .user-pill{
     display:none;
-    align-items:center;
-    gap:8px;
+
     padding:10px 15px;
-    border-radius:999px;
-    background:rgba(238,230,215,.1);
+
     border:1px solid rgba(238,230,215,.2);
-    color:var(--cream);
+    background:rgba(238,230,215,.08);
+
+    border-radius:999px;
+
+    font-size:13px;
 }
 
 .logout-btn{
     display:none;
+
     border:none;
     background:transparent;
-    color:#aaa;
+
+    color:#aaa49a;
+
     padding:8px;
 }
 
-/* =========================
+
+/* =====================================================
+   MAIN HOME
+===================================================== */
+
+.home{
+    min-height:100svh;
+
+    padding:
+        145px
+        6%
+        70px;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+
+    position:relative;
+}
+
+
+/* glow */
+
+.home::before{
+    content:"";
+
+    position:absolute;
+
+    width:600px;
+    height:600px;
+
+    right:-300px;
+    top:80px;
+
+    border-radius:50%;
+
+    background:rgba(213,196,166,.055);
+
+    filter:blur(90px);
+
+    pointer-events:none;
+}
+
+
+/* =====================================================
    HERO
-========================= */
+===================================================== */
 
 .hero{
-    min-height:100svh;
-    padding:150px 5% 80px;
+    width:min(900px,100%);
+
+    text-align:center;
+
     display:flex;
+    flex-direction:column;
     align-items:center;
-    position:relative;
-    overflow:hidden;
-}
 
-.hero::before{
-    content:"";
-    position:absolute;
-    width:650px;
-    height:650px;
-    border-radius:50%;
-    background:rgba(215,198,169,.07);
-    filter:blur(80px);
-    right:-250px;
-    top:80px;
-}
-
-.hero-content{
-    width:min(850px,100%);
     position:relative;
     z-index:2;
 }
 
 .eyebrow{
-    display:inline-flex;
-    padding:8px 14px;
-    border:1px solid rgba(238,230,215,.18);
+    border:1px solid var(--line);
+
     border-radius:999px;
-    color:#c8c0b4;
-    font-size:12px;
-    letter-spacing:1.5px;
+
+    padding:9px 17px;
+
+    font-size:11px;
+
+    letter-spacing:1.7px;
+
+    color:#aaa49a;
+
+    margin-bottom:25px;
+
     text-transform:uppercase;
-    margin-bottom:28px;
 }
 
 .hero h1{
     font-family:"Playfair Display",serif;
-    font-size:clamp(45px,7vw,88px);
-    line-height:1.02;
+
+    font-size:
+        clamp(
+            45px,
+            7vw,
+            82px
+        );
+
+    line-height:1.04;
+
     letter-spacing:-3px;
+
     max-width:850px;
 }
 
@@ -189,648 +261,1043 @@ header{
     color:var(--beige);
 }
 
-.hero p{
+.hero-description{
     max-width:650px;
-    margin-top:28px;
+
+    margin-top:25px;
+
     color:#aaa69e;
-    font-size:17px;
+
+    font-size:16px;
+
     line-height:1.75;
 }
 
-.start-btn{
-    margin-top:34px;
+.start-button{
+    margin-top:32px;
+
     border:none;
+
     background:var(--cream);
+
     color:var(--black);
-    padding:15px 25px;
+
+    padding:16px 27px;
+
     border-radius:999px;
+
     font-weight:700;
-    transition:.3s ease;
+
+    transition:.35s var(--transition);
+
+    box-shadow:
+        0 12px 35px rgba(0,0,0,.18);
 }
 
-.start-btn:hover{
-    transform:translateY(-3px);
-    box-shadow:0 15px 40px rgba(0,0,0,.35);
+.start-button:hover{
+    transform:
+        translateY(-4px)
+        scale(1.02);
+
+    box-shadow:
+        0 20px 50px rgba(0,0,0,.3);
 }
 
-/* =========================
-   SERVICES CAROUSEL
-========================= */
 
-.services{
-    padding:40px 5% 120px;
-}
+/* =====================================================
+   SEPARATOR
+===================================================== */
 
-.section-title{
-    font-family:"Playfair Display",serif;
-    font-size:clamp(32px,5vw,56px);
-    margin-bottom:35px;
-}
+.separator{
+    width:min(1050px,100%);
 
-.carousel{
-    position:relative;
-    height:380px;
-    max-width:1150px;
-    margin:auto;
-    overflow:hidden;
-}
+    height:1px;
 
-.service-card{
-    position:absolute;
-    top:0;
-    left:50%;
-    width:min(720px,76vw);
-    height:350px;
-    padding:40px;
-    border-radius:30px;
-    transform:translateX(-50%);
-    transition:
-        transform .9s cubic-bezier(.22,1,.36,1),
-        opacity .9s ease,
-        filter .9s ease;
     background:
         linear-gradient(
-            145deg,
-            rgba(238,230,215,.96),
-            rgba(205,188,157,.92)
+            90deg,
+            transparent,
+            rgba(238,230,215,.23),
+            transparent
         );
-    color:#15130f;
-    box-shadow:var(--shadow);
-    opacity:0;
-    filter:blur(2px);
+
+    margin-top:65px;
 }
 
-.service-card.active{
-    transform:translateX(-50%) scale(1);
-    opacity:1;
-    filter:blur(0);
-    z-index:3;
+
+/* =====================================================
+   THREE NAVIGATION OPTIONS
+===================================================== */
+
+.main-options{
+    width:min(1050px,100%);
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    margin-top:0;
+
+    border-bottom:1px solid var(--line);
 }
 
-.service-card.prev{
-    transform:translateX(calc(-50% - 390px)) scale(.84);
-    opacity:.32;
-    z-index:2;
-}
+.option{
+    min-height:155px;
 
-.service-card.next{
-    transform:translateX(calc(-50% + 390px)) scale(.84);
-    opacity:.32;
-    z-index:2;
-}
+    padding:30px 25px;
 
-.service-card.far{
-    opacity:.08;
-    transform:translateX(calc(-50% + 700px)) scale(.7);
-}
-
-.service-number{
-    font-size:13px;
-    letter-spacing:2px;
-    opacity:.55;
-}
-
-.service-card h3{
-    font-family:"Playfair Display",serif;
-    font-size:clamp(34px,5vw,58px);
-    line-height:1.02;
-    margin-top:80px;
-}
-
-.service-card p{
-    margin-top:18px;
-    max-width:500px;
-    line-height:1.6;
-    color:#514a40;
-}
-
-/* =========================
-   CONTACT
-========================= */
-
-.contact{
-    padding:110px 5%;
-}
-
-.contact-box{
-    max-width:1000px;
-    margin:auto;
-    padding:55px;
-    border-radius:32px;
-    background:
-        linear-gradient(
-            135deg,
-            rgba(238,230,215,.11),
-            rgba(238,230,215,.04)
-        );
-    border:1px solid var(--line);
-}
-
-.contact-box h2{
-    font-family:"Playfair Display",serif;
-    font-size:clamp(35px,5vw,60px);
-}
-
-.contact-box p{
-    color:#aaa69e;
-    line-height:1.7;
-    max-width:680px;
-    margin-top:20px;
-}
-
-.contact-btn{
-    display:inline-block;
-    margin-top:30px;
-    padding:14px 22px;
-    border-radius:999px;
-    background:var(--cream);
-    color:var(--black);
-    font-weight:700;
-}
-
-/* =========================
-   MODALS
-========================= */
-
-.modal{
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.72);
-    backdrop-filter:blur(15px);
-    z-index:500;
-    display:none;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-}
-
-.modal.show{
-    display:flex;
-}
-
-.modal-box{
-    width:min(430px,100%);
-    padding:35px;
-    border-radius:28px;
-    background:#eee7da;
-    color:#171512;
-    box-shadow:0 30px 100px rgba(0,0,0,.5);
-    animation:modalIn .35s ease;
-}
-
-@keyframes modalIn{
-    from{
-        opacity:0;
-        transform:translateY(20px) scale(.97);
-    }
-    to{
-        opacity:1;
-        transform:none;
-    }
-}
-
-.modal-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:25px;
-}
-
-.modal-header h2{
-    font-family:"Playfair Display",serif;
-    font-size:30px;
-}
-
-.close-modal{
-    border:none;
-    background:transparent;
-    font-size:25px;
-    color:#555;
-}
-
-.form-group{
-    margin-bottom:15px;
-}
-
-.form-group label{
-    display:block;
-    font-size:13px;
-    margin-bottom:7px;
-    color:#555047;
-}
-
-.form-group input{
-    width:100%;
-    border:1px solid rgba(0,0,0,.12);
-    background:#f8f4ec;
-    color:#161411;
-    border-radius:14px;
-    padding:13px 14px;
-    outline:none;
-}
-
-.form-group input:focus{
-    border-color:#9c8968;
-}
-
-.form-submit{
-    width:100%;
-    margin-top:5px;
-    border:none;
-    background:#171512;
-    color:var(--cream);
-    border-radius:14px;
-    padding:14px;
-    font-weight:700;
-}
-
-.form-switch{
-    margin-top:18px;
-    text-align:center;
-    font-size:13px;
-    color:#666057;
-}
-
-.form-switch button{
-    border:none;
-    background:none;
-    color:#171512;
-    font-weight:700;
-    text-decoration:underline;
-}
-
-.form-error{
-    display:none;
-    margin-top:12px;
-    padding:10px 12px;
-    border-radius:10px;
-    background:rgba(180,60,60,.1);
-    color:#a43d3d;
-    font-size:13px;
-}
-
-/* =========================
-   CHAT OVERLAY
-========================= */
-
-.chat-overlay{
-    position:fixed;
-    inset:0;
-    z-index:400;
-    background:rgba(12,11,9,.62);
-    backdrop-filter:blur(18px);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:22px;
-    opacity:0;
-    pointer-events:none;
-    transition:.45s ease;
-}
-
-.chat-overlay.open{
-    opacity:1;
-    pointer-events:auto;
-}
-
-.chat-window{
-    width:min(920px,100%);
-    height:min(760px,90svh);
-    border-radius:32px;
-    overflow:hidden;
-    background:
-        radial-gradient(
-            circle at top right,
-            rgba(215,198,169,.24),
-            transparent 32%
-        ),
-        #eee7da;
-    color:#171512;
-    box-shadow:0 40px 120px rgba(0,0,0,.5);
-    transform:translateY(35px) scale(.97);
-    transition:.5s cubic-bezier(.22,1,.36,1);
     display:flex;
     flex-direction:column;
+
+    align-items:center;
+    justify-content:center;
+
+    text-align:center;
+
+    background:transparent;
+
+    border:none;
+
+    color:var(--text);
+
+    position:relative;
+
+    transition:
+        background .35s ease,
+        transform .35s var(--transition);
 }
 
-.chat-overlay.open .chat-window{
+.option + .option{
+    border-left:1px solid var(--line);
+}
+
+.option:hover{
+    background:
+        rgba(238,230,215,.045);
+
+    transform:translateY(-3px);
+}
+
+.option-title{
+    font-family:"Playfair Display",serif;
+
+    font-size:25px;
+
+    color:var(--cream);
+}
+
+.option-description{
+    margin-top:8px;
+
+    max-width:220px;
+
+    color:#858078;
+
+    font-size:12px;
+
+    line-height:1.5;
+}
+
+.option-arrow{
+    margin-top:15px;
+
+    font-size:18px;
+
+    color:var(--beige);
+}
+
+
+/* =====================================================
+   PAGE SECTIONS
+===================================================== */
+
+.app-section{
+    position:fixed;
+
+    inset:0;
+
+    z-index:900;
+
+    background:
+        radial-gradient(
+            circle at 85% 15%,
+            rgba(213,196,166,.08),
+            transparent 30%
+        ),
+        var(--black);
+
+    overflow-y:auto;
+
+    opacity:0;
+
+    pointer-events:none;
+
+    transform:
+        translateY(40px)
+        scale(.98);
+
+    transition:
+        opacity .5s ease,
+        transform .65s var(--transition);
+}
+
+.app-section.active{
+    opacity:1;
+
+    pointer-events:auto;
+
     transform:none;
 }
 
-.chat-header{
-    min-height:82px;
-    padding:17px 22px;
+
+/* =====================================================
+   SECTION HEADER
+===================================================== */
+
+.section-page-header{
+    position:sticky;
+
+    top:0;
+
+    height:82px;
+
+    padding:0 5%;
+
     display:flex;
+
     align-items:center;
+
     justify-content:space-between;
-    border-bottom:1px solid rgba(0,0,0,.08);
-    background:rgba(245,239,228,.78);
+
+    background:
+        rgba(17,16,14,.9);
+
+    backdrop-filter:blur(18px);
+
+    border-bottom:1px solid var(--line);
+
+    z-index:20;
 }
 
-.chat-brand{
+.section-page-title{
     font-family:"Playfair Display",serif;
+
     font-size:24px;
+}
+
+.page-nav{
+    display:flex;
+
+    gap:8px;
+
+    align-items:center;
+}
+
+.page-nav button{
+    border:1px solid rgba(238,230,215,.16);
+
+    background:rgba(238,230,215,.04);
+
+    color:var(--cream);
+
+    padding:8px 13px;
+
+    border-radius:999px;
+
+    font-size:11px;
+
+    transition:.3s ease;
+}
+
+.page-nav button:hover{
+    background:var(--cream);
+
+    color:var(--black);
+}
+
+
+/* =====================================================
+   SERVICES PAGE
+===================================================== */
+
+.services-page-content{
+    width:min(1100px,90%);
+
+    margin:auto;
+
+    padding:
+        70px
+        0
+        100px;
+}
+
+.services-page-intro{
+    max-width:700px;
+
+    margin-bottom:50px;
+}
+
+.services-page-intro h2{
+    font-family:"Playfair Display",serif;
+
+    font-size:
+        clamp(
+            42px,
+            6vw,
+            70px
+        );
+
+    line-height:1.05;
+}
+
+.services-page-intro p{
+    color:var(--muted);
+
+    margin-top:20px;
+
+    line-height:1.7;
+}
+
+
+/* service cards */
+
+.services-grid{
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:15px;
+}
+
+.big-service{
+    min-height:250px;
+
+    padding:32px;
+
+    border-radius:25px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(238,230,215,.12),
+            rgba(238,230,215,.035)
+        );
+
+    border:1px solid var(--line);
+
+    transition:
+        transform .4s var(--transition),
+        background .3s ease;
+}
+
+.big-service:hover{
+    transform:translateY(-7px);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(238,230,215,.18),
+            rgba(238,230,215,.05)
+        );
+}
+
+.big-service-number{
+    color:#827a6e;
+
+    font-size:11px;
+
+    letter-spacing:2px;
+}
+
+.big-service h3{
+    font-family:"Playfair Display",serif;
+
+    font-size:34px;
+
+    margin-top:60px;
+}
+
+.big-service p{
+    margin-top:15px;
+
+    color:#989188;
+
+    line-height:1.6;
+
+    max-width:450px;
+}
+
+
+/* =====================================================
+   CONTACT PAGE
+===================================================== */
+
+.contact-page-content{
+    width:min(900px,90%);
+
+    min-height:
+        calc(100svh - 82px);
+
+    margin:auto;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:70px 0;
+}
+
+.contact-card{
+    width:100%;
+
+    padding:
+        clamp(35px,7vw,75px);
+
+    border-radius:32px;
+
+    text-align:center;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(238,230,215,.12),
+            rgba(238,230,215,.035)
+        );
+
+    border:1px solid var(--line);
+}
+
+.contact-card h2{
+    font-family:"Playfair Display",serif;
+
+    font-size:
+        clamp(
+            40px,
+            6vw,
+            70px
+        );
+
+    line-height:1.05;
+}
+
+.contact-card p{
+    max-width:650px;
+
+    margin:25px auto 0;
+
+    color:#989188;
+
+    line-height:1.7;
+}
+
+.contact-button{
+    display:inline-block;
+
+    margin-top:30px;
+
+    background:var(--cream);
+
+    color:var(--black);
+
+    padding:15px 25px;
+
+    border-radius:999px;
+
     font-weight:700;
 }
 
-.chat-subtitle{
-    color:#81786b;
-    font-size:12px;
-    margin-top:3px;
+
+/* =====================================================
+   CHAT PAGE
+===================================================== */
+
+.chat-page-content{
+    width:min(900px,94%);
+
+    height:
+        calc(100svh - 82px);
+
+    margin:auto;
+
+    padding:25px 0;
+
+    display:flex;
+
+    flex-direction:column;
 }
 
-.chat-close{
-    width:40px;
-    height:40px;
-    border-radius:50%;
-    border:1px solid rgba(0,0,0,.1);
-    background:rgba(255,255,255,.4);
-    font-size:21px;
+.chat-container{
+    flex:1;
+
+    min-height:0;
+
+    display:flex;
+
+    flex-direction:column;
+
+    border-radius:28px;
+
+    overflow:hidden;
+
+    background:#eee7da;
+
+    color:#171512;
+
+    box-shadow:
+        0 35px 100px rgba(0,0,0,.35);
+}
+
+.chat-top{
+    padding:20px 24px;
+
+    background:
+        rgba(245,239,228,.9);
+
+    border-bottom:1px solid rgba(0,0,0,.08);
+}
+
+.chat-top-title{
+    font-family:"Playfair Display",serif;
+
+    font-size:24px;
+}
+
+.chat-top-subtitle{
+    margin-top:3px;
+
+    font-size:11px;
+
+    color:#81786b;
 }
 
 .chat-messages{
     flex:1;
+
     overflow-y:auto;
-    padding:30px;
+
+    padding:25px;
+
     display:flex;
+
     flex-direction:column;
-    gap:15px;
+
+    gap:13px;
 }
 
 .message{
-    max-width:68%;
-    padding:13px 16px;
-    border-radius:19px;
-    line-height:1.55;
+    max-width:67%;
+
+    padding:
+        12px
+        15px;
+
+    border-radius:18px;
+
     font-size:14px;
-    animation:messageIn .3s ease;
+
+    line-height:1.55;
+
     white-space:pre-wrap;
+
+    animation:
+        messageIn .3s ease;
 }
 
 @keyframes messageIn{
+
     from{
         opacity:0;
         transform:translateY(8px);
     }
+
     to{
         opacity:1;
         transform:none;
     }
+
 }
 
 .message.bot{
     align-self:flex-start;
-    background:rgba(255,255,255,.78);
-    border:1px solid rgba(0,0,0,.07);
+
+    background:
+        rgba(255,255,255,.78);
+
+    border:
+        1px solid rgba(0,0,0,.07);
+
     border-bottom-left-radius:6px;
 }
 
 .message.user{
     align-self:flex-end;
-    background:#28251f;
+
+    background:#29261f;
+
     color:#f4ede1;
+
     border-bottom-right-radius:6px;
 }
 
-.chat-bottom{
-    padding:15px 18px 18px;
-    background:rgba(245,239,228,.9);
-    border-top:1px solid rgba(0,0,0,.07);
-}
+.chat-input-area{
+    padding:13px;
 
-.image-preview{
-    display:none;
-    margin-bottom:10px;
-    position:relative;
-}
+    background:#f5efe4;
 
-.image-preview img{
-    width:75px;
-    height:75px;
-    object-fit:cover;
-    border-radius:13px;
-}
-
-.remove-image{
-    position:absolute;
-    top:-7px;
-    left:65px;
-    border:none;
-    background:#171512;
-    color:#fff;
-    width:22px;
-    height:22px;
-    border-radius:50%;
+    border-top:
+        1px solid rgba(0,0,0,.07);
 }
 
 .chat-input-row{
     display:flex;
+
     gap:8px;
-    align-items:center;
 }
 
 .chat-input{
     flex:1;
+
     min-width:0;
-    border:1px solid rgba(0,0,0,.1);
+
+    border:
+        1px solid rgba(0,0,0,.1);
+
     background:#fffdf9;
+
+    border-radius:15px;
+
+    padding:13px;
+
+    outline:none;
+
     color:#171512;
-    padding:13px 15px;
-    border-radius:16px;
+}
+
+.chat-send{
+    width:47px;
+
+    border:none;
+
+    border-radius:15px;
+
+    background:#28251f;
+
+    color:white;
+}
+
+.chat-status{
+    padding:7px 3px 0;
+
+    font-size:10px;
+
+    color:#91887c;
+}
+
+
+/* =====================================================
+   AUTH MODAL
+===================================================== */
+
+.modal{
+    position:fixed;
+
+    inset:0;
+
+    z-index:2000;
+
+    display:none;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:20px;
+
+    background:
+        rgba(0,0,0,.7);
+
+    backdrop-filter:blur(15px);
+}
+
+.modal.active{
+    display:flex;
+}
+
+.modal-box{
+    width:min(430px,100%);
+
+    padding:34px;
+
+    border-radius:28px;
+
+    background:#eee7da;
+
+    color:#171512;
+
+    box-shadow:
+        0 30px 100px rgba(0,0,0,.5);
+
+    animation:
+        modalIn .35s var(--transition);
+}
+
+@keyframes modalIn{
+
+    from{
+        opacity:0;
+        transform:
+            translateY(20px)
+            scale(.97);
+    }
+
+    to{
+        opacity:1;
+        transform:none;
+    }
+
+}
+
+.modal-head{
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    margin-bottom:25px;
+}
+
+.modal-head h2{
+    font-family:"Playfair Display",serif;
+
+    font-size:29px;
+}
+
+.modal-close{
+    border:none;
+
+    background:none;
+
+    font-size:25px;
+
+    color:#555;
+}
+
+.form-group{
+    margin-bottom:14px;
+}
+
+.form-group label{
+    display:block;
+
+    font-size:12px;
+
+    color:#59534a;
+
+    margin-bottom:6px;
+}
+
+.form-group input{
+    width:100%;
+
+    border:
+        1px solid rgba(0,0,0,.12);
+
+    background:#faf7f0;
+
+    color:#171512;
+
+    padding:13px;
+
+    border-radius:13px;
+
     outline:none;
 }
 
-.chat-input:focus{
-    border-color:#a79575;
+.form-submit{
+    width:100%;
+
+    border:none;
+
+    background:#191714;
+
+    color:var(--cream);
+
+    padding:14px;
+
+    border-radius:13px;
+
+    font-weight:700;
+
+    margin-top:4px;
 }
 
-.icon-btn{
-    width:45px;
-    height:45px;
-    flex:0 0 45px;
-    border-radius:14px;
-    border:1px solid rgba(0,0,0,.09);
-    background:#f9f5ed;
-    color:#302c25;
-}
-
-.send-btn{
-    background:#25221d;
-    color:#fff;
-}
-
-.file-input{
+.form-error{
     display:none;
-}
 
-.status{
-    font-size:11px;
-    color:#958c80;
-    padding:8px 3px 0;
-}
+    margin-top:12px;
 
-/* =========================
-   FOOTER
-========================= */
+    color:#a03d3d;
 
-footer{
-    padding:40px 5%;
-    border-top:1px solid var(--line);
-    color:#777269;
     font-size:12px;
-    text-align:center;
 }
 
-/* =========================
-   RESPONSIVE
-========================= */
+.form-switch{
+    text-align:center;
+
+    margin-top:17px;
+
+    color:#777066;
+
+    font-size:12px;
+}
+
+.form-switch button{
+    border:none;
+
+    background:none;
+
+    text-decoration:underline;
+
+    font-weight:700;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
 
 @media(max-width:700px){
 
     header{
-        padding:16px 4%;
+        height:72px;
+
+        padding:
+            0
+            4%;
     }
 
     .logo{
         font-size:23px;
     }
 
-    .header-right{
-        gap:5px;
-    }
-
     .header-btn{
-        padding:8px 11px;
-        font-size:12px;
+        padding:
+            8px
+            11px;
+
+        font-size:11px;
     }
 
-    .hero{
-        padding:135px 6% 65px;
+    .home{
+        min-height:100svh;
+
+        padding:
+            115px
+            5%
+            35px;
+
+        justify-content:center;
+    }
+
+    .eyebrow{
+        margin-bottom:22px;
+
+        font-size:9px;
+
+        letter-spacing:1.2px;
     }
 
     .hero h1{
-        font-size:48px;
+        font-size:45px;
+
         letter-spacing:-2px;
     }
 
-    .hero p{
-        font-size:15px;
+    .hero-description{
+        font-size:14px;
+
+        line-height:1.65;
     }
 
-    .services{
-        padding:30px 4% 80px;
+    .start-button{
+        margin-top:26px;
     }
 
-    .carousel{
-        height:330px;
+    .separator{
+        margin-top:48px;
     }
 
-    .service-card{
-        width:88vw;
-        height:310px;
-        padding:28px;
+    .main-options{
+        grid-template-columns:1fr;
+
+        border-bottom:none;
     }
 
-    .service-card h3{
-        margin-top:55px;
-        font-size:39px;
+    .option{
+        min-height:100px;
+
+        padding:
+            22px
+            10px;
+
+        border-bottom:
+            1px solid var(--line);
     }
 
-    .service-card.prev{
-        transform:translateX(calc(-50% - 300px)) scale(.8);
-        opacity:.18;
+    .option + .option{
+        border-left:none;
     }
 
-    .service-card.next{
-        transform:translateX(calc(-50% + 300px)) scale(.8);
-        opacity:.18;
+    .option-title{
+        font-size:23px;
     }
 
-    .contact{
-        padding:70px 5%;
+    .option-description{
+        margin-top:5px;
     }
 
-    .contact-box{
-        padding:32px 25px;
+    .option-arrow{
+        margin-top:8px;
     }
 
-    .chat-overlay{
-        padding:12px;
+    .section-page-header{
+        height:72px;
+
+        padding:
+            0
+            4%;
     }
 
-    .chat-window{
-        height:92svh;
-        border-radius:25px;
+    .section-page-title{
+        font-size:21px;
     }
 
-    .chat-header{
-        min-height:70px;
-        padding:14px 16px;
+    .page-nav{
+        gap:4px;
+    }
+
+    .page-nav button{
+        padding:
+            7px
+            9px;
+
+        font-size:9px;
+    }
+
+    .services-page-content{
+        padding:
+            45px
+            0
+            70px;
+    }
+
+    .services-grid{
+        grid-template-columns:1fr;
+    }
+
+    .big-service{
+        min-height:210px;
+    }
+
+    .big-service h3{
+        margin-top:45px;
+
+        font-size:31px;
+    }
+
+    .chat-page-content{
+        width:94%;
+
+        height:
+            calc(100svh - 72px);
+
+        padding:
+            12px
+            0
+            18px;
+    }
+
+    .chat-container{
+        border-radius:23px;
+    }
+
+    .chat-top{
+        padding:
+            17px
+            18px;
     }
 
     .chat-messages{
-        padding:20px 15px;
+        padding:
+            18px
+            13px;
     }
 
     .message{
         max-width:84%;
+
         font-size:13px;
     }
 
-    .chat-bottom{
-        padding:10px;
+    .contact-page-content{
+        min-height:
+            calc(100svh - 72px);
     }
 
-    .chat-input{
-        font-size:14px;
+    .contact-card{
+        padding:
+            35px
+            22px;
     }
 
-    .modal-box{
-        padding:27px 22px;
-    }
 }
 
-@media(max-width:430px){
+
+/* very small phones */
+
+@media(max-width:380px){
 
     .logo{
-        font-size:21px;
+        font-size:20px;
     }
 
     .header-btn{
-        padding:7px 9px;
-        font-size:11px;
-    }
+        padding:
+            7px
+            9px;
 
-    .hero h1{
-        font-size:43px;
-    }
-
-    .eyebrow{
         font-size:10px;
     }
 
-    .service-card h3{
-        font-size:34px;
+    .hero h1{
+        font-size:40px;
     }
 
-    .message{
-        max-width:88%;
-    }
 }
+
 </style>
 </head>
 
+
 <body>
 
-<!-- =========================
+
+<!-- =====================================================
      HEADER
-========================= -->
+===================================================== -->
 
 <header>
 
-    <a href="#" class="logo">SparkyKrea</a>
+    <a href="#" class="logo">
+        SparkyKrea
+    </a>
 
-    <div class="header-right">
+    <div class="header-actions">
 
         <button
             class="header-btn"
@@ -840,14 +1307,18 @@ footer{
         </button>
 
         <button
-            class="header-btn register-btn"
+            class="header-btn header-register"
             id="registerBtn"
             onclick="openAuth('register')">
             Registrarse
         </button>
 
-        <div class="user-pill" id="userPill">
-            <span id="userName">Usuario</span>
+        <div
+            class="user-pill"
+            id="userPill">
+            <span id="userName">
+                Usuario
+            </span>
         </div>
 
         <button
@@ -862,15 +1333,15 @@ footer{
 </header>
 
 
-<!-- =========================
-     HERO
-========================= -->
+<!-- =====================================================
+     HOME
+===================================================== -->
 
-<main>
+<main
+    class="home"
+    id="home">
 
-<section class="hero">
-
-    <div class="hero-content">
+    <section class="hero">
 
         <div class="eyebrow">
             IDEAS · ESTRATEGIA · RESULTADOS
@@ -881,149 +1352,466 @@ footer{
             <span>algo que destaque.</span>
         </h1>
 
-        <p>
-            Desarrolla campañas, conceptos, contenido y estrategias
-            pensadas para que tu proyecto tenga una dirección clara
-            y una presencia que conecte con las personas.
+        <p class="hero-description">
+            Desarrolla campañas, conceptos, contenido y
+            estrategias pensadas para que tu proyecto tenga
+            una dirección clara y una presencia que conecte.
         </p>
 
         <button
-            class="start-btn"
-            onclick="openChat()">
+            class="start-button"
+            onclick="openSection('chat')">
+
             Comenzar ahora →
+
         </button>
 
-    </div>
-
-</section>
+    </section>
 
 
-<!-- =========================
-     SERVICES
-========================= -->
+    <!-- separador -->
 
-<section class="services">
-
-    <h2 class="section-title">
-        Lo que podemos construir.
-    </h2>
-
-    <div class="carousel" id="carousel">
-
-        <article class="service-card active">
-            <div class="service-number">SERVICIO</div>
-
-            <h3>Marketing<br>y estrategia</h3>
-
-            <p>
-                Analiza tu idea, identifica oportunidades y
-                desarrolla una dirección clara para tu proyecto.
-            </p>
-        </article>
-
-        <article class="service-card">
-            <div class="service-number">SERVICIO</div>
-
-            <h3>Publicidad<br>y campañas</h3>
-
-            <p>
-                Conceptos publicitarios, mensajes, campañas y
-                propuestas pensadas para llamar la atención.
-            </p>
-        </article>
-
-        <article class="service-card">
-            <div class="service-number">SERVICIO</div>
-
-            <h3>Contenido<br>visual</h3>
-
-            <p>
-                Ideas para imágenes, anuncios, publicaciones y
-                contenido visual adaptado a cada plataforma.
-            </p>
-        </article>
-
-        <article class="service-card">
-            <div class="service-number">SERVICIO</div>
-
-            <h3>Video<br>y creatividad</h3>
-
-            <p>
-                Conceptos, guiones, escenas y estructuras para
-                vídeos promocionales y contenido digital.
-            </p>
-        </article>
-
-        <article class="service-card">
-            <div class="service-number">SERVICIO</div>
-
-            <h3>Proyectos<br>digitales</h3>
-
-            <p>
-                Desde videojuegos hasta proyectos digitales:
-                convierte una idea inicial en una propuesta clara.
-            </p>
-        </article>
-
-    </div>
-
-</section>
+    <div class="separator"></div>
 
 
-<!-- =========================
-     CONTACTO
-========================= -->
+    <!-- SOLO 3 OPCIONES -->
 
-<section class="contact">
+    <section class="main-options">
 
-    <div class="contact-box">
+        <button
+            class="option"
+            onclick="openSection('chat')">
 
-        <h2>
-            Tu opinión también forma parte de SparkyKrea.
-        </h2>
+            <div class="option-title">
+                Crear y conversar
+            </div>
 
-        <p>
-            Queremos saber qué piensas. Si tienes una sugerencia,
-            una crítica, encontraste algún problema o simplemente
-            quieres contarnos algo, déjanos saber tu opinión.
-        </p>
+            <div class="option-description">
+                Desarrolla tu idea y trabaja sobre ella.
+            </div>
 
-        <a
-            class="contact-btn"
-            href="mailto:guillermojose170512@gmail.com">
-            Contáctanos →
-        </a>
+            <div class="option-arrow">
+                →
+            </div>
 
-    </div>
+        </button>
 
-</section>
+
+        <button
+            class="option"
+            onclick="openSection('services')">
+
+            <div class="option-title">
+                Servicios
+            </div>
+
+            <div class="option-description">
+                Descubre todo lo que podemos desarrollar.
+            </div>
+
+            <div class="option-arrow">
+                →
+            </div>
+
+        </button>
+
+
+        <button
+            class="option"
+            onclick="openSection('contact')">
+
+            <div class="option-title">
+                Contáctanos
+            </div>
+
+            <div class="option-description">
+                Déjanos saber tu opinión o escríbenos.
+            </div>
+
+            <div class="option-arrow">
+                →
+            </div>
+
+        </button>
+
+    </section>
 
 </main>
 
 
-<footer>
-    © 2026 SparkyKrea · Todos los derechos reservados.
-</footer>
+
+<!-- =====================================================
+     CHAT PAGE
+===================================================== -->
+
+<section
+    class="app-section"
+    id="chatSection">
+
+    <div class="section-page-header">
+
+        <div class="section-page-title">
+            SparkyKrea
+        </div>
+
+        <div class="page-nav">
+
+            <button
+                onclick="openSection('chat')">
+                Chat
+            </button>
+
+            <button
+                onclick="openSection('services')">
+                Servicios
+            </button>
+
+            <button
+                onclick="openSection('contact')">
+                Contacto
+            </button>
+
+            <button
+                onclick="closeSection()">
+                Inicio
+            </button>
+
+        </div>
+
+    </div>
 
 
-<!-- =========================
-     AUTH MODAL
-========================= -->
+    <div class="chat-page-content">
 
-<div class="modal" id="authModal">
+        <div class="chat-container">
+
+            <div class="chat-top">
+
+                <div class="chat-top-title">
+                    Cuéntame qué quieres crear
+                </div>
+
+                <div class="chat-top-subtitle">
+                    Podemos desarrollar la idea contigo.
+                </div>
+
+            </div>
+
+
+            <div
+                class="chat-messages"
+                id="chatMessages">
+            </div>
+
+
+            <div class="chat-input-area">
+
+                <div class="chat-input-row">
+
+                    <input
+                        class="chat-input"
+                        id="chatInput"
+                        placeholder="Escribe aquí..."
+                        autocomplete="off">
+
+                    <button
+                        class="chat-send"
+                        onclick="sendMessage()">
+                        ↑
+                    </button>
+
+                </div>
+
+                <div
+                    class="chat-status"
+                    id="chatStatus">
+
+                    Escribe lo que tengas en mente.
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     SERVICES PAGE
+===================================================== -->
+
+<section
+    class="app-section"
+    id="servicesSection">
+
+    <div class="section-page-header">
+
+        <div class="section-page-title">
+            Servicios
+        </div>
+
+        <div class="page-nav">
+
+            <button
+                onclick="openSection('chat')">
+                Chat
+            </button>
+
+            <button
+                onclick="openSection('services')">
+                Servicios
+            </button>
+
+            <button
+                onclick="openSection('contact')">
+                Contacto
+            </button>
+
+            <button
+                onclick="closeSection()">
+                Inicio
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="services-page-content">
+
+        <div class="services-page-intro">
+
+            <h2>
+                Todo empieza con una buena idea.
+            </h2>
+
+            <p>
+                Trabajamos diferentes partes de un proyecto
+                para convertir una idea inicial en algo claro,
+                atractivo y preparado para avanzar.
+            </p>
+
+        </div>
+
+
+        <div class="services-grid">
+
+
+            <article class="big-service">
+
+                <div class="big-service-number">
+                    MARKETING
+                </div>
+
+                <h3>
+                    Marketing y estrategia
+                </h3>
+
+                <p>
+                    Analizamos tu proyecto, público, objetivo
+                    y oportunidades para construir una
+                    dirección estratégica.
+                </p>
+
+            </article>
+
+
+            <article class="big-service">
+
+                <div class="big-service-number">
+                    PUBLICIDAD
+                </div>
+
+                <h3>
+                    Publicidad y campañas
+                </h3>
+
+                <p>
+                    Conceptos, mensajes y campañas pensadas
+                    para presentar una marca, producto o servicio.
+                </p>
+
+            </article>
+
+
+            <article class="big-service">
+
+                <div class="big-service-number">
+                    CONTENIDO
+                </div>
+
+                <h3>
+                    Contenido visual
+                </h3>
+
+                <p>
+                    Ideas para imágenes, publicaciones,
+                    anuncios y contenido para plataformas digitales.
+                </p>
+
+            </article>
+
+
+            <article class="big-service">
+
+                <div class="big-service-number">
+                    VIDEO
+                </div>
+
+                <h3>
+                    Video y creatividad
+                </h3>
+
+                <p>
+                    Guiones, escenas, conceptos y estructuras
+                    para contenido audiovisual.
+                </p>
+
+            </article>
+
+
+            <article class="big-service">
+
+                <div class="big-service-number">
+                    DIGITAL
+                </div>
+
+                <h3>
+                    Proyectos digitales
+                </h3>
+
+                <p>
+                    Ideas para proyectos, experiencias digitales
+                    y conceptos interactivos.
+                </p>
+
+            </article>
+
+
+            <article class="big-service">
+
+                <div class="big-service-number">
+                    DESARROLLO
+                </div>
+
+                <h3>
+                    Desarrollo de ideas
+                </h3>
+
+                <p>
+                    Tomamos una idea inicial y la convertimos
+                    en una propuesta más concreta.
+                </p>
+
+            </article>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     CONTACT PAGE
+===================================================== -->
+
+<section
+    class="app-section"
+    id="contactSection">
+
+    <div class="section-page-header">
+
+        <div class="section-page-title">
+            Contáctanos
+        </div>
+
+        <div class="page-nav">
+
+            <button
+                onclick="openSection('chat')">
+                Chat
+            </button>
+
+            <button
+                onclick="openSection('services')">
+                Servicios
+            </button>
+
+            <button
+                onclick="openSection('contact')">
+                Contacto
+            </button>
+
+            <button
+                onclick="closeSection()">
+                Inicio
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="contact-page-content">
+
+        <div class="contact-card">
+
+            <h2>
+                Queremos saber qué piensas.
+            </h2>
+
+            <p>
+                Si tienes una sugerencia, una crítica,
+                encontraste algún problema o simplemente
+                quieres contarnos algo sobre tu experiencia
+                con SparkyKrea, déjanos saber tu opinión.
+            </p>
+
+            <a
+                class="contact-button"
+                href="mailto:guillermojose170512@gmail.com">
+
+                Contáctanos →
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     LOGIN / REGISTER
+===================================================== -->
+
+<div
+    class="modal"
+    id="authModal">
 
     <div class="modal-box">
 
-        <div class="modal-header">
+        <div class="modal-head">
 
             <h2 id="authTitle">
                 Iniciar sesión
             </h2>
 
             <button
-                class="close-modal"
+                class="modal-close"
                 onclick="closeAuth()">
+
                 ×
+
             </button>
 
         </div>
@@ -1031,17 +1819,20 @@ footer{
 
         <form id="authForm">
 
+
             <div
                 class="form-group"
                 id="nameGroup"
                 style="display:none">
 
-                <label>Nombre</label>
+                <label>
+                    Nombre
+                </label>
 
                 <input
-                    type="text"
                     id="firstName"
-                    autocomplete="given-name">
+                    type="text">
+
             </div>
 
 
@@ -1050,23 +1841,26 @@ footer{
                 id="surnameGroup"
                 style="display:none">
 
-                <label>Apellido</label>
+                <label>
+                    Apellido
+                </label>
 
                 <input
-                    type="text"
                     id="lastName"
-                    autocomplete="family-name">
+                    type="text">
+
             </div>
 
 
             <div class="form-group">
 
-                <label>Correo electrónico</label>
+                <label>
+                    Correo electrónico
+                </label>
 
                 <input
-                    type="email"
                     id="email"
-                    autocomplete="email"
+                    type="email"
                     required>
 
             </div>
@@ -1074,12 +1868,13 @@ footer{
 
             <div class="form-group">
 
-                <label>Contraseña</label>
+                <label>
+                    Contraseña
+                </label>
 
                 <input
-                    type="password"
                     id="password"
-                    autocomplete="current-password"
+                    type="password"
                     minlength="6"
                     required>
 
@@ -1087,11 +1882,14 @@ footer{
 
 
             <button
-                type="submit"
                 class="form-submit"
+                type="submit"
                 id="authSubmit">
+
                 Iniciar sesión
+
             </button>
+
 
             <div
                 class="form-error"
@@ -1110,7 +1908,9 @@ footer{
             <button
                 id="switchAuth"
                 onclick="switchAuthMode()">
+
                 Registrarse
+
             </button>
 
         </div>
@@ -1119,121 +1919,13 @@ footer{
 
 </div>
 
-
-<!-- =========================
-     CHAT
-========================= -->
-
-<div class="chat-overlay" id="chatOverlay">
-
-    <div class="chat-window">
-
-        <div class="chat-header">
-
-            <div>
-
-                <div class="chat-brand">
-                    SparkyKrea
-                </div>
-
-                <div class="chat-subtitle">
-                    Cuéntame qué quieres crear
-                </div>
-
-            </div>
-
-            <button
-                class="chat-close"
-                onclick="closeChat()">
-                ×
-            </button>
-
-        </div>
-
-
-        <div
-            class="chat-messages"
-            id="chatMessages">
-        </div>
-
-
-        <div class="chat-bottom">
-
-            <div
-                class="image-preview"
-                id="imagePreview">
-
-                <img
-                    id="previewImage"
-                    src=""
-                    alt="Vista previa">
-
-                <button
-                    class="remove-image"
-                    onclick="removeImage()">
-                    ×
-                </button>
-
-            </div>
-
-
-            <div class="chat-input-row">
-
-                <input
-                    type="file"
-                    class="file-input"
-                    id="imageInput"
-                    accept="image/*"
-                    onchange="handleImage(event)">
-
-                <button
-                    class="icon-btn"
-                    onclick="document.getElementById('imageInput').click()"
-                    title="Subir imagen">
-                    +
-                </button>
-
-                <input
-                    class="chat-input"
-                    id="chatInput"
-                    type="text"
-                    placeholder="Escribe aquí..."
-                    autocomplete="off">
-
-                <button
-                    class="icon-btn send-btn"
-                    onclick="sendMessage()">
-                    ↑
-                </button>
-
-            </div>
-
-            <div class="status" id="chatStatus">
-                Escribe lo que tengas en mente.
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
 
 
 <script>
 
-/* =========================================================
-   CONFIGURACIÓN
-========================================================= */
-
-/*
-    IMPORTANTE:
-
-    Aquí colocaremos los datos de Supabase después.
-
-    NO pongas aquí una clave secreta de OpenAI.
-
-    La clave de OpenAI irá posteriormente en el servidor.
-*/
+/* =====================================================
+   SUPABASE
+===================================================== */
 
 const SUPABASE_URL = "";
 
@@ -1241,210 +1933,252 @@ const SUPABASE_PUBLISHABLE_KEY = "";
 
 let supabaseClient = null;
 
-if (
+if(
     SUPABASE_URL &&
     SUPABASE_PUBLISHABLE_KEY &&
     window.supabase
 ){
-    supabaseClient = window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_PUBLISHABLE_KEY
-    );
+
+    supabaseClient =
+        window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_PUBLISHABLE_KEY
+        );
+
 }
 
 
-/* =========================================================
+/* =====================================================
    ESTADO
-========================================================= */
+===================================================== */
 
 let currentUser = null;
 
 let authMode = "login";
 
-let selectedImage = null;
+let currentSection = null;
 
 
-/* =========================================================
-   ELEMENTOS
-========================================================= */
+/* =====================================================
+   NAVEGACIÓN ENTRE LUGARES
+===================================================== */
 
-const authModal =
-    document.getElementById("authModal");
+function openSection(section){
 
-const authTitle =
-    document.getElementById("authTitle");
+    const sections = {
 
-const authForm =
-    document.getElementById("authForm");
+        chat:
+            document.getElementById(
+                "chatSection"
+            ),
 
-const authSubmit =
-    document.getElementById("authSubmit");
+        services:
+            document.getElementById(
+                "servicesSection"
+            ),
 
-const authError =
-    document.getElementById("authError");
+        contact:
+            document.getElementById(
+                "contactSection"
+            )
 
-const nameGroup =
-    document.getElementById("nameGroup");
-
-const surnameGroup =
-    document.getElementById("surnameGroup");
-
-const switchText =
-    document.getElementById("switchText");
-
-const switchAuth =
-    document.getElementById("switchAuth");
-
-const loginBtn =
-    document.getElementById("loginBtn");
-
-const registerBtn =
-    document.getElementById("registerBtn");
-
-const userPill =
-    document.getElementById("userPill");
-
-const userName =
-    document.getElementById("userName");
-
-const logoutBtn =
-    document.getElementById("logoutBtn");
-
-const chatOverlay =
-    document.getElementById("chatOverlay");
-
-const chatMessages =
-    document.getElementById("chatMessages");
-
-const chatInput =
-    document.getElementById("chatInput");
-
-const chatStatus =
-    document.getElementById("chatStatus");
-
-const imagePreview =
-    document.getElementById("imagePreview");
-
-const previewImage =
-    document.getElementById("previewImage");
+    };
 
 
-/* =========================================================
-   HORA DEL DÍA
-========================================================= */
+    Object.values(sections).forEach(
+        element => {
 
-function getGreeting(){
+            element.classList.remove(
+                "active"
+            );
 
-    const hour = new Date().getHours();
+        }
+    );
 
-    if(hour >= 5 && hour < 12){
-        return "Hola, buenos días.";
+
+    const selected =
+        sections[section];
+
+
+    if(!selected){
+        return;
     }
 
-    if(hour >= 12 && hour < 19){
-        return "Hola, buenas tardes.";
-    }
 
-    return "Hola, buenas noches.";
-}
+    selected.classList.add(
+        "active"
+    );
 
 
-/* =========================================================
-   CHAT
-========================================================= */
+    currentSection =
+        section;
 
-function openChat(){
 
-    chatOverlay.classList.add("open");
+    document.body.style.overflow =
+        "hidden";
 
-    document.body.style.overflow = "hidden";
 
-    if(chatMessages.children.length === 0){
+    if(
+        section === "chat" &&
+        document.getElementById(
+            "chatMessages"
+        ).children.length === 0
+    ){
 
-        addMessage(
-            "bot",
-            getGreeting() +
-            " Cuéntame, ¿qué deseas hacer?"
+        setTimeout(
+            addWelcomeMessage,
+            350
         );
 
     }
 
-    setTimeout(() => {
-        chatInput.focus();
-    },400);
 }
 
 
-function closeChat(){
+function closeSection(){
 
-    chatOverlay.classList.remove("open");
+    document.querySelectorAll(
+        ".app-section"
+    ).forEach(
+        section => {
 
-    document.body.style.overflow = "";
+            section.classList.remove(
+                "active"
+            );
+
+        }
+    );
+
+
+    currentSection = null;
+
+    document.body.style.overflow =
+        "";
 }
 
 
-function addMessage(type,text){
+/* =====================================================
+   SALUDO
+===================================================== */
 
-    const message =
-        document.createElement("div");
+function getGreeting(){
 
-    message.className =
+    const hour =
+        new Date().getHours();
+
+
+    if(
+        hour >= 5 &&
+        hour < 12
+    ){
+
+        return "Hola, buenos días.";
+
+    }
+
+
+    if(
+        hour >= 12 &&
+        hour < 19
+    ){
+
+        return "Hola, buenas tardes.";
+
+    }
+
+
+    return "Hola, buenas noches.";
+
+}
+
+
+function addWelcomeMessage(){
+
+    addMessage(
+        "bot",
+
+        getGreeting() +
+        " Cuéntame, ¿qué deseas hacer?"
+    );
+
+}
+
+
+/* =====================================================
+   CHAT
+===================================================== */
+
+function addMessage(
+    type,
+    text
+){
+
+    const element =
+        document.createElement(
+            "div"
+        );
+
+
+    element.className =
         "message " + type;
 
-    message.textContent = text;
 
-    chatMessages.appendChild(message);
+    element.textContent =
+        text;
 
-    chatMessages.scrollTop =
-        chatMessages.scrollHeight;
+
+    const container =
+        document.getElementById(
+            "chatMessages"
+        );
+
+
+    container.appendChild(
+        element
+    );
+
+
+    container.scrollTop =
+        container.scrollHeight;
+
 }
 
 
-/* =========================================================
-   RECONOCIMIENTO BÁSICO DE CONTEXTO
-========================================================= */
+/* =====================================================
+   DETECCIÓN DE CONTEXTO
+===================================================== */
 
-const gameDatabase = {
+const gameTerms = {
 
-    valorant: [
+    valorant:[
+        "valorant",
         "reyna",
         "jett",
         "sage",
         "omen",
         "raze",
         "phoenix",
-        "cypher",
         "viper",
-        "killjoy",
-        "chamber",
-        "neon",
-        "gekko",
-        "yoru",
         "sova",
-        "fade",
-        "iso",
-        "clove"
+        "neon"
     ],
 
-    fortnite: [
+    fortnite:[
         "fortnite",
         "skin",
         "skins",
-        "battle royale",
-        "epic games"
+        "battle royale"
     ],
 
-    "call of duty": [
+    "call of duty":[
         "call of duty",
         "cod",
         "warzone",
         "modern warfare",
-        "black ops",
-        "operator",
-        "operador"
+        "black ops"
     ],
 
-    "league of legends": [
+    "league of legends":[
         "league of legends",
         "lol",
         "ahri",
@@ -1452,11 +2186,10 @@ const gameDatabase = {
         "jinx",
         "lux",
         "zed",
-        "akali",
-        "teemo"
+        "akali"
     ],
 
-    "free fire": [
+    "free fire":[
         "free fire",
         "alok",
         "kelly",
@@ -1465,134 +2198,170 @@ const gameDatabase = {
         "chrono"
     ],
 
-    minecraft: [
+    minecraft:[
         "minecraft",
-        "steve",
-        "creeper"
+        "creeper",
+        "steve"
     ],
 
-    roblox: [
+    roblox:[
         "roblox"
     ],
 
-    "gta": [
+    gta:[
         "gta",
-        "grand theft auto",
         "gta v",
         "gta online"
     ]
+
 };
 
 
-function detectGameContext(text){
+function detectContext(text){
 
     const lower =
         text.toLowerCase();
 
+
     for(
-        const game in gameDatabase
+        const game in gameTerms
     ){
 
-        const terms =
-            gameDatabase[game];
-
         for(
-            const term of terms
+            const term of gameTerms[game]
         ){
 
-            if(lower.includes(term)){
+            if(
+                lower.includes(term)
+            ){
 
                 return {
-                    game:game,
-                    term:term
+                    game,
+                    term
                 };
 
             }
+
         }
+
     }
 
+
     return null;
+
 }
 
 
-/* =========================================================
+/* =====================================================
    RESPUESTA TEMPORAL
-========================================================= */
+===================================================== */
 
-/*
-    ESTO NO ES LA IA REAL.
-
-    Lo dejamos como respuesta temporal para que la página
-    funcione mientras conectamos el servidor.
-
-    Después esta función será reemplazada por una llamada
-    segura al backend.
-*/
-
-async function generateTemporaryResponse(text){
+async function temporaryResponse(
+    text
+){
 
     const context =
-        detectGameContext(text);
+        detectContext(text);
+
 
     if(context){
 
         if(
-            context.game === "valorant" &&
-            context.term === "reyna"
+            context.game ===
+                "valorant" &&
+            context.term ===
+                "reyna"
         ){
 
-            return "Sí, entiendo: te refieres a Reyna de Valorant. Cuéntame qué quieres hacer con ella: ¿una imagen, una publicidad, un concepto para redes, un vídeo o algo diferente?";
+            return (
+                "Sí, te refieres a Reyna de Valorant. " +
+                "Podemos trabajar una imagen, publicidad, " +
+                "concepto de vídeo o contenido alrededor del personaje. " +
+                "¿Qué quieres crear con ella?"
+            );
 
         }
+
 
         if(
-            context.game === "fortnite"
+            context.game ===
+                "fortnite"
         ){
 
-            return "Entiendo que estás hablando de Fortnite. Si quieres crear algo con un personaje o skin, dime cuál y qué quieres conseguir.";
+            return (
+                "Entiendo que hablas de Fortnite. " +
+                "Si quieres utilizar un personaje o una skin, " +
+                "dime cuál y qué quieres crear."
+            );
 
         }
+
 
         if(
-            context.game === "call of duty"
+            context.game ===
+                "call of duty"
         ){
 
-            return "Entiendo que te refieres a Call of Duty. Podemos trabajar una idea relacionada con Warzone, un operador, una campaña, contenido o un concepto visual. ¿Qué tienes pensado?";
+            return (
+                "Entiendo que te refieres a Call of Duty. " +
+                "Podemos trabajar una idea relacionada con Warzone, " +
+                "un operador, una campaña o contenido."
+            );
 
         }
+
 
         if(
-            context.game === "league of legends"
+            context.game ===
+                "league of legends"
         ){
 
-            return "Entiendo que hablas de League of Legends. Si quieres trabajar con un campeón, dime cuál y qué quieres crear alrededor de él.";
+            return (
+                "Entiendo que hablas de League of Legends. " +
+                "Si quieres utilizar un campeón, dime cuál y " +
+                "qué quieres crear alrededor de él."
+            );
 
         }
+
 
         if(
-            context.game === "free fire"
+            context.game ===
+                "free fire"
         ){
 
-            return "Entiendo que te refieres a Free Fire. Dime qué personaje, elemento o idea quieres utilizar y qué quieres crear.";
+            return (
+                "Entiendo que te refieres a Free Fire. " +
+                "Dime qué personaje o elemento quieres utilizar " +
+                "y qué quieres crear."
+            );
 
         }
 
-        return "Entiendo que estás hablando de " +
+
+        return (
+            "Entiendo que estás hablando de " +
             context.game +
-            ". Cuéntame un poco más sobre lo que quieres crear.";
+            ". Cuéntame qué quieres crear."
+        );
+
     }
 
 
     const lower =
         text.toLowerCase();
 
+
     if(
         lower.includes("publicidad") ||
-        lower.includes("anuncio") ||
-        lower.includes("campaña")
+        lower.includes("anuncio")
     ){
 
-        return "Perfecto. Podemos desarrollar la publicidad desde la idea hasta el concepto, mensaje y contenido. Cuéntame qué producto, servicio o proyecto quieres promocionar.";
+        return (
+            "Perfecto. Cuéntame qué producto, servicio " +
+            "o proyecto quieres promocionar y desarrollamos " +
+            "la idea desde ahí."
+        );
 
     }
 
@@ -1602,7 +2371,11 @@ async function generateTemporaryResponse(text){
         lower.includes("vídeo")
     ){
 
-        return "Perfecto. Podemos estructurar el vídeo con escenas, tiempos, texto, voz y formato. Cuéntame qué quieres promocionar o mostrar.";
+        return (
+            "Perfecto. Podemos estructurar el vídeo " +
+            "con escenas, tiempos, texto y formato. " +
+            "¿Qué quieres mostrar?"
+        );
 
     }
 
@@ -1612,116 +2385,101 @@ async function generateTemporaryResponse(text){
         lower.includes("foto")
     ){
 
-        return "Perfecto. Cuéntame qué imagen quieres crear, qué debería aparecer y para qué plataforma la necesitas.";
+        return (
+            "Perfecto. Cuéntame qué quieres que aparezca " +
+            "en la imagen y para qué la vas a utilizar."
+        );
 
     }
 
 
-    if(
-        lower.includes("hola") ||
-        lower.includes("hey") ||
-        lower.includes("buenas")
-    ){
-
-        return getGreeting() +
-            " Cuéntame qué tienes en mente y lo desarrollamos.";
-
-    }
-
-
-    return "Entiendo. Cuéntame un poco más sobre tu idea y qué resultado quieres conseguir, y a partir de ahí iremos construyéndola contigo.";
+    return (
+        "Entiendo. Cuéntame un poco más sobre tu idea " +
+        "y qué resultado quieres conseguir."
+    );
 
 }
 
 
-/* =========================================================
-   ENVIAR MENSAJE
-========================================================= */
+/* =====================================================
+   ENVIAR
+===================================================== */
 
 async function sendMessage(){
 
-    const text =
-        chatInput.value.trim();
+    const input =
+        document.getElementById(
+            "chatInput"
+        );
 
-    if(!text && !selectedImage){
+
+    const status =
+        document.getElementById(
+            "chatStatus"
+        );
+
+
+    const text =
+        input.value.trim();
+
+
+    if(!text){
         return;
     }
 
 
-    if(text){
-
-        addMessage(
-            "user",
-            text
-        );
-
-        chatInput.value = "";
-
-    }
+    addMessage(
+        "user",
+        text
+    );
 
 
-    chatStatus.textContent =
+    input.value = "";
+
+
+    status.textContent =
         "Pensando...";
 
 
-    try{
+    await new Promise(
+        resolve =>
+            setTimeout(
+                resolve,
+                450
+            )
+    );
 
-        /*
-            Más adelante:
 
-            const response =
-                await callRealAI(text);
-
-            addMessage("bot", response);
-
-            Por ahora usamos el sistema temporal.
-        */
-
-        await new Promise(
-            resolve =>
-                setTimeout(resolve,500)
-        );
-
-        const response =
-            await generateTemporaryResponse(
-                text
-            );
-
-        addMessage(
-            "bot",
-            response
+    const response =
+        await temporaryResponse(
+            text
         );
 
 
-    }catch(error){
-
-        console.error(error);
-
-        addMessage(
-            "bot",
-            "Hubo un problema al procesar tu mensaje. Inténtalo nuevamente."
-        );
-
-    }
+    addMessage(
+        "bot",
+        response
+    );
 
 
-    chatStatus.textContent =
+    status.textContent =
         "Escribe lo que tengas en mente.";
 
 }
 
 
-/* =========================================================
-   ENTER PARA ENVIAR
-========================================================= */
+/* =====================================================
+   ENTER
+===================================================== */
 
-chatInput.addEventListener(
+document.getElementById(
+    "chatInput"
+).addEventListener(
     "keydown",
-    function(event){
+    event => {
 
         if(
-            event.key === "Enter" &&
-            !event.shiftKey
+            event.key === "Enter"
         ){
 
             event.preventDefault();
@@ -1734,90 +2492,35 @@ chatInput.addEventListener(
 );
 
 
-/* =========================================================
-   IMAGEN
-========================================================= */
-
-function handleImage(event){
-
-    const file =
-        event.target.files[0];
-
-    if(!file){
-        return;
-    }
-
-    if(
-        !file.type.startsWith("image/")
-    ){
-
-        alert(
-            "Selecciona una imagen válida."
-        );
-
-        return;
-    }
-
-
-    selectedImage = file;
-
-
-    const reader =
-        new FileReader();
-
-    reader.onload =
-        function(e){
-
-            previewImage.src =
-                e.target.result;
-
-            imagePreview.style.display =
-                "block";
-
-        };
-
-    reader.readAsDataURL(file);
-
-}
-
-
-function removeImage(){
-
-    selectedImage = null;
-
-    imagePreview.style.display =
-        "none";
-
-    previewImage.src = "";
-
-    document.getElementById(
-        "imageInput"
-    ).value = "";
-
-}
-
-
-/* =========================================================
-   LOGIN / REGISTRO
-========================================================= */
+/* =====================================================
+   AUTH
+===================================================== */
 
 function openAuth(mode){
 
-    authMode = mode;
+    authMode =
+        mode;
+
 
     updateAuthModal();
 
-    authModal.classList.add("show");
+
+    document.getElementById(
+        "authModal"
+    ).classList.add(
+        "active"
+    );
 
 }
 
 
 function closeAuth(){
 
-    authModal.classList.remove("show");
-
-    authError.style.display =
-        "none";
+    document.getElementById(
+        "authModal"
+    ).classList.remove(
+        "active"
+    );
 
 }
 
@@ -1828,6 +2531,7 @@ function switchAuthMode(){
         authMode === "login"
             ? "register"
             : "login";
+
 
     updateAuthModal();
 
@@ -1840,74 +2544,89 @@ function updateAuthModal(){
         authMode === "register";
 
 
-    authTitle.textContent =
+    document.getElementById(
+        "authTitle"
+    ).textContent =
         register
             ? "Crear cuenta"
             : "Iniciar sesión";
 
 
-    authSubmit.textContent =
+    document.getElementById(
+        "authSubmit"
+    ).textContent =
         register
             ? "Registrarme"
             : "Iniciar sesión";
 
 
-    nameGroup.style.display =
+    document.getElementById(
+        "nameGroup"
+    ).style.display =
         register
             ? "block"
             : "none";
 
 
-    surnameGroup.style.display =
+    document.getElementById(
+        "surnameGroup"
+    ).style.display =
         register
             ? "block"
             : "none";
 
 
-    switchText.textContent =
+    document.getElementById(
+        "switchText"
+    ).textContent =
         register
             ? "¿Ya tienes una cuenta?"
             : "¿No tienes una cuenta?";
 
 
-    switchAuth.textContent =
+    document.getElementById(
+        "switchAuth"
+    ).textContent =
         register
             ? "Iniciar sesión"
             : "Registrarse";
 
-
-    document.getElementById(
-        "password"
-    ).autocomplete =
-        register
-            ? "new-password"
-            : "current-password";
-
 }
 
 
-authForm.addEventListener(
+/* =====================================================
+   AUTH SUBMIT
+===================================================== */
+
+document.getElementById(
+    "authForm"
+).addEventListener(
     "submit",
-    async function(event){
+    async event => {
 
         event.preventDefault();
 
-        authError.style.display =
+
+        const errorBox =
+            document.getElementById(
+                "authError"
+            );
+
+
+        errorBox.style.display =
             "none";
 
 
-        /*
-            Si todavía no configuramos Supabase,
-            no fingimos que el login funciona.
-        */
-
         if(!supabaseClient){
 
-            showAuthError(
-                "La cuenta todavía no está conectada al sistema. Primero debemos configurar Supabase."
-            );
+            errorBox.textContent =
+                "Primero debemos conectar Supabase para activar las cuentas.";
+
+            errorBox.style.display =
+                "block";
 
             return;
+
         }
 
 
@@ -1916,28 +2635,25 @@ authForm.addEventListener(
                 "email"
             ).value.trim();
 
+
         const password =
             document.getElementById(
                 "password"
             ).value;
 
 
-        authSubmit.disabled = true;
-
-        authSubmit.textContent =
-            "Procesando...";
-
-
         try{
 
             if(
-                authMode === "register"
+                authMode ===
+                "register"
             ){
 
                 const firstName =
                     document.getElementById(
                         "firstName"
                     ).value.trim();
+
 
                 const lastName =
                     document.getElementById(
@@ -1958,23 +2674,27 @@ authForm.addEventListener(
 
 
                 const {
-                    data,
                     error
                 } =
-                    await supabaseClient.auth.signUp({
+                    await supabaseClient
+                        .auth
+                        .signUp({
 
-                        email:email,
+                            email,
 
-                        password:password,
+                            password,
 
-                        options:{
-                            data:{
-                                first_name:firstName,
-                                last_name:lastName
+                            options:{
+                                data:{
+                                    first_name:
+                                        firstName,
+
+                                    last_name:
+                                        lastName
+                                }
                             }
-                        }
 
-                    });
+                        });
 
 
                 if(error){
@@ -1986,7 +2706,7 @@ authForm.addEventListener(
 
 
                 alert(
-                    "Cuenta creada. Si el sistema solicita confirmar tu correo, revisa tu bandeja de entrada."
+                    "Cuenta creada correctamente."
                 );
 
 
@@ -1996,13 +2716,15 @@ authForm.addEventListener(
                     data,
                     error
                 } =
-                    await supabaseClient.auth.signInWithPassword({
+                    await supabaseClient
+                        .auth
+                        .signInWithPassword({
 
-                        email:email,
+                            email,
 
-                        password:password
+                            password
 
-                    });
+                        });
 
 
                 if(error){
@@ -2014,109 +2736,64 @@ authForm.addEventListener(
                     data.user;
 
 
-                closeAuth();
-
                 updateUserUI();
+
+                closeAuth();
 
             }
 
-
         }catch(error){
 
-            console.error(error);
-
-            showAuthError(
-                translateAuthError(
-                    error.message
-                )
+            console.error(
+                error
             );
 
+
+            errorBox.textContent =
+                error.message ||
+                "Ocurrió un error.";
+
+
+            errorBox.style.display =
+                "block";
+
         }
-
-
-        authSubmit.disabled = false;
-
-        authSubmit.textContent =
-            authMode === "register"
-                ? "Registrarme"
-                : "Iniciar sesión";
 
     }
 );
 
 
-/* =========================================================
-   ERRORES DE AUTH
-========================================================= */
-
-function showAuthError(message){
-
-    authError.textContent =
-        message;
-
-    authError.style.display =
-        "block";
-
-}
-
-
-function translateAuthError(message){
-
-    if(!message){
-        return "Ocurrió un error.";
-    }
-
-    const lower =
-        message.toLowerCase();
-
-    if(
-        lower.includes("invalid login")
-    ){
-
-        return "El correo o la contraseña no son correctos.";
-
-    }
-
-    if(
-        lower.includes("already registered")
-    ){
-
-        return "Ese correo ya tiene una cuenta.";
-
-    }
-
-    if(
-        lower.includes("password")
-    ){
-
-        return "La contraseña no cumple los requisitos.";
-
-    }
-
-    return message;
-
-}
-
-
-/* =========================================================
+/* =====================================================
    USUARIO
-========================================================= */
+===================================================== */
 
 function updateUserUI(){
 
     if(!currentUser){
 
-        loginBtn.style.display =
+        document.getElementById(
+            "loginBtn"
+        ).style.display =
             "block";
 
-        registerBtn.style.display =
+
+        document.getElementById(
+            "registerBtn"
+        ).style.display =
             "block";
 
-        userPill.style.display =
+
+        document.getElementById(
+            "userPill"
+        ).style.display =
             "none";
 
-        logoutBtn.style.display =
+
+        document.getElementById(
+            "logoutBtn"
+        ).style.display =
             "none";
+
 
         return;
 
@@ -2124,45 +2801,60 @@ function updateUserUI(){
 
 
     const metadata =
-        currentUser.user_metadata || {};
+        currentUser.user_metadata ||
+        {};
 
 
-    const firstName =
-        metadata.first_name || "";
+    const first =
+        metadata.first_name ||
+        "";
 
 
-    const lastName =
-        metadata.last_name || "";
+    const last =
+        metadata.last_name ||
+        "";
 
 
-    const fullName =
+    document.getElementById(
+        "userName"
+    ).textContent =
         (
-            firstName +
+            first +
             " " +
-            lastName
-        ).trim();
+            last
+        ).trim() ||
+        currentUser.email;
 
 
-    userName.textContent =
-        fullName ||
-        currentUser.email ||
-        "Usuario";
-
-
-    loginBtn.style.display =
+    document.getElementById(
+        "loginBtn"
+    ).style.display =
         "none";
 
-    registerBtn.style.display =
+
+    document.getElementById(
+        "registerBtn"
+    ).style.display =
         "none";
 
-    userPill.style.display =
+
+    document.getElementById(
+        "userPill"
+    ).style.display =
         "flex";
 
-    logoutBtn.style.display =
+
+    document.getElementById(
+        "logoutBtn"
+    ).style.display =
         "block";
 
 }
 
+
+/* =====================================================
+   LOGOUT
+===================================================== */
 
 async function logout(){
 
@@ -2170,20 +2862,25 @@ async function logout(){
         supabaseClient
     ){
 
-        await supabaseClient.auth.signOut();
+        await supabaseClient
+            .auth
+            .signOut();
 
     }
 
-    currentUser = null;
+
+    currentUser =
+        null;
+
 
     updateUserUI();
 
 }
 
 
-/* =========================================================
-   SUPABASE SESSION
-========================================================= */
+/* =====================================================
+   INICIALIZAR AUTH
+===================================================== */
 
 async function initializeAuth(){
 
@@ -2192,13 +2889,16 @@ async function initializeAuth(){
         updateUserUI();
 
         return;
+
     }
 
 
     const {
         data
     } =
-        await supabaseClient.auth.getSession();
+        await supabaseClient
+            .auth
+            .getSession();
 
 
     currentUser =
@@ -2210,21 +2910,23 @@ async function initializeAuth(){
     updateUserUI();
 
 
-    supabaseClient.auth.onAuthStateChange(
-        function(
-            event,
-            session
-        ){
-
-            currentUser =
+    supabaseClient.auth
+        .onAuthStateChange(
+            (
+                event,
                 session
-                    ? session.user
-                    : null;
+            ) => {
 
-            updateUserUI();
+                currentUser =
+                    session
+                        ? session.user
+                        : null;
 
-        }
-    );
+
+                updateUserUI();
+
+            }
+        );
 
 }
 
@@ -2232,114 +2934,19 @@ async function initializeAuth(){
 initializeAuth();
 
 
-/* =========================================================
-   CARRUSEL AUTOMÁTICO
-========================================================= */
+/* =====================================================
+   CERRAR AUTH HACIENDO CLICK FUERA
+===================================================== */
 
-const cards =
-    Array.from(
-        document.querySelectorAll(
-            ".service-card"
-        )
-    );
-
-let carouselIndex = 0;
-
-
-function updateCarousel(){
-
-    const total =
-        cards.length;
-
-
-    cards.forEach(
-        (card,index)=>{
-
-            card.classList.remove(
-                "active",
-                "prev",
-                "next",
-                "far"
-            );
-
-
-            const diff =
-                (index -
-                 carouselIndex +
-                 total) %
-                total;
-
-
-            if(diff === 0){
-
-                card.classList.add(
-                    "active"
-                );
-
-            }else if(diff === 1){
-
-                card.classList.add(
-                    "next"
-                );
-
-            }else if(diff === total - 1){
-
-                card.classList.add(
-                    "prev"
-                );
-
-            }else{
-
-                card.classList.add(
-                    "far"
-                );
-
-            }
-
-        }
-    );
-
-}
-
-
-function nextCard(){
-
-    carouselIndex =
-        (
-            carouselIndex + 1
-        ) %
-        cards.length;
-
-    updateCarousel();
-
-}
-
-
-updateCarousel();
-
-
-/*
-    Más lento para que se pueda apreciar
-    la tarjeta de atrás.
-*/
-
-setInterval(
-    nextCard,
-    4800
-);
-
-
-/* =========================================================
-   CERRAR MODAL HACIENDO CLICK FUERA
-========================================================= */
-
-authModal.addEventListener(
+document.getElementById(
+    "authModal"
+).addEventListener(
     "click",
-    function(event){
+    event => {
 
         if(
-            event.target ===
-            authModal
+            event.target.id ===
+            "authModal"
         ){
 
             closeAuth();
@@ -2350,13 +2957,13 @@ authModal.addEventListener(
 );
 
 
-/* =========================================================
+/* =====================================================
    ESC
-========================================================= */
+===================================================== */
 
 document.addEventListener(
     "keydown",
-    function(event){
+    event => {
 
         if(
             event.key === "Escape"
@@ -2364,7 +2971,7 @@ document.addEventListener(
 
             closeAuth();
 
-            closeChat();
+            closeSection();
 
         }
 
