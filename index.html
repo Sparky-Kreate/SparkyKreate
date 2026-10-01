@@ -2,2279 +2,2375 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0c0c0b">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#11100e">
+
 <title>SparkyKrea</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap');
 
 :root{
-  --bg:#0b0b0a;
-  --bg2:#11110f;
-  --card:#171714;
-  --card2:#1c1b18;
-  --cream:#f0d0a0;
-  --cream2:#e6c38f;
-  --white:#f5f1e9;
-  --muted:#96938d;
-  --line:rgba(255,255,255,.10);
-  --line2:rgba(240,208,160,.22);
+    --black:#11100e;
+    --black2:#181715;
+    --cream:#eee6d7;
+    --cream2:#f5efe4;
+    --beige:#d8c8ad;
+    --beige2:#cbb897;
+    --gray:#aaa49a;
+    --white:#faf8f3;
+    --line:rgba(238,230,215,.12);
+    --shadow:0 25px 70px rgba(0,0,0,.32);
 }
 
 *{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
 html{
-  scroll-behavior:smooth;
-  background:var(--bg);
+    scroll-behavior:smooth;
 }
 
 body{
-  background:
-    radial-gradient(circle at 80% 10%,rgba(240,208,160,.055),transparent 30%),
-    radial-gradient(circle at 15% 45%,rgba(255,255,255,.025),transparent 30%),
-    var(--bg);
-  color:var(--white);
-  font-family:"DM Sans",sans-serif;
-  min-height:100vh;
-  overflow-x:hidden;
+    background:var(--black);
+    color:var(--white);
+    font-family:"DM Sans",sans-serif;
+    overflow-x:hidden;
 }
 
 button,
 input,
 textarea,
 select{
-  font:inherit;
+    font:inherit;
 }
 
 button{
-  cursor:pointer;
+    cursor:pointer;
 }
 
 a{
-  color:inherit;
-  text-decoration:none;
+    color:inherit;
+    text-decoration:none;
 }
 
-/* HEADER */
+/* =========================
+   HEADER
+========================= */
 
 header{
-  position:fixed;
-  z-index:50;
-  top:0;
-  left:0;
-  width:100%;
-  height:82px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 clamp(22px,5vw,70px);
-  border-bottom:1px solid var(--line);
-  background:rgba(11,11,10,.84);
-  backdrop-filter:blur(18px);
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    z-index:100;
+    padding:20px 5%;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:linear-gradient(
+        to bottom,
+        rgba(17,16,14,.94),
+        rgba(17,16,14,.55),
+        transparent
+    );
 }
 
 .logo{
-  display:flex;
-  align-items:center;
-  gap:13px;
-  font-family:"Playfair Display",serif;
-  font-size:27px;
-  white-space:nowrap;
+    font-family:"Playfair Display",serif;
+    font-size:26px;
+    font-weight:700;
+    letter-spacing:-.7px;
+    white-space:nowrap;
 }
 
-.logo-mark{
-  width:38px;
-  height:38px;
-  border:1px solid var(--line2);
-  border-radius:50%;
-  display:grid;
-  place-items:center;
-  color:var(--cream);
-  font-size:18px;
+.header-right{
+    display:flex;
+    align-items:center;
+    gap:10px;
 }
 
-.auth-area{
-  display:flex;
-  align-items:center;
-  gap:10px;
+.header-btn{
+    border:1px solid rgba(238,230,215,.22);
+    background:rgba(238,230,215,.04);
+    color:var(--cream);
+    padding:10px 16px;
+    border-radius:999px;
+    transition:.25s ease;
 }
 
-.auth-btn{
-  border:1px solid var(--line);
-  background:transparent;
-  color:var(--white);
-  padding:13px 20px;
-  border-radius:999px;
-  transition:.25s;
+.header-btn:hover{
+    background:var(--cream);
+    color:var(--black);
+    transform:translateY(-2px);
 }
 
-.auth-btn:hover{
-  border-color:var(--cream);
-  color:var(--cream);
-}
-
-.auth-primary{
-  background:var(--cream);
-  color:#17130e;
-  border-color:var(--cream);
-}
-
-.auth-primary:hover{
-  background:var(--cream2);
-  color:#17130e;
+.register-btn{
+    background:var(--cream);
+    color:var(--black);
+    border-color:var(--cream);
 }
 
 .user-pill{
-  display:none;
-  align-items:center;
-  gap:10px;
-  border:1px solid var(--line);
-  border-radius:999px;
-  padding:8px 13px 8px 8px;
+    display:none;
+    align-items:center;
+    gap:8px;
+    padding:10px 15px;
+    border-radius:999px;
+    background:rgba(238,230,215,.1);
+    border:1px solid rgba(238,230,215,.2);
+    color:var(--cream);
 }
 
-.user-avatar{
-  width:34px;
-  height:34px;
-  border-radius:50%;
-  display:grid;
-  place-items:center;
-  background:var(--cream);
-  color:#17130e;
-  font-weight:700;
+.logout-btn{
+    display:none;
+    border:none;
+    background:transparent;
+    color:#aaa;
+    padding:8px;
 }
 
-.user-name{
-  font-size:14px;
-}
-
-/* HERO */
+/* =========================
+   HERO
+========================= */
 
 .hero{
-  min-height:100svh;
-  display:flex;
-  align-items:center;
-  padding:130px clamp(22px,7vw,100px) 70px;
+    min-height:100svh;
+    padding:150px 5% 80px;
+    display:flex;
+    align-items:center;
+    position:relative;
+    overflow:hidden;
 }
 
-.hero-inner{
-  width:min(1050px,100%);
-  margin:auto;
+.hero::before{
+    content:"";
+    position:absolute;
+    width:650px;
+    height:650px;
+    border-radius:50%;
+    background:rgba(215,198,169,.07);
+    filter:blur(80px);
+    right:-250px;
+    top:80px;
 }
 
-.badge{
-  display:inline-flex;
-  border:1px solid var(--line);
-  color:#c6c1b8;
-  padding:9px 15px;
-  border-radius:999px;
-  font-size:12px;
-  letter-spacing:.16em;
-  text-transform:uppercase;
-  margin-bottom:28px;
+.hero-content{
+    width:min(850px,100%);
+    position:relative;
+    z-index:2;
+}
+
+.eyebrow{
+    display:inline-flex;
+    padding:8px 14px;
+    border:1px solid rgba(238,230,215,.18);
+    border-radius:999px;
+    color:#c8c0b4;
+    font-size:12px;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    margin-bottom:28px;
 }
 
 .hero h1{
-  max-width:950px;
-  font-family:"Playfair Display",serif;
-  font-size:clamp(48px,8vw,100px);
-  line-height:.98;
-  font-weight:500;
-  letter-spacing:-.045em;
+    font-family:"Playfair Display",serif;
+    font-size:clamp(45px,7vw,88px);
+    line-height:1.02;
+    letter-spacing:-3px;
+    max-width:850px;
 }
 
 .hero h1 span{
-  color:var(--cream);
+    color:var(--beige);
 }
 
 .hero p{
-  max-width:680px;
-  margin-top:30px;
-  color:var(--muted);
-  font-size:clamp(17px,2vw,20px);
-  line-height:1.75;
-}
-
-.hero-actions{
-  margin-top:38px;
+    max-width:650px;
+    margin-top:28px;
+    color:#aaa69e;
+    font-size:17px;
+    line-height:1.75;
 }
 
 .start-btn{
-  border:0;
-  background:var(--cream);
-  color:#18130d;
-  padding:19px 27px;
-  border-radius:999px;
-  font-size:17px;
-  font-weight:700;
-  display:inline-flex;
-  align-items:center;
-  gap:22px;
-  transition:.3s;
+    margin-top:34px;
+    border:none;
+    background:var(--cream);
+    color:var(--black);
+    padding:15px 25px;
+    border-radius:999px;
+    font-weight:700;
+    transition:.3s ease;
 }
 
 .start-btn:hover{
-  transform:translateY(-3px);
-  background:#f4d7ac;
+    transform:translateY(-3px);
+    box-shadow:0 15px 40px rgba(0,0,0,.35);
 }
 
-.start-arrow{
-  font-size:22px;
+/* =========================
+   SERVICES CAROUSEL
+========================= */
+
+.services{
+    padding:40px 5% 120px;
 }
 
-/* SERVICES */
-
-.services-section{
-  padding:40px 0 120px;
-  overflow:hidden;
-}
-
-.services-wrap{
-  width:min(1180px,92%);
-  margin:auto;
-}
-
-.services-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:end;
-  margin-bottom:35px;
-  gap:30px;
-}
-
-.services-head h2,
-.contact-section h2{
-  font-family:"Playfair Display",serif;
-  font-size:clamp(40px,6vw,72px);
-  line-height:1;
-  font-weight:500;
-}
-
-.services-head p{
-  color:var(--muted);
-  max-width:390px;
-  line-height:1.7;
+.section-title{
+    font-family:"Playfair Display",serif;
+    font-size:clamp(32px,5vw,56px);
+    margin-bottom:35px;
 }
 
 .carousel{
-  position:relative;
-  height:500px;
-  perspective:1200px;
+    position:relative;
+    height:380px;
+    max-width:1150px;
+    margin:auto;
+    overflow:hidden;
 }
 
 .service-card{
-  position:absolute;
-  left:50%;
-  top:50%;
-  width:min(610px,88vw);
-  min-height:430px;
-  transform:translate(-50%,-50%);
-  border:1px solid var(--line);
-  border-radius:34px;
-  background:
-    linear-gradient(145deg,rgba(255,255,255,.035),transparent 55%),
-    var(--card);
-  padding:48px;
-  box-shadow:0 35px 100px rgba(0,0,0,.38);
-  transition:
-    transform .9s cubic-bezier(.2,.8,.2,1),
-    opacity .9s,
-    filter .9s;
+    position:absolute;
+    top:0;
+    left:50%;
+    width:min(720px,76vw);
+    height:350px;
+    padding:40px;
+    border-radius:30px;
+    transform:translateX(-50%);
+    transition:
+        transform .9s cubic-bezier(.22,1,.36,1),
+        opacity .9s ease,
+        filter .9s ease;
+    background:
+        linear-gradient(
+            145deg,
+            rgba(238,230,215,.96),
+            rgba(205,188,157,.92)
+        );
+    color:#15130f;
+    box-shadow:var(--shadow);
+    opacity:0;
+    filter:blur(2px);
 }
 
 .service-card.active{
-  transform:translate(-50%,-50%) translateX(0) scale(1);
-  opacity:1;
-  filter:none;
-  z-index:5;
+    transform:translateX(-50%) scale(1);
+    opacity:1;
+    filter:blur(0);
+    z-index:3;
 }
 
 .service-card.prev{
-  transform:translate(-50%,-50%) translateX(-58%) scale(.88);
-  opacity:.40;
-  z-index:2;
+    transform:translateX(calc(-50% - 390px)) scale(.84);
+    opacity:.32;
+    z-index:2;
 }
 
 .service-card.next{
-  transform:translate(-50%,-50%) translateX(58%) scale(.88);
-  opacity:.40;
-  z-index:2;
+    transform:translateX(calc(-50% + 390px)) scale(.84);
+    opacity:.32;
+    z-index:2;
 }
 
 .service-card.far{
-  transform:translate(-50%,-50%) translateX(95%) scale(.78);
-  opacity:.12;
-  z-index:1;
+    opacity:.08;
+    transform:translateX(calc(-50% + 700px)) scale(.7);
 }
 
-.card-kicker{
-  color:var(--cream);
-  font-size:12px;
-  text-transform:uppercase;
-  letter-spacing:.18em;
-  margin-bottom:70px;
+.service-number{
+    font-size:13px;
+    letter-spacing:2px;
+    opacity:.55;
 }
 
 .service-card h3{
-  font-family:"Playfair Display",serif;
-  font-size:clamp(39px,6vw,64px);
-  font-weight:500;
-  line-height:1.05;
+    font-family:"Playfair Display",serif;
+    font-size:clamp(34px,5vw,58px);
+    line-height:1.02;
+    margin-top:80px;
 }
 
 .service-card p{
-  color:#aaa7a0;
-  font-size:17px;
-  line-height:1.75;
-  margin-top:28px;
-  max-width:500px;
+    margin-top:18px;
+    max-width:500px;
+    line-height:1.6;
+    color:#514a40;
 }
 
-.card-line{
-  width:108px;
-  height:2px;
-  background:var(--cream);
-  margin-top:60px;
+/* =========================
+   CONTACT
+========================= */
+
+.contact{
+    padding:110px 5%;
 }
 
-/* CONTACT */
-
-.contact-section{
-  border-top:1px solid var(--line);
-  padding:100px 0;
+.contact-box{
+    max-width:1000px;
+    margin:auto;
+    padding:55px;
+    border-radius:32px;
+    background:
+        linear-gradient(
+            135deg,
+            rgba(238,230,215,.11),
+            rgba(238,230,215,.04)
+        );
+    border:1px solid var(--line);
 }
 
-.contact-grid{
-  width:min(1180px,92%);
-  margin:auto;
-  display:grid;
-  grid-template-columns:1.2fr .8fr;
-  gap:30px;
+.contact-box h2{
+    font-family:"Playfair Display",serif;
+    font-size:clamp(35px,5vw,60px);
 }
 
-.contact-card{
-  border:1px solid var(--line);
-  border-radius:30px;
-  background:var(--card);
-  padding:45px;
-}
-
-.contact-card p{
-  color:var(--muted);
-  line-height:1.75;
-  margin:24px 0;
+.contact-box p{
+    color:#aaa69e;
+    line-height:1.7;
+    max-width:680px;
+    margin-top:20px;
 }
 
 .contact-btn{
-  display:inline-flex;
-  border:1px solid var(--line2);
-  border-radius:999px;
-  padding:14px 20px;
-  color:var(--cream);
+    display:inline-block;
+    margin-top:30px;
+    padding:14px 22px;
+    border-radius:999px;
+    background:var(--cream);
+    color:var(--black);
+    font-weight:700;
 }
 
-/* CHAT */
-
-.chat-overlay{
-  position:fixed;
-  inset:0;
-  z-index:100;
-  background:#0b0b0a;
-  display:flex;
-  flex-direction:column;
-  opacity:0;
-  visibility:hidden;
-  transform:translateY(25px) scale(.98);
-  transition:.4s cubic-bezier(.2,.8,.2,1);
-}
-
-.chat-overlay.open{
-  opacity:1;
-  visibility:visible;
-  transform:none;
-}
-
-.chat-header{
-  min-height:78px;
-  border-bottom:1px solid var(--line);
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:10px 24px;
-}
-
-.chat-brand{
-  display:flex;
-  align-items:center;
-  gap:14px;
-}
-
-.chat-brand-mark{
-  width:44px;
-  height:44px;
-  border:1px solid var(--line2);
-  border-radius:50%;
-  display:grid;
-  place-items:center;
-  color:var(--cream);
-}
-
-.chat-brand h3{
-  font-family:"Playfair Display",serif;
-  font-size:25px;
-  font-weight:500;
-}
-
-.chat-brand p{
-  color:#85827c;
-  font-size:14px;
-  margin-top:2px;
-}
-
-.close-chat{
-  width:45px;
-  height:45px;
-  border:1px solid var(--line);
-  border-radius:50%;
-  background:transparent;
-  color:var(--white);
-  font-size:25px;
-}
-
-.chat-main{
-  flex:1;
-  overflow-y:auto;
-  padding:30px max(20px,calc((100% - 920px)/2));
-  scroll-behavior:smooth;
-}
-
-.message{
-  max-width:760px;
-  padding:22px 25px;
-  border-radius:25px;
-  margin-bottom:18px;
-  line-height:1.7;
-  font-size:16px;
-  white-space:pre-wrap;
-}
-
-.message.bot{
-  background:#181815;
-  border:1px solid rgba(255,255,255,.06);
-}
-
-.message.user{
-  margin-left:auto;
-  background:var(--cream);
-  color:#18130e;
-  max-width:620px;
-}
-
-.quick-box{
-  background:#181815;
-  border:1px solid var(--line);
-  border-radius:25px;
-  padding:22px;
-  max-width:760px;
-}
-
-.quick-title{
-  margin-bottom:16px;
-}
-
-.quick-actions{
-  display:flex;
-  flex-wrap:wrap;
-  gap:9px;
-}
-
-.quick{
-  border:1px solid var(--line);
-  background:transparent;
-  color:#ddd8d0;
-  border-radius:999px;
-  padding:11px 16px;
-  transition:.2s;
-}
-
-.quick:hover{
-  border-color:var(--cream);
-  color:var(--cream);
-}
-
-.chat-bottom{
-  padding:14px max(16px,calc((100% - 920px)/2)) 18px;
-  border-top:1px solid var(--line);
-  background:rgba(11,11,10,.95);
-}
-
-.chat-tools{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.upload-btn{
-  width:52px;
-  height:52px;
-  border:1px solid var(--line);
-  border-radius:50%;
-  background:transparent;
-  color:var(--cream);
-  font-size:25px;
-  flex:none;
-}
-
-.chat-input-wrap{
-  flex:1;
-  border:1px solid #3b3933;
-  border-radius:30px;
-  display:flex;
-  align-items:center;
-  min-height:56px;
-  padding:0 7px 0 18px;
-  transition:.2s;
-}
-
-.chat-input-wrap:focus-within{
-  border-color:var(--cream);
-}
-
-#chatInput{
-  flex:1;
-  resize:none;
-  background:transparent;
-  color:var(--white);
-  border:0;
-  outline:0;
-  min-width:0;
-  height:27px;
-  max-height:100px;
-}
-
-#chatInput::placeholder{
-  color:#73716d;
-}
-
-.send-btn{
-  width:44px;
-  height:44px;
-  border-radius:50%;
-  border:0;
-  background:var(--cream);
-  color:#17130e;
-  font-size:22px;
-}
-
-.image-preview{
-  display:none;
-  padding:8px 0 0;
-}
-
-.image-preview img{
-  width:70px;
-  height:70px;
-  object-fit:cover;
-  border-radius:15px;
-  border:1px solid var(--line2);
-}
-
-.image-preview.show{
-  display:block;
-}
-
-/* AUTH MODAL */
+/* =========================
+   MODALS
+========================= */
 
 .modal{
-  position:fixed;
-  inset:0;
-  z-index:200;
-  background:rgba(0,0,0,.72);
-  backdrop-filter:blur(12px);
-  display:grid;
-  place-items:center;
-  padding:20px;
-  opacity:0;
-  visibility:hidden;
-  transition:.25s;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.72);
+    backdrop-filter:blur(15px);
+    z-index:500;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
 }
 
-.modal.open{
-  opacity:1;
-  visibility:visible;
+.modal.show{
+    display:flex;
 }
 
-.auth-box{
-  width:min(460px,100%);
-  background:#151512;
-  border:1px solid var(--line);
-  border-radius:30px;
-  padding:32px;
-  position:relative;
+.modal-box{
+    width:min(430px,100%);
+    padding:35px;
+    border-radius:28px;
+    background:#eee7da;
+    color:#171512;
+    box-shadow:0 30px 100px rgba(0,0,0,.5);
+    animation:modalIn .35s ease;
 }
 
-.auth-box h2{
-  font-family:"Playfair Display",serif;
-  font-size:35px;
-  font-weight:500;
+@keyframes modalIn{
+    from{
+        opacity:0;
+        transform:translateY(20px) scale(.97);
+    }
+    to{
+        opacity:1;
+        transform:none;
+    }
 }
 
-.auth-box p{
-  color:var(--muted);
-  margin:10px 0 25px;
-  line-height:1.5;
+.modal-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
 }
 
-.modal-close{
-  position:absolute;
-  top:18px;
-  right:18px;
-  width:40px;
-  height:40px;
-  border-radius:50%;
-  background:transparent;
-  border:1px solid var(--line);
-  color:white;
-  font-size:20px;
+.modal-header h2{
+    font-family:"Playfair Display",serif;
+    font-size:30px;
+}
+
+.close-modal{
+    border:none;
+    background:transparent;
+    font-size:25px;
+    color:#555;
 }
 
 .form-group{
-  margin-bottom:13px;
+    margin-bottom:15px;
+}
+
+.form-group label{
+    display:block;
+    font-size:13px;
+    margin-bottom:7px;
+    color:#555047;
 }
 
 .form-group input{
-  width:100%;
-  background:#0d0d0c;
-  border:1px solid var(--line);
-  color:white;
-  padding:15px;
-  border-radius:15px;
-  outline:none;
+    width:100%;
+    border:1px solid rgba(0,0,0,.12);
+    background:#f8f4ec;
+    color:#161411;
+    border-radius:14px;
+    padding:13px 14px;
+    outline:none;
 }
 
 .form-group input:focus{
-  border-color:var(--cream);
+    border-color:#9c8968;
 }
 
 .form-submit{
-  width:100%;
-  border:0;
-  background:var(--cream);
-  color:#17130e;
-  padding:15px;
-  border-radius:999px;
-  font-weight:700;
-  margin-top:8px;
+    width:100%;
+    margin-top:5px;
+    border:none;
+    background:#171512;
+    color:var(--cream);
+    border-radius:14px;
+    padding:14px;
+    font-weight:700;
 }
 
-.auth-switch{
-  text-align:center;
-  margin-top:18px;
-  color:#88857e;
-  font-size:14px;
+.form-switch{
+    margin-top:18px;
+    text-align:center;
+    font-size:13px;
+    color:#666057;
 }
 
-.auth-switch button{
-  border:0;
-  background:none;
-  color:var(--cream);
+.form-switch button{
+    border:none;
+    background:none;
+    color:#171512;
+    font-weight:700;
+    text-decoration:underline;
 }
 
 .form-error{
-  color:#df9c91;
-  font-size:14px;
-  margin-top:12px;
-}
-
-/* IMAGE GENERATOR */
-
-.generator-panel{
-  display:none;
-  margin:0 auto 20px;
-  max-width:760px;
-  border:1px solid var(--line);
-  background:#151512;
-  border-radius:25px;
-  padding:22px;
-}
-
-.generator-panel.open{
-  display:block;
-}
-
-.generator-panel textarea{
-  width:100%;
-  min-height:100px;
-  resize:vertical;
-  background:#0d0d0c;
-  border:1px solid var(--line);
-  border-radius:15px;
-  color:white;
-  padding:15px;
-  outline:0;
-}
-
-.generator-options{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-  margin-top:12px;
-}
-
-.generator-options select{
-  background:#0d0d0c;
-  border:1px solid var(--line);
-  border-radius:12px;
-  color:white;
-  padding:12px;
-}
-
-.generate-image-btn{
-  margin-top:12px;
-  border:0;
-  background:var(--cream);
-  color:#17130e;
-  border-radius:999px;
-  padding:13px 20px;
-  font-weight:700;
-}
-
-.generated-image{
-  margin-top:18px;
-  max-width:100%;
-  border-radius:20px;
-  display:none;
-}
-
-/* RESPONSIVE */
-
-@media(max-width:760px){
-
-  header{
-    height:70px;
-    padding:0 16px;
-  }
-
-  .logo{
-    font-size:21px;
-    gap:8px;
-  }
-
-  .logo-mark{
-    width:31px;
-    height:31px;
-    font-size:14px;
-  }
-
-  .auth-area{
-    gap:6px;
-  }
-
-  .auth-btn{
+    display:none;
+    margin-top:12px;
     padding:10px 12px;
-    font-size:12px;
-  }
+    border-radius:10px;
+    background:rgba(180,60,60,.1);
+    color:#a43d3d;
+    font-size:13px;
+}
 
-  .user-pill{
-    padding:5px 8px 5px 5px;
-  }
+/* =========================
+   CHAT OVERLAY
+========================= */
 
-  .user-avatar{
-    width:30px;
-    height:30px;
-  }
-
-  .user-name{
-    font-size:12px;
-  }
-
-  .hero{
-    padding:110px 22px 55px;
-  }
-
-  .hero h1{
-    font-size:clamp(43px,13vw,65px);
-    letter-spacing:-.035em;
-  }
-
-  .hero p{
-    font-size:16px;
-  }
-
-  .services-section{
-    padding-top:15px;
-  }
-
-  .services-head{
-    display:block;
-  }
-
-  .services-head h2{
-    margin-bottom:20px;
-  }
-
-  .carousel{
-    height:470px;
-  }
-
-  .service-card{
-    min-height:410px;
-    padding:32px;
-    border-radius:28px;
-  }
-
-  .service-card.prev{
-    transform:translate(-50%,-50%) translateX(-43%) scale(.83);
-    opacity:.22;
-  }
-
-  .service-card.next{
-    transform:translate(-50%,-50%) translateX(43%) scale(.83);
-    opacity:.22;
-  }
-
-  .service-card.far{
+.chat-overlay{
+    position:fixed;
+    inset:0;
+    z-index:400;
+    background:rgba(12,11,9,.62);
+    backdrop-filter:blur(18px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:22px;
     opacity:0;
-  }
+    pointer-events:none;
+    transition:.45s ease;
+}
 
-  .card-kicker{
-    margin-bottom:55px;
-  }
+.chat-overlay.open{
+    opacity:1;
+    pointer-events:auto;
+}
 
-  .service-card h3{
-    font-size:41px;
-  }
+.chat-window{
+    width:min(920px,100%);
+    height:min(760px,90svh);
+    border-radius:32px;
+    overflow:hidden;
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(215,198,169,.24),
+            transparent 32%
+        ),
+        #eee7da;
+    color:#171512;
+    box-shadow:0 40px 120px rgba(0,0,0,.5);
+    transform:translateY(35px) scale(.97);
+    transition:.5s cubic-bezier(.22,1,.36,1);
+    display:flex;
+    flex-direction:column;
+}
 
-  .service-card p{
-    font-size:15px;
-  }
+.chat-overlay.open .chat-window{
+    transform:none;
+}
 
-  .contact-grid{
-    grid-template-columns:1fr;
-  }
+.chat-header{
+    min-height:82px;
+    padding:17px 22px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border-bottom:1px solid rgba(0,0,0,.08);
+    background:rgba(245,239,228,.78);
+}
 
-  .contact-card{
+.chat-brand{
+    font-family:"Playfair Display",serif;
+    font-size:24px;
+    font-weight:700;
+}
+
+.chat-subtitle{
+    color:#81786b;
+    font-size:12px;
+    margin-top:3px;
+}
+
+.chat-close{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    border:1px solid rgba(0,0,0,.1);
+    background:rgba(255,255,255,.4);
+    font-size:21px;
+}
+
+.chat-messages{
+    flex:1;
+    overflow-y:auto;
     padding:30px;
-  }
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
 
-  .chat-header{
-    padding:10px 15px;
-  }
+.message{
+    max-width:68%;
+    padding:13px 16px;
+    border-radius:19px;
+    line-height:1.55;
+    font-size:14px;
+    animation:messageIn .3s ease;
+    white-space:pre-wrap;
+}
 
-  .chat-main{
-    padding:20px 15px;
-  }
+@keyframes messageIn{
+    from{
+        opacity:0;
+        transform:translateY(8px);
+    }
+    to{
+        opacity:1;
+        transform:none;
+    }
+}
 
-  .message{
-    font-size:15px;
-    padding:18px 19px;
-    border-radius:20px;
-  }
+.message.bot{
+    align-self:flex-start;
+    background:rgba(255,255,255,.78);
+    border:1px solid rgba(0,0,0,.07);
+    border-bottom-left-radius:6px;
+}
 
-  .chat-bottom{
-    padding:10px 12px 12px;
-  }
+.message.user{
+    align-self:flex-end;
+    background:#28251f;
+    color:#f4ede1;
+    border-bottom-right-radius:6px;
+}
 
-  .upload-btn{
-    width:48px;
-    height:48px;
-  }
+.chat-bottom{
+    padding:15px 18px 18px;
+    background:rgba(245,239,228,.9);
+    border-top:1px solid rgba(0,0,0,.07);
+}
 
-  .send-btn{
-    width:42px;
-    height:42px;
-  }
+.image-preview{
+    display:none;
+    margin-bottom:10px;
+    position:relative;
+}
 
-  .generator-options{
-    grid-template-columns:1fr;
-  }
+.image-preview img{
+    width:75px;
+    height:75px;
+    object-fit:cover;
+    border-radius:13px;
+}
+
+.remove-image{
+    position:absolute;
+    top:-7px;
+    left:65px;
+    border:none;
+    background:#171512;
+    color:#fff;
+    width:22px;
+    height:22px;
+    border-radius:50%;
+}
+
+.chat-input-row{
+    display:flex;
+    gap:8px;
+    align-items:center;
+}
+
+.chat-input{
+    flex:1;
+    min-width:0;
+    border:1px solid rgba(0,0,0,.1);
+    background:#fffdf9;
+    color:#171512;
+    padding:13px 15px;
+    border-radius:16px;
+    outline:none;
+}
+
+.chat-input:focus{
+    border-color:#a79575;
+}
+
+.icon-btn{
+    width:45px;
+    height:45px;
+    flex:0 0 45px;
+    border-radius:14px;
+    border:1px solid rgba(0,0,0,.09);
+    background:#f9f5ed;
+    color:#302c25;
+}
+
+.send-btn{
+    background:#25221d;
+    color:#fff;
+}
+
+.file-input{
+    display:none;
+}
+
+.status{
+    font-size:11px;
+    color:#958c80;
+    padding:8px 3px 0;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    padding:40px 5%;
+    border-top:1px solid var(--line);
+    color:#777269;
+    font-size:12px;
+    text-align:center;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:700px){
+
+    header{
+        padding:16px 4%;
+    }
+
+    .logo{
+        font-size:23px;
+    }
+
+    .header-right{
+        gap:5px;
+    }
+
+    .header-btn{
+        padding:8px 11px;
+        font-size:12px;
+    }
+
+    .hero{
+        padding:135px 6% 65px;
+    }
+
+    .hero h1{
+        font-size:48px;
+        letter-spacing:-2px;
+    }
+
+    .hero p{
+        font-size:15px;
+    }
+
+    .services{
+        padding:30px 4% 80px;
+    }
+
+    .carousel{
+        height:330px;
+    }
+
+    .service-card{
+        width:88vw;
+        height:310px;
+        padding:28px;
+    }
+
+    .service-card h3{
+        margin-top:55px;
+        font-size:39px;
+    }
+
+    .service-card.prev{
+        transform:translateX(calc(-50% - 300px)) scale(.8);
+        opacity:.18;
+    }
+
+    .service-card.next{
+        transform:translateX(calc(-50% + 300px)) scale(.8);
+        opacity:.18;
+    }
+
+    .contact{
+        padding:70px 5%;
+    }
+
+    .contact-box{
+        padding:32px 25px;
+    }
+
+    .chat-overlay{
+        padding:12px;
+    }
+
+    .chat-window{
+        height:92svh;
+        border-radius:25px;
+    }
+
+    .chat-header{
+        min-height:70px;
+        padding:14px 16px;
+    }
+
+    .chat-messages{
+        padding:20px 15px;
+    }
+
+    .message{
+        max-width:84%;
+        font-size:13px;
+    }
+
+    .chat-bottom{
+        padding:10px;
+    }
+
+    .chat-input{
+        font-size:14px;
+    }
+
+    .modal-box{
+        padding:27px 22px;
+    }
+}
+
+@media(max-width:430px){
+
+    .logo{
+        font-size:21px;
+    }
+
+    .header-btn{
+        padding:7px 9px;
+        font-size:11px;
+    }
+
+    .hero h1{
+        font-size:43px;
+    }
+
+    .eyebrow{
+        font-size:10px;
+    }
+
+    .service-card h3{
+        font-size:34px;
+    }
+
+    .message{
+        max-width:88%;
+    }
 }
 </style>
 </head>
 
 <body>
 
+<!-- =========================
+     HEADER
+========================= -->
+
 <header>
-  <a class="logo" href="#">
-    <span class="logo-mark">ϟ</span>
-    <span>SparkyKrea</span>
-  </a>
 
-  <div class="auth-area">
-    <button class="auth-btn" id="loginBtn">Iniciar sesión</button>
-    <button class="auth-btn auth-primary" id="registerBtn">Registrarse</button>
+    <a href="#" class="logo">SparkyKrea</a>
 
-    <div class="user-pill" id="userPill">
-      <div class="user-avatar" id="userAvatar">S</div>
-      <span class="user-name" id="userName"></span>
-      <button id="logoutBtn" style="border:0;background:none;color:#aaa;font-size:12px">Salir</button>
+    <div class="header-right">
+
+        <button
+            class="header-btn"
+            id="loginBtn"
+            onclick="openAuth('login')">
+            Iniciar sesión
+        </button>
+
+        <button
+            class="header-btn register-btn"
+            id="registerBtn"
+            onclick="openAuth('register')">
+            Registrarse
+        </button>
+
+        <div class="user-pill" id="userPill">
+            <span id="userName">Usuario</span>
+        </div>
+
+        <button
+            class="logout-btn"
+            id="logoutBtn"
+            onclick="logout()">
+            Salir
+        </button>
+
     </div>
-  </div>
+
 </header>
 
+
+<!-- =========================
+     HERO
+========================= -->
 
 <main>
 
 <section class="hero">
-  <div class="hero-inner">
 
-    <div class="badge">
-      IDEAS · ESTRATEGIA · CONTENIDO
+    <div class="hero-content">
+
+        <div class="eyebrow">
+            IDEAS · ESTRATEGIA · RESULTADOS
+        </div>
+
+        <h1>
+            Convierte tus ideas en
+            <span>algo que destaque.</span>
+        </h1>
+
+        <p>
+            Desarrolla campañas, conceptos, contenido y estrategias
+            pensadas para que tu proyecto tenga una dirección clara
+            y una presencia que conecte con las personas.
+        </p>
+
+        <button
+            class="start-btn"
+            onclick="openChat()">
+            Comenzar ahora →
+        </button>
+
     </div>
 
-    <h1>
-      Una idea clara merece
-      <span>una estrategia a su altura.</span>
-    </h1>
-
-    <p>
-      Convertimos lo que tienes en mente en conceptos, campañas,
-      contenido y decisiones concretas para que tu proyecto avance
-      con una dirección clara.
-    </p>
-
-    <div class="hero-actions">
-      <button class="start-btn" id="startBtn">
-        Comenzar ahora
-        <span class="start-arrow">→</span>
-      </button>
-    </div>
-
-  </div>
 </section>
 
 
-<section class="services-section">
+<!-- =========================
+     SERVICES
+========================= -->
 
-  <div class="services-wrap">
+<section class="services">
 
-    <div class="services-head">
-      <h2>Lo que podemos<br>construir contigo.</h2>
-
-      <p>
-        Desde una idea inicial hasta una propuesta lista para
-        convertirse en contenido, publicidad o estrategia.
-      </p>
-    </div>
+    <h2 class="section-title">
+        Lo que podemos construir.
+    </h2>
 
     <div class="carousel" id="carousel">
 
-      <article class="service-card active">
-        <div class="card-kicker">Estrategia</div>
-        <h3>Marketing y estrategia</h3>
-        <p>
-          Analizamos tu proyecto, tu público, tu competencia
-          y lo que quieres conseguir para convertir una idea
-          en una dirección concreta.
-        </p>
-        <div class="card-line"></div>
-      </article>
+        <article class="service-card active">
+            <div class="service-number">SERVICIO</div>
 
-      <article class="service-card next">
-        <div class="card-kicker">Contenido</div>
-        <h3>Contenido y vídeo</h3>
-        <p>
-          Creamos conceptos, escenas, estructura y guiones
-          adaptados a la duración y formato que necesites.
-        </p>
-        <div class="card-line"></div>
-      </article>
+            <h3>Marketing<br>y estrategia</h3>
 
-      <article class="service-card far">
-        <div class="card-kicker">Creatividad</div>
-        <h3>Creación visual</h3>
-        <p>
-          Desarrollamos propuestas visuales para campañas,
-          productos, redes sociales y conceptos publicitarios.
-        </p>
-        <div class="card-line"></div>
-      </article>
+            <p>
+                Analiza tu idea, identifica oportunidades y
+                desarrolla una dirección clara para tu proyecto.
+            </p>
+        </article>
 
-      <article class="service-card prev">
-        <div class="card-kicker">Publicidad</div>
-        <h3>Publicidad</h3>
-        <p>
-          Diseñamos ideas publicitarias pensando en el mensaje,
-          el público, el formato y la acción que quieres provocar.
-        </p>
-        <div class="card-line"></div>
-      </article>
+        <article class="service-card">
+            <div class="service-number">SERVICIO</div>
 
-      <article class="service-card far">
-        <div class="card-kicker">Redes</div>
-        <h3>Redes sociales</h3>
-        <p>
-          Ideas y estructuras de contenido pensadas para que
-          cada publicación tenga un propósito.
-        </p>
-        <div class="card-line"></div>
-      </article>
+            <h3>Publicidad<br>y campañas</h3>
+
+            <p>
+                Conceptos publicitarios, mensajes, campañas y
+                propuestas pensadas para llamar la atención.
+            </p>
+        </article>
+
+        <article class="service-card">
+            <div class="service-number">SERVICIO</div>
+
+            <h3>Contenido<br>visual</h3>
+
+            <p>
+                Ideas para imágenes, anuncios, publicaciones y
+                contenido visual adaptado a cada plataforma.
+            </p>
+        </article>
+
+        <article class="service-card">
+            <div class="service-number">SERVICIO</div>
+
+            <h3>Video<br>y creatividad</h3>
+
+            <p>
+                Conceptos, guiones, escenas y estructuras para
+                vídeos promocionales y contenido digital.
+            </p>
+        </article>
+
+        <article class="service-card">
+            <div class="service-number">SERVICIO</div>
+
+            <h3>Proyectos<br>digitales</h3>
+
+            <p>
+                Desde videojuegos hasta proyectos digitales:
+                convierte una idea inicial en una propuesta clara.
+            </p>
+        </article>
 
     </div>
-
-  </div>
 
 </section>
 
 
-<section class="contact-section">
+<!-- =========================
+     CONTACTO
+========================= -->
 
-  <div class="contact-grid">
+<section class="contact">
 
-    <div>
-      <h2>Hablemos de lo<br>que necesitas.</h2>
+    <div class="contact-box">
+
+        <h2>
+            Tu opinión también forma parte de SparkyKrea.
+        </h2>
+
+        <p>
+            Queremos saber qué piensas. Si tienes una sugerencia,
+            una crítica, encontraste algún problema o simplemente
+            quieres contarnos algo, déjanos saber tu opinión.
+        </p>
+
+        <a
+            class="contact-btn"
+            href="mailto:guillermojose170512@gmail.com">
+            Contáctanos →
+        </a>
+
     </div>
-
-    <div class="contact-card">
-
-      <h3>¿Tienes una consulta, sugerencia o algún inconveniente?</h3>
-
-      <p>
-        Queremos que tu experiencia con SparkyKrea sea cada vez mejor.
-        Puedes comunicarte con nosotros para compartir una duda,
-        reportar un problema o plantear una propuesta.
-      </p>
-
-      <!-- CAMBIA ESTE CORREO CUANDO CREES EL CORREO OFICIAL -->
-      <a class="contact-btn" href="mailto:REEMPLAZA_CON_TU_CORREO">
-        Contactar con SparkyKrea →
-      </a>
-
-    </div>
-
-  </div>
 
 </section>
 
 </main>
 
 
-<!-- CHAT -->
-
-<div class="chat-overlay" id="chatOverlay">
-
-  <div class="chat-header">
-
-    <div class="chat-brand">
-
-      <div class="chat-brand-mark">ϟ</div>
-
-      <div>
-        <h3>SparkyKrea</h3>
-        <p>Cuéntame qué quieres crear</p>
-      </div>
-
-    </div>
-
-    <button class="close-chat" id="closeChat">×</button>
-
-  </div>
+<footer>
+    © 2026 SparkyKrea · Todos los derechos reservados.
+</footer>
 
 
-  <div class="chat-main" id="chatMessages">
+<!-- =========================
+     AUTH MODAL
+========================= -->
 
-    <div class="message bot" id="welcomeMessage">
-      Hola 👋
+<div class="modal" id="authModal">
 
-      Cuéntame qué quieres conseguir. Puedes escribirlo como te salga,
-      incluso si tienes errores al escribir o no sabes exactamente cómo explicarlo.
+    <div class="modal-box">
 
-      Si compartes una imagen, también puedo analizarla.
-    </div>
+        <div class="modal-header">
 
-    <div class="quick-box">
+            <h2 id="authTitle">
+                Iniciar sesión
+            </h2>
 
-      <div class="quick-title">¿Qué quieres trabajar?</div>
+            <button
+                class="close-modal"
+                onclick="closeAuth()">
+                ×
+            </button>
 
-      <div class="quick-actions">
-
-        <button class="quick" data-context="publicidad">
-          Publicidad
-        </button>
-
-        <button class="quick" data-context="video">
-          Vídeo
-        </button>
-
-        <button class="quick" data-context="imagen">
-          Imagen
-        </button>
-
-        <button class="quick" data-context="estrategia">
-          Estrategia
-        </button>
-
-        <button class="quick" data-context="videojuego">
-          Videojuego
-        </button>
-
-      </div>
-
-    </div>
-
-    <div class="generator-panel" id="generatorPanel">
-
-      <textarea
-        id="imagePrompt"
-        placeholder="Describe la imagen que quieres crear..."
-      ></textarea>
-
-      <div class="generator-options">
-
-        <select id="imageFormat">
-          <option value="1024x1024">1:1 — Cuadrada</option>
-          <option value="1024x1536">9:16 — Vertical</option>
-          <option value="1536x1024">16:9 — Horizontal</option>
-        </select>
-
-        <select id="imageQuality">
-          <option value="medium">Calidad media</option>
-          <option value="high">Alta calidad</option>
-        </select>
-
-      </div>
-
-      <button class="generate-image-btn" id="generateImageBtn">
-        Crear imagen
-      </button>
-
-      <img class="generated-image" id="generatedImage">
-
-    </div>
-
-  </div>
+        </div>
 
 
-  <div class="chat-bottom">
+        <form id="authForm">
 
-    <div class="image-preview" id="imagePreview">
-      <img id="previewImg">
-    </div>
+            <div
+                class="form-group"
+                id="nameGroup"
+                style="display:none">
 
-    <div class="chat-tools">
+                <label>Nombre</label>
 
-      <input
-        type="file"
-        id="imageInput"
-        accept="image/*"
-        hidden
-      >
+                <input
+                    type="text"
+                    id="firstName"
+                    autocomplete="given-name">
+            </div>
 
-      <button class="upload-btn" id="uploadBtn">
-        +
-      </button>
 
-      <div class="chat-input-wrap">
+            <div
+                class="form-group"
+                id="surnameGroup"
+                style="display:none">
 
-        <textarea
-          id="chatInput"
-          rows="1"
-          placeholder="Escribe lo que tienes en mente..."
-        ></textarea>
+                <label>Apellido</label>
 
-        <button class="send-btn" id="sendBtn">
-          ↑
-        </button>
+                <input
+                    type="text"
+                    id="lastName"
+                    autocomplete="family-name">
+            </div>
 
-      </div>
+
+            <div class="form-group">
+
+                <label>Correo electrónico</label>
+
+                <input
+                    type="email"
+                    id="email"
+                    autocomplete="email"
+                    required>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label>Contraseña</label>
+
+                <input
+                    type="password"
+                    id="password"
+                    autocomplete="current-password"
+                    minlength="6"
+                    required>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="form-submit"
+                id="authSubmit">
+                Iniciar sesión
+            </button>
+
+            <div
+                class="form-error"
+                id="authError">
+            </div>
+
+        </form>
+
+
+        <div class="form-switch">
+
+            <span id="switchText">
+                ¿No tienes una cuenta?
+            </span>
+
+            <button
+                id="switchAuth"
+                onclick="switchAuthMode()">
+                Registrarse
+            </button>
+
+        </div>
 
     </div>
-
-  </div>
 
 </div>
 
 
-<!-- AUTH -->
+<!-- =========================
+     CHAT
+========================= -->
 
-<div class="modal" id="authModal">
+<div class="chat-overlay" id="chatOverlay">
 
-  <div class="auth-box">
+    <div class="chat-window">
 
-    <button class="modal-close" id="authClose">×</button>
+        <div class="chat-header">
 
-    <h2 id="authTitle">Iniciar sesión</h2>
+            <div>
 
-    <p id="authDescription">
-      Accede a tu espacio de SparkyKrea.
-    </p>
+                <div class="chat-brand">
+                    SparkyKrea
+                </div>
 
-    <form id="authForm">
+                <div class="chat-subtitle">
+                    Cuéntame qué quieres crear
+                </div>
 
-      <div class="form-group register-only" style="display:none">
-        <input
-          id="firstName"
-          type="text"
-          placeholder="Nombre"
-          autocomplete="given-name"
-        >
-      </div>
+            </div>
 
-      <div class="form-group register-only" style="display:none">
-        <input
-          id="lastName"
-          type="text"
-          placeholder="Apellido"
-          autocomplete="family-name"
-        >
-      </div>
+            <button
+                class="chat-close"
+                onclick="closeChat()">
+                ×
+            </button>
 
-      <div class="form-group">
-        <input
-          id="email"
-          type="email"
-          placeholder="Correo electrónico"
-          autocomplete="email"
-          required
-        >
-      </div>
+        </div>
 
-      <div class="form-group">
-        <input
-          id="password"
-          type="password"
-          placeholder="Contraseña"
-          autocomplete="current-password"
-          required
-        >
-      </div>
 
-      <button class="form-submit" id="authSubmit">
-        Iniciar sesión
-      </button>
+        <div
+            class="chat-messages"
+            id="chatMessages">
+        </div>
 
-      <div class="form-error" id="authError"></div>
 
-    </form>
+        <div class="chat-bottom">
 
-    <div class="auth-switch">
-      <span id="switchText">¿No tienes una cuenta?</span>
-      <button id="switchAuth">Registrarse</button>
+            <div
+                class="image-preview"
+                id="imagePreview">
+
+                <img
+                    id="previewImage"
+                    src=""
+                    alt="Vista previa">
+
+                <button
+                    class="remove-image"
+                    onclick="removeImage()">
+                    ×
+                </button>
+
+            </div>
+
+
+            <div class="chat-input-row">
+
+                <input
+                    type="file"
+                    class="file-input"
+                    id="imageInput"
+                    accept="image/*"
+                    onchange="handleImage(event)">
+
+                <button
+                    class="icon-btn"
+                    onclick="document.getElementById('imageInput').click()"
+                    title="Subir imagen">
+                    +
+                </button>
+
+                <input
+                    class="chat-input"
+                    id="chatInput"
+                    type="text"
+                    placeholder="Escribe aquí..."
+                    autocomplete="off">
+
+                <button
+                    class="icon-btn send-btn"
+                    onclick="sendMessage()">
+                    ↑
+                </button>
+
+            </div>
+
+            <div class="status" id="chatStatus">
+                Escribe lo que tengas en mente.
+            </div>
+
+        </div>
+
     </div>
-
-  </div>
 
 </div>
 
 
 <script>
+
 /* =========================================================
    CONFIGURACIÓN
-   ========================================================= */
+========================================================= */
 
 /*
-   PON AQUÍ LOS DATOS DE TU PROYECTO SUPABASE.
+    IMPORTANTE:
 
-   Ejemplo:
+    Aquí colocaremos los datos de Supabase después.
 
-   const SUPABASE_URL =
-     "https://xxxxxxxxxxxx.supabase.co";
+    NO pongas aquí una clave secreta de OpenAI.
 
-   const SUPABASE_KEY =
-     "sb_publishable_xxxxxxxxx";
-
-   IMPORTANTE:
-   Aquí SOLO va la publishable key de Supabase.
-   NUNCA pongas aquí una service_role key ni una clave de OpenAI.
+    La clave de OpenAI irá posteriormente en el servidor.
 */
 
-const SUPABASE_URL = "PON_AQUI_TU_SUPABASE_URL";
-const SUPABASE_KEY = "PON_AQUI_TU_SUPABASE_PUBLISHABLE_KEY";
+const SUPABASE_URL = "";
 
-
-/* =========================================================
-   SUPABASE
-   ========================================================= */
+const SUPABASE_PUBLISHABLE_KEY = "";
 
 let supabaseClient = null;
 
-if(
-  SUPABASE_URL.startsWith("http") &&
-  !SUPABASE_URL.includes("PON_AQUI")
+if (
+    SUPABASE_URL &&
+    SUPABASE_PUBLISHABLE_KEY &&
+    window.supabase
 ){
-  supabaseClient = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
+    supabaseClient = window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+    );
 }
+
+
+/* =========================================================
+   ESTADO
+========================================================= */
+
+let currentUser = null;
+
+let authMode = "login";
+
+let selectedImage = null;
 
 
 /* =========================================================
    ELEMENTOS
-   ========================================================= */
+========================================================= */
 
-const loginBtn = document.getElementById("loginBtn");
-const registerBtn = document.getElementById("registerBtn");
+const authModal =
+    document.getElementById("authModal");
 
-const userPill = document.getElementById("userPill");
-const userName = document.getElementById("userName");
-const userAvatar = document.getElementById("userAvatar");
-const logoutBtn = document.getElementById("logoutBtn");
+const authTitle =
+    document.getElementById("authTitle");
 
-const authModal = document.getElementById("authModal");
-const authClose = document.getElementById("authClose");
-const authForm = document.getElementById("authForm");
-const authTitle = document.getElementById("authTitle");
-const authDescription = document.getElementById("authDescription");
-const authSubmit = document.getElementById("authSubmit");
-const authError = document.getElementById("authError");
-const switchAuth = document.getElementById("switchAuth");
-const switchText = document.getElementById("switchText");
+const authForm =
+    document.getElementById("authForm");
 
-const registerFields =
-  document.querySelectorAll(".register-only");
+const authSubmit =
+    document.getElementById("authSubmit");
 
-const chatOverlay = document.getElementById("chatOverlay");
-const closeChat = document.getElementById("closeChat");
-const startBtn = document.getElementById("startBtn");
+const authError =
+    document.getElementById("authError");
+
+const nameGroup =
+    document.getElementById("nameGroup");
+
+const surnameGroup =
+    document.getElementById("surnameGroup");
+
+const switchText =
+    document.getElementById("switchText");
+
+const switchAuth =
+    document.getElementById("switchAuth");
+
+const loginBtn =
+    document.getElementById("loginBtn");
+
+const registerBtn =
+    document.getElementById("registerBtn");
+
+const userPill =
+    document.getElementById("userPill");
+
+const userName =
+    document.getElementById("userName");
+
+const logoutBtn =
+    document.getElementById("logoutBtn");
+
+const chatOverlay =
+    document.getElementById("chatOverlay");
 
 const chatMessages =
-  document.getElementById("chatMessages");
+    document.getElementById("chatMessages");
 
 const chatInput =
-  document.getElementById("chatInput");
+    document.getElementById("chatInput");
 
-const sendBtn =
-  document.getElementById("sendBtn");
-
-const uploadBtn =
-  document.getElementById("uploadBtn");
-
-const imageInput =
-  document.getElementById("imageInput");
+const chatStatus =
+    document.getElementById("chatStatus");
 
 const imagePreview =
-  document.getElementById("imagePreview");
+    document.getElementById("imagePreview");
 
-const previewImg =
-  document.getElementById("previewImg");
-
-const generatorPanel =
-  document.getElementById("generatorPanel");
-
-const imagePrompt =
-  document.getElementById("imagePrompt");
-
-const imageFormat =
-  document.getElementById("imageFormat");
-
-const imageQuality =
-  document.getElementById("imageQuality");
-
-const generateImageBtn =
-  document.getElementById("generateImageBtn");
-
-const generatedImage =
-  document.getElementById("generatedImage");
+const previewImage =
+    document.getElementById("previewImage");
 
 
 /* =========================================================
-   AUTH
-   ========================================================= */
+   HORA DEL DÍA
+========================================================= */
 
-let authMode = "login";
+function getGreeting(){
 
+    const hour = new Date().getHours();
 
-function openAuth(mode){
-
-  authMode = mode;
-
-  authModal.classList.add("open");
-
-  authError.textContent = "";
-
-  if(mode === "register"){
-
-    authTitle.textContent = "Crear cuenta";
-
-    authDescription.textContent =
-      "Crea tu cuenta para guardar tu espacio y tus proyectos.";
-
-    authSubmit.textContent = "Registrarme";
-
-    switchText.textContent =
-      "¿Ya tienes una cuenta?";
-
-    switchAuth.textContent =
-      "Iniciar sesión";
-
-    registerFields.forEach(
-      el => el.style.display = "block"
-    );
-
-  }else{
-
-    authTitle.textContent = "Iniciar sesión";
-
-    authDescription.textContent =
-      "Accede a tu espacio de SparkyKrea.";
-
-    authSubmit.textContent =
-      "Iniciar sesión";
-
-    switchText.textContent =
-      "¿No tienes una cuenta?";
-
-    switchAuth.textContent =
-      "Registrarse";
-
-    registerFields.forEach(
-      el => el.style.display = "none"
-    );
-
-  }
-
-}
-
-
-loginBtn.onclick =
-  () => openAuth("login");
-
-registerBtn.onclick =
-  () => openAuth("register");
-
-authClose.onclick =
-  () => authModal.classList.remove("open");
-
-authModal.addEventListener("click",e=>{
-  if(e.target === authModal){
-    authModal.classList.remove("open");
-  }
-});
-
-
-switchAuth.onclick = ()=>{
-
-  if(authMode === "login"){
-    openAuth("register");
-  }else{
-    openAuth("login");
-  }
-
-};
-
-
-authForm.addEventListener("submit",async e=>{
-
-  e.preventDefault();
-
-  authError.textContent = "";
-
-  if(!supabaseClient){
-
-    authError.textContent =
-      "Primero conecta Supabase en la configuración del código.";
-
-    return;
-  }
-
-  const email =
-    document.getElementById("email").value.trim();
-
-  const password =
-    document.getElementById("password").value;
-
-  try{
-
-    if(authMode === "register"){
-
-      const firstName =
-        document.getElementById("firstName").value.trim();
-
-      const lastName =
-        document.getElementById("lastName").value.trim();
-
-      if(!firstName || !lastName){
-
-        authError.textContent =
-          "Escribe tu nombre y apellido.";
-
-        return;
-      }
-
-      const {data,error} =
-        await supabaseClient.auth.signUp({
-
-          email,
-          password,
-
-          options:{
-            data:{
-              first_name:firstName,
-              last_name:lastName
-            }
-          }
-
-        });
-
-      if(error) throw error;
-
-      if(!data.session){
-
-        authError.textContent =
-          "Cuenta creada. Revisa tu correo para confirmar la cuenta.";
-
-        return;
-      }
-
-    }else{
-
-      const {error} =
-        await supabaseClient.auth.signInWithPassword({
-          email,
-          password
-        });
-
-      if(error) throw error;
-
+    if(hour >= 5 && hour < 12){
+        return "Hola, buenos días.";
     }
 
-    authModal.classList.remove("open");
-
-  }catch(error){
-
-    authError.textContent =
-      error.message || "No se pudo completar la operación.";
-
-  }
-
-});
-
-
-async function updateUserUI(){
-
-  if(!supabaseClient){
-    return;
-  }
-
-  const {
-    data:{
-      user
-    }
-  } = await supabaseClient.auth.getUser();
-
-  if(user){
-
-    let first =
-      user.user_metadata?.first_name || "";
-
-    let last =
-      user.user_metadata?.last_name || "";
-
-    /*
-      Si el perfil existe, utilizamos los datos guardados
-      en la tabla profiles.
-    */
-
-    const {data:profile} =
-      await supabaseClient
-        .from("profiles")
-        .select("first_name,last_name")
-        .eq("id",user.id)
-        .maybeSingle();
-
-    if(profile){
-
-      first =
-        profile.first_name || first;
-
-      last =
-        profile.last_name || last;
-
+    if(hour >= 12 && hour < 19){
+        return "Hola, buenas tardes.";
     }
 
-    const fullName =
-      `${first} ${last}`.trim() ||
-      user.email.split("@")[0];
-
-    loginBtn.style.display = "none";
-    registerBtn.style.display = "none";
-
-    userPill.style.display = "flex";
-
-    userName.textContent =
-      fullName;
-
-    userAvatar.textContent =
-      fullName.charAt(0).toUpperCase();
-
-  }else{
-
-    loginBtn.style.display = "";
-    registerBtn.style.display = "";
-
-    userPill.style.display = "none";
-
-  }
-
+    return "Hola, buenas noches.";
 }
-
-
-logoutBtn.onclick = async ()=>{
-
-  if(!supabaseClient) return;
-
-  await supabaseClient.auth.signOut();
-
-  updateUserUI();
-
-};
-
-
-if(supabaseClient){
-
-  supabaseClient.auth.onAuthStateChange(
-    () => updateUserUI()
-  );
-
-  updateUserUI();
-
-}
-
-
-/* =========================================================
-   CARRUSEL
-   ========================================================= */
-
-const cards =
-  [...document.querySelectorAll(".service-card")];
-
-let carouselIndex = 0;
-
-function renderCarousel(){
-
-  cards.forEach((card,i)=>{
-
-    let diff =
-      (i - carouselIndex + cards.length)
-      % cards.length;
-
-    card.className =
-      "service-card";
-
-    if(diff === 0){
-      card.classList.add("active");
-    }else if(diff === 1){
-      card.classList.add("next");
-    }else if(diff === cards.length - 1){
-      card.classList.add("prev");
-    }else{
-      card.classList.add("far");
-    }
-
-  });
-
-}
-
-/*
-   Más lento que antes, pero sigue moviéndose solo.
-*/
-
-setInterval(()=>{
-
-  carouselIndex =
-    (carouselIndex + 1) % cards.length;
-
-  renderCarousel();
-
-},3800);
-
-renderCarousel();
 
 
 /* =========================================================
    CHAT
-   ========================================================= */
+========================================================= */
 
-function openChat(context = null){
+function openChat(){
 
-  chatOverlay.classList.add("open");
+    chatOverlay.classList.add("open");
 
-  document.body.style.overflow =
-    "hidden";
+    document.body.style.overflow = "hidden";
 
-  if(context){
+    if(chatMessages.children.length === 0){
 
-    const prompts = {
-
-      publicidad:
-        "Quiero trabajar una publicidad.",
-
-      video:
-        "Quiero crear un vídeo.",
-
-      imagen:
-        "Quiero crear una imagen.",
-
-      estrategia:
-        "Quiero trabajar una estrategia.",
-
-      videojuego:
-        "Quiero crear contenido relacionado con un videojuego."
-
-    };
-
-    const text =
-      prompts[context];
-
-    if(text){
-
-      addUserMessage(text);
-
-      setTimeout(()=>{
-
-        const replies = {
-
-          publicidad:
-            "Perfecto. Primero dime qué producto, servicio, marca o proyecto quieres promocionar y qué quieres conseguir con la publicidad.",
-
-          video:
-            "Perfecto. Vamos a construirlo paso a paso. ¿Qué quieres promocionar y qué duración buscas: 10, 20, 40, 60 segundos o una duración personalizada?",
-
-          imagen:
-            "Perfecto. Cuéntame qué quieres mostrar, dónde debería ocurrir y qué formato necesitas. También puedes subir una imagen de referencia.",
-
-          estrategia:
-            "Perfecto. Cuéntame qué proyecto tienes, quién es tu público y qué resultado quieres conseguir.",
-
-          videojuego:
-            "Perfecto. Dime el videojuego. Si es Valorant, Fortnite, League of Legends, Call of Duty, Free Fire u otro, también puedes decirme el personaje, campeón, operador, skin o elemento específico que quieras utilizar."
-
-        };
-
-        addBotMessage(
-          replies[context]
+        addMessage(
+            "bot",
+            getGreeting() +
+            " Cuéntame, ¿qué deseas hacer?"
         );
 
-      },450);
-
     }
 
-  }
-
+    setTimeout(() => {
+        chatInput.focus();
+    },400);
 }
 
 
-function closeChatPanel(){
+function closeChat(){
 
-  chatOverlay.classList.remove("open");
+    chatOverlay.classList.remove("open");
 
-  document.body.style.overflow = "";
-
+    document.body.style.overflow = "";
 }
 
 
-startBtn.onclick =
-  () => openChat();
+function addMessage(type,text){
 
-closeChat.onclick =
-  closeChatPanel;
+    const message =
+        document.createElement("div");
 
+    message.className =
+        "message " + type;
 
-document.querySelectorAll(".quick").forEach(btn=>{
+    message.textContent = text;
 
-  btn.onclick = ()=>{
+    chatMessages.appendChild(message);
 
-    const context =
-      btn.dataset.context;
-
-    if(context === "imagen"){
-
-      generatorPanel.classList.add("open");
-
-    }
-
-    openChat(context);
-
-  };
-
-});
-
-
-function addUserMessage(text){
-
-  const el =
-    document.createElement("div");
-
-  el.className =
-    "message user";
-
-  el.textContent =
-    text;
-
-  chatMessages.appendChild(el);
-
-  scrollChat();
-
-}
-
-
-function addBotMessage(text){
-
-  const el =
-    document.createElement("div");
-
-  el.className =
-    "message bot";
-
-  el.textContent =
-    text;
-
-  chatMessages.appendChild(el);
-
-  scrollChat();
-
-}
-
-
-function addImageMessage(src){
-
-  const el =
-    document.createElement("div");
-
-  el.className =
-    "message user";
-
-  const img =
-    document.createElement("img");
-
-  img.src = src;
-
-  img.style.maxWidth = "230px";
-  img.style.borderRadius = "16px";
-  img.style.display = "block";
-
-  el.appendChild(img);
-
-  chatMessages.appendChild(el);
-
-  scrollChat();
-
-}
-
-
-function scrollChat(){
-
-  chatMessages.scrollTop =
-    chatMessages.scrollHeight;
-
+    chatMessages.scrollTop =
+        chatMessages.scrollHeight;
 }
 
 
 /* =========================================================
-   IMAGEN SUBIDA
-   ========================================================= */
+   RECONOCIMIENTO BÁSICO DE CONTEXTO
+========================================================= */
 
-let selectedImageData = null;
+const gameDatabase = {
+
+    valorant: [
+        "reyna",
+        "jett",
+        "sage",
+        "omen",
+        "raze",
+        "phoenix",
+        "cypher",
+        "viper",
+        "killjoy",
+        "chamber",
+        "neon",
+        "gekko",
+        "yoru",
+        "sova",
+        "fade",
+        "iso",
+        "clove"
+    ],
+
+    fortnite: [
+        "fortnite",
+        "skin",
+        "skins",
+        "battle royale",
+        "epic games"
+    ],
+
+    "call of duty": [
+        "call of duty",
+        "cod",
+        "warzone",
+        "modern warfare",
+        "black ops",
+        "operator",
+        "operador"
+    ],
+
+    "league of legends": [
+        "league of legends",
+        "lol",
+        "ahri",
+        "yasuo",
+        "jinx",
+        "lux",
+        "zed",
+        "akali",
+        "teemo"
+    ],
+
+    "free fire": [
+        "free fire",
+        "alok",
+        "kelly",
+        "hayato",
+        "moco",
+        "chrono"
+    ],
+
+    minecraft: [
+        "minecraft",
+        "steve",
+        "creeper"
+    ],
+
+    roblox: [
+        "roblox"
+    ],
+
+    "gta": [
+        "gta",
+        "grand theft auto",
+        "gta v",
+        "gta online"
+    ]
+};
 
 
-uploadBtn.onclick =
-  () => imageInput.click();
+function detectGameContext(text){
+
+    const lower =
+        text.toLowerCase();
+
+    for(
+        const game in gameDatabase
+    ){
+
+        const terms =
+            gameDatabase[game];
+
+        for(
+            const term of terms
+        ){
+
+            if(lower.includes(term)){
+
+                return {
+                    game:game,
+                    term:term
+                };
+
+            }
+        }
+    }
+
+    return null;
+}
 
 
-imageInput.addEventListener("change",()=>{
+/* =========================================================
+   RESPUESTA TEMPORAL
+========================================================= */
 
-  const file =
-    imageInput.files[0];
+/*
+    ESTO NO ES LA IA REAL.
 
-  if(!file) return;
+    Lo dejamos como respuesta temporal para que la página
+    funcione mientras conectamos el servidor.
 
-  const reader =
-    new FileReader();
+    Después esta función será reemplazada por una llamada
+    segura al backend.
+*/
 
-  reader.onload = ()=>{
+async function generateTemporaryResponse(text){
 
-    selectedImageData =
-      reader.result;
+    const context =
+        detectGameContext(text);
 
-    previewImg.src =
-      reader.result;
+    if(context){
 
-    imagePreview.classList.add("show");
+        if(
+            context.game === "valorant" &&
+            context.term === "reyna"
+        ){
 
-    addImageMessage(
-      reader.result
-    );
+            return "Sí, entiendo: te refieres a Reyna de Valorant. Cuéntame qué quieres hacer con ella: ¿una imagen, una publicidad, un concepto para redes, un vídeo o algo diferente?";
 
-    addBotMessage(
-      "Ya tengo la imagen. Ahora dime qué quieres conseguir con ella: analizarla, mejorar la idea, convertirla en publicidad, crear una propuesta visual o preparar contenido."
-    );
+        }
 
-  };
+        if(
+            context.game === "fortnite"
+        ){
 
-  reader.readAsDataURL(file);
+            return "Entiendo que estás hablando de Fortnite. Si quieres crear algo con un personaje o skin, dime cuál y qué quieres conseguir.";
 
-});
+        }
+
+        if(
+            context.game === "call of duty"
+        ){
+
+            return "Entiendo que te refieres a Call of Duty. Podemos trabajar una idea relacionada con Warzone, un operador, una campaña, contenido o un concepto visual. ¿Qué tienes pensado?";
+
+        }
+
+        if(
+            context.game === "league of legends"
+        ){
+
+            return "Entiendo que hablas de League of Legends. Si quieres trabajar con un campeón, dime cuál y qué quieres crear alrededor de él.";
+
+        }
+
+        if(
+            context.game === "free fire"
+        ){
+
+            return "Entiendo que te refieres a Free Fire. Dime qué personaje, elemento o idea quieres utilizar y qué quieres crear.";
+
+        }
+
+        return "Entiendo que estás hablando de " +
+            context.game +
+            ". Cuéntame un poco más sobre lo que quieres crear.";
+    }
+
+
+    const lower =
+        text.toLowerCase();
+
+    if(
+        lower.includes("publicidad") ||
+        lower.includes("anuncio") ||
+        lower.includes("campaña")
+    ){
+
+        return "Perfecto. Podemos desarrollar la publicidad desde la idea hasta el concepto, mensaje y contenido. Cuéntame qué producto, servicio o proyecto quieres promocionar.";
+
+    }
+
+
+    if(
+        lower.includes("video") ||
+        lower.includes("vídeo")
+    ){
+
+        return "Perfecto. Podemos estructurar el vídeo con escenas, tiempos, texto, voz y formato. Cuéntame qué quieres promocionar o mostrar.";
+
+    }
+
+
+    if(
+        lower.includes("imagen") ||
+        lower.includes("foto")
+    ){
+
+        return "Perfecto. Cuéntame qué imagen quieres crear, qué debería aparecer y para qué plataforma la necesitas.";
+
+    }
+
+
+    if(
+        lower.includes("hola") ||
+        lower.includes("hey") ||
+        lower.includes("buenas")
+    ){
+
+        return getGreeting() +
+            " Cuéntame qué tienes en mente y lo desarrollamos.";
+
+    }
+
+
+    return "Entiendo. Cuéntame un poco más sobre tu idea y qué resultado quieres conseguir, y a partir de ahí iremos construyéndola contigo.";
+
+}
 
 
 /* =========================================================
    ENVIAR MENSAJE
-   ========================================================= */
-
-sendBtn.onclick =
-  sendMessage;
-
-
-chatInput.addEventListener(
-  "keydown",
-  e=>{
-
-    if(
-      e.key === "Enter" &&
-      !e.shiftKey
-    ){
-
-      e.preventDefault();
-
-      sendMessage();
-
-    }
-
-  }
-);
-
+========================================================= */
 
 async function sendMessage(){
 
-  const text =
-    chatInput.value.trim();
+    const text =
+        chatInput.value.trim();
 
-  if(!text && !selectedImageData){
-    return;
-  }
+    if(!text && !selectedImage){
+        return;
+    }
 
-  if(text){
 
-    addUserMessage(text);
+    if(text){
 
-    chatInput.value = "";
+        addMessage(
+            "user",
+            text
+        );
 
-  }
-
-  const loading =
-    document.createElement("div");
-
-  loading.className =
-    "message bot";
-
-  loading.textContent =
-    "Estoy revisando lo que me dijiste…";
-
-  chatMessages.appendChild(loading);
-
-  scrollChat();
-
-  try{
-
-    if(!supabaseClient){
-
-      throw new Error(
-        "SUPABASE_NOT_CONFIGURED"
-      );
+        chatInput.value = "";
 
     }
 
-    const payload = {
 
-      action:"chat",
+    chatStatus.textContent =
+        "Pensando...";
 
-      message:text,
 
-      image:selectedImageData,
+    try{
 
-      time:new Date().toISOString(),
+        /*
+            Más adelante:
 
-      context:{
-        site:"SparkyKrea"
-      }
+            const response =
+                await callRealAI(text);
 
-    };
+            addMessage("bot", response);
 
-    const {
-      data,
-      error
-    } =
-      await supabaseClient.functions.invoke(
-        "sparky-chat",
-        {
-          body:payload
+            Por ahora usamos el sistema temporal.
+        */
+
+        await new Promise(
+            resolve =>
+                setTimeout(resolve,500)
+        );
+
+        const response =
+            await generateTemporaryResponse(
+                text
+            );
+
+        addMessage(
+            "bot",
+            response
+        );
+
+
+    }catch(error){
+
+        console.error(error);
+
+        addMessage(
+            "bot",
+            "Hubo un problema al procesar tu mensaje. Inténtalo nuevamente."
+        );
+
+    }
+
+
+    chatStatus.textContent =
+        "Escribe lo que tengas en mente.";
+
+}
+
+
+/* =========================================================
+   ENTER PARA ENVIAR
+========================================================= */
+
+chatInput.addEventListener(
+    "keydown",
+    function(event){
+
+        if(
+            event.key === "Enter" &&
+            !event.shiftKey
+        ){
+
+            event.preventDefault();
+
+            sendMessage();
+
         }
-      );
-
-    if(error) throw error;
-
-    loading.remove();
-
-    addBotMessage(
-      data?.text ||
-      "Perfecto. Cuéntame un poco más y seguimos construyendo la idea."
-    );
-
-    /*
-       Si el backend devuelve una imagen generada,
-       la mostramos automáticamente.
-    */
-
-    if(data?.image){
-
-      const img =
-        document.createElement("img");
-
-      img.src =
-        `data:image/png;base64,${data.image}`;
-
-      img.style.maxWidth = "100%";
-      img.style.borderRadius = "20px";
-      img.style.marginTop = "12px";
-
-      chatMessages.appendChild(img);
-
-      scrollChat();
 
     }
+);
 
-  }catch(error){
 
-    loading.remove();
+/* =========================================================
+   IMAGEN
+========================================================= */
 
-    /*
-       Este fallback solo se utiliza si todavía
-       no has conectado la Edge Function.
-    */
+function handleImage(event){
 
-    const lower =
-      text.toLowerCase();
+    const file =
+        event.target.files[0];
+
+    if(!file){
+        return;
+    }
 
     if(
-      /valorant|val[oó]rant|reyna|jett|sage|omen/.test(lower)
+        !file.type.startsWith("image/")
     ){
 
-      addBotMessage(
-        "Sí, entendí la referencia. Estamos hablando de Valorant. Si quieres trabajar con un personaje concreto, dime por ejemplo Reyna, Jett, Sage u Omen y puedo plantear la idea alrededor de ese personaje. También dime si buscas una publicidad, una imagen o un vídeo."
-      );
+        alert(
+            "Selecciona una imagen válida."
+        );
 
-    }else if(
-      /fortnite|skin|battle royale/.test(lower)
-    ){
-
-      addBotMessage(
-        "Entendido: es contenido relacionado con Fortnite. Dime qué quieres utilizar —personaje, skin, objeto, partida o concepto— y qué quieres crear con ello."
-      );
-
-    }else if(
-      /league|lol|lol\.|campe[oó]n/.test(lower)
-    ){
-
-      addBotMessage(
-        "Entendido. Si hablamos de League of Legends, dime qué campeón quieres utilizar y si quieres crear una imagen, publicidad, vídeo o concepto para redes."
-      );
-
-    }else if(
-      /call of duty|cod|warzone|operador/.test(lower)
-    ){
-
-      addBotMessage(
-        "Perfecto. Entiendo que hablamos de Call of Duty. Dime si quieres trabajar con Warzone, otro modo, un operador, arma, skin o una idea específica."
-      );
-
-    }else if(
-      /free fire|freefire/.test(lower)
-    ){
-
-      addBotMessage(
-        "Entendido: Free Fire. Dime qué personaje, skin, evento o elemento quieres utilizar y qué tipo de contenido quieres crear."
-      );
-
-    }else if(
-      /lolll|jaj|xd|jeje|haha/.test(lower)
-    ){
-
-      addBotMessage(
-        "Jajaja, te entendí 😄. No pasa nada si escribes rápido o con errores. Dime simplemente qué quieres crear y voy siguiendo la idea contigo."
-      );
-
-    }else{
-
-      addBotMessage(
-        "Te sigo. Puedes explicármelo con tus palabras, aunque esté incompleto o tenga errores. Dime qué quieres crear, para quién sería y qué resultado quieres conseguir."
-      );
-
+        return;
     }
 
-  }
+
+    selectedImage = file;
+
+
+    const reader =
+        new FileReader();
+
+    reader.onload =
+        function(e){
+
+            previewImage.src =
+                e.target.result;
+
+            imagePreview.style.display =
+                "block";
+
+        };
+
+    reader.readAsDataURL(file);
+
+}
+
+
+function removeImage(){
+
+    selectedImage = null;
+
+    imagePreview.style.display =
+        "none";
+
+    previewImage.src = "";
+
+    document.getElementById(
+        "imageInput"
+    ).value = "";
 
 }
 
 
 /* =========================================================
-   CREACIÓN DE IMÁGENES
-   ========================================================= */
+   LOGIN / REGISTRO
+========================================================= */
 
-generateImageBtn.onclick =
-  generateImage;
+function openAuth(mode){
+
+    authMode = mode;
+
+    updateAuthModal();
+
+    authModal.classList.add("show");
+
+}
 
 
-async function generateImage(){
+function closeAuth(){
 
-  const prompt =
-    imagePrompt.value.trim();
+    authModal.classList.remove("show");
 
-  if(!prompt){
+    authError.style.display =
+        "none";
 
-    alert(
-      "Describe primero la imagen que quieres crear."
-    );
+}
 
-    return;
 
-  }
+function switchAuthMode(){
 
-  generateImageBtn.disabled = true;
+    authMode =
+        authMode === "login"
+            ? "register"
+            : "login";
 
-  generateImageBtn.textContent =
-    "Creando…";
+    updateAuthModal();
 
-  try{
+}
+
+
+function updateAuthModal(){
+
+    const register =
+        authMode === "register";
+
+
+    authTitle.textContent =
+        register
+            ? "Crear cuenta"
+            : "Iniciar sesión";
+
+
+    authSubmit.textContent =
+        register
+            ? "Registrarme"
+            : "Iniciar sesión";
+
+
+    nameGroup.style.display =
+        register
+            ? "block"
+            : "none";
+
+
+    surnameGroup.style.display =
+        register
+            ? "block"
+            : "none";
+
+
+    switchText.textContent =
+        register
+            ? "¿Ya tienes una cuenta?"
+            : "¿No tienes una cuenta?";
+
+
+    switchAuth.textContent =
+        register
+            ? "Iniciar sesión"
+            : "Registrarse";
+
+
+    document.getElementById(
+        "password"
+    ).autocomplete =
+        register
+            ? "new-password"
+            : "current-password";
+
+}
+
+
+authForm.addEventListener(
+    "submit",
+    async function(event){
+
+        event.preventDefault();
+
+        authError.style.display =
+            "none";
+
+
+        /*
+            Si todavía no configuramos Supabase,
+            no fingimos que el login funciona.
+        */
+
+        if(!supabaseClient){
+
+            showAuthError(
+                "La cuenta todavía no está conectada al sistema. Primero debemos configurar Supabase."
+            );
+
+            return;
+        }
+
+
+        const email =
+            document.getElementById(
+                "email"
+            ).value.trim();
+
+        const password =
+            document.getElementById(
+                "password"
+            ).value;
+
+
+        authSubmit.disabled = true;
+
+        authSubmit.textContent =
+            "Procesando...";
+
+
+        try{
+
+            if(
+                authMode === "register"
+            ){
+
+                const firstName =
+                    document.getElementById(
+                        "firstName"
+                    ).value.trim();
+
+                const lastName =
+                    document.getElementById(
+                        "lastName"
+                    ).value.trim();
+
+
+                if(
+                    !firstName ||
+                    !lastName
+                ){
+
+                    throw new Error(
+                        "Escribe tu nombre y apellido."
+                    );
+
+                }
+
+
+                const {
+                    data,
+                    error
+                } =
+                    await supabaseClient.auth.signUp({
+
+                        email:email,
+
+                        password:password,
+
+                        options:{
+                            data:{
+                                first_name:firstName,
+                                last_name:lastName
+                            }
+                        }
+
+                    });
+
+
+                if(error){
+                    throw error;
+                }
+
+
+                closeAuth();
+
+
+                alert(
+                    "Cuenta creada. Si el sistema solicita confirmar tu correo, revisa tu bandeja de entrada."
+                );
+
+
+            }else{
+
+                const {
+                    data,
+                    error
+                } =
+                    await supabaseClient.auth.signInWithPassword({
+
+                        email:email,
+
+                        password:password
+
+                    });
+
+
+                if(error){
+                    throw error;
+                }
+
+
+                currentUser =
+                    data.user;
+
+
+                closeAuth();
+
+                updateUserUI();
+
+            }
+
+
+        }catch(error){
+
+            console.error(error);
+
+            showAuthError(
+                translateAuthError(
+                    error.message
+                )
+            );
+
+        }
+
+
+        authSubmit.disabled = false;
+
+        authSubmit.textContent =
+            authMode === "register"
+                ? "Registrarme"
+                : "Iniciar sesión";
+
+    }
+);
+
+
+/* =========================================================
+   ERRORES DE AUTH
+========================================================= */
+
+function showAuthError(message){
+
+    authError.textContent =
+        message;
+
+    authError.style.display =
+        "block";
+
+}
+
+
+function translateAuthError(message){
+
+    if(!message){
+        return "Ocurrió un error.";
+    }
+
+    const lower =
+        message.toLowerCase();
+
+    if(
+        lower.includes("invalid login")
+    ){
+
+        return "El correo o la contraseña no son correctos.";
+
+    }
+
+    if(
+        lower.includes("already registered")
+    ){
+
+        return "Ese correo ya tiene una cuenta.";
+
+    }
+
+    if(
+        lower.includes("password")
+    ){
+
+        return "La contraseña no cumple los requisitos.";
+
+    }
+
+    return message;
+
+}
+
+
+/* =========================================================
+   USUARIO
+========================================================= */
+
+function updateUserUI(){
+
+    if(!currentUser){
+
+        loginBtn.style.display =
+            "block";
+
+        registerBtn.style.display =
+            "block";
+
+        userPill.style.display =
+            "none";
+
+        logoutBtn.style.display =
+            "none";
+
+        return;
+
+    }
+
+
+    const metadata =
+        currentUser.user_metadata || {};
+
+
+    const firstName =
+        metadata.first_name || "";
+
+
+    const lastName =
+        metadata.last_name || "";
+
+
+    const fullName =
+        (
+            firstName +
+            " " +
+            lastName
+        ).trim();
+
+
+    userName.textContent =
+        fullName ||
+        currentUser.email ||
+        "Usuario";
+
+
+    loginBtn.style.display =
+        "none";
+
+    registerBtn.style.display =
+        "none";
+
+    userPill.style.display =
+        "flex";
+
+    logoutBtn.style.display =
+        "block";
+
+}
+
+
+async function logout(){
+
+    if(
+        supabaseClient
+    ){
+
+        await supabaseClient.auth.signOut();
+
+    }
+
+    currentUser = null;
+
+    updateUserUI();
+
+}
+
+
+/* =========================================================
+   SUPABASE SESSION
+========================================================= */
+
+async function initializeAuth(){
 
     if(!supabaseClient){
 
-      throw new Error(
-        "SUPABASE_NOT_CONFIGURED"
-      );
+        updateUserUI();
 
+        return;
     }
+
 
     const {
-      data,
-      error
+        data
     } =
-      await supabaseClient.functions.invoke(
-        "sparky-chat",
-        {
-          body:{
-            action:"generate_image",
-            prompt,
-            size:imageFormat.value,
-            quality:imageQuality.value
-          }
+        await supabaseClient.auth.getSession();
+
+
+    currentUser =
+        data.session
+            ? data.session.user
+            : null;
+
+
+    updateUserUI();
+
+
+    supabaseClient.auth.onAuthStateChange(
+        function(
+            event,
+            session
+        ){
+
+            currentUser =
+                session
+                    ? session.user
+                    : null;
+
+            updateUserUI();
+
         }
-      );
-
-    if(error) throw error;
-
-    if(!data?.image){
-
-      throw new Error(
-        "No se recibió la imagen."
-      );
-
-    }
-
-    generatedImage.src =
-      `data:image/png;base64,${data.image}`;
-
-    generatedImage.style.display =
-      "block";
-
-  }catch(error){
-
-    alert(
-      "La creación de imágenes todavía necesita que conectemos la función del servidor."
     );
 
-  }finally{
+}
 
-    generateImageBtn.disabled = false;
 
-    generateImageBtn.textContent =
-      "Crear imagen";
+initializeAuth();
 
-  }
+
+/* =========================================================
+   CARRUSEL AUTOMÁTICO
+========================================================= */
+
+const cards =
+    Array.from(
+        document.querySelectorAll(
+            ".service-card"
+        )
+    );
+
+let carouselIndex = 0;
+
+
+function updateCarousel(){
+
+    const total =
+        cards.length;
+
+
+    cards.forEach(
+        (card,index)=>{
+
+            card.classList.remove(
+                "active",
+                "prev",
+                "next",
+                "far"
+            );
+
+
+            const diff =
+                (index -
+                 carouselIndex +
+                 total) %
+                total;
+
+
+            if(diff === 0){
+
+                card.classList.add(
+                    "active"
+                );
+
+            }else if(diff === 1){
+
+                card.classList.add(
+                    "next"
+                );
+
+            }else if(diff === total - 1){
+
+                card.classList.add(
+                    "prev"
+                );
+
+            }else{
+
+                card.classList.add(
+                    "far"
+                );
+
+            }
+
+        }
+    );
 
 }
 
 
-/* =========================================================
-   ATAJOS DE VIDEOJUEGOS
-   ========================================================= */
+function nextCard(){
+
+    carouselIndex =
+        (
+            carouselIndex + 1
+        ) %
+        cards.length;
+
+    updateCarousel();
+
+}
+
+
+updateCarousel();
+
 
 /*
-   Esto ayuda al frontend incluso antes de conectar
-   el modelo real.
+    Más lento para que se pueda apreciar
+    la tarjeta de atrás.
 */
 
-const GAME_ALIASES = {
-
-  valorant:[
-    "valorant",
-    "valórant",
-    "valornat",
-    "valrant",
-    "reyna",
-    "jett",
-    "sage",
-    "omen",
-    "raze",
-    "cypher",
-    "viper"
-  ],
-
-  fortnite:[
-    "fortnite",
-    "fortnite",
-    "skin",
-    "battle royale"
-  ],
-
-  lol:[
-    "league of legends",
-    "league",
-    "lol",
-    "campeon",
-    "campeón",
-    "ahri",
-    "yasuo",
-    "jinx",
-    "lux",
-    "zed"
-  ],
-
-  cod:[
-    "call of duty",
-    "cod",
-    "warzone",
-    "operator",
-    "operador"
-  ],
-
-  freefire:[
-    "free fire",
-    "freefire",
-    "garena",
-    "alvaro",
-    "hayato",
-    "kelly"
-  ]
-
-};
+setInterval(
+    nextCard,
+    4800
+);
 
 
 /* =========================================================
-   AUTO-ABRIR CHAT SI SE USA #chat
-   ========================================================= */
+   CERRAR MODAL HACIENDO CLICK FUERA
+========================================================= */
 
-if(
-  location.hash === "#chat"
-){
-  openChat();
-}
+authModal.addEventListener(
+    "click",
+    function(event){
+
+        if(
+            event.target ===
+            authModal
+        ){
+
+            closeAuth();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   ESC
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    function(event){
+
+        if(
+            event.key === "Escape"
+        ){
+
+            closeAuth();
+
+            closeChat();
+
+        }
+
+    }
+);
+
 </script>
 
 </body>
