@@ -3,2967 +3,3682 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#000000">
-<title>SparkyKrea</title>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<title>SparkyKrea</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
 
 <style>
+
 *{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
 html{
-  scroll-behavior:smooth;
+    scroll-behavior:smooth;
 }
 
 body{
-  background:#000;
-  color:#f4f0e8;
-  font-family:"DM Sans",sans-serif;
-  overflow-x:hidden;
+    background:#080807;
+    color:#f4efe7;
+    font-family:"DM Sans",sans-serif;
+    overflow-x:hidden;
 }
 
 button,
-input,
-textarea{
-  font-family:inherit;
+input{
+    font-family:inherit;
 }
 
 button{
-  cursor:pointer;
+    -webkit-tap-highlight-color:transparent;
 }
 
-a{
-  color:inherit;
-  text-decoration:none;
+:root{
+    --black:#080807;
+    --black2:#11110f;
+    --cream:#f6f0e6;
+    --beige:#e0cda7;
+    --beige-light:#f0dfbd;
+    --blue:#b9d8ee;
+    --blue-light:#d0e6f5;
+    --rose:#e4bfc0;
+    --lavender:#d0c5e5;
+    --sage:#c1d6bd;
+    --gray:#aaa59c;
+    --line:#34312b;
 }
 
-/* =========================
-   HEADER
-========================= */
+*{
+    transition:
+        border-color .3s ease,
+        background-color .3s ease,
+        color .3s ease,
+        opacity .3s ease,
+        transform .35s cubic-bezier(.22,1,.36,1);
+}
+
+
+/* HEADER */
 
 header{
-  width:100%;
-  height:78px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 42px;
-  border-bottom:1px solid rgba(255,255,255,.07);
-  position:relative;
-  z-index:20;
-  background:#000;
+    width:100%;
+    padding:17px 25px;
+    position:relative;
+    z-index:20;
 }
+
+.header-inner{
+    width:min(1250px,100%);
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:var(--cream);
+    text-decoration:none;
+    font-size:18px;
+    font-weight:600;
+}
+
+.brand:hover{
+    transform:translateY(-1px);
+}
+
+
+/* LOGO */
 
 .logo{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  font-size:20px;
-  font-weight:700;
-  letter-spacing:-.4px;
+    width:40px;
+    height:40px;
+    border:2px solid var(--beige);
+    border-radius:50%;
+    position:relative;
+    flex-shrink:0;
 }
 
-.logo-mark{
-  width:38px;
-  height:38px;
-  border:2px solid #806b3e;
-  border-radius:50%;
-  position:relative;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+.logo::before,
+.logo::after{
+    content:"";
+    position:absolute;
+    width:24px;
+    height:2px;
+    background:var(--beige);
+    left:50%;
+    top:50%;
 }
 
-.logo-mark:before,
-.logo-mark:after{
-  content:"";
-  position:absolute;
-  width:23px;
-  height:2px;
-  background:#806b3e;
-  transform:rotate(45deg);
+.logo::before{
+    transform:translate(-50%,-50%) rotate(45deg);
 }
 
-.logo-mark:after{
-  transform:rotate(-45deg);
+.logo::after{
+    transform:translate(-50%,-50%) rotate(-45deg);
 }
 
 .logo-dot{
-  width:10px;
-  height:10px;
-  border-radius:50%;
-  background:#b19a62;
-  position:relative;
-  z-index:2;
+    position:absolute;
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:var(--beige);
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
 }
 
-.header-actions{
-  display:flex;
-  align-items:center;
-  gap:10px;
+
+/* AUTH */
+
+.auth{
+    display:flex;
+    align-items:center;
+    gap:10px;
 }
 
-.header-btn{
-  border:1px solid rgba(255,255,255,.16);
-  background:transparent;
-  color:#f3eee5;
-  padding:11px 18px;
-  border-radius:30px;
-  font-size:14px;
-  transition:.25s;
+.auth button{
+    border:1px solid #514b40;
+    background:#11110f;
+    color:var(--cream);
+    padding:11px 19px;
+    border-radius:999px;
+    font-size:14px;
+    cursor:pointer;
 }
 
-.header-btn:hover{
-  background:#26231e;
+.auth button:hover{
+    background:var(--blue-light);
+    color:#151513;
+    border-color:var(--blue-light);
+    transform:translateY(-2px);
 }
 
-.header-btn.primary{
-  background:#e9e2d4;
-  color:#111;
-  border-color:#e9e2d4;
+.auth .register{
+    background:var(--beige);
+    color:#171611;
+    border-color:var(--beige);
 }
 
-.header-btn.primary:hover{
-  background:#fffaf0;
+.auth .register:hover{
+    background:var(--beige-light);
+    border-color:var(--beige-light);
 }
 
-.header-name{
-  border:1px solid rgba(255,255,255,.16);
-  padding:11px 17px;
-  border-radius:30px;
-  font-size:14px;
-  max-width:175px;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
 
-.panel-btn{
-  background:#2d2b27;
-  border:1px solid rgba(255,255,255,.1);
-  color:#fff;
-}
-
-/* =========================
-   HERO
-========================= */
+/* HERO */
 
 .hero{
-  min-height:720px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  padding:75px 22px 100px;
+    width:min(1250px,calc(100% - 40px));
+    margin:auto;
+    min-height:calc(100vh - 75px);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:55px 20px 80px;
 }
 
 .hero-logo{
-  width:150px;
-  height:150px;
-  border:2px solid #806b3e;
-  border-radius:50%;
-  position:relative;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  margin-bottom:60px;
+    width:88px;
+    height:88px;
+    border:2px solid var(--beige);
+    border-radius:50%;
+    position:relative;
+    margin-bottom:32px;
+    background:rgba(224,205,167,.035);
 }
 
-.hero-logo:before,
-.hero-logo:after{
-  content:"";
-  position:absolute;
-  width:82px;
-  height:4px;
-  background:#806b3e;
-  border-radius:3px;
+.hero-logo::before,
+.hero-logo::after{
+    content:"";
+    position:absolute;
+    width:52px;
+    height:2px;
+    background:var(--beige);
+    left:50%;
+    top:50%;
 }
 
-.hero-logo:before{
-  transform:rotate(45deg);
+.hero-logo::before{
+    transform:translate(-50%,-50%) rotate(45deg);
 }
 
-.hero-logo:after{
-  transform:rotate(-45deg);
+.hero-logo::after{
+    transform:translate(-50%,-50%) rotate(-45deg);
 }
 
 .hero-logo-dot{
-  width:25px;
-  height:25px;
-  background:#b09b67;
-  border-radius:50%;
-  z-index:2;
+    position:absolute;
+    width:14px;
+    height:14px;
+    border-radius:50%;
+    background:var(--beige);
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
 }
 
 .hero h1{
-  max-width:920px;
-  font-family:"Playfair Display",serif;
-  font-size:70px;
-  line-height:1.02;
-  letter-spacing:-2.8px;
-  font-weight:600;
+    max-width:1000px;
+    font-family:"Playfair Display",serif;
+    font-size:clamp(48px,6vw,84px);
+    line-height:.99;
+    letter-spacing:-2.8px;
+    font-weight:600;
 }
 
 .hero h1 span{
-  color:#806b3e;
+    color:var(--beige);
 }
 
-.hero p{
-  max-width:760px;
-  margin-top:38px;
-  color:#858585;
-  font-size:20px;
-  line-height:1.65;
+.hero-text{
+    max-width:760px;
+    margin-top:26px;
+    color:#b7b2aa;
+    font-size:18px;
+    line-height:1.6;
 }
 
-.start-btn{
-  margin-top:48px;
-  border:none;
-  background:#302d28;
-  color:#eee7db;
-  border:1px solid rgba(255,255,255,.1);
-  padding:20px 42px;
-  border-radius:50px;
-  font-size:20px;
-  font-weight:700;
-  transition:.3s;
+.main-btn{
+    margin-top:30px;
+    padding:16px 31px;
+    border-radius:999px;
+    border:1px solid #746a57;
+    background:#29261f;
+    color:var(--beige-light);
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
 }
 
-.start-btn:hover{
-  background:#403c35;
-  transform:translateY(-2px);
+.main-btn:hover{
+    background:var(--beige);
+    color:#171611;
+    border-color:var(--beige);
+    transform:translateY(-3px);
 }
 
-/* =========================
-   SERVICES
-========================= */
+
+/* SERVICIOS */
 
 .services{
-  padding:90px 30px;
-  border-top:1px solid rgba(255,255,255,.07);
+    width:min(1250px,calc(100% - 40px));
+    margin:auto;
+    padding:85px 0 95px;
+    text-align:center;
 }
 
-.section-title{
-  text-align:center;
-  font-family:"Playfair Display",serif;
-  font-size:48px;
-  margin-bottom:45px;
+.section-label{
+    color:var(--beige-light);
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:6px;
+    margin-bottom:17px;
+}
+
+.services h2{
+    max-width:900px;
+    margin:auto;
+    font-family:"Playfair Display",serif;
+    font-size:clamp(40px,5vw,68px);
+    line-height:1.02;
+    letter-spacing:-1.7px;
+}
+
+.services-description{
+    max-width:720px;
+    margin:21px auto 0;
+    color:#a8a39b;
+    font-size:17px;
+    line-height:1.6;
+}
+
+
+/* CARRUSEL */
+
+.carousel-wrapper{
+    width:100%;
+    margin:43px auto 0;
+    overflow:hidden;
+    position:relative;
 }
 
 .carousel{
-  max-width:1150px;
-  margin:auto;
-  overflow:hidden;
-}
-
-.carousel-track{
-  display:flex;
-  transition:transform .7s ease;
+    width:100%;
+    display:flex;
+    justify-content:center;
+    align-items:stretch;
+    position:relative;
+    min-height:215px;
 }
 
 .service-card{
-  min-width:100%;
-  padding:60px 35px;
-  min-height:340px;
-  border:1px solid rgba(255,255,255,.09);
-  border-radius:30px;
-  background:#0b0b0b;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  text-align:center;
+    width:min(500px,90vw);
+    min-height:215px;
+    padding:31px;
+    text-align:left;
+    border-radius:24px;
+    background:#11110f;
+    border:1px solid #403c34;
+    position:absolute;
+    left:50%;
+    top:0;
+    transform:translateX(-50%) scale(.96);
+    opacity:0;
+    pointer-events:none;
 }
 
-.service-number{
-  color:#806b3e;
-  font-size:15px;
-  letter-spacing:3px;
-  margin-bottom:18px;
+.service-card.active{
+    opacity:1;
+    pointer-events:auto;
+    transform:translateX(-50%) scale(1);
+}
+
+.service-card:nth-child(1){
+    border-color:var(--beige);
+}
+
+.service-card:nth-child(2){
+    border-color:var(--blue);
+}
+
+.service-card:nth-child(3){
+    border-color:var(--rose);
+}
+
+.service-card:nth-child(4){
+    border-color:var(--lavender);
+}
+
+.service-card:nth-child(5){
+    border-color:var(--sage);
+}
+
+.card-line{
+    width:42px;
+    height:3px;
+    border-radius:20px;
+    background:var(--beige);
+    margin-bottom:20px;
+}
+
+.service-card:nth-child(2) .card-line{
+    background:var(--blue);
+}
+
+.service-card:nth-child(3) .card-line{
+    background:var(--rose);
+}
+
+.service-card:nth-child(4) .card-line{
+    background:var(--lavender);
+}
+
+.service-card:nth-child(5) .card-line{
+    background:var(--sage);
 }
 
 .service-card h3{
-  font-family:"Playfair Display",serif;
-  font-size:43px;
-  margin-bottom:20px;
+    font-family:"Playfair Display",serif;
+    font-size:30px;
+    line-height:1.1;
+    margin-bottom:12px;
 }
 
 .service-card p{
-  max-width:650px;
-  color:#858585;
-  font-size:17px;
-  line-height:1.7;
+    color:#aaa59c;
+    font-size:15px;
+    line-height:1.55;
 }
 
 .carousel-dots{
-  display:flex;
-  justify-content:center;
-  gap:8px;
-  margin-top:22px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:9px;
+    margin-top:20px;
 }
 
 .carousel-dot{
-  width:8px;
-  height:8px;
-  border-radius:50%;
-  background:#343434;
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:#4a463d;
+    cursor:pointer;
 }
 
 .carousel-dot.active{
-  background:#b09b67;
+    width:28px;
+    border-radius:10px;
+    background:var(--beige);
 }
 
-/* =========================
-   CONTACT
-========================= */
+
+/* CONTACTO */
 
 .contact{
-  padding:110px 25px;
-  border-top:1px solid rgba(255,255,255,.07);
+    width:min(1000px,calc(100% - 40px));
+    margin:auto;
+    padding:75px 20px 90px;
+    text-align:center;
+    border-top:1px solid #292721;
 }
 
-.contact-box{
-  max-width:1050px;
-  margin:auto;
-  background:#0b0b0b;
-  border:1px solid rgba(255,255,255,.09);
-  border-radius:32px;
-  padding:65px 35px;
-  text-align:center;
+.contact h2{
+    max-width:850px;
+    margin:auto;
+    font-family:"Playfair Display",serif;
+    font-size:clamp(40px,5vw,62px);
+    line-height:1.04;
+    letter-spacing:-1.2px;
 }
 
-.contact-box h2{
-  font-family:"Playfair Display",serif;
-  font-size:50px;
-}
-
-.contact-box p{
-  max-width:650px;
-  margin:22px auto 35px;
-  color:#888;
-  line-height:1.7;
-  font-size:17px;
+.contact p{
+    max-width:700px;
+    margin:20px auto 0;
+    color:#a39e95;
+    font-size:16px;
+    line-height:1.65;
 }
 
 .contact-btn{
-  display:inline-block;
-  background:#e9e2d4;
-  color:#111;
-  padding:16px 30px;
-  border-radius:40px;
-  font-weight:700;
+    margin-top:24px;
+    padding:14px 25px;
+    border:none;
+    border-radius:999px;
+    background:var(--beige);
+    color:#171611;
+    font-size:14px;
+    font-weight:700;
+    cursor:pointer;
 }
 
-/* =========================
-   FOOTER
-========================= */
+.contact-btn:hover{
+    background:var(--blue-light);
+    transform:translateY(-3px);
+}
+
+
+/* FOOTER */
 
 footer{
-  border-top:1px solid rgba(255,255,255,.07);
-  padding:35px 25px;
-  text-align:center;
-  color:#666;
-  font-size:14px;
+    border-top:1px solid #292721;
+    text-align:center;
+    padding:26px 20px 32px;
+    color:var(--beige);
 }
 
-/* =========================
-   OVERLAYS
-========================= */
-
-.overlay{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.93);
-  backdrop-filter:blur(15px);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-  z-index:100;
+footer strong{
+    display:block;
+    font-size:14px;
+    margin-bottom:5px;
 }
 
-.overlay.active{
-  display:flex;
+footer span{
+    color:#8b867e;
+    font-size:12px;
 }
+
+
+/* MODALES */
 
 .modal{
-  width:min(470px,100%);
-  background:#0b0b0b;
-  border:1px solid rgba(255,255,255,.1);
-  border-radius:28px;
-  padding:38px;
-  position:relative;
-  box-shadow:0 25px 80px rgba(0,0,0,.6);
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.9);
+    backdrop-filter:blur(7px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    z-index:1000;
+    opacity:0;
+    visibility:hidden;
 }
 
-.close{
-  position:absolute;
-  top:18px;
-  right:20px;
-  width:38px;
-  height:38px;
-  border-radius:50%;
-  border:1px solid rgba(255,255,255,.1);
-  background:#151515;
-  color:#ddd;
-  font-size:21px;
+.modal.active{
+    opacity:1;
+    visibility:visible;
 }
 
-.modal-logo{
-  width:62px;
-  height:62px;
-  border:2px solid #806b3e;
-  border-radius:50%;
-  position:relative;
-  margin:0 auto 25px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+.modal-box{
+    width:min(430px,100%);
+    background:#11110f;
+    border:1px solid #554d3e;
+    border-radius:25px;
+    padding:30px;
+    position:relative;
+    transform:translateY(25px) scale(.97);
+    opacity:0;
 }
 
-.modal-logo:before,
-.modal-logo:after{
-  content:"";
-  position:absolute;
-  width:34px;
-  height:2px;
-  background:#806b3e;
+.modal.active .modal-box{
+    transform:translateY(0) scale(1);
+    opacity:1;
 }
 
-.modal-logo:before{
-  transform:rotate(45deg);
+.modal-box h2{
+    font-family:"Playfair Display",serif;
+    font-size:34px;
 }
 
-.modal-logo:after{
-  transform:rotate(-45deg);
+.modal-box p{
+    color:#99948c;
+    margin:7px 0 23px;
 }
 
-.modal-logo div{
-  width:9px;
-  height:9px;
-  border-radius:50%;
-  background:#b09b67;
-  z-index:2;
+.close-modal{
+    position:absolute;
+    right:17px;
+    top:13px;
+    border:none;
+    background:none;
+    color:var(--beige);
+    font-size:28px;
+    cursor:pointer;
 }
 
-.modal h2{
-  text-align:center;
-  font-family:"Playfair Display",serif;
-  font-size:34px;
-  margin-bottom:10px;
+.field{
+    margin-bottom:14px;
 }
 
-.modal-sub{
-  color:#777;
-  text-align:center;
-  line-height:1.6;
-  margin-bottom:25px;
+.field label{
+    display:block;
+    margin-bottom:6px;
+    color:#c9c2b7;
+    font-size:13px;
 }
 
-.form-group{
-  margin-bottom:14px;
+.field input{
+    width:100%;
+    padding:13px;
+    border-radius:12px;
+    border:1px solid #39362f;
+    background:#080807;
+    color:white;
+    outline:none;
 }
 
-.form-group input,
-.form-group textarea{
-  width:100%;
-  background:#111;
-  border:1px solid #292929;
-  color:#eee;
-  border-radius:14px;
-  padding:15px;
-  outline:none;
-  font-size:15px;
+.field input:focus{
+    border-color:var(--blue);
 }
 
-.form-group input:focus,
-.form-group textarea:focus{
-  border-color:#806b3e;
+.submit-btn{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:12px;
+    background:var(--beige);
+    color:#171611;
+    font-weight:700;
+    cursor:pointer;
 }
 
-.form-button{
-  width:100%;
-  border:none;
-  background:#e9e2d4;
-  color:#111;
-  padding:15px;
-  border-radius:14px;
-  font-weight:700;
-  font-size:15px;
-  margin-top:8px;
+.submit-btn:hover{
+    background:var(--blue-light);
+    transform:translateY(-2px);
 }
 
-.secondary-link{
-  display:block;
-  text-align:center;
-  color:#a99977;
-  margin-top:17px;
-  font-size:14px;
+
+/* OLVIDASTE */
+
+.forgot-password{
+    display:block;
+    margin:14px auto 0;
+    border:none;
+    background:none;
+    color:#aaa59c;
+    font-size:13px;
+    cursor:pointer;
+    text-decoration:underline;
 }
 
-.error-text{
-  color:#d99898;
-  font-size:14px;
-  text-align:center;
-  margin-top:12px;
-  min-height:20px;
+.forgot-password:hover{
+    color:var(--beige-light);
+    transform:translateY(-1px);
 }
 
-/* =========================
-   NOTICE
-========================= */
 
-.notice-box{
-  text-align:center;
+/* CHAT */
+
+.chat{
+    position:fixed;
+    inset:0;
+    background:#080807;
+    z-index:2000;
+    display:flex;
+    flex-direction:column;
+    opacity:0;
+    visibility:hidden;
+    transform:scale(1.025);
 }
 
-.notice-box p{
-  color:#888;
-  line-height:1.6;
-  margin:10px auto 25px;
-}
-
-.notice-btn{
-  border:none;
-  background:#e9e2d4;
-  color:#111;
-  border-radius:14px;
-  padding:15px 25px;
-  font-weight:700;
-}
-
-/* =========================
-   RESET
-========================= */
-
-.reset-modal{
-  width:min(500px,100%);
-}
-
-.reset-modal h2{
-  font-size:38px;
-}
-
-.reset-icon{
-  width:78px;
-  height:78px;
-  border:2px solid #806b3e;
-  border-radius:50%;
-  margin:0 auto 27px;
-  position:relative;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
-
-.reset-icon:before,
-.reset-icon:after{
-  content:"";
-  position:absolute;
-  width:43px;
-  height:2px;
-  background:#806b3e;
-}
-
-.reset-icon:before{
-  transform:rotate(45deg);
-}
-
-.reset-icon:after{
-  transform:rotate(-45deg);
-}
-
-.reset-icon span{
-  width:11px;
-  height:11px;
-  border-radius:50%;
-  background:#b09b67;
-  z-index:2;
-}
-
-/* =========================
-   ADMIN
-========================= */
-
-.admin-modal{
-  width:min(900px,100%);
-  max-height:85vh;
-  overflow:auto;
-}
-
-.admin-list{
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-  margin-top:25px;
-}
-
-.admin-user{
-  border:1px solid #242424;
-  background:#101010;
-  border-radius:16px;
-  padding:17px;
-  display:grid;
-  grid-template-columns:1.2fr 1.5fr .7fr 1fr;
-  gap:15px;
-  align-items:center;
-}
-
-.admin-user strong{
-  color:#eee;
-}
-
-.admin-user span{
-  color:#777;
-  font-size:14px;
-}
-
-.role-admin{
-  color:#c8b27c !important;
-}
-
-/* =========================
-   CHAT
-========================= */
-
-.chat-overlay{
-  position:fixed;
-  inset:0;
-  background:#000;
-  z-index:200;
-  display:none;
-  flex-direction:column;
-}
-
-.chat-overlay.active{
-  display:flex;
+.chat.active{
+    opacity:1;
+    visibility:visible;
+    transform:scale(1);
 }
 
 .chat-header{
-  height:75px;
-  border-bottom:1px solid #191919;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 20px;
+    height:68px;
+    flex-shrink:0;
+    border-bottom:1px solid #292821;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 25px;
 }
 
-.chat-title{
-  display:flex;
-  align-items:center;
-  gap:10px;
+.chat-brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-weight:600;
 }
 
-.chat-title-mark{
-  width:35px;
-  height:35px;
-  border:1px solid #806b3e;
-  border-radius:50%;
-  position:relative;
+.chat-logo{
+    width:34px;
+    height:34px;
+    border:1.5px solid var(--beige);
+    border-radius:50%;
+    position:relative;
 }
 
-.chat-title-mark:before,
-.chat-title-mark:after{
-  content:"";
-  position:absolute;
-  width:22px;
-  height:1px;
-  top:16px;
-  left:6px;
-  background:#806b3e;
+.chat-logo::before,
+.chat-logo::after{
+    content:"";
+    position:absolute;
+    width:19px;
+    height:1.5px;
+    background:var(--beige);
+    left:50%;
+    top:50%;
 }
 
-.chat-title-mark:before{
-  transform:rotate(45deg);
+.chat-logo::before{
+    transform:translate(-50%,-50%) rotate(45deg);
 }
 
-.chat-title-mark:after{
-  transform:rotate(-45deg);
+.chat-logo::after{
+    transform:translate(-50%,-50%) rotate(-45deg);
 }
 
 .chat-close{
-  width:40px;
-  height:40px;
-  border:1px solid #222;
-  background:#101010;
-  color:#eee;
-  border-radius:50%;
-  font-size:20px;
+    border:none;
+    background:none;
+    color:var(--beige);
+    font-size:30px;
+    cursor:pointer;
 }
 
-.chat-body{
-  flex:1;
-  overflow-y:auto;
-  padding:30px 20px;
-  display:flex;
-  flex-direction:column;
+.chat-close:hover{
+    transform:rotate(90deg);
+    color:var(--blue-light);
 }
 
-.chat-messages{
-  width:min(850px,100%);
-  margin:auto;
-  display:flex;
-  flex-direction:column;
-  gap:14px;
+.chat-content{
+    width:min(850px,calc(100% - 30px));
+    flex:1;
+    overflow-y:auto;
+    margin:auto;
+    padding:30px 0 100px;
 }
 
 .message{
-  max-width:78%;
-  padding:14px 17px;
-  border-radius:18px;
-  line-height:1.5;
-  font-size:15px;
+    max-width:75%;
+    padding:13px 16px;
+    margin-bottom:15px;
+    border-radius:17px;
+    font-size:14px;
+    line-height:1.5;
+    animation:messageIn .35s ease;
+}
+
+@keyframes messageIn{
+    from{
+        opacity:0;
+        transform:translateY(10px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
 }
 
 .message.bot{
-  background:#101010;
-  border:1px solid #202020;
-  align-self:flex-start;
+    background:#151512;
+    border:1px solid #39352e;
+    color:#ddd8cd;
+    margin-right:auto;
 }
 
 .message.user{
-  background:#2e2b26;
-  align-self:flex-end;
+    background:var(--beige);
+    color:#171611;
+    margin-left:auto;
 }
 
 .chat-input-area{
-  border-top:1px solid #191919;
-  padding:15px;
+    flex-shrink:0;
+    border-top:1px solid #292821;
+    padding:14px 18px;
 }
 
 .chat-input-box{
-  width:min(850px,100%);
-  margin:auto;
-  display:flex;
-  gap:10px;
+    width:min(850px,100%);
+    margin:auto;
+    display:flex;
+    gap:9px;
 }
 
-.chat-input-box input{
-  flex:1;
-  background:#101010;
-  border:1px solid #272727;
-  color:#eee;
-  border-radius:17px;
-  padding:15px;
-  outline:none;
+.chat-input{
+    flex:1;
+    padding:13px 15px;
+    border-radius:14px;
+    border:1px solid #38352e;
+    background:#11110f;
+    color:white;
+    outline:none;
+}
+
+.chat-input:focus{
+    border-color:var(--blue);
 }
 
 .chat-send{
-  width:50px;
-  border:none;
-  border-radius:16px;
-  background:#e9e2d4;
-  color:#111;
-  font-size:20px;
-}
-
-/* =========================
-   RESPONSIVE
-========================= */
-
-@media(max-width:700px){
-
-  header{
-    height:70px;
-    padding:0 17px;
-  }
-
-  .logo{
+    width:48px;
+    border:none;
+    border-radius:14px;
+    background:var(--beige);
+    color:#171611;
     font-size:18px;
-  }
-
-  .logo-mark{
-    width:34px;
-    height:34px;
-  }
-
-  .header-actions{
-    gap:7px;
-  }
-
-  .header-btn{
-    padding:9px 12px;
-    font-size:12px;
-  }
-
-  .header-name{
-    max-width:115px;
-    padding:9px 11px;
-    font-size:12px;
-  }
-
-  .hero{
-    min-height:730px;
-    padding:70px 17px 80px;
-  }
-
-  .hero-logo{
-    width:150px;
-    height:150px;
-    margin-bottom:55px;
-  }
-
-  .hero h1{
-    font-size:45px;
-    letter-spacing:-1.8px;
-    line-height:1.04;
-  }
-
-  .hero p{
-    font-size:17px;
-    line-height:1.55;
-    margin-top:35px;
-  }
-
-  .start-btn{
-    font-size:17px;
-    padding:18px 35px;
-    margin-top:40px;
-  }
-
-  .services{
-    padding:75px 16px;
-  }
-
-  .section-title{
-    font-size:38px;
-  }
-
-  .service-card{
-    padding:50px 25px;
-    min-height:330px;
-  }
-
-  .service-card h3{
-    font-size:34px;
-  }
-
-  .contact{
-    padding:75px 16px;
-  }
-
-  .contact-box{
-    padding:50px 23px;
-  }
-
-  .contact-box h2{
-    font-size:38px;
-  }
-
-  .modal{
-    padding:30px 21px;
-  }
-
-  .reset-modal h2{
-    font-size:31px;
-  }
-
-  .admin-user{
-    grid-template-columns:1fr;
-    gap:5px;
-  }
-
-  .message{
-    max-width:88%;
-  }
+    cursor:pointer;
 }
+
+.chat-send:hover{
+    background:var(--blue-light);
+    transform:translateY(-2px);
+}
+
+
+/* CUENTA */
+
+.account-area{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.account-name{
+    border:1px solid #514b40;
+    background:#11110f;
+    color:var(--cream);
+    padding:10px 15px;
+    border-radius:999px;
+    font-size:13px;
+}
+
+.account-admin{
+    border:1px solid var(--beige);
+    background:var(--beige);
+    color:#171611;
+    padding:10px 15px;
+    border-radius:999px;
+    font-size:13px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.account-logout{
+    border:1px solid #514b40;
+    background:#11110f;
+    color:var(--cream);
+    padding:10px 15px;
+    border-radius:999px;
+    font-size:13px;
+    cursor:pointer;
+}
+
+.account-admin:hover,
+.account-logout:hover{
+    transform:translateY(-2px);
+}
+
+
+/* NOTICE */
+
+.notice{
+    position:fixed;
+    inset:0;
+    z-index:3000;
+    background:rgba(0,0,0,.88);
+    backdrop-filter:blur(8px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    opacity:0;
+    visibility:hidden;
+}
+
+.notice.active{
+    opacity:1;
+    visibility:visible;
+}
+
+.notice-box{
+    width:min(430px,100%);
+    background:#11110f;
+    border:1px solid #554d3e;
+    border-radius:25px;
+    padding:32px;
+    text-align:center;
+    transform:translateY(25px) scale(.97);
+}
+
+.notice.active .notice-box{
+    transform:translateY(0) scale(1);
+}
+
+.notice-logo{
+    width:58px;
+    height:58px;
+    border:2px solid var(--beige);
+    border-radius:50%;
+    position:relative;
+    margin:0 auto 22px;
+}
+
+.notice-logo::before,
+.notice-logo::after{
+    content:"";
+    position:absolute;
+    width:34px;
+    height:2px;
+    background:var(--beige);
+    left:50%;
+    top:50%;
+}
+
+.notice-logo::before{
+    transform:translate(-50%,-50%) rotate(45deg);
+}
+
+.notice-logo::after{
+    transform:translate(-50%,-50%) rotate(-45deg);
+}
+
+.notice-box h2{
+    font-family:"Playfair Display",serif;
+    font-size:32px;
+    margin-bottom:9px;
+}
+
+.notice-box p{
+    color:#a8a39b;
+    line-height:1.55;
+    font-size:15px;
+}
+
+.notice-btn{
+    margin-top:23px;
+    padding:13px 25px;
+    border:none;
+    border-radius:999px;
+    background:var(--beige);
+    color:#171611;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.notice-btn:hover{
+    background:var(--blue-light);
+    transform:translateY(-2px);
+}
+
+
+/* NUEVA CONTRASEÑA */
+
+.reset-modal{
+    position:fixed;
+    inset:0;
+    z-index:3500;
+    background:rgba(0,0,0,.92);
+    backdrop-filter:blur(8px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    opacity:0;
+    visibility:hidden;
+}
+
+.reset-modal.active{
+    opacity:1;
+    visibility:visible;
+}
+
+.reset-box{
+    width:min(450px,100%);
+    background:#11110f;
+    border:1px solid #554d3e;
+    border-radius:25px;
+    padding:32px;
+    text-align:center;
+    transform:translateY(25px) scale(.97);
+}
+
+.reset-modal.active .reset-box{
+    transform:translateY(0) scale(1);
+}
+
+.reset-logo{
+    width:68px;
+    height:68px;
+    border:2px solid var(--beige);
+    border-radius:50%;
+    position:relative;
+    margin:0 auto 23px;
+}
+
+.reset-logo::before,
+.reset-logo::after{
+    content:"";
+    position:absolute;
+    width:39px;
+    height:2px;
+    background:var(--beige);
+    left:50%;
+    top:50%;
+}
+
+.reset-logo::before{
+    transform:translate(-50%,-50%) rotate(45deg);
+}
+
+.reset-logo::after{
+    transform:translate(-50%,-50%) rotate(-45deg);
+}
+
+.reset-box h2{
+    font-family:"Playfair Display",serif;
+    font-size:34px;
+    line-height:1.1;
+    margin-bottom:10px;
+}
+
+.reset-box p{
+    color:#a8a39b;
+    font-size:15px;
+    line-height:1.55;
+    margin-bottom:25px;
+}
+
+.reset-field{
+    text-align:left;
+    margin-bottom:14px;
+}
+
+.reset-field label{
+    display:block;
+    margin-bottom:7px;
+    color:#c9c2b7;
+    font-size:13px;
+}
+
+.reset-field input{
+    width:100%;
+    padding:14px;
+    border-radius:13px;
+    border:1px solid #39362f;
+    background:#080807;
+    color:white;
+    outline:none;
+    font-size:15px;
+}
+
+.reset-field input:focus{
+    border-color:var(--blue);
+}
+
+.reset-submit{
+    width:100%;
+    margin-top:5px;
+    padding:14px;
+    border:none;
+    border-radius:13px;
+    background:var(--beige);
+    color:#171611;
+    font-weight:700;
+    cursor:pointer;
+    font-size:15px;
+}
+
+.reset-submit:hover{
+    background:var(--blue-light);
+    transform:translateY(-2px);
+}
+
+
+/* ADMIN */
+
+.admin-modal{
+    position:fixed;
+    inset:0;
+    z-index:4000;
+    background:rgba(0,0,0,.9);
+    backdrop-filter:blur(8px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    opacity:0;
+    visibility:hidden;
+}
+
+.admin-modal.active{
+    opacity:1;
+    visibility:visible;
+}
+
+.admin-box{
+    width:min(850px,100%);
+    max-height:85vh;
+    overflow:auto;
+    background:#11110f;
+    border:1px solid #554d3e;
+    border-radius:25px;
+    padding:30px;
+    position:relative;
+    transform:translateY(25px) scale(.97);
+}
+
+.admin-modal.active .admin-box{
+    transform:translateY(0) scale(1);
+}
+
+.admin-box h2{
+    font-family:"Playfair Display",serif;
+    font-size:34px;
+    margin-bottom:5px;
+}
+
+.admin-box-subtitle{
+    color:#99948c;
+    margin-bottom:22px;
+}
+
+.admin-close{
+    position:absolute;
+    right:17px;
+    top:13px;
+    border:none;
+    background:none;
+    color:var(--beige);
+    font-size:28px;
+    cursor:pointer;
+}
+
+.admin-table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.admin-table th,
+.admin-table td{
+    padding:12px 8px;
+    border-bottom:1px solid #292721;
+    text-align:left;
+    font-size:13px;
+}
+
+.admin-table th{
+    color:var(--beige-light);
+}
+
+.admin-table td{
+    color:#c9c2b7;
+}
+
+.admin-count{
+    display:inline-block;
+    padding:7px 12px;
+    border-radius:999px;
+    background:#29261f;
+    color:var(--beige-light);
+    margin-bottom:18px;
+    font-size:13px;
+}
+
+
+/* PC */
+
+@media(min-width:901px){
+
+    header{
+        padding:14px 35px;
+    }
+
+    .header-inner{
+        max-width:1350px;
+    }
+
+    .brand{
+        font-size:20px;
+    }
+
+    .logo{
+        width:43px;
+        height:43px;
+    }
+
+    .auth button{
+        padding:12px 21px;
+        font-size:15px;
+    }
+
+    .hero{
+        width:min(1400px,calc(100% - 70px));
+        min-height:36vh;
+        padding:20px 30px 25px;
+    }
+
+    .hero-logo{
+        width:78px;
+        height:78px;
+        margin-bottom:18px;
+    }
+
+    .hero-logo::before,
+    .hero-logo::after{
+        width:46px;
+    }
+
+    .hero-logo-dot{
+        width:12px;
+        height:12px;
+    }
+
+    /* SOLO PC: letras más grandes */
+    .hero h1{
+        max-width:1150px;
+        font-size:clamp(58px,5.4vw,88px);
+        line-height:.97;
+        letter-spacing:-2.8px;
+    }
+
+    .hero-text{
+        max-width:900px;
+        margin-top:16px;
+        font-size:18px;
+        line-height:1.45;
+    }
+
+    .main-btn{
+        margin-top:17px;
+        padding:14px 30px;
+        font-size:16px;
+    }
+
+    .services{
+        width:min(1400px,calc(100% - 70px));
+        padding:25px 0 28px;
+    }
+
+    .section-label{
+        font-size:12px;
+        letter-spacing:6px;
+        margin-bottom:10px;
+    }
+
+    .services h2{
+        max-width:1000px;
+        font-size:clamp(48px,4.8vw,68px);
+        line-height:1;
+    }
+
+    .services-description{
+        max-width:850px;
+        margin-top:9px;
+        font-size:17px;
+        line-height:1.4;
+    }
+
+    .carousel-wrapper{
+        margin-top:20px;
+    }
+
+    .carousel{
+        min-height:165px;
+    }
+
+    .service-card{
+        width:min(700px,70vw);
+        min-height:165px;
+        padding:24px 29px;
+        border-radius:20px;
+    }
+
+    .card-line{
+        width:40px;
+        height:3px;
+        margin-bottom:12px;
+    }
+
+    .service-card h3{
+        font-size:30px;
+        margin-bottom:6px;
+    }
+
+    .service-card p{
+        font-size:15px;
+        line-height:1.4;
+    }
+
+    .carousel-dots{
+        margin-top:12px;
+    }
+
+    .contact{
+        width:min(1200px,calc(100% - 70px));
+        padding:25px 20px 27px;
+    }
+
+    .contact h2{
+        max-width:1050px;
+        font-size:clamp(44px,4.3vw,62px);
+    }
+
+    .contact p{
+        max-width:850px;
+        margin-top:9px;
+        font-size:16px;
+        line-height:1.4;
+    }
+
+    .contact-btn{
+        margin-top:12px;
+        padding:12px 24px;
+        font-size:14px;
+    }
+
+    footer{
+        padding:12px 20px 14px;
+    }
+
+    footer strong{
+        font-size:14px;
+        margin-bottom:3px;
+    }
+
+    footer span{
+        font-size:12px;
+    }
+}
+
+
+/* PC POCA ALTURA */
+
+@media(min-width:901px) and (max-height:800px){
+
+    header{
+        padding:8px 30px;
+    }
+
+    .hero{
+        min-height:34vh;
+        padding-top:10px;
+        padding-bottom:12px;
+    }
+
+    .hero-logo{
+        width:64px;
+        height:64px;
+        margin-bottom:11px;
+    }
+
+    .hero-logo::before,
+    .hero-logo::after{
+        width:38px;
+    }
+
+    .hero-logo-dot{
+        width:10px;
+        height:10px;
+    }
+
+    .hero h1{
+        font-size:clamp(52px,4.8vw,70px);
+    }
+
+    .hero-text{
+        margin-top:9px;
+        font-size:15px;
+    }
+
+    .main-btn{
+        margin-top:10px;
+        padding:10px 23px;
+    }
+
+    .services{
+        padding-top:15px;
+        padding-bottom:18px;
+    }
+
+    .services h2{
+        font-size:clamp(42px,4vw,56px);
+    }
+
+    .services-description{
+        font-size:14px;
+    }
+
+    .carousel-wrapper{
+        margin-top:13px;
+    }
+
+    .carousel{
+        min-height:130px;
+    }
+
+    .service-card{
+        min-height:130px;
+        padding:17px 23px;
+    }
+
+    .service-card h3{
+        font-size:25px;
+    }
+
+    .service-card p{
+        font-size:12px;
+    }
+
+    .carousel-dots{
+        margin-top:7px;
+    }
+
+    .contact{
+        padding-top:16px;
+        padding-bottom:17px;
+    }
+
+    .contact h2{
+        font-size:clamp(38px,3.7vw,52px);
+    }
+
+    .contact p{
+        font-size:12px;
+        margin-top:6px;
+    }
+
+    .contact-btn{
+        margin-top:7px;
+        padding:8px 19px;
+        font-size:11px;
+    }
+
+    footer{
+        padding:8px 20px 10px;
+    }
+}
+
+
+/* MOVIL */
+
+@media(max-width:600px){
+
+    header{
+        padding:13px 12px;
+    }
+
+    .header-inner{
+        gap:8px;
+    }
+
+    .brand{
+        font-size:14px;
+        gap:7px;
+    }
+
+    .logo{
+        width:34px;
+        height:34px;
+    }
+
+    .logo::before,
+    .logo::after{
+        width:20px;
+    }
+
+    .logo-dot{
+        width:6px;
+        height:6px;
+    }
+
+    .auth{
+        gap:4px;
+    }
+
+    .auth button{
+        padding:8px 10px;
+        font-size:10px;
+    }
+
+    .hero{
+        width:100%;
+        min-height:calc(100svh - 60px);
+        padding:55px 15px 70px;
+    }
+
+    .hero-logo{
+        width:84px;
+        height:84px;
+        margin-bottom:30px;
+    }
+
+    .hero-logo::before,
+    .hero-logo::after{
+        width:49px;
+    }
+
+    .hero h1{
+        font-size:42px;
+        line-height:1.02;
+        letter-spacing:-1.8px;
+    }
+
+    .hero-text{
+        margin-top:25px;
+        font-size:15px;
+        line-height:1.65;
+    }
+
+    .main-btn{
+        margin-top:29px;
+        padding:15px 25px;
+        font-size:15px;
+    }
+
+    .services{
+        width:100%;
+        padding:75px 15px 85px;
+    }
+
+    .section-label{
+        font-size:10px;
+        letter-spacing:5px;
+    }
+
+    .services h2{
+        font-size:40px;
+        line-height:1.04;
+    }
+
+    .services-description{
+        font-size:15px;
+        line-height:1.6;
+    }
+
+    .carousel-wrapper{
+        margin-top:35px;
+    }
+
+    .carousel{
+        min-height:205px;
+    }
+
+    .service-card{
+        width:min(330px,90vw);
+        min-height:205px;
+        padding:27px;
+    }
+
+    .service-card h3{
+        font-size:24px;
+    }
+
+    .service-card p{
+        font-size:14px;
+    }
+
+    .contact{
+        width:100%;
+        padding:75px 18px 85px;
+    }
+
+    .contact h2{
+        font-size:40px;
+    }
+
+    .contact p{
+        font-size:15px;
+        line-height:1.65;
+    }
+
+    footer{
+        padding-bottom:30px;
+    }
+
+    .message{
+        max-width:88%;
+    }
+
+    .account-name{
+        max-width:95px;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        white-space:nowrap;
+        padding:8px 9px;
+        font-size:9px;
+    }
+
+    .account-admin,
+    .account-logout{
+        padding:8px 9px;
+        font-size:9px;
+    }
+
+    .admin-box{
+        padding:24px 17px;
+    }
+
+    .admin-box h2{
+        font-size:29px;
+    }
+
+    .admin-table th,
+    .admin-table td{
+        padding:9px 5px;
+        font-size:10px;
+    }
+
+    .reset-box{
+        padding:27px 22px;
+    }
+
+    .reset-box h2{
+        font-size:30px;
+    }
+}
+
+
+/* REDUCIR ANIMACIONES */
+
+@media(prefers-reduced-motion:reduce){
+
+    *,
+    *::before,
+    *::after{
+        animation-duration:.01ms !important;
+        animation-iteration-count:1 !important;
+        scroll-behavior:auto !important;
+        transition-duration:.01ms !important;
+    }
+}
+
 </style>
 </head>
 
 <body>
 
-<!-- =========================
-     HEADER
-========================= -->
+<div class="page">
 
 <header>
 
-  <div class="logo">
-    <div class="logo-mark">
-      <div class="logo-dot"></div>
-    </div>
-    <span>SparkyKrea</span>
-  </div>
+<div class="header-inner">
 
-  <div class="header-actions" id="headerActions">
-    <button class="header-btn" id="loginHeaderBtn">
-      Iniciar sesión
-    </button>
+<a href="#" class="brand">
 
-    <button class="header-btn primary" id="registerHeaderBtn">
-      Registrarse
-    </button>
-  </div>
+<div class="logo">
+<div class="logo-dot"></div>
+</div>
+
+<span>SparkyKrea</span>
+
+</a>
+
+<div class="auth" id="authArea">
+
+<button onclick="openModal('login')">
+Iniciar sesión
+</button>
+
+<button
+class="register"
+onclick="openModal('register')"
+>
+Registrarse
+</button>
+
+</div>
+
+</div>
 
 </header>
 
-<!-- =========================
-     HERO
-========================= -->
-
-<main>
 
 <section class="hero">
 
-  <div class="hero-logo">
-    <div class="hero-logo-dot"></div>
-  </div>
+<div class="hero-logo">
+<div class="hero-logo-dot"></div>
+</div>
 
-  <h1>
-    Damos forma a ideas que
-    <span>merecen</span>
-    hacerse realidad.
-  </h1>
+<h1>
 
-  <p>
-    Estrategia, creatividad y desarrollo para convertir una visión
-    en una propuesta clara, atractiva y bien construida.
-  </p>
+Damos forma a
 
-  <button class="start-btn" id="startChatBtn">
-    Comenzar ahora →
-  </button>
+<br>
+
+ideas que
+<span>merecen</span>
+
+<br>
+
+hacerse realidad.
+
+</h1>
+
+<p class="hero-text">
+
+Estrategia, creatividad y desarrollo para convertir
+una visión en una propuesta clara, atractiva y bien
+construida.
+
+</p>
+
+<button
+class="main-btn"
+onclick="openChat()"
+>
+
+Comenzar ahora&nbsp; →
+
+</button>
 
 </section>
 
-<!-- =========================
-     SERVICES
-========================= -->
 
 <section class="services">
 
-  <h2 class="section-title">
-    Lo que hacemos
-  </h2>
+<div class="section-label">
+SERVICIOS
+</div>
 
-  <div class="carousel">
+<h2>
+Construimos cada idea
+desde su esencia.
+</h2>
 
-    <div class="carousel-track" id="carouselTrack">
+<p class="services-description">
 
-      <div class="service-card">
-        <div class="service-number">01</div>
-        <h3>Estrategia</h3>
-        <p>
-          Convertimos ideas iniciales en conceptos claros,
-          estructurados y preparados para crecer.
-        </p>
-      </div>
+Analizamos lo que tienes, entendemos hacia dónde
+quieres llegar y damos forma a una propuesta con
+sentido.
 
-      <div class="service-card">
-        <div class="service-number">02</div>
-        <h3>Creatividad</h3>
-        <p>
-          Desarrollamos identidades, conceptos y experiencias
-          visuales pensadas para destacar.
-        </p>
-      </div>
+</p>
 
-      <div class="service-card">
-        <div class="service-number">03</div>
-        <h3>Desarrollo</h3>
-        <p>
-          Construimos propuestas digitales funcionales,
-          modernas y adaptadas a cada proyecto.
-        </p>
-      </div>
+<div class="carousel-wrapper">
 
-      <div class="service-card">
-        <div class="service-number">04</div>
-        <h3>Proyectos</h3>
-        <p>
-          Acompañamos cada idea desde su primera versión
-          hasta convertirla en una propuesta completa.
-        </p>
-      </div>
+<div class="carousel">
 
-    </div>
+<article class="service-card active">
 
-  </div>
+<div class="card-line"></div>
 
-  <div class="carousel-dots" id="carouselDots"></div>
+<h3>
+Marketing y estrategia
+</h3>
+
+<p>
+Analizamos tu propuesta y construimos
+una dirección clara para hacerla crecer.
+</p>
+
+</article>
+
+
+<article class="service-card">
+
+<div class="card-line"></div>
+
+<h3>
+Contenido creativo
+</h3>
+
+<p>
+Ideas y contenido pensado para conectar
+con las personas.
+</p>
+
+</article>
+
+
+<article class="service-card">
+
+<div class="card-line"></div>
+
+<h3>
+Identidad y presencia
+</h3>
+
+<p>
+Una identidad coherente, reconocible
+y alineada con tu proyecto.
+</p>
+
+</article>
+
+
+<article class="service-card">
+
+<div class="card-line"></div>
+
+<h3>
+Desarrollo y experiencia
+</h3>
+
+<p>
+Convertimos conceptos en experiencias
+digitales funcionales.
+</p>
+
+</article>
+
+
+<article class="service-card">
+
+<div class="card-line"></div>
+
+<h3>
+Campañas y crecimiento
+</h3>
+
+<p>
+Organizamos acciones para llevar
+tu proyecto más lejos.
+</p>
+
+</article>
+
+</div>
+
+<div
+class="carousel-dots"
+id="carouselDots"
+></div>
+
+</div>
 
 </section>
 
-<!-- =========================
-     CONTACT
-========================= -->
 
 <section class="contact">
 
-  <div class="contact-box">
+<div class="section-label">
+CONTACTO
+</div>
 
-    <h2>¿Tienes una idea?</h2>
+<h2>
+Tu opinión también
+forma parte de SparkyKrea.
+</h2>
 
-    <p>
-      Cuéntanos qué quieres construir y comencemos
-      a darle forma juntos.
-    </p>
+<p>
 
-    <button class="contact-btn" id="contactChatBtn">
-      Hablar con SparkyKrea →
-    </button>
+Queremos saber qué piensas. ¿Tienes una sugerencia,
+una crítica, encontraste algún problema o simplemente
+quieres contarnos algo? Déjanos saber tu opinión.
 
-  </div>
+</p>
+
+<button
+class="contact-btn"
+onclick="contactar()"
+>
+
+Contáctanos →
+
+</button>
 
 </section>
 
-</main>
 
 <footer>
-  © 2026 SparkyKrea. Todos los derechos reservados.
+
+<strong>
+by SparkyKreate
+</strong>
+
+<span>
+asesoría de marketing
+</span>
+
 </footer>
 
+</div>
 
-<!-- =========================
-     LOGIN
-========================= -->
 
-<div class="overlay" id="loginOverlay">
+<!-- LOGIN / REGISTRO -->
 
-  <div class="modal">
+<div
+class="modal"
+id="modal"
+onclick="outsideModal(event)"
+>
 
-    <button class="close" data-close="loginOverlay">×</button>
+<div
+class="modal-box"
+onclick="event.stopPropagation()"
+>
 
-    <div class="modal-logo">
-      <div></div>
-    </div>
+<button
+class="close-modal"
+onclick="closeModal()"
+>
+×
+</button>
 
-    <h2>Bienvenido</h2>
+<h2 id="modalTitle">
+Iniciar sesión
+</h2>
 
-    <p class="modal-sub">
-      Inicia sesión para continuar en SparkyKrea.
-    </p>
+<p id="modalDescription">
+Accede a tu espacio en SparkyKrea.
+</p>
 
-    <div class="form-group">
-      <input
-        type="email"
-        id="loginEmail"
-        placeholder="Correo electrónico"
-        autocomplete="email"
-      >
-    </div>
+<div
+class="field"
+id="nameField"
+style="display:none;"
+>
 
-    <div class="form-group">
-      <input
-        type="password"
-        id="loginPassword"
-        placeholder="Contraseña"
-        autocomplete="current-password"
-      >
-    </div>
+<label>
+Nombre
+</label>
 
-    <button class="form-button" id="loginBtn">
-      Iniciar sesión →
-    </button>
+<input
+id="firstName"
+type="text"
+placeholder="Tu nombre"
+>
 
-    <button class="secondary-link" id="forgotBtn">
-      ¿Olvidaste tu contraseña?
-    </button>
+</div>
 
-    <button class="secondary-link" id="goRegisterBtn">
-      Crear una cuenta
-    </button>
+<div
+class="field"
+id="surnameField"
+style="display:none;"
+>
 
-    <div class="error-text" id="loginError"></div>
+<label>
+Apellido
+</label>
 
-  </div>
+<input
+id="lastName"
+type="text"
+placeholder="Tu apellido"
+>
+
+</div>
+
+<div class="field">
+
+<label>
+Correo electrónico
+</label>
+
+<input
+id="email"
+type="email"
+placeholder="correo@ejemplo.com"
+>
+
+</div>
+
+<div class="field">
+
+<label>
+Contraseña
+</label>
+
+<input
+id="password"
+type="password"
+placeholder="Tu contraseña"
+>
+
+</div>
+
+<button
+class="submit-btn"
+onclick="submitAuth()"
+>
+
+Continuar
+
+</button>
+
+<button
+class="forgot-password"
+id="forgotPasswordButton"
+onclick="openForgotPassword()"
+>
+
+¿Olvidaste tu contraseña?
+
+</button>
+
+</div>
 
 </div>
 
 
-<!-- =========================
-     REGISTER
-========================= -->
+<!-- RECUPERAR CONTRASEÑA -->
 
-<div class="overlay" id="registerOverlay">
+<div
+class="modal"
+id="forgotModal"
+onclick="outsideForgotModal(event)"
+>
 
-  <div class="modal">
+<div
+class="modal-box"
+onclick="event.stopPropagation()"
+>
 
-    <button class="close" data-close="registerOverlay">×</button>
+<button
+class="close-modal"
+onclick="closeForgotPassword()"
+>
+×
+</button>
 
-    <div class="modal-logo">
-      <div></div>
-    </div>
+<h2>
+Recuperar contraseña
+</h2>
 
-    <h2>Crear cuenta</h2>
+<p>
+Escribe tu correo y te enviaremos un enlace para crear una nueva contraseña.
+</p>
 
-    <p class="modal-sub">
-      Forma parte de SparkyKrea.
-    </p>
+<div class="field">
 
-    <div class="form-group">
-      <input
-        type="text"
-        id="registerFirstName"
-        placeholder="Nombre"
-        autocomplete="given-name"
-      >
-    </div>
+<label>
+Correo electrónico
+</label>
 
-    <div class="form-group">
-      <input
-        type="text"
-        id="registerLastName"
-        placeholder="Apellido"
-        autocomplete="family-name"
-      >
-    </div>
+<input
+id="recoveryEmail"
+type="email"
+placeholder="correo@ejemplo.com"
+>
 
-    <div class="form-group">
-      <input
-        type="email"
-        id="registerEmail"
-        placeholder="Correo electrónico"
-        autocomplete="email"
-      >
-    </div>
+</div>
 
-    <div class="form-group">
-      <input
-        type="password"
-        id="registerPassword"
-        placeholder="Contraseña"
-        autocomplete="new-password"
-      >
-    </div>
+<button
+class="submit-btn"
+onclick="sendRecoveryEmail()"
+>
 
-    <button class="form-button" id="registerBtn">
-      Registrarse →
-    </button>
+Enviar enlace →
 
-    <button class="secondary-link" id="goLoginBtn">
-      Ya tengo una cuenta
-    </button>
+</button>
 
-    <div class="error-text" id="registerError"></div>
-
-  </div>
+</div>
 
 </div>
 
 
-<!-- =========================
-     FORGOT PASSWORD
-========================= -->
+<!-- MENSAJE -->
 
-<div class="overlay" id="forgotOverlay">
+<div
+class="notice"
+id="notice"
+>
 
-  <div class="modal">
+<div class="notice-box">
 
-    <button class="close" data-close="forgotOverlay">×</button>
+<div class="notice-logo"></div>
 
-    <div class="modal-logo">
-      <div></div>
-    </div>
+<h2 id="noticeTitle">
+SparkyKrea
+</h2>
 
-    <h2>Recuperar contraseña</h2>
+<p id="noticeText"></p>
 
-    <p class="modal-sub">
-      Escribe tu correo y te enviaremos un enlace para restablecer tu contraseña.
-    </p>
+<button
+class="notice-btn"
+id="noticeButton"
+onclick="closeNotice()"
+>
+Continuar →
+</button>
 
-    <div class="form-group">
-      <input
-        type="email"
-        id="forgotEmail"
-        placeholder="Correo electrónico"
-        autocomplete="email"
-      >
-    </div>
-
-    <button class="form-button" id="forgotSubmitBtn">
-      Enviar enlace →
-    </button>
-
-    <button class="secondary-link" id="backLoginBtn">
-      Volver a iniciar sesión
-    </button>
-
-    <div class="error-text" id="forgotError"></div>
-
-  </div>
+</div>
 
 </div>
 
 
-<!-- =========================
-     PASSWORD RESET
-========================= -->
+<!-- NUEVA CONTRASEÑA -->
 
-<div class="overlay" id="resetOverlay">
+<div
+class="reset-modal"
+id="resetModal"
+>
 
-  <div class="modal reset-modal">
+<div class="reset-box">
 
-    <div class="reset-icon">
-      <span></span>
-    </div>
+<div class="reset-logo"></div>
 
-    <h2>Crea tu nueva contraseña</h2>
+<h2>
+Crea tu nueva contraseña
+</h2>
 
-    <p class="modal-sub">
-      Escribe una nueva contraseña para volver a acceder
-      a tu cuenta de SparkyKrea.
-    </p>
+<p>
+Escribe una nueva contraseña para volver a acceder a tu cuenta de SparkyKrea.
+</p>
 
-    <div class="form-group">
-      <input
-        type="password"
-        id="newPassword"
-        placeholder="Nueva contraseña"
-        autocomplete="new-password"
-      >
-    </div>
+<div class="reset-field">
 
-    <div class="form-group">
-      <input
-        type="password"
-        id="confirmPassword"
-        placeholder="Confirmar contraseña"
-        autocomplete="new-password"
-      >
-    </div>
+<label>
+Nueva contraseña
+</label>
 
-    <button class="form-button" id="updatePasswordBtn">
-      Actualizar contraseña →
-    </button>
+<input
+id="newPassword"
+type="password"
+placeholder="Tu nueva contraseña"
+autocomplete="new-password"
+>
 
-    <div class="error-text" id="resetError"></div>
+</div>
 
-  </div>
+<div class="reset-field">
+
+<label>
+Confirmar contraseña
+</label>
+
+<input
+id="confirmPassword"
+type="password"
+placeholder="Repite tu nueva contraseña"
+autocomplete="new-password"
+>
+
+</div>
+
+<button
+class="reset-submit"
+onclick="updatePassword()"
+>
+
+Actualizar contraseña →
+
+</button>
+
+</div>
 
 </div>
 
 
-<!-- =========================
-     NOTICE
-========================= -->
+<!-- ADMIN -->
 
-<div class="overlay" id="notice">
+<div
+class="admin-modal"
+id="adminModal"
+>
 
-  <div class="modal notice-box">
+<div class="admin-box">
 
-    <div class="modal-logo">
-      <div></div>
-    </div>
+<button
+class="admin-close"
+onclick="closeAdminPanel()"
+>
+×
+</button>
 
-    <h2 id="noticeTitle">
-      SparkyKrea
-    </h2>
+<h2>
+Panel de administrador
+</h2>
 
-    <p id="noticeText"></p>
+<p class="admin-box-subtitle">
+Usuarios registrados en SparkyKrea.
+</p>
 
-    <button class="notice-btn" id="noticeButton">
-      Continuar →
-    </button>
+<div
+class="admin-count"
+id="adminCount"
+>
+Cargando usuarios...
+</div>
 
-  </div>
+<div style="overflow-x:auto;">
+
+<table class="admin-table">
+
+<thead>
+
+<tr>
+
+<th>
+Nombre
+</th>
+
+<th>
+Correo
+</th>
+
+<th>
+Rol
+</th>
+
+<th>
+Fecha
+</th>
+
+</tr>
+
+</thead>
+
+<tbody id="adminUsers">
+
+<tr>
+
+<td colspan="4">
+Cargando...
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
 
 </div>
 
 
-<!-- =========================
-     ADMIN
-========================= -->
+<!-- CHAT -->
 
-<div class="overlay" id="adminOverlay">
+<div
+class="chat"
+id="chat"
+>
 
-  <div class="modal admin-modal">
+<div class="chat-header">
 
-    <button class="close" data-close="adminOverlay">×</button>
+<div class="chat-brand">
 
-    <div class="modal-logo">
-      <div></div>
-    </div>
+<div class="chat-logo"></div>
 
-    <h2>Panel</h2>
+<span>
+SparkyKrea
+</span>
 
-    <p class="modal-sub">
-      Usuarios registrados en SparkyKrea.
-    </p>
+</div>
 
-    <div class="admin-list" id="adminList">
-      Cargando usuarios...
-    </div>
+<button
+class="chat-close"
+onclick="closeChat()"
+>
+×
+</button>
 
-  </div>
+</div>
+
+<div
+class="chat-content"
+id="chatContent"
+>
+
+<div
+class="message bot"
+id="welcome"
+>
+Hola. Cuéntame qué deseas hacer.
+</div>
+
+</div>
+
+<div class="chat-input-area">
+
+<div class="chat-input-box">
+
+<input
+class="chat-input"
+id="chatInput"
+placeholder="Escribe aquí..."
+onkeydown="handleEnter(event)"
+>
+
+<button
+class="chat-send"
+onclick="sendMessage()"
+>
+↑
+</button>
+
+</div>
+
+</div>
 
 </div>
 
 
-<!-- =========================
-     CHAT
-========================= -->
-
-<div class="chat-overlay" id="chatOverlay">
-
-  <div class="chat-header">
-
-    <div class="chat-title">
-
-      <div class="chat-title-mark"></div>
-
-      <strong>SparkyKrea</strong>
-
-    </div>
-
-    <button class="chat-close" id="closeChat">
-      ×
-    </button>
-
-  </div>
-
-  <div class="chat-body">
-
-    <div class="chat-messages" id="chatMessages"></div>
-
-  </div>
-
-  <div class="chat-input-area">
-
-    <div class="chat-input-box">
-
-      <input
-        type="text"
-        id="chatInput"
-        placeholder="Escribe tu mensaje..."
-      >
-
-      <button class="chat-send" id="chatSend">
-        →
-      </button>
-
-    </div>
-
-  </div>
-
-</div>
-
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-/* =========================================================
-   SUPABASE
-========================================================= */
+
+/* SUPABASE */
 
 const SUPABASE_URL =
-  "https://lvsntxkywjyxumlgtayl.supabase.co";
+"https://lvsntxkywjyxumlgtayl.supabase.co";
 
 const SUPABASE_PUBLISHABLE_KEY =
-  "sb_publishable_bhzMbxUHakbytVuVlNcz8A_f2f6szGA";
+"sb_publishable_bhzMbxUHakbytVuVlNcz8A_f2f6szGA";
 
-const HOME_URL =
-  "https://sparky-kreate.github.io/SparkyKreate/";
+const SUPABASE_REDIRECT_URL =
+"https://sparky-kreate.github.io/SparkyKreate/";
 
 const supabaseClient =
-  window.supabase.createClient(
+window.supabase.createClient(
     SUPABASE_URL,
-    SUPABASE_PUBLISHABLE_KEY,
-    {
-      auth:{
-        persistSession:true,
-        autoRefreshToken:true,
-
-        /*
-          IMPORTANTE:
-
-          Desactivamos el procesamiento automático de la URL.
-
-          Así podemos detectar nosotros mismos si la URL
-          pertenece a una recuperación de contraseña antes
-          de cargar el usuario normal.
-        */
-        detectSessionInUrl:false
-      }
-    }
-  );
+    SUPABASE_PUBLISHABLE_KEY
+);
 
 
-/* =========================================================
-   ESTADO
-========================================================= */
+/* ADMIN */
+
+const ADMIN_EMAIL =
+"guillermojose170512@gmail.com";
 
 let currentUser = null;
 let currentProfile = null;
-
-let recoveryMode = false;
-let recoveryProcessing = false;
-let passwordUpdated = false;
+let authMode = "login";
 
 
-/* =========================================================
-   ELEMENTOS
-========================================================= */
-
-const loginOverlay =
-  document.getElementById("loginOverlay");
-
-const registerOverlay =
-  document.getElementById("registerOverlay");
-
-const forgotOverlay =
-  document.getElementById("forgotOverlay");
-
-const resetOverlay =
-  document.getElementById("resetOverlay");
-
-const adminOverlay =
-  document.getElementById("adminOverlay");
-
-const notice =
-  document.getElementById("notice");
-
-const chatOverlay =
-  document.getElementById("chatOverlay");
-
-
-/* =========================================================
-   OVERLAYS
-========================================================= */
-
-function openOverlay(element){
-  element.classList.add("active");
-}
-
-function closeOverlay(element){
-  element.classList.remove("active");
-}
-
-function closeAllOverlays(){
-  document.querySelectorAll(".overlay").forEach(el=>{
-    el.classList.remove("active");
-  });
-}
-
-
-/* =========================================================
-   NOTICE
-========================================================= */
+/* NOTICE */
 
 function showNotice(
-  title,
-  text,
-  buttonText="Continuar →",
-  buttonAction=null
+    title,
+    text,
+    buttonText="Continuar →",
+    buttonAction=null
 ){
 
-  document.getElementById("noticeTitle").textContent =
-    title;
+    document
+    .getElementById("noticeTitle")
+    .textContent = title;
 
-  document.getElementById("noticeText").textContent =
-    text;
+    document
+    .getElementById("noticeText")
+    .textContent = text;
 
-  const button =
+    const button =
     document.getElementById("noticeButton");
 
-  button.textContent = buttonText;
+    button.textContent =
+    buttonText;
 
-  button.onclick =
+    button.onclick =
     buttonAction || closeNotice;
 
-  openOverlay(notice);
+    document
+    .getElementById("notice")
+    .classList
+    .add("active");
 }
+
 
 function closeNotice(){
-  closeOverlay(notice);
+
+    document
+    .getElementById("notice")
+    .classList
+    .remove("active");
+
 }
 
 
-/* =========================================================
-   HEADER
-========================================================= */
+/* LOGIN / REGISTRO */
 
-function renderLoggedOutHeader(){
+function openModal(mode){
 
-  const headerActions =
-    document.getElementById("headerActions");
+    authMode = mode;
 
-  headerActions.innerHTML = `
-    <button class="header-btn" id="loginHeaderBtn">
-      Iniciar sesión
-    </button>
+    document
+    .getElementById("modal")
+    .classList
+    .add("active");
 
-    <button class="header-btn primary" id="registerHeaderBtn">
-      Registrarse
-    </button>
-  `;
+    const nameField =
+    document.getElementById("nameField");
 
-  document
-    .getElementById("loginHeaderBtn")
-    .onclick = ()=>{
-      openOverlay(loginOverlay);
-    };
+    const surnameField =
+    document.getElementById("surnameField");
 
-  document
-    .getElementById("registerHeaderBtn")
-    .onclick = ()=>{
-      openOverlay(registerOverlay);
-    };
-}
+    const forgotButton =
+    document.getElementById("forgotPasswordButton");
 
+    if(mode === "register"){
 
-function renderLoggedInHeader(){
+        document
+        .getElementById("modalTitle")
+        .textContent =
+        "Crear cuenta";
 
-  if(!currentProfile && !currentUser){
-    renderLoggedOutHeader();
-    return;
-  }
+        document
+        .getElementById("modalDescription")
+        .textContent =
+        "Crea tu espacio en SparkyKrea.";
 
-  const firstName =
-    currentProfile?.first_name ||
-    currentUser?.user_metadata?.first_name ||
-    "";
+        nameField.style.display =
+        "block";
 
-  const lastName =
-    currentProfile?.last_name ||
-    currentUser?.user_metadata?.last_name ||
-    "";
+        surnameField.style.display =
+        "block";
 
-  const fullName =
-    `${firstName} ${lastName}`.trim() ||
-    currentUser?.email ||
-    "Usuario";
+        forgotButton.style.display =
+        "none";
 
-  const isAdmin =
-    currentProfile?.role === "admin";
+    }else{
 
-  const headerActions =
-    document.getElementById("headerActions");
+        document
+        .getElementById("modalTitle")
+        .textContent =
+        "Iniciar sesión";
 
-  headerActions.innerHTML = `
-    <button class="header-name" id="userNameBtn">
-      ${escapeHTML(fullName)}
-    </button>
+        document
+        .getElementById("modalDescription")
+        .textContent =
+        "Accede a tu espacio en SparkyKrea.";
 
-    ${
-      isAdmin
-      ?
-      `
-      <button class="header-btn panel-btn" id="adminHeaderBtn">
-        Panel
-      </button>
-      `
-      :
-      ""
+        nameField.style.display =
+        "none";
+
+        surnameField.style.display =
+        "none";
+
+        forgotButton.style.display =
+        "block";
+
     }
 
-    <button class="header-btn panel-btn" id="logoutBtn">
-      Salir
-    </button>
-  `;
-
-  document
-    .getElementById("logoutBtn")
-    .onclick = logout;
-
-  const adminButton =
-    document.getElementById("adminHeaderBtn");
-
-  if(adminButton){
-    adminButton.onclick =
-      loadAdminPanel;
-  }
 }
 
 
-/* =========================================================
-   ESCAPE HTML
-========================================================= */
+function closeModal(){
 
-function escapeHTML(value){
+    document
+    .getElementById("modal")
+    .classList
+    .remove("active");
 
-  return String(value ?? "")
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
 }
 
 
-/* =========================================================
-   PERFIL
-========================================================= */
+function outsideModal(event){
 
-async function loadCurrentUser(){
+    if(event.target.id === "modal"){
 
-  /*
-    Si estamos recuperando contraseña,
-    NO cargamos el perfil normal.
-  */
+        closeModal();
 
-  if(recoveryMode){
-    return;
-  }
-
-  const {
-    data:{
-      user
     }
-  } =
-    await supabaseClient.auth.getUser();
 
-  if(!user){
-
-    currentUser = null;
-    currentProfile = null;
-
-    renderLoggedOutHeader();
-
-    return;
-  }
-
-  currentUser = user;
-
-  const {
-    data:profile,
-    error
-  } =
-    await supabaseClient
-      .from("profiles")
-      .select(
-        "id,first_name,last_name,email,role,created_at"
-      )
-      .eq("id",user.id)
-      .maybeSingle();
-
-  if(!error){
-    currentProfile = profile;
-  }
-
-  renderLoggedInHeader();
 }
 
 
-/* =========================================================
-   REGISTRO
-========================================================= */
+/* RECUPERAR */
 
-async function register(){
+function openForgotPassword(){
 
-  const firstName =
+    const loginEmail =
     document
-      .getElementById("registerFirstName")
-      .value
-      .trim();
+    .getElementById("email")
+    .value
+    .trim()
+    .toLowerCase();
 
-  const lastName =
+    if(loginEmail){
+
+        document
+        .getElementById("recoveryEmail")
+        .value =
+        loginEmail;
+
+    }
+
+    closeModal();
+
     document
-      .getElementById("registerLastName")
-      .value
-      .trim();
+    .getElementById("forgotModal")
+    .classList
+    .add("active");
 
-  const email =
+}
+
+
+function closeForgotPassword(){
+
     document
-      .getElementById("registerEmail")
-      .value
-      .trim()
-      .toLowerCase();
+    .getElementById("forgotModal")
+    .classList
+    .remove("active");
 
-  const password =
+}
+
+
+function outsideForgotModal(event){
+
+    if(event.target.id === "forgotModal"){
+
+        closeForgotPassword();
+
+    }
+
+}
+
+
+/* ENVIAR RECUPERACIÓN */
+
+async function sendRecoveryEmail(){
+
+    const email =
     document
-      .getElementById("registerPassword")
-      .value;
+    .getElementById("recoveryEmail")
+    .value
+    .trim()
+    .toLowerCase();
 
-  const errorBox =
-    document.getElementById("registerError");
+    if(!email){
 
-  errorBox.textContent = "";
+        showNotice(
+            "Falta información",
+            "Escribe tu correo electrónico para continuar."
+        );
 
-  if(!firstName || !lastName || !email || !password){
+        return;
 
-    errorBox.textContent =
-      "Completa todos los campos.";
+    }
 
-    return;
-  }
+    const button =
+    document.querySelector(
+        "#forgotModal .submit-btn"
+    );
 
-  if(password.length < 6){
+    button.disabled = true;
 
-    errorBox.textContent =
-      "La contraseña debe tener al menos 6 caracteres.";
+    button.textContent =
+    "Enviando...";
 
-    return;
-  }
-
-  const button =
-    document.getElementById("registerBtn");
-
-  button.disabled = true;
-  button.textContent = "Creando cuenta...";
-
-  const {
-    data,
-    error
-  } =
-    await supabaseClient.auth.signUp({
-
-      email,
-
-      password,
-
-      options:{
-        data:{
-          first_name:firstName,
-          last_name:lastName
+    const {error} =
+    await supabaseClient.auth
+    .resetPasswordForEmail(
+        email,
+        {
+            redirectTo:
+            SUPABASE_REDIRECT_URL
         }
-      }
+    );
+
+    button.disabled = false;
+
+    button.textContent =
+    "Enviar enlace →";
+
+    if(error){
+
+        showNotice(
+            "No pudimos enviar el enlace",
+            translateSupabaseError(error.message)
+        );
+
+        return;
+
+    }
+
+    closeForgotPassword();
+
+    showNotice(
+        "Revisa tu correo",
+        "Si existe una cuenta con ese correo, recibirás un enlace para crear una nueva contraseña."
+    );
+
+}
+
+
+/* LOGIN / REGISTRO */
+
+async function submitAuth(){
+
+    const email =
+    document
+    .getElementById("email")
+    .value
+    .trim()
+    .toLowerCase();
+
+    const password =
+    document
+    .getElementById("password")
+    .value
+    .trim();
+
+    if(!email || !password){
+
+        showNotice(
+            "Falta información",
+            "Completa tu correo y contraseña para continuar."
+        );
+
+        return;
+
+    }
+
+    const button =
+    document.querySelector(
+        "#modal .submit-btn"
+    );
+
+    button.disabled = true;
+
+    button.textContent =
+    "Procesando...";
+
+
+    if(authMode === "register"){
+
+        const first =
+        document
+        .getElementById("firstName")
+        .value
+        .trim();
+
+        const last =
+        document
+        .getElementById("lastName")
+        .value
+        .trim();
+
+        if(!first || !last){
+
+            button.disabled = false;
+
+            button.textContent =
+            "Continuar";
+
+            showNotice(
+                "Falta información",
+                "Completa tu nombre y apellido para crear tu cuenta."
+            );
+
+            return;
+
+        }
+
+        const {
+            data,
+            error
+        } =
+        await supabaseClient.auth.signUp({
+
+            email:email,
+
+            password:password,
+
+            options:{
+                data:{
+                    first_name:first,
+                    last_name:last
+                }
+            }
+
+        });
+
+        button.disabled = false;
+
+        button.textContent =
+        "Continuar";
+
+        if(error){
+
+            showNotice(
+                "No pudimos crear la cuenta",
+                translateSupabaseError(error.message)
+            );
+
+            return;
+
+        }
+
+        closeModal();
+
+        if(data.session){
+
+            await loadCurrentUser();
+
+            showNotice(
+                "Cuenta creada",
+                "Tu cuenta de SparkyKrea ya está lista. Bienvenido."
+            );
+
+        }else{
+
+            showNotice(
+                "Cuenta creada",
+                "La cuenta fue creada correctamente. Si no puedes iniciar sesión todavía, revisa la configuración de confirmación de correo en Supabase."
+            );
+
+        }
+
+        return;
+
+    }
+
+
+    const {
+        error
+    } =
+    await supabaseClient.auth
+    .signInWithPassword({
+
+        email:email,
+
+        password:password
 
     });
 
-  button.disabled = false;
-  button.textContent = "Registrarse →";
+    button.disabled = false;
 
-  if(error){
+    button.textContent =
+    "Continuar";
 
-    errorBox.textContent =
-      translateAuthError(error);
+    if(error){
 
-    return;
-  }
+        showNotice(
+            "No pudimos iniciar sesión",
+            translateSupabaseError(error.message)
+        );
 
-  closeOverlay(registerOverlay);
+        return;
 
-  if(data.session){
-
-    showNotice(
-      "Cuenta creada",
-      "Tu cuenta de SparkyKrea fue creada correctamente.",
-      "Continuar →",
-      ()=>{
-        closeNotice();
-        loadCurrentUser();
-      }
-    );
-
-  }else{
-
-    showNotice(
-      "Cuenta creada",
-      "Tu cuenta fue creada correctamente. Ya puedes iniciar sesión.",
-      "Iniciar sesión →",
-      ()=>{
-        closeNotice();
-        openOverlay(loginOverlay);
-      }
-    );
-  }
-}
-
-
-/* =========================================================
-   LOGIN
-========================================================= */
-
-async function login(){
-
-  const email =
-    document
-      .getElementById("loginEmail")
-      .value
-      .trim()
-      .toLowerCase();
-
-  const password =
-    document
-      .getElementById("loginPassword")
-      .value;
-
-  const errorBox =
-    document.getElementById("loginError");
-
-  errorBox.textContent = "";
-
-  if(!email || !password){
-
-    errorBox.textContent =
-      "Completa tu correo y contraseña.";
-
-    return;
-  }
-
-  const button =
-    document.getElementById("loginBtn");
-
-  button.disabled = true;
-  button.textContent = "Entrando...";
-
-  const {
-    data,
-    error
-  } =
-    await supabaseClient.auth.signInWithPassword({
-      email,
-      password
-    });
-
-  button.disabled = false;
-  button.textContent = "Iniciar sesión →";
-
-  if(error){
-
-    errorBox.textContent =
-      translateAuthError(error);
-
-    return;
-  }
-
-  currentUser = data.user;
-
-  closeOverlay(loginOverlay);
-
-  await loadCurrentUser();
-}
-
-
-/* =========================================================
-   LOGOUT
-========================================================= */
-
-async function logout(){
-
-  await supabaseClient.auth.signOut();
-
-  currentUser = null;
-  currentProfile = null;
-  recoveryMode = false;
-
-  renderLoggedOutHeader();
-}
-
-
-/* =========================================================
-   RECUPERAR CONTRASEÑA
-========================================================= */
-
-async function sendResetEmail(){
-
-  const email =
-    document
-      .getElementById("forgotEmail")
-      .value
-      .trim()
-      .toLowerCase();
-
-  const errorBox =
-    document.getElementById("forgotError");
-
-  errorBox.textContent = "";
-
-  if(!email){
-
-    errorBox.textContent =
-      "Escribe tu correo electrónico.";
-
-    return;
-  }
-
-  const button =
-    document.getElementById("forgotSubmitBtn");
-
-  button.disabled = true;
-  button.textContent = "Enviando...";
-
-  const {
-    error
-  } =
-    await supabaseClient.auth.resetPasswordForEmail(
-      email,
-      {
-        redirectTo:HOME_URL
-      }
-    );
-
-  button.disabled = false;
-  button.textContent = "Enviar enlace →";
-
-  if(error){
-
-    errorBox.textContent =
-      translateAuthError(error);
-
-    return;
-  }
-
-  closeOverlay(forgotOverlay);
-
-  showNotice(
-    "Enlace enviado",
-    "Si el correo está registrado, recibirás un enlace para restablecer tu contraseña.",
-    "Continuar →"
-  );
-}
-
-
-/* =========================================================
-   MANEJO DE RECUPERACIÓN
-   =========================================================
-
-   ESTA ES LA PARTE IMPORTANTE.
-
-   No usamos getSession() para decidir si es recuperación.
-
-   Primero miramos la URL.
-
-   Supabase puede devolver:
-
-   1. PKCE:
-      ?code=...
-
-   2. Implicit:
-      #access_token=...
-      #refresh_token=...
-      #type=recovery
-
-========================================================= */
-
-async function detectRecovery(){
-
-  if(recoveryProcessing){
-    return false;
-  }
-
-  const url =
-    new URL(window.location.href);
-
-  const searchParams =
-    url.searchParams;
-
-  const hash =
-    new URLSearchParams(
-      window.location.hash.replace(/^#/,"")
-    );
-
-  const code =
-    searchParams.get("code");
-
-  const hashType =
-    hash.get("type");
-
-  const accessToken =
-    hash.get("access_token");
-
-  const refreshToken =
-    hash.get("refresh_token");
-
-  const hasRecoveryHash =
-    hashType === "recovery" &&
-    accessToken &&
-    refreshToken;
-
-  const hasRecoveryCode =
-    !!code &&
-    (
-      searchParams.get("type") === "recovery" ||
-      searchParams.get("reset") === "1"
-    );
-
-  /*
-    Si no hay nada relacionado con recuperación,
-    seguimos normalmente.
-  */
-
-  if(!hasRecoveryHash && !hasRecoveryCode){
-    return false;
-  }
-
-  recoveryProcessing = true;
-  recoveryMode = true;
-
-  /*
-    Ocultamos la interfaz normal inmediatamente.
-  */
-
-  document.body.style.overflow = "hidden";
-
-  closeAllOverlays();
-
-  /*
-    CASO 1:
-    HASH IMPLÍCITO
-  */
-
-  if(hasRecoveryHash){
-
-    const {
-      data,
-      error
-    } =
-      await supabaseClient.auth.setSession({
-        access_token:accessToken,
-        refresh_token:refreshToken
-      });
-
-    /*
-      Limpiamos inmediatamente la URL.
-      El token ya fue entregado a Supabase.
-    */
-
-    cleanRecoveryURL();
-
-    if(error || !data.session){
-
-      recoveryMode = false;
-      recoveryProcessing = false;
-
-      document.body.style.overflow = "";
-
-      showNotice(
-        "Enlace no válido",
-        "El enlace de recuperación no pudo validarse. Solicita uno nuevo.",
-        "Volver →",
-        ()=>{
-          closeNotice();
-          window.location.href = HOME_URL;
-        }
-      );
-
-      return true;
     }
 
-    openResetPassword();
+    closeModal();
 
-    return true;
-  }
+    await loadCurrentUser();
 
-  /*
-    CASO 2:
-    PKCE
-  */
+    showNotice(
+        "Bienvenido a SparkyKrea",
+        "Has iniciado sesión correctamente."
+    );
 
-  if(hasRecoveryCode){
+}
 
-    const {
-      data,
-      error
-    } =
-      await supabaseClient.auth.exchangeCodeForSession(
-        code
-      );
 
-    cleanRecoveryURL();
+/* ERRORES */
 
-    if(error || !data.session){
+function translateSupabaseError(message){
 
-      recoveryMode = false;
-      recoveryProcessing = false;
+    const text =
+    String(message || "")
+    .toLowerCase();
 
-      document.body.style.overflow = "";
+    if(text.includes("invalid login credentials")){
 
-      showNotice(
-        "Enlace no válido",
-        "El enlace de recuperación no pudo validarse. Solicita uno nuevo.",
-        "Volver →",
-        ()=>{
-          closeNotice();
-          window.location.href = HOME_URL;
-        }
-      );
+        return "El correo o la contraseña no son correctos.";
 
-      return true;
     }
 
-    openResetPassword();
+    if(text.includes("user already registered")){
 
-    return true;
-  }
+        return "Ya existe una cuenta registrada con ese correo.";
 
-  return true;
+    }
+
+    if(text.includes("password should be at least")){
+
+        return "La contraseña debe tener al menos 6 caracteres.";
+
+    }
+
+    if(text.includes("unable to validate email address")){
+
+        return "El correo electrónico no parece válido.";
+
+    }
+
+    if(text.includes("email not confirmed")){
+
+        return "Esta cuenta todavía necesita confirmar el correo electrónico.";
+
+    }
+
+    return message ||
+    "Ocurrió un problema. Inténtalo nuevamente.";
+
 }
 
 
-/* =========================================================
-   LIMPIAR URL DE RECUPERACIÓN
-========================================================= */
-
-function cleanRecoveryURL(){
-
-  const cleanURL =
-    HOME_URL;
-
-  window.history.replaceState(
-    {},
-    document.title,
-    cleanURL
-  );
-}
-
-
-/* =========================================================
-   ABRIR RESET
-========================================================= */
-
-function openResetPassword(){
-
-  recoveryMode = true;
-
-  closeAllOverlays();
-
-  document
-    .getElementById("newPassword")
-    .value = "";
-
-  document
-    .getElementById("confirmPassword")
-    .value = "";
-
-  document
-    .getElementById("resetError")
-    .textContent = "";
-
-  openOverlay(resetOverlay);
-}
-
-
-/* =========================================================
-   ACTUALIZAR CONTRASEÑA
-========================================================= */
+/* CAMBIAR CONTRASEÑA */
 
 async function updatePassword(){
 
-  const newPassword =
+    const newPassword =
     document
-      .getElementById("newPassword")
-      .value;
+    .getElementById("newPassword")
+    .value;
 
-  const confirmPassword =
+    const confirmPassword =
     document
-      .getElementById("confirmPassword")
-      .value;
+    .getElementById("confirmPassword")
+    .value;
 
-  const errorBox =
-    document.getElementById("resetError");
+    if(!newPassword || !confirmPassword){
 
-  errorBox.textContent = "";
-
-  if(!newPassword || !confirmPassword){
-
-    errorBox.textContent =
-      "Completa ambos campos.";
-
-    return;
-  }
-
-  if(newPassword.length < 6){
-
-    errorBox.textContent =
-      "La contraseña debe tener al menos 6 caracteres.";
-
-    return;
-  }
-
-  if(newPassword !== confirmPassword){
-
-    errorBox.textContent =
-      "Las contraseñas no coinciden.";
-
-    return;
-  }
-
-  const button =
-    document.getElementById("updatePasswordBtn");
-
-  button.disabled = true;
-  button.textContent = "Actualizando...";
-
-  /*
-    Verificamos que exista una sesión válida.
-  */
-
-  const {
-    data:{
-      session
-    }
-  } =
-    await supabaseClient.auth.getSession();
-
-  if(!session){
-
-    button.disabled = false;
-    button.textContent =
-      "Actualizar contraseña →";
-
-    errorBox.textContent =
-      "La sesión de recuperación expiró. Solicita un nuevo enlace.";
-
-    return;
-  }
-
-  /*
-    ACTUALIZACIÓN REAL EN SUPABASE
-  */
-
-  const {
-    error
-  } =
-    await supabaseClient.auth.updateUser({
-      password:newPassword
-    });
-
-  button.disabled = false;
-  button.textContent =
-    "Actualizar contraseña →";
-
-  if(error){
-
-    errorBox.textContent =
-      translateAuthError(error);
-
-    return;
-  }
-
-  passwordUpdated = true;
-
-  /*
-    Cerramos la pantalla de cambio.
-  */
-
-  closeOverlay(resetOverlay);
-
-  /*
-    Eliminamos la sesión temporal de recuperación
-    para que el usuario NO aparezca como conectado
-    automáticamente después.
-  */
-
-  await supabaseClient.auth.signOut();
-
-  currentUser = null;
-  currentProfile = null;
-  recoveryMode = false;
-  recoveryProcessing = false;
-
-  document.body.style.overflow = "";
-
-  renderLoggedOutHeader();
-
-  showNotice(
-    "Contraseña restablecida exitosamente",
-    "Tu contraseña fue actualizada correctamente. Ya puedes volver a SparkyKrea e iniciar sesión con tu nueva contraseña.",
-    "Volver a SparkyKrea →",
-    ()=>{
-      closeNotice();
-
-      window.location.href =
-        HOME_URL;
-    }
-  );
-}
-
-
-/* =========================================================
-   ERRORES SUPABASE
-========================================================= */
-
-function translateAuthError(error){
-
-  const message =
-    String(error?.message || "").toLowerCase();
-
-  if(
-    message.includes("invalid login credentials")
-  ){
-    return "El correo o la contraseña no son correctos.";
-  }
-
-  if(
-    message.includes("user already registered")
-  ){
-    return "Este correo ya tiene una cuenta registrada.";
-  }
-
-  if(
-    message.includes("password should be at least")
-  ){
-    return "La contraseña es demasiado corta.";
-  }
-
-  if(
-    message.includes("email not confirmed")
-  ){
-    return "Este correo todavía no está confirmado.";
-  }
-
-  if(
-    message.includes("same password")
-  ){
-    return "La nueva contraseña debe ser diferente.";
-  }
-
-  if(
-    message.includes("expired")
-  ){
-    return "El enlace ha expirado. Solicita uno nuevo.";
-  }
-
-  if(
-    message.includes("invalid")
-  ){
-    return "El enlace o la información proporcionada no es válida.";
-  }
-
-  return "No se pudo completar la operación. Inténtalo nuevamente.";
-}
-
-
-/* =========================================================
-   ADMIN
-========================================================= */
-
-async function loadAdminPanel(){
-
-  if(currentProfile?.role !== "admin"){
-
-    showNotice(
-      "Acceso restringido",
-      "No tienes permisos para acceder a este panel.",
-      "Continuar →"
-    );
-
-    return;
-  }
-
-  openOverlay(adminOverlay);
-
-  const list =
-    document.getElementById("adminList");
-
-  list.innerHTML =
-    "Cargando usuarios...";
-
-  const {
-    data:profiles,
-    error
-  } =
-    await supabaseClient
-      .from("profiles")
-      .select(
-        "id,first_name,last_name,email,role,created_at"
-      )
-      .order(
-        "created_at",
-        {
-          ascending:false
-        }
-      );
-
-  if(error){
-
-    list.innerHTML =
-      "No se pudieron cargar los usuarios.";
-
-    return;
-  }
-
-  if(!profiles || profiles.length === 0){
-
-    list.innerHTML =
-      "No hay usuarios registrados.";
-
-    return;
-  }
-
-  list.innerHTML =
-    profiles.map(profile=>{
-
-      const date =
-        new Date(
-          profile.created_at
-        ).toLocaleDateString(
-          "es-ES"
+        showNotice(
+            "Falta información",
+            "Completa los dos campos de contraseña."
         );
 
-      return `
-        <div class="admin-user">
+        return;
 
-          <strong>
-            ${escapeHTML(
-              `${profile.first_name} ${profile.last_name}`
-            )}
-          </strong>
+    }
 
-          <span>
-            ${escapeHTML(profile.email)}
-          </span>
+    if(newPassword.length < 6){
 
-          <span
-            class="${
-              profile.role === "admin"
-              ? "role-admin"
-              : ""
-            }"
-          >
-            ${escapeHTML(profile.role)}
-          </span>
+        showNotice(
+            "Contraseña demasiado corta",
+            "La contraseña debe tener al menos 6 caracteres."
+        );
 
-          <span>
-            ${date}
-          </span>
+        return;
 
-        </div>
-      `;
+    }
 
-    }).join("");
+    if(newPassword !== confirmPassword){
+
+        showNotice(
+            "Las contraseñas no coinciden",
+            "Escribe exactamente la misma contraseña en los dos campos."
+        );
+
+        return;
+
+    }
+
+    const button =
+    document.querySelector(
+        ".reset-submit"
+    );
+
+    button.disabled = true;
+
+    button.textContent =
+    "Actualizando...";
+
+    const {
+        error
+    } =
+    await supabaseClient.auth
+    .updateUser({
+
+        password:newPassword
+
+    });
+
+    button.disabled = false;
+
+    button.textContent =
+    "Actualizar contraseña →";
+
+    if(error){
+
+        showNotice(
+            "No pudimos actualizarla",
+            translateSupabaseError(error.message)
+        );
+
+        return;
+
+    }
+
+    document
+    .getElementById("newPassword")
+    .value = "";
+
+    document
+    .getElementById("confirmPassword")
+    .value = "";
+
+    document
+    .getElementById("resetModal")
+    .classList
+    .remove("active");
+
+
+    showNotice(
+        "Contraseña restablecida exitosamente",
+        "Tu nueva contraseña ya está activa. Ahora puedes volver a SparkyKrea.",
+        "Volver a SparkyKrea →",
+        async function(){
+
+            closeNotice();
+
+            await supabaseClient.auth
+            .signOut();
+
+            currentUser = null;
+
+            currentProfile = null;
+
+            resetAuthArea();
+
+            window.location.href =
+            SUPABASE_REDIRECT_URL;
+
+        }
+    );
+
 }
 
 
-/* =========================================================
-   CHAT
-========================================================= */
+/* ABRIR PANTALLA DE RECUPERACIÓN */
+
+function openResetPassword(){
+
+    document
+    .getElementById("resetModal")
+    .classList
+    .add("active");
+
+    setTimeout(function(){
+
+        document
+        .getElementById("newPassword")
+        .focus();
+
+    },350);
+
+}
+
+
+/* USUARIO */
+
+async function loadCurrentUser(){
+
+    const {
+        data:{
+            user
+        }
+    } =
+    await supabaseClient.auth
+    .getUser();
+
+    if(!user){
+
+        currentUser = null;
+
+        currentProfile = null;
+
+        resetAuthArea();
+
+        return;
+
+    }
+
+    currentUser = user;
+
+    const {
+        data:profile,
+        error
+    } =
+    await supabaseClient
+    .from("profiles")
+    .select(
+        "id,first_name,last_name,email,role,created_at"
+    )
+    .eq("id",user.id)
+    .maybeSingle();
+
+    if(error){
+
+        console.error(error);
+
+    }
+
+    currentProfile = profile;
+
+    updateAuthArea();
+
+}
+
+
+/* HEADER LOGUEADO */
+
+function updateAuthArea(){
+
+    const area =
+    document.getElementById("authArea");
+
+    if(!currentUser){
+
+        resetAuthArea();
+
+        return;
+
+    }
+
+    const first =
+    currentProfile?.first_name ||
+    currentUser.user_metadata?.first_name ||
+    "Usuario";
+
+    const last =
+    currentProfile?.last_name ||
+    currentUser.user_metadata?.last_name ||
+    "";
+
+    const role =
+    currentProfile?.role ||
+    "user";
+
+    const isAdmin =
+    role === "admin" &&
+    currentUser.email?.toLowerCase() ===
+    ADMIN_EMAIL;
+
+    area.innerHTML = "";
+
+    const wrapper =
+    document.createElement("div");
+
+    wrapper.className =
+    "account-area";
+
+    const name =
+    document.createElement("div");
+
+    name.className =
+    "account-name";
+
+    name.textContent =
+    (first+" "+last).trim();
+
+    wrapper.appendChild(name);
+
+    if(isAdmin){
+
+        const adminButton =
+        document.createElement("button");
+
+        adminButton.className =
+        "account-admin";
+
+        adminButton.textContent =
+        "Panel";
+
+        adminButton.onclick =
+        openAdminPanel;
+
+        wrapper.appendChild(adminButton);
+
+    }
+
+    const logoutButton =
+    document.createElement("button");
+
+    logoutButton.className =
+    "account-logout";
+
+    logoutButton.textContent =
+    "Salir";
+
+    logoutButton.onclick =
+    logoutUser;
+
+    wrapper.appendChild(logoutButton);
+
+    area.appendChild(wrapper);
+
+}
+
+
+/* RESTABLECER HEADER */
+
+function resetAuthArea(){
+
+    document
+    .getElementById("authArea")
+    .innerHTML = `
+
+        <button onclick="openModal('login')">
+            Iniciar sesión
+        </button>
+
+        <button
+            class="register"
+            onclick="openModal('register')"
+        >
+            Registrarse
+        </button>
+
+    `;
+
+}
+
+
+/* LOGOUT */
+
+async function logoutUser(){
+
+    await supabaseClient.auth.signOut();
+
+    currentUser = null;
+
+    currentProfile = null;
+
+    resetAuthArea();
+
+    showNotice(
+        "Hasta pronto",
+        "Tu sesión se ha cerrado correctamente."
+    );
+
+}
+
+
+/* ADMIN */
+
+async function openAdminPanel(){
+
+    if(!currentUser){
+
+        return;
+
+    }
+
+    if(
+        currentUser.email?.toLowerCase() !==
+        ADMIN_EMAIL
+    ){
+
+        showNotice(
+            "Acceso restringido",
+            "No tienes acceso a este panel."
+        );
+
+        return;
+
+    }
+
+    const {
+        data:profile,
+        error:profileError
+    } =
+    await supabaseClient
+    .from("profiles")
+    .select("role,email")
+    .eq("id",currentUser.id)
+    .maybeSingle();
+
+    if(profileError){
+
+        showNotice(
+            "No pudimos abrir el panel",
+            profileError.message
+        );
+
+        return;
+
+    }
+
+    if(!profile || profile.role !== "admin"){
+
+        showNotice(
+            "Panel no disponible",
+            "Tu cuenta todavía no tiene el rol de administrador en la base de datos."
+        );
+
+        return;
+
+    }
+
+    document
+    .getElementById("adminModal")
+    .classList
+    .add("active");
+
+    await loadAdminUsers();
+
+}
+
+
+function closeAdminPanel(){
+
+    document
+    .getElementById("adminModal")
+    .classList
+    .remove("active");
+
+}
+
+
+async function loadAdminUsers(){
+
+    const tbody =
+    document.getElementById("adminUsers");
+
+    const count =
+    document.getElementById("adminCount");
+
+    tbody.innerHTML = `
+
+        <tr>
+            <td colspan="4">
+                Cargando...
+            </td>
+        </tr>
+
+    `;
+
+    const {
+        data:profiles,
+        error
+    } =
+    await supabaseClient
+    .from("profiles")
+    .select(
+        "id,first_name,last_name,email,role,created_at"
+    )
+    .order(
+        "created_at",
+        {
+            ascending:false
+        }
+    );
+
+    if(error){
+
+        tbody.innerHTML = `
+
+            <tr>
+                <td colspan="4">
+                    No se pudieron cargar los usuarios.
+                </td>
+            </tr>
+
+        `;
+
+        count.textContent =
+        "Error al cargar";
+
+        console.error(error);
+
+        return;
+
+    }
+
+    count.textContent =
+    profiles.length +
+    (
+        profiles.length === 1
+        ?
+        " usuario registrado"
+        :
+        " usuarios registrados"
+    );
+
+    if(!profiles.length){
+
+        tbody.innerHTML = `
+
+            <tr>
+                <td colspan="4">
+                    Todavía no hay usuarios registrados.
+                </td>
+            </tr>
+
+        `;
+
+        return;
+
+    }
+
+    tbody.innerHTML = "";
+
+    profiles.forEach(function(profile){
+
+        const row =
+        document.createElement("tr");
+
+        const nameCell =
+        document.createElement("td");
+
+        nameCell.textContent =
+        (
+            profile.first_name +
+            " " +
+            profile.last_name
+        ).trim();
+
+        const emailCell =
+        document.createElement("td");
+
+        emailCell.textContent =
+        profile.email;
+
+        const roleCell =
+        document.createElement("td");
+
+        roleCell.textContent =
+        profile.role;
+
+        const dateCell =
+        document.createElement("td");
+
+        dateCell.textContent =
+        new Date(
+            profile.created_at
+        ).toLocaleDateString(
+            "es-ES"
+        );
+
+        row.appendChild(nameCell);
+        row.appendChild(emailCell);
+        row.appendChild(roleCell);
+        row.appendChild(dateCell);
+
+        tbody.appendChild(row);
+
+    });
+
+}
+
+
+/* CHAT */
 
 function openChat(){
 
-  openOverlay(chatOverlay);
-
-  const messages =
-    document.getElementById("chatMessages");
-
-  if(messages.children.length === 0){
-
-    const hour =
-      new Date().getHours();
-
-    let greeting =
-      "Hola";
-
-    if(hour < 12){
-      greeting = "Buenos días";
-    }else if(hour < 19){
-      greeting = "Buenas tardes";
-    }else{
-      greeting = "Buenas noches";
-    }
-
-    addMessage(
-      "bot",
-      `${greeting}. Cuéntame qué tienes en mente y empezamos a darle forma.`
-    );
-  }
-
-  setTimeout(()=>{
     document
-      .getElementById("chatInput")
-      .focus();
-  },100);
+    .getElementById("chat")
+    .classList
+    .add("active");
+
+    document.body.style.overflow =
+    "hidden";
+
+    updateGreeting();
+
+    setTimeout(function(){
+
+        document
+        .getElementById("chatInput")
+        .focus();
+
+    },450);
+
 }
 
 
 function closeChat(){
 
-  closeOverlay(chatOverlay);
+    document
+    .getElementById("chat")
+    .classList
+    .remove("active");
+
+    document.body.style.overflow = "";
+
 }
 
 
-function addMessage(type,text){
+function updateGreeting(){
 
-  const messages =
-    document.getElementById("chatMessages");
+    const hour =
+    new Date().getHours();
 
-  const div =
-    document.createElement("div");
+    let greeting =
+    "Hola.";
 
-  div.className =
-    `message ${type}`;
+    if(hour >= 5 && hour < 12){
 
-  div.textContent =
-    text;
+        greeting =
+        "Buenos días.";
 
-  messages.appendChild(div);
+    }
+    else if(hour >= 12 && hour < 19){
 
-  messages.parentElement.scrollTop =
-    messages.parentElement.scrollHeight;
+        greeting =
+        "Buenas tardes.";
+
+    }
+    else{
+
+        greeting =
+        "Buenas noches.";
+
+    }
+
+    document
+    .getElementById("welcome")
+    .textContent =
+    greeting +
+    " Cuéntame qué deseas hacer.";
+
 }
 
 
-function sendChatMessage(){
+function handleEnter(event){
 
-  const input =
+    if(event.key === "Enter"){
+
+        sendMessage();
+
+    }
+
+}
+
+
+function sendMessage(){
+
+    const input =
     document.getElementById("chatInput");
 
-  const text =
+    const text =
     input.value.trim();
 
-  if(!text){
-    return;
-  }
+    if(!text){
 
-  addMessage(
-    "user",
-    text
-  );
-
-  input.value = "";
-
-  setTimeout(()=>{
-
-    let response =
-      "Entendido. Cuéntame un poco más sobre esa idea y vemos cómo podemos estructurarla.";
-
-    const lower =
-      text.toLowerCase();
-
-    if(
-      lower.includes("web") ||
-      lower.includes("página") ||
-      lower.includes("sitio")
-    ){
-
-      response =
-        "Podemos trabajar la estructura, diseño y desarrollo de una web adaptada a lo que quieres conseguir.";
-
-    }else if(
-      lower.includes("logo") ||
-      lower.includes("marca")
-    ){
-
-      response =
-        "Podemos convertir esa idea en una identidad visual clara, coherente y lista para utilizar.";
-
-    }else if(
-      lower.includes("juego") ||
-      lower.includes("videojuego")
-    ){
-
-      response =
-        "Podemos organizar el concepto del juego, sus sistemas, interfaz y la experiencia que quieres crear.";
-
-    }else if(
-      lower.includes("precio") ||
-      lower.includes("costo")
-    ){
-
-      response =
-        "Para orientarte con el proyecto primero necesitaríamos conocer qué quieres construir y el alcance que tienes pensado.";
+        return;
 
     }
 
     addMessage(
-      "bot",
-      response
+        text,
+        "user"
     );
 
-  },650);
-}
+    input.value = "";
 
+    setTimeout(function(){
 
-/* =========================================================
-   CAROUSEL
-========================================================= */
+        const lower =
+        text.toLowerCase();
 
-let carouselIndex = 0;
+        let response =
+        "Cuéntame un poco más sobre tu idea y qué resultado quieres conseguir.";
 
-const carouselTrack =
-  document.getElementById("carouselTrack");
+        if(
+            lower.includes("juego") ||
+            lower.includes("videojuego")
+        ){
 
-const carouselDots =
-  document.getElementById("carouselDots");
+            response =
+            "Perfecto. Podemos trabajar el concepto, estilo visual, mecánicas, público y estrategia de tu juego.";
 
-const carouselSlides =
-  document.querySelectorAll(".service-card");
-
-carouselSlides.forEach((_,index)=>{
-
-  const dot =
-    document.createElement("div");
-
-  dot.className =
-    "carousel-dot";
-
-  if(index === 0){
-    dot.classList.add("active");
-  }
-
-  carouselDots.appendChild(dot);
-});
-
-
-function updateCarousel(){
-
-  carouselTrack.style.transform =
-    `translateX(-${carouselIndex * 100}%)`;
-
-  document
-    .querySelectorAll(".carousel-dot")
-    .forEach((dot,index)=>{
-
-      dot.classList.toggle(
-        "active",
-        index === carouselIndex
-      );
-
-    });
-}
-
-
-setInterval(()=>{
-
-  carouselIndex =
-    (carouselIndex + 1) %
-    carouselSlides.length;
-
-  updateCarousel();
-
-},4000);
-
-
-/* =========================================================
-   EVENTOS
-========================================================= */
-
-document
-  .getElementById("loginHeaderBtn")
-  ?.addEventListener(
-    "click",
-    ()=>{
-      openOverlay(loginOverlay);
-    }
-  );
-
-document
-  .getElementById("registerHeaderBtn")
-  ?.addEventListener(
-    "click",
-    ()=>{
-      openOverlay(registerOverlay);
-    }
-  );
-
-document
-  .getElementById("loginBtn")
-  .addEventListener(
-    "click",
-    login
-  );
-
-document
-  .getElementById("registerBtn")
-  .addEventListener(
-    "click",
-    register
-  );
-
-document
-  .getElementById("forgotSubmitBtn")
-  .addEventListener(
-    "click",
-    sendResetEmail
-  );
-
-document
-  .getElementById("updatePasswordBtn")
-  .addEventListener(
-    "click",
-    updatePassword
-  );
-
-document
-  .getElementById("startChatBtn")
-  .addEventListener(
-    "click",
-    openChat
-  );
-
-document
-  .getElementById("contactChatBtn")
-  .addEventListener(
-    "click",
-    openChat
-  );
-
-document
-  .getElementById("closeChat")
-  .addEventListener(
-    "click",
-    closeChat
-  );
-
-document
-  .getElementById("chatSend")
-  .addEventListener(
-    "click",
-    sendChatMessage
-  );
-
-document
-  .getElementById("chatInput")
-  .addEventListener(
-    "keydown",
-    event=>{
-
-      if(event.key === "Enter"){
-        sendChatMessage();
-      }
-
-    }
-  );
-
-
-/* LOGIN → REGISTER */
-
-document
-  .getElementById("goRegisterBtn")
-  .addEventListener(
-    "click",
-    ()=>{
-
-      closeOverlay(loginOverlay);
-
-      openOverlay(registerOverlay);
-
-    }
-  );
-
-
-/* REGISTER → LOGIN */
-
-document
-  .getElementById("goLoginBtn")
-  .addEventListener(
-    "click",
-    ()=>{
-
-      closeOverlay(registerOverlay);
-
-      openOverlay(loginOverlay);
-
-    }
-  );
-
-
-/* LOGIN → FORGOT */
-
-document
-  .getElementById("forgotBtn")
-  .addEventListener(
-    "click",
-    ()=>{
-
-      closeOverlay(loginOverlay);
-
-      document
-        .getElementById("forgotError")
-        .textContent = "";
-
-      openOverlay(forgotOverlay);
-
-    }
-  );
-
-
-/* FORGOT → LOGIN */
-
-document
-  .getElementById("backLoginBtn")
-  .addEventListener(
-    "click",
-    ()=>{
-
-      closeOverlay(forgotOverlay);
-
-      openOverlay(loginOverlay);
-
-    }
-  );
-
-
-/* CLOSE BUTTONS */
-
-document
-  .querySelectorAll("[data-close]")
-  .forEach(button=>{
-
-    button.addEventListener(
-      "click",
-      ()=>{
-
-        const target =
-          document.getElementById(
-            button.dataset.close
-          );
-
-        if(target){
-          closeOverlay(target);
         }
 
-      }
+        else if(
+            lower.includes("marketing") ||
+            lower.includes("publicidad")
+        ){
+
+            response =
+            "Perfecto. Podemos analizar tu propuesta, público, mensaje, contenido y estrategia.";
+
+        }
+
+        else if(
+            lower.includes("logo") ||
+            lower.includes("marca")
+        ){
+
+            response =
+            "Podemos trabajar la identidad de tu marca, su concepto, personalidad, colores y forma de comunicar.";
+
+        }
+
+        else if(
+            lower.includes("hola") ||
+            lower.includes("hey") ||
+            lower.includes("buenas")
+        ){
+
+            response =
+            "¡Hola! Cuéntame qué tienes en mente y lo construimos paso a paso.";
+
+        }
+
+        addMessage(
+            response,
+            "bot"
+        );
+
+    },420);
+
+}
+
+
+function addMessage(text,type){
+
+    const container =
+    document.getElementById("chatContent");
+
+    const message =
+    document.createElement("div");
+
+    message.className =
+    "message " + type;
+
+    message.textContent =
+    text;
+
+    container.appendChild(message);
+
+    container.scrollTop =
+    container.scrollHeight;
+
+}
+
+
+/* CONTACTO */
+
+function contactar(){
+
+    showNotice(
+        "Contáctanos",
+        "Pronto colocaremos aquí el correo oficial de SparkyKrea."
     );
 
-  });
+}
 
 
-/* =========================================================
-   ENTER EN FORMULARIOS
-========================================================= */
+/* CARRUSEL */
 
-document
-  .getElementById("loginPassword")
-  .addEventListener(
-    "keydown",
-    event=>{
+const cards =
+document.querySelectorAll(
+    ".service-card"
+);
 
-      if(event.key === "Enter"){
-        login();
-      }
+const dotsContainer =
+document.getElementById(
+    "carouselDots"
+);
 
-    }
-  );
+let currentCard = 0;
 
-document
-  .getElementById("registerPassword")
-  .addEventListener(
-    "keydown",
-    event=>{
+cards.forEach(
+function(card,index){
 
-      if(event.key === "Enter"){
-        register();
-      }
+    const dot =
+    document.createElement("div");
 
-    }
-  );
+    dot.className =
+    "carousel-dot";
 
-document
-  .getElementById("confirmPassword")
-  .addEventListener(
-    "keydown",
-    event=>{
+    if(index === 0){
 
-      if(event.key === "Enter"){
-        updatePassword();
-      }
+        dot.classList.add("active");
 
     }
-  );
 
+    dot.addEventListener(
+        "click",
+        function(){
 
-/* =========================================================
-   AUTH STATE CHANGE
-=========================================================
+            showCard(index);
 
-   Este listener queda registrado antes de cargar
-   el usuario normal.
-
-   PASSWORD_RECOVERY es el evento específico que
-   Supabase utiliza para este flujo.
-========================================================= */
-
-supabaseClient.auth.onAuthStateChange(
-  async (event,session)=>{
-
-    console.log(
-      "SparkyKrea Auth:",
-      event
+        }
     );
 
-    if(event === "PASSWORD_RECOVERY"){
+    dotsContainer.appendChild(dot);
 
-      recoveryMode = true;
+});
 
-      openResetPassword();
+const dots =
+document.querySelectorAll(
+    ".carousel-dot"
+);
 
-      return;
+function showCard(index){
+
+    cards.forEach(
+        function(card){
+
+            card.classList.remove(
+                "active"
+            );
+
+        }
+    );
+
+    dots.forEach(
+        function(dot){
+
+            dot.classList.remove(
+                "active"
+            );
+
+        }
+    );
+
+    cards[index]
+    .classList
+    .add("active");
+
+    dots[index]
+    .classList
+    .add("active");
+
+    currentCard =
+    index;
+
+}
+
+setInterval(
+function(){
+
+    currentCard++;
+
+    if(currentCard >= cards.length){
+
+        currentCard = 0;
+
     }
 
-    /*
-      Durante recuperación no dejamos que SIGNED_IN
-      abra el perfil normal.
-    */
+    showCard(
+        currentCard
+    );
 
-    if(
-      recoveryMode &&
-      event === "SIGNED_IN"
-    ){
-
-      return;
-    }
-
-    if(event === "SIGNED_OUT"){
-
-      if(!recoveryMode){
-
-        currentUser = null;
-        currentProfile = null;
-
-        renderLoggedOutHeader();
-
-      }
-
-      return;
-    }
-
-    if(
-      event === "USER_UPDATED" &&
-      !recoveryMode
-    ){
-
-      await loadCurrentUser();
-
-      return;
-    }
-
-    if(
-      event === "SIGNED_IN" &&
-      !recoveryMode
-    ){
-
-      await loadCurrentUser();
-
-      return;
-    }
-
-  }
+},
+4400
 );
 
 
-/* =========================================================
-   INICIO DE LA APLICACIÓN
-========================================================= */
+/* =====================================================
+   AUTENTICACIÓN
+   =====================================================
 
-async function startApp(){
+   IMPORTANTE:
+   Primero escuchamos PASSWORD_RECOVERY.
+   Así, cuando Supabase recibe el enlace del correo,
+   abre directamente la pantalla para cambiar contraseña.
+*/
 
-  /*
-    PRIMERO comprobamos si esta visita viene
-    del enlace de recuperación.
+supabaseClient.auth.onAuthStateChange(
+function(event,session){
 
-    Esto ocurre ANTES de loadCurrentUser().
-  */
+    if(event === "PASSWORD_RECOVERY"){
 
-  const isRecovery =
-    await detectRecovery();
+        setTimeout(
+            function(){
 
-  if(isRecovery){
+                openResetPassword();
 
-    /*
-      MUY IMPORTANTE:
-      no cargamos el perfil normal.
-    */
+            },
+            150
+        );
 
-    return;
-  }
+        return;
 
-  /*
-    Si no es recuperación,
-    funcionamiento normal.
-  */
+    }
 
-  await loadCurrentUser();
+    if(session){
 
-  document.body.style.overflow = "";
+        setTimeout(
+            function(){
 
-}
+                loadCurrentUser();
+
+            },
+            0
+        );
+
+    }else{
+
+        currentUser = null;
+
+        currentProfile = null;
+
+        resetAuthArea();
+
+    }
+
+});
 
 
-/* =========================================================
-   ARRANCAR
-========================================================= */
+/* SESIÓN AL ABRIR */
 
-startApp();
+supabaseClient.auth
+.getSession()
+.then(
+function(result){
+
+    const session =
+    result.data.session;
+
+    if(session){
+
+        setTimeout(
+            function(){
+
+                loadCurrentUser();
+
+            },
+            0
+        );
+
+    }else{
+
+        resetAuthArea();
+
+    }
+
+});
+
+
+/* ESCAPE */
+
+document.addEventListener(
+"keydown",
+function(event){
+
+    if(event.key === "Escape"){
+
+        closeModal();
+
+        closeForgotPassword();
+
+        closeChat();
+
+        closeNotice();
+
+        closeAdminPanel();
+
+    }
+
+});
 
 </script>
 
