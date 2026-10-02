@@ -1172,7 +1172,6 @@ footer span{
         height:12px;
     }
 
-    /* SOLO PC: letras más grandes */
     .hero h1{
         max-width:1150px;
         font-size:clamp(58px,5.4vw,88px);
@@ -2249,7 +2248,9 @@ onclick="sendMessage()"
 
 <script>
 
-/* SUPABASE */
+/* =====================================================
+   SUPABASE
+   ===================================================== */
 
 const SUPABASE_URL =
 "https://lvsntxkywjyxumlgtayl.supabase.co";
@@ -2260,14 +2261,38 @@ const SUPABASE_PUBLISHABLE_KEY =
 const SUPABASE_REDIRECT_URL =
 "https://sparky-kreate.github.io/SparkyKreate/";
 
+
+/*
+   IMPORTANTE:
+
+   No dejamos que Supabase procese automáticamente
+   la URL de recuperación.
+
+   Nosotros detectamos el código y lo intercambiamos
+   manualmente.
+
+   Esto evita que una sesión normal guardada en el
+   navegador gane antes que la recuperación.
+*/
+
 const supabaseClient =
 window.supabase.createClient(
     SUPABASE_URL,
-    SUPABASE_PUBLISHABLE_KEY
+    SUPABASE_PUBLISHABLE_KEY,
+    {
+        auth:{
+            persistSession:true,
+            autoRefreshToken:true,
+            detectSessionInUrl:false,
+            flowType:"pkce"
+        }
+    }
 );
 
 
-/* ADMIN */
+/* =====================================================
+   VARIABLES
+   ===================================================== */
 
 const ADMIN_EMAIL =
 "guillermojose170512@gmail.com";
@@ -2276,8 +2301,110 @@ let currentUser = null;
 let currentProfile = null;
 let authMode = "login";
 
+/*
+   Esta variable permanece TRUE mientras estamos
+   procesando un enlace de recuperación.
+*/
+let recoveryMode = false;
 
-/* NOTICE */
+
+/* =====================================================
+   DETECTAR SI ESTA PÁGINA VIENE DEL CORREO
+   ===================================================== */
+
+function urlIsRecoveryCallback(){
+
+    const url =
+    new URL(window.location.href);
+
+    const params =
+    url.searchParams;
+
+    const hash =
+    new URLSearchParams(
+        window.location.hash.replace(/^#/,"")
+    );
+
+    /*
+       PKCE:
+       Supabase devuelve ?code=...
+    */
+
+    if(params.get("code")){
+
+        return true;
+
+    }
+
+    /*
+       Flujo anterior/implícito:
+       puede devolver access_token + refresh_token
+       en el hash.
+    */
+
+    if(
+        hash.get("type") === "recovery" &&
+        hash.get("access_token") &&
+        hash.get("refresh_token")
+    ){
+
+        return true;
+
+    }
+
+    /*
+       También soportamos tokens en query por
+       compatibilidad.
+    */
+
+    if(
+        params.get("type") === "recovery" &&
+        params.get("access_token") &&
+        params.get("refresh_token")
+    ){
+
+        return true;
+
+    }
+
+    return false;
+
+}
+
+
+/* =====================================================
+   LIMPIAR URL
+   ===================================================== */
+
+function cleanRecoveryUrl(){
+
+    try{
+
+        const cleanUrl =
+        window.location.origin +
+        window.location.pathname;
+
+        window.history.replaceState(
+            {},
+            document.title,
+            cleanUrl
+        );
+
+    }catch(error){
+
+        console.error(
+            "No se pudo limpiar la URL:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   NOTICE
+   ===================================================== */
 
 function showNotice(
     title,
@@ -2307,6 +2434,7 @@ function showNotice(
     .getElementById("notice")
     .classList
     .add("active");
+
 }
 
 
@@ -2320,7 +2448,9 @@ function closeNotice(){
 }
 
 
-/* LOGIN / REGISTRO */
+/* =====================================================
+   LOGIN / REGISTRO
+   ===================================================== */
 
 function openModal(mode){
 
@@ -2408,7 +2538,9 @@ function outsideModal(event){
 }
 
 
-/* RECUPERAR */
+/* =====================================================
+   RECUPERAR
+   ===================================================== */
 
 function openForgotPassword(){
 
@@ -2459,7 +2591,9 @@ function outsideForgotModal(event){
 }
 
 
-/* ENVIAR RECUPERACIÓN */
+/* =====================================================
+   ENVIAR RECUPERACIÓN
+   ===================================================== */
 
 async function sendRecoveryEmail(){
 
@@ -2491,7 +2625,10 @@ async function sendRecoveryEmail(){
     button.textContent =
     "Enviando...";
 
-    const {error} =
+
+    const {
+        error
+    } =
     await supabaseClient.auth
     .resetPasswordForEmail(
         email,
@@ -2501,21 +2638,26 @@ async function sendRecoveryEmail(){
         }
     );
 
+
     button.disabled = false;
 
     button.textContent =
     "Enviar enlace →";
 
+
     if(error){
 
         showNotice(
             "No pudimos enviar el enlace",
-            translateSupabaseError(error.message)
+            translateSupabaseError(
+                error.message
+            )
         );
 
         return;
 
     }
+
 
     closeForgotPassword();
 
@@ -2527,7 +2669,9 @@ async function sendRecoveryEmail(){
 }
 
 
-/* LOGIN / REGISTRO */
+/* =====================================================
+   LOGIN / REGISTRO
+   ===================================================== */
 
 async function submitAuth(){
 
@@ -2596,6 +2740,7 @@ async function submitAuth(){
 
         }
 
+
         const {
             data,
             error
@@ -2615,23 +2760,29 @@ async function submitAuth(){
 
         });
 
+
         button.disabled = false;
 
         button.textContent =
         "Continuar";
 
+
         if(error){
 
             showNotice(
                 "No pudimos crear la cuenta",
-                translateSupabaseError(error.message)
+                translateSupabaseError(
+                    error.message
+                )
             );
 
             return;
 
         }
 
+
         closeModal();
+
 
         if(data.session){
 
@@ -2668,21 +2819,26 @@ async function submitAuth(){
 
     });
 
+
     button.disabled = false;
 
     button.textContent =
     "Continuar";
 
+
     if(error){
 
         showNotice(
             "No pudimos iniciar sesión",
-            translateSupabaseError(error.message)
+            translateSupabaseError(
+                error.message
+            )
         );
 
         return;
 
     }
+
 
     closeModal();
 
@@ -2696,7 +2852,9 @@ async function submitAuth(){
 }
 
 
-/* ERRORES */
+/* =====================================================
+   ERRORES
+   ===================================================== */
 
 function translateSupabaseError(message){
 
@@ -2704,33 +2862,86 @@ function translateSupabaseError(message){
     String(message || "")
     .toLowerCase();
 
-    if(text.includes("invalid login credentials")){
+    if(
+        text.includes(
+            "invalid login credentials"
+        )
+    ){
 
         return "El correo o la contraseña no son correctos.";
 
     }
 
-    if(text.includes("user already registered")){
+    if(
+        text.includes(
+            "user already registered"
+        )
+    ){
 
         return "Ya existe una cuenta registrada con ese correo.";
 
     }
 
-    if(text.includes("password should be at least")){
+    if(
+        text.includes(
+            "password should be at least"
+        )
+    ){
 
         return "La contraseña debe tener al menos 6 caracteres.";
 
     }
 
-    if(text.includes("unable to validate email address")){
+    if(
+        text.includes(
+            "unable to validate email address"
+        )
+    ){
 
         return "El correo electrónico no parece válido.";
 
     }
 
-    if(text.includes("email not confirmed")){
+    if(
+        text.includes(
+            "email not confirmed"
+        )
+    ){
 
         return "Esta cuenta todavía necesita confirmar el correo electrónico.";
+
+    }
+
+    if(
+        text.includes(
+            "code verifier"
+        )
+    ){
+
+        return "El enlace de recuperación debe abrirse en el mismo navegador donde solicitaste el cambio de contraseña.";
+
+    }
+
+    if(
+        text.includes(
+            "expired"
+        )
+    ){
+
+        return "Este enlace de recuperación ya expiró. Solicita uno nuevo.";
+
+    }
+
+    if(
+        text.includes(
+            "invalid"
+        ) &&
+        text.includes(
+            "token"
+        )
+    ){
+
+        return "Este enlace de recuperación ya no es válido. Solicita uno nuevo.";
 
     }
 
@@ -2740,7 +2951,9 @@ function translateSupabaseError(message){
 }
 
 
-/* CAMBIAR CONTRASEÑA */
+/* =====================================================
+   CAMBIAR CONTRASEÑA
+   ===================================================== */
 
 async function updatePassword(){
 
@@ -2754,7 +2967,11 @@ async function updatePassword(){
     .getElementById("confirmPassword")
     .value;
 
-    if(!newPassword || !confirmPassword){
+
+    if(
+        !newPassword ||
+        !confirmPassword
+    ){
 
         showNotice(
             "Falta información",
@@ -2764,6 +2981,7 @@ async function updatePassword(){
         return;
 
     }
+
 
     if(newPassword.length < 6){
 
@@ -2776,7 +2994,11 @@ async function updatePassword(){
 
     }
 
-    if(newPassword !== confirmPassword){
+
+    if(
+        newPassword !==
+        confirmPassword
+    ){
 
         showNotice(
             "Las contraseñas no coinciden",
@@ -2786,6 +3008,7 @@ async function updatePassword(){
         return;
 
     }
+
 
     const button =
     document.querySelector(
@@ -2797,6 +3020,39 @@ async function updatePassword(){
     button.textContent =
     "Actualizando...";
 
+
+    /*
+       Comprobamos que exista una sesión.
+       Esta sesión es la sesión especial creada
+       por el enlace de recuperación.
+    */
+
+    const {
+        data:{
+            session
+        }
+    } =
+    await supabaseClient.auth
+    .getSession();
+
+
+    if(!session){
+
+        button.disabled = false;
+
+        button.textContent =
+        "Actualizar contraseña →";
+
+        showNotice(
+            "Enlace no válido",
+            "La sesión de recuperación no está disponible. Solicita un nuevo enlace desde Iniciar sesión."
+        );
+
+        return;
+
+    }
+
+
     const {
         error
     } =
@@ -2807,21 +3063,26 @@ async function updatePassword(){
 
     });
 
+
     button.disabled = false;
 
     button.textContent =
     "Actualizar contraseña →";
 
+
     if(error){
 
         showNotice(
             "No pudimos actualizarla",
-            translateSupabaseError(error.message)
+            translateSupabaseError(
+                error.message
+            )
         );
 
         return;
 
     }
+
 
     document
     .getElementById("newPassword")
@@ -2830,6 +3091,7 @@ async function updatePassword(){
     document
     .getElementById("confirmPassword")
     .value = "";
+
 
     document
     .getElementById("resetModal")
@@ -2845,8 +3107,17 @@ async function updatePassword(){
 
             closeNotice();
 
+            recoveryMode = false;
+
+            /*
+               Cerramos únicamente la sesión actual.
+            */
+
             await supabaseClient.auth
-            .signOut();
+            .signOut({
+                scope:"local"
+            });
+
 
             currentUser = null;
 
@@ -2854,8 +3125,11 @@ async function updatePassword(){
 
             resetAuthArea();
 
-            window.location.href =
-            SUPABASE_REDIRECT_URL;
+            cleanRecoveryUrl();
+
+            window.location.replace(
+                SUPABASE_REDIRECT_URL
+            );
 
         }
     );
@@ -2863,7 +3137,9 @@ async function updatePassword(){
 }
 
 
-/* ABRIR PANTALLA DE RECUPERACIÓN */
+/* =====================================================
+   ABRIR PANTALLA DE RECUPERACIÓN
+   ===================================================== */
 
 function openResetPassword(){
 
@@ -2883,9 +3159,303 @@ function openResetPassword(){
 }
 
 
-/* USUARIO */
+/* =====================================================
+   PROCESAR RECUPERACIÓN
+   ===================================================== */
+
+async function processRecovery(){
+
+    /*
+       IMPORTANTE:
+       Esto se ejecuta ANTES de cargar la sesión
+       normal del navegador.
+    */
+
+    const url =
+    new URL(window.location.href);
+
+    const params =
+    url.searchParams;
+
+    const hashParams =
+    new URLSearchParams(
+        window.location.hash.replace(/^#/,"")
+    );
+
+
+    /* ---------------------------------------------
+       OPCIÓN 1: PKCE
+       URL esperada:
+
+       https://sparky-kreate.github.io/SparkyKreate/?code=...
+       --------------------------------------------- */
+
+    const code =
+    params.get("code");
+
+
+    if(code){
+
+        recoveryMode = true;
+
+        resetAuthArea();
+
+
+        const flowId =
+        params.get("sb_flow_id");
+
+
+        let result;
+
+
+        if(flowId){
+
+            result =
+            await supabaseClient.auth
+            .exchangeCodeForSession(
+                code,
+                {
+                    flowId:flowId
+                }
+            );
+
+        }else{
+
+            result =
+            await supabaseClient.auth
+            .exchangeCodeForSession(
+                code
+            );
+
+        }
+
+
+        if(result.error){
+
+            console.error(
+                "Recovery code error:",
+                result.error
+            );
+
+
+            recoveryMode = false;
+
+            cleanRecoveryUrl();
+
+            showNotice(
+                "Enlace no válido",
+                translateSupabaseError(
+                    result.error.message
+                ),
+                "Volver a SparkyKrea →",
+                function(){
+
+                    closeNotice();
+
+                    window.location.replace(
+                        SUPABASE_REDIRECT_URL
+                    );
+
+                }
+            );
+
+            return true;
+
+        }
+
+
+        /*
+           El código ya fue convertido en sesión.
+           Ahora abrimos DIRECTAMENTE el formulario.
+        */
+
+        cleanRecoveryUrl();
+
+        openResetPassword();
+
+        return true;
+
+    }
+
+
+    /* ---------------------------------------------
+       OPCIÓN 2: TOKEN EN HASH
+       Compatibilidad con enlaces anteriores.
+       --------------------------------------------- */
+
+    const accessToken =
+    hashParams.get("access_token");
+
+    const refreshToken =
+    hashParams.get("refresh_token");
+
+    const recoveryType =
+    hashParams.get("type");
+
+
+    if(
+        recoveryType === "recovery" &&
+        accessToken &&
+        refreshToken
+    ){
+
+        recoveryMode = true;
+
+        resetAuthArea();
+
+
+        const {
+            data,
+            error
+        } =
+        await supabaseClient.auth
+        .setSession({
+
+            access_token:
+            accessToken,
+
+            refresh_token:
+            refreshToken
+
+        });
+
+
+        if(error){
+
+            console.error(
+                "Recovery token error:",
+                error
+            );
+
+
+            recoveryMode = false;
+
+            showNotice(
+                "Enlace no válido",
+                translateSupabaseError(
+                    error.message
+                ),
+                "Volver a SparkyKrea →",
+                function(){
+
+                    closeNotice();
+
+                    cleanRecoveryUrl();
+
+                    window.location.replace(
+                        SUPABASE_REDIRECT_URL
+                    );
+
+                }
+            );
+
+            return true;
+
+        }
+
+
+        cleanRecoveryUrl();
+
+        openResetPassword();
+
+        return true;
+
+    }
+
+
+    /* ---------------------------------------------
+       OPCIÓN 3: TOKEN EN QUERY
+       Compatibilidad.
+       --------------------------------------------- */
+
+    const queryAccessToken =
+    params.get("access_token");
+
+    const queryRefreshToken =
+    params.get("refresh_token");
+
+    const queryRecoveryType =
+    params.get("type");
+
+
+    if(
+        queryRecoveryType === "recovery" &&
+        queryAccessToken &&
+        queryRefreshToken
+    ){
+
+        recoveryMode = true;
+
+        resetAuthArea();
+
+
+        const {
+            error
+        } =
+        await supabaseClient.auth
+        .setSession({
+
+            access_token:
+            queryAccessToken,
+
+            refresh_token:
+            queryRefreshToken
+
+        });
+
+
+        if(error){
+
+            console.error(
+                "Query recovery error:",
+                error
+            );
+
+            recoveryMode = false;
+
+            showNotice(
+                "Enlace no válido",
+                translateSupabaseError(
+                    error.message
+                )
+            );
+
+            return true;
+
+        }
+
+
+        cleanRecoveryUrl();
+
+        openResetPassword();
+
+        return true;
+
+    }
+
+
+    return false;
+
+}
+
+
+/* =====================================================
+   USUARIO
+   ===================================================== */
 
 async function loadCurrentUser(){
+
+    /*
+       Nunca cargamos el usuario normal mientras
+       estamos procesando una recuperación.
+    */
+
+    if(recoveryMode){
+
+        return;
+
+    }
+
 
     const {
         data:{
@@ -2894,6 +3464,7 @@ async function loadCurrentUser(){
     } =
     await supabaseClient.auth
     .getUser();
+
 
     if(!user){
 
@@ -2907,7 +3478,9 @@ async function loadCurrentUser(){
 
     }
 
+
     currentUser = user;
+
 
     const {
         data:profile,
@@ -2918,8 +3491,12 @@ async function loadCurrentUser(){
     .select(
         "id,first_name,last_name,email,role,created_at"
     )
-    .eq("id",user.id)
+    .eq(
+        "id",
+        user.id
+    )
     .maybeSingle();
+
 
     if(error){
 
@@ -2927,19 +3504,25 @@ async function loadCurrentUser(){
 
     }
 
-    currentProfile = profile;
+
+    currentProfile =
+    profile;
+
 
     updateAuthArea();
 
 }
 
 
-/* HEADER LOGUEADO */
+/* =====================================================
+   HEADER LOGUEADO
+   ===================================================== */
 
 function updateAuthArea(){
 
     const area =
     document.getElementById("authArea");
+
 
     if(!currentUser){
 
@@ -2949,32 +3532,39 @@ function updateAuthArea(){
 
     }
 
+
     const first =
     currentProfile?.first_name ||
     currentUser.user_metadata?.first_name ||
     "Usuario";
+
 
     const last =
     currentProfile?.last_name ||
     currentUser.user_metadata?.last_name ||
     "";
 
+
     const role =
     currentProfile?.role ||
     "user";
+
 
     const isAdmin =
     role === "admin" &&
     currentUser.email?.toLowerCase() ===
     ADMIN_EMAIL;
 
+
     area.innerHTML = "";
+
 
     const wrapper =
     document.createElement("div");
 
     wrapper.className =
     "account-area";
+
 
     const name =
     document.createElement("div");
@@ -2985,7 +3575,11 @@ function updateAuthArea(){
     name.textContent =
     (first+" "+last).trim();
 
-    wrapper.appendChild(name);
+
+    wrapper.appendChild(
+        name
+    );
+
 
     if(isAdmin){
 
@@ -3001,9 +3595,13 @@ function updateAuthArea(){
         adminButton.onclick =
         openAdminPanel;
 
-        wrapper.appendChild(adminButton);
+
+        wrapper.appendChild(
+            adminButton
+        );
 
     }
+
 
     const logoutButton =
     document.createElement("button");
@@ -3017,14 +3615,22 @@ function updateAuthArea(){
     logoutButton.onclick =
     logoutUser;
 
-    wrapper.appendChild(logoutButton);
 
-    area.appendChild(wrapper);
+    wrapper.appendChild(
+        logoutButton
+    );
+
+
+    area.appendChild(
+        wrapper
+    );
 
 }
 
 
-/* RESTABLECER HEADER */
+/* =====================================================
+   RESTABLECER HEADER
+   ===================================================== */
 
 function resetAuthArea(){
 
@@ -3048,11 +3654,16 @@ function resetAuthArea(){
 }
 
 
-/* LOGOUT */
+/* =====================================================
+   LOGOUT
+   ===================================================== */
 
 async function logoutUser(){
 
-    await supabaseClient.auth.signOut();
+    await supabaseClient.auth
+    .signOut({
+        scope:"local"
+    });
 
     currentUser = null;
 
@@ -3068,7 +3679,9 @@ async function logoutUser(){
 }
 
 
-/* ADMIN */
+/* =====================================================
+   ADMIN
+   ===================================================== */
 
 async function openAdminPanel(){
 
@@ -3077,6 +3690,7 @@ async function openAdminPanel(){
         return;
 
     }
+
 
     if(
         currentUser.email?.toLowerCase() !==
@@ -3092,15 +3706,22 @@ async function openAdminPanel(){
 
     }
 
+
     const {
         data:profile,
         error:profileError
     } =
     await supabaseClient
     .from("profiles")
-    .select("role,email")
-    .eq("id",currentUser.id)
+    .select(
+        "role,email"
+    )
+    .eq(
+        "id",
+        currentUser.id
+    )
     .maybeSingle();
+
 
     if(profileError){
 
@@ -3113,7 +3734,11 @@ async function openAdminPanel(){
 
     }
 
-    if(!profile || profile.role !== "admin"){
+
+    if(
+        !profile ||
+        profile.role !== "admin"
+    ){
 
         showNotice(
             "Panel no disponible",
@@ -3124,10 +3749,12 @@ async function openAdminPanel(){
 
     }
 
+
     document
     .getElementById("adminModal")
     .classList
     .add("active");
+
 
     await loadAdminUsers();
 
@@ -3152,6 +3779,7 @@ async function loadAdminUsers(){
     const count =
     document.getElementById("adminCount");
 
+
     tbody.innerHTML = `
 
         <tr>
@@ -3161,6 +3789,7 @@ async function loadAdminUsers(){
         </tr>
 
     `;
+
 
     const {
         data:profiles,
@@ -3178,6 +3807,7 @@ async function loadAdminUsers(){
         }
     );
 
+
     if(error){
 
         tbody.innerHTML = `
@@ -3190,14 +3820,17 @@ async function loadAdminUsers(){
 
         `;
 
+
         count.textContent =
         "Error al cargar";
+
 
         console.error(error);
 
         return;
 
     }
+
 
     count.textContent =
     profiles.length +
@@ -3208,6 +3841,7 @@ async function loadAdminUsers(){
         :
         " usuarios registrados"
     );
+
 
     if(!profiles.length){
 
@@ -3225,12 +3859,16 @@ async function loadAdminUsers(){
 
     }
 
+
     tbody.innerHTML = "";
 
-    profiles.forEach(function(profile){
+
+    profiles.forEach(
+    function(profile){
 
         const row =
         document.createElement("tr");
+
 
         const nameCell =
         document.createElement("td");
@@ -3242,17 +3880,20 @@ async function loadAdminUsers(){
             profile.last_name
         ).trim();
 
+
         const emailCell =
         document.createElement("td");
 
         emailCell.textContent =
         profile.email;
 
+
         const roleCell =
         document.createElement("td");
 
         roleCell.textContent =
         profile.role;
+
 
         const dateCell =
         document.createElement("td");
@@ -3264,19 +3905,36 @@ async function loadAdminUsers(){
             "es-ES"
         );
 
-        row.appendChild(nameCell);
-        row.appendChild(emailCell);
-        row.appendChild(roleCell);
-        row.appendChild(dateCell);
 
-        tbody.appendChild(row);
+        row.appendChild(
+            nameCell
+        );
+
+        row.appendChild(
+            emailCell
+        );
+
+        row.appendChild(
+            roleCell
+        );
+
+        row.appendChild(
+            dateCell
+        );
+
+
+        tbody.appendChild(
+            row
+        );
 
     });
 
 }
 
 
-/* CHAT */
+/* =====================================================
+   CHAT
+   ===================================================== */
 
 function openChat(){
 
@@ -3288,7 +3946,9 @@ function openChat(){
     document.body.style.overflow =
     "hidden";
 
+
     updateGreeting();
+
 
     setTimeout(function(){
 
@@ -3318,16 +3978,24 @@ function updateGreeting(){
     const hour =
     new Date().getHours();
 
+
     let greeting =
     "Hola.";
 
-    if(hour >= 5 && hour < 12){
+
+    if(
+        hour >= 5 &&
+        hour < 12
+    ){
 
         greeting =
         "Buenos días.";
 
     }
-    else if(hour >= 12 && hour < 19){
+    else if(
+        hour >= 12 &&
+        hour < 19
+    ){
 
         greeting =
         "Buenas tardes.";
@@ -3339,6 +4007,7 @@ function updateGreeting(){
         "Buenas noches.";
 
     }
+
 
     document
     .getElementById("welcome")
@@ -3365,8 +4034,10 @@ function sendMessage(){
     const input =
     document.getElementById("chatInput");
 
+
     const text =
     input.value.trim();
+
 
     if(!text){
 
@@ -3374,20 +4045,25 @@ function sendMessage(){
 
     }
 
+
     addMessage(
         text,
         "user"
     );
 
+
     input.value = "";
+
 
     setTimeout(function(){
 
         const lower =
         text.toLowerCase();
 
+
         let response =
         "Cuéntame un poco más sobre tu idea y qué resultado quieres conseguir.";
+
 
         if(
             lower.includes("juego") ||
@@ -3430,31 +4106,47 @@ function sendMessage(){
 
         }
 
+
         addMessage(
             response,
             "bot"
         );
+
 
     },420);
 
 }
 
 
-function addMessage(text,type){
+function addMessage(
+    text,
+    type
+){
 
     const container =
-    document.getElementById("chatContent");
+    document.getElementById(
+        "chatContent"
+    );
+
 
     const message =
-    document.createElement("div");
+    document.createElement(
+        "div"
+    );
+
 
     message.className =
     "message " + type;
 
+
     message.textContent =
     text;
 
-    container.appendChild(message);
+
+    container.appendChild(
+        message
+    );
+
 
     container.scrollTop =
     container.scrollHeight;
@@ -3462,7 +4154,9 @@ function addMessage(text,type){
 }
 
 
-/* CONTACTO */
+/* =====================================================
+   CONTACTO
+   ===================================================== */
 
 function contactar(){
 
@@ -3474,34 +4168,46 @@ function contactar(){
 }
 
 
-/* CARRUSEL */
+/* =====================================================
+   CARRUSEL
+   ===================================================== */
 
 const cards =
 document.querySelectorAll(
     ".service-card"
 );
 
+
 const dotsContainer =
 document.getElementById(
     "carouselDots"
 );
 
+
 let currentCard = 0;
+
 
 cards.forEach(
 function(card,index){
 
     const dot =
-    document.createElement("div");
+    document.createElement(
+        "div"
+    );
+
 
     dot.className =
     "carousel-dot";
 
+
     if(index === 0){
 
-        dot.classList.add("active");
+        dot.classList.add(
+            "active"
+        );
 
     }
+
 
     dot.addEventListener(
         "click",
@@ -3512,14 +4218,19 @@ function(card,index){
         }
     );
 
-    dotsContainer.appendChild(dot);
+
+    dotsContainer.appendChild(
+        dot
+    );
 
 });
+
 
 const dots =
 document.querySelectorAll(
     ".carousel-dot"
 );
+
 
 function showCard(index){
 
@@ -3533,6 +4244,7 @@ function showCard(index){
         }
     );
 
+
     dots.forEach(
         function(dot){
 
@@ -3543,33 +4255,43 @@ function showCard(index){
         }
     );
 
+
     cards[index]
     .classList
     .add("active");
 
+
     dots[index]
     .classList
     .add("active");
+
 
     currentCard =
     index;
 
 }
 
+
 setInterval(
 function(){
 
     currentCard++;
 
-    if(currentCard >= cards.length){
+
+    if(
+        currentCard >=
+        cards.length
+    ){
 
         currentCard = 0;
 
     }
 
+
     showCard(
         currentCard
     );
+
 
 },
 4400
@@ -3578,18 +4300,50 @@ function(){
 
 /* =====================================================
    AUTENTICACIÓN
-   =====================================================
+   ===================================================== */
 
+/*
+   Detectamos SI EL USUARIO YA VIENE DE UN ENLACE
+   DE RECUPERACIÓN ANTES DE ESCUCHAR LA SESIÓN NORMAL.
+*/
+
+recoveryMode =
+urlIsRecoveryCallback();
+
+
+/*
    IMPORTANTE:
-   Primero escuchamos PASSWORD_RECOVERY.
-   Así, cuando Supabase recibe el enlace del correo,
-   abre directamente la pantalla para cambiar contraseña.
+
+   El listener está registrado inmediatamente después
+   de crear el cliente.
+
+   Durante recuperación NO cargamos el usuario normal.
 */
 
 supabaseClient.auth.onAuthStateChange(
-function(event,session){
+function(
+    event,
+    session
+){
 
-    if(event === "PASSWORD_RECOVERY"){
+    console.log(
+        "Supabase auth:",
+        event
+    );
+
+
+    /*
+       Este evento es el importante para recuperación.
+    */
+
+    if(
+        event ===
+        "PASSWORD_RECOVERY"
+    ){
+
+        recoveryMode = true;
+
+        resetAuthArea();
 
         setTimeout(
             function(){
@@ -3597,12 +4351,27 @@ function(event,session){
                 openResetPassword();
 
             },
-            150
+            100
         );
 
         return;
 
     }
+
+
+    /*
+       Mientras recoveryMode esté activo,
+       ningún evento normal puede cambiar el
+       header a "Guillermo..." ni abrir una sesión
+       normal.
+    */
+
+    if(recoveryMode){
+
+        return;
+
+    }
+
 
     if(session){
 
@@ -3628,26 +4397,59 @@ function(event,session){
 });
 
 
-/* SESIÓN AL ABRIR */
+/* =====================================================
+   ARRANQUE
+   ===================================================== */
 
-supabaseClient.auth
-.getSession()
-.then(
-function(result){
+async function startApp(){
 
-    const session =
-    result.data.session;
+    /*
+       PRIMERO:
+       si venimos del enlace del correo,
+       procesamos recuperación.
+
+       NO llamamos getSession() primero.
+    */
+
+    if(recoveryMode){
+
+        const handled =
+        await processRecovery();
+
+
+        if(handled){
+
+            return;
+
+        }
+
+
+        /*
+           Si recoveryMode era TRUE pero no encontramos
+           un callback válido, lo apagamos.
+        */
+
+        recoveryMode = false;
+
+    }
+
+
+    /*
+       AHORA sí cargamos la sesión normal.
+    */
+
+    const {
+        data:{
+            session
+        }
+    } =
+    await supabaseClient.auth
+    .getSession();
+
 
     if(session){
 
-        setTimeout(
-            function(){
-
-                loadCurrentUser();
-
-            },
-            0
-        );
+        await loadCurrentUser();
 
     }else{
 
@@ -3655,26 +4457,46 @@ function(result){
 
     }
 
-});
+}
 
 
-/* ESCAPE */
+/*
+   Arrancamos la aplicación.
+*/
+
+startApp();
+
+
+/* =====================================================
+   ESCAPE
+   ===================================================== */
 
 document.addEventListener(
 "keydown",
 function(event){
 
-    if(event.key === "Escape"){
+    if(
+        event.key === "Escape"
+    ){
 
-        closeModal();
+        /*
+           Durante recuperación no dejamos que ESC
+           cierre accidentalmente la pantalla.
+        */
 
-        closeForgotPassword();
+        if(!recoveryMode){
 
-        closeChat();
+            closeModal();
 
-        closeNotice();
+            closeForgotPassword();
 
-        closeAdminPanel();
+            closeChat();
+
+            closeNotice();
+
+            closeAdminPanel();
+
+        }
 
     }
 
