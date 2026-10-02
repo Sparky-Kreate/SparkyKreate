@@ -1057,27 +1057,7 @@ footer span{
 
 
 /* =====================================================
-   TABLET
-===================================================== */
-
-@media(max-width:900px){
-
-    .hero{
-        min-height:calc(100vh - 75px);
-
-        padding-top:60px;
-    }
-
-    .hero h1{
-        font-size:clamp(44px,8vw,65px);
-    }
-
-}
-
-
-/* =====================================================
-   💻 PC
-   VERSIÓN GRANDE Y COMPACTA
+   PC
 ===================================================== */
 
 @media(min-width:901px){
@@ -1104,9 +1084,6 @@ footer span{
 
         font-size:14px;
     }
-
-
-    /* HERO */
 
     .hero{
         width:min(1400px,calc(100% - 70px));
@@ -1160,9 +1137,6 @@ footer span{
 
         font-size:15px;
     }
-
-
-    /* SERVICIOS */
 
     .services{
         width:min(1400px,calc(100% - 70px));
@@ -1238,9 +1212,6 @@ footer span{
         margin-top:12px;
     }
 
-
-    /* CONTACT */
-
     .contact{
         width:min(1200px,calc(100% - 70px));
 
@@ -1271,9 +1242,6 @@ footer span{
         font-size:13px;
     }
 
-
-    /* FOOTER */
-
     footer{
         padding:12px 20px 14px;
     }
@@ -1287,7 +1255,6 @@ footer span{
     footer span{
         font-size:11px;
     }
-
 }
 
 
@@ -1413,7 +1380,7 @@ footer span{
 
 
 /* =====================================================
-   📱 MÓVIL
+   MÓVIL
 ===================================================== */
 
 @media(max-width:600px){
@@ -1456,9 +1423,6 @@ footer span{
 
         font-size:10px;
     }
-
-
-    /* HERO */
 
     .hero{
         width:100%;
@@ -1503,9 +1467,6 @@ footer span{
 
         font-size:15px;
     }
-
-
-    /* SERVICIOS */
 
     .services{
         width:100%;
@@ -1555,9 +1516,6 @@ footer span{
         font-size:14px;
     }
 
-
-    /* CONTACT */
-
     .contact{
         width:100%;
 
@@ -1574,20 +1532,326 @@ footer span{
         line-height:1.65;
     }
 
-
-    /* FOOTER */
-
     footer{
         padding-bottom:30px;
     }
 
-
-    /* CHAT */
-
     .message{
         max-width:88%;
     }
+}
 
+
+/* =====================================================
+   ELEMENTOS NUEVOS DE CUENTA
+   NO AFECTAN EL DISEÑO PRINCIPAL
+===================================================== */
+
+.account-area{
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.account-name{
+    border:1px solid #514b40;
+    background:#11110f;
+    color:var(--cream);
+    padding:10px 15px;
+    border-radius:999px;
+    font-size:13px;
+}
+
+.account-admin{
+    border:1px solid var(--beige);
+    background:var(--beige);
+    color:#171611;
+    padding:10px 15px;
+    border-radius:999px;
+    font-size:13px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.account-logout{
+    border:1px solid #514b40;
+    background:#11110f;
+    color:var(--cream);
+    padding:10px 15px;
+    border-radius:999px;
+    font-size:13px;
+    cursor:pointer;
+}
+
+.account-admin:hover,
+.account-logout:hover{
+    transform:translateY(-2px);
+}
+
+
+/* =====================================================
+   MENSAJE SPARKYKREA
+===================================================== */
+
+.notice{
+    position:fixed;
+    inset:0;
+    z-index:3000;
+
+    background:rgba(0,0,0,.88);
+    backdrop-filter:blur(8px);
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:20px;
+
+    opacity:0;
+    visibility:hidden;
+}
+
+.notice.active{
+    opacity:1;
+    visibility:visible;
+}
+
+.notice-box{
+    width:min(430px,100%);
+
+    background:#11110f;
+
+    border:1px solid #554d3e;
+
+    border-radius:25px;
+
+    padding:32px;
+
+    text-align:center;
+
+    transform:translateY(25px) scale(.97);
+}
+
+.notice.active .notice-box{
+    transform:translateY(0) scale(1);
+}
+
+.notice-logo{
+    width:58px;
+    height:58px;
+
+    border:2px solid var(--beige);
+
+    border-radius:50%;
+
+    position:relative;
+
+    margin:0 auto 22px;
+}
+
+.notice-logo::before,
+.notice-logo::after{
+    content:"";
+
+    position:absolute;
+
+    width:34px;
+    height:2px;
+
+    background:var(--beige);
+
+    left:50%;
+    top:50%;
+}
+
+.notice-logo::before{
+    transform:translate(-50%,-50%) rotate(45deg);
+}
+
+.notice-logo::after{
+    transform:translate(-50%,-50%) rotate(-45deg);
+}
+
+.notice-box h2{
+    font-family:"Playfair Display",serif;
+    font-size:32px;
+    margin-bottom:9px;
+}
+
+.notice-box p{
+    color:#a8a39b;
+    line-height:1.55;
+    font-size:15px;
+}
+
+.notice-btn{
+    margin-top:23px;
+
+    padding:13px 25px;
+
+    border:none;
+
+    border-radius:999px;
+
+    background:var(--beige);
+
+    color:#171611;
+
+    font-weight:700;
+
+    cursor:pointer;
+}
+
+
+/* =====================================================
+   PANEL ADMIN
+===================================================== */
+
+.admin-modal{
+    position:fixed;
+    inset:0;
+
+    z-index:4000;
+
+    background:rgba(0,0,0,.9);
+
+    backdrop-filter:blur(8px);
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    padding:20px;
+
+    opacity:0;
+    visibility:hidden;
+}
+
+.admin-modal.active{
+    opacity:1;
+    visibility:visible;
+}
+
+.admin-box{
+    width:min(850px,100%);
+    max-height:85vh;
+
+    overflow:auto;
+
+    background:#11110f;
+
+    border:1px solid #554d3e;
+
+    border-radius:25px;
+
+    padding:30px;
+
+    position:relative;
+
+    transform:translateY(25px) scale(.97);
+}
+
+.admin-modal.active .admin-box{
+    transform:translateY(0) scale(1);
+}
+
+.admin-box h2{
+    font-family:"Playfair Display",serif;
+    font-size:34px;
+    margin-bottom:5px;
+}
+
+.admin-box-subtitle{
+    color:#99948c;
+    margin-bottom:22px;
+}
+
+.admin-close{
+    position:absolute;
+
+    right:17px;
+    top:13px;
+
+    border:none;
+
+    background:none;
+
+    color:var(--beige);
+
+    font-size:28px;
+
+    cursor:pointer;
+}
+
+.admin-table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.admin-table th,
+.admin-table td{
+    padding:12px 8px;
+    border-bottom:1px solid #292721;
+    text-align:left;
+    font-size:13px;
+}
+
+.admin-table th{
+    color:var(--beige-light);
+}
+
+.admin-table td{
+    color:#c9c2b7;
+}
+
+.admin-count{
+    display:inline-block;
+
+    padding:7px 12px;
+
+    border-radius:999px;
+
+    background:#29261f;
+
+    color:var(--beige-light);
+
+    margin-bottom:18px;
+
+    font-size:13px;
+}
+
+@media(max-width:600px){
+
+    .account-name{
+        max-width:95px;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        white-space:nowrap;
+
+        padding:8px 9px;
+        font-size:9px;
+    }
+
+    .account-admin,
+    .account-logout{
+        padding:8px 9px;
+        font-size:9px;
+    }
+
+    .admin-box{
+        padding:24px 17px;
+    }
+
+    .admin-box h2{
+        font-size:29px;
+    }
+
+    .admin-table th,
+    .admin-table td{
+        padding:9px 5px;
+        font-size:10px;
+    }
 }
 
 
@@ -1639,7 +1903,7 @@ footer span{
 </a>
 
 
-<div class="auth">
+<div class="auth" id="authArea">
 
 <button onclick="openModal('login')">
 Iniciar sesión
@@ -2004,6 +2268,102 @@ Continuar
 
 
 <!-- =====================================================
+     MENSAJE SPARKYKREA
+===================================================== -->
+
+<div class="notice" id="notice">
+
+<div class="notice-box">
+
+<div class="notice-logo"></div>
+
+<h2 id="noticeTitle">
+SparkyKrea
+</h2>
+
+<p id="noticeText">
+</p>
+
+<button
+class="notice-btn"
+onclick="closeNotice()"
+>
+Continuar →
+</button>
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     PANEL ADMIN
+===================================================== -->
+
+<div
+class="admin-modal"
+id="adminModal"
+>
+
+<div class="admin-box">
+
+<button
+class="admin-close"
+onclick="closeAdminPanel()"
+>
+×
+</button>
+
+<h2>
+Panel de administrador
+</h2>
+
+<p class="admin-box-subtitle">
+Usuarios registrados en SparkyKrea.
+</p>
+
+<div
+class="admin-count"
+id="adminCount"
+>
+Cargando usuarios...
+</div>
+
+<div style="overflow-x:auto;">
+
+<table class="admin-table">
+
+<thead>
+
+<tr>
+<th>Nombre</th>
+<th>Correo</th>
+<th>Rol</th>
+<th>Fecha</th>
+</tr>
+
+</thead>
+
+<tbody id="adminUsers">
+
+<tr>
+<td colspan="4">
+Cargando...
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
      CHAT
 ===================================================== -->
 
@@ -2103,461 +2463,468 @@ window.supabase.createClient(
 
 
 /* =====================================================
-   VARIABLES
+   ADMIN
 ===================================================== */
 
-let authMode = "login";
+const ADMIN_EMAIL =
+"guillermojose170512@gmail.com";
+
 
 let currentUser = null;
-
 let currentProfile = null;
+
+
+/* =====================================================
+   MENSAJES
+===================================================== */
+
+function showNotice(title,text){
+
+document
+.getElementById("noticeTitle")
+.textContent=title;
+
+document
+.getElementById("noticeText")
+.textContent=text;
+
+document
+.getElementById("notice")
+.classList
+.add("active");
+
+}
+
+
+function closeNotice(){
+
+document
+.getElementById("notice")
+.classList
+.remove("active");
+
+}
 
 
 /* =====================================================
    MODAL
 ===================================================== */
 
+let authMode="login";
+
+
 function openModal(mode){
 
-    authMode = mode;
+authMode=mode;
 
-    document
-        .getElementById("modal")
-        .classList
-        .add("active");
-
-
-    const nameField =
-        document.getElementById("nameField");
-
-    const surnameField =
-        document.getElementById("surnameField");
+document
+.getElementById("modal")
+.classList
+.add("active");
 
 
-    if(mode === "register"){
+const nameField=
+document.getElementById("nameField");
 
-        document
-            .getElementById("modalTitle")
-            .textContent =
-            "Crear cuenta";
+const surnameField=
+document.getElementById("surnameField");
 
-        document
-            .getElementById("modalDescription")
-            .textContent =
-            "Crea tu espacio en SparkyKrea.";
 
-        nameField.style.display = "block";
+if(mode==="register"){
 
-        surnameField.style.display = "block";
+document
+.getElementById("modalTitle")
+.textContent="Crear cuenta";
 
-    }else{
+document
+.getElementById("modalDescription")
+.textContent=
+"Crea tu espacio en SparkyKrea.";
 
-        document
-            .getElementById("modalTitle")
-            .textContent =
-            "Iniciar sesión";
+nameField.style.display="block";
 
-        document
-            .getElementById("modalDescription")
-            .textContent =
-            "Accede a tu espacio en SparkyKrea.";
+surnameField.style.display="block";
 
-        nameField.style.display = "none";
+}else{
 
-        surnameField.style.display = "none";
+document
+.getElementById("modalTitle")
+.textContent=
+"Iniciar sesión";
 
-    }
+document
+.getElementById("modalDescription")
+.textContent=
+"Accede a tu espacio en SparkyKrea.";
+
+nameField.style.display="none";
+
+surnameField.style.display="none";
+
+}
 
 }
 
 
 function closeModal(){
 
-    document
-        .getElementById("modal")
-        .classList
-        .remove("active");
+document
+.getElementById("modal")
+.classList
+.remove("active");
 
 }
 
 
 function outsideModal(event){
 
-    if(event.target.id === "modal"){
+if(event.target.id==="modal"){
 
-        closeModal();
+closeModal();
 
-    }
+}
 
 }
 
 
 /* =====================================================
-   REGISTRO / LOGIN REAL
+   REGISTRO / LOGIN
 ===================================================== */
 
 async function submitAuth(){
 
-    const email =
-        document
-        .getElementById("email")
-        .value
-        .trim();
+const email=
+document
+.getElementById("email")
+.value
+.trim()
+.toLowerCase();
 
-    const password =
-        document
-        .getElementById("password")
-        .value
-        .trim();
+const password=
+document
+.getElementById("password")
+.value
+.trim();
 
 
-    if(!email || !password){
+if(!email || !password){
 
-        alert(
-            "Completa tu correo y contraseña."
-        );
+showNotice(
+"Falta información",
+"Completa tu correo y contraseña para continuar."
+);
 
-        return;
+return;
 
-    }
+}
 
 
-    /* ================================================
-       REGISTRO
-    ================================================ */
+if(authMode==="register"){
 
-    if(authMode === "register"){
+const first=
+document
+.getElementById("firstName")
+.value
+.trim();
 
-        const first =
-            document
-            .getElementById("firstName")
-            .value
-            .trim();
+const last=
+document
+.getElementById("lastName")
+.value
+.trim();
 
-        const last =
-            document
-            .getElementById("lastName")
-            .value
-            .trim();
 
+if(!first || !last){
 
-        if(!first || !last){
+showNotice(
+"Falta información",
+"Completa tu nombre y apellido para crear tu cuenta."
+);
 
-            alert(
-                "Completa tu nombre y apellido."
-            );
-
-            return;
-
-        }
-
-
-        if(password.length < 6){
-
-            alert(
-                "La contraseña debe tener al menos 6 caracteres."
-            );
-
-            return;
-
-        }
-
-
-        try{
-
-            const {
-                data,
-                error
-            } =
-            await supabaseClient.auth.signUp({
-
-                email: email,
-
-                password: password,
-
-                options: {
-
-                    data: {
-
-                        first_name: first,
-
-                        last_name: last
-
-                    }
-
-                }
-
-            });
-
-
-            if(error){
-
-                alert(error.message);
-
-                return;
-
-            }
-
-
-            closeModal();
-
-
-            if(data.session){
-
-                alert(
-                    "Cuenta creada correctamente."
-                );
-
-                await loadUserProfile(
-                    data.user
-                );
-
-            }else{
-
-                alert(
-                    "Cuenta creada. Revisa tu correo para confirmar la cuenta."
-                );
-
-            }
-
-
-        }catch(error){
-
-            console.error(error);
-
-            alert(
-                "Ocurrió un error al crear la cuenta."
-            );
-
-        }
-
-
-        return;
-
-    }
-
-
-    /* ================================================
-       INICIO DE SESIÓN
-    ================================================ */
-
-    try{
-
-        const {
-            data,
-            error
-        } =
-        await supabaseClient.auth.signInWithPassword({
-
-            email: email,
-
-            password: password
-
-        });
-
-
-        if(error){
-
-            alert(error.message);
-
-            return;
-
-        }
-
-
-        closeModal();
-
-        await loadUserProfile(
-            data.user
-        );
-
-
-    }catch(error){
-
-        console.error(error);
-
-        alert(
-            "Ocurrió un error al iniciar sesión."
-        );
-
-    }
+return;
 
 }
 
 
 /* =====================================================
-   CARGAR PERFIL
+   CREAR CUENTA
 ===================================================== */
 
-async function loadUserProfile(user){
+const { data, error } =
+await supabaseClient.auth.signUp({
 
-    if(!user){
+email:email,
 
-        return;
+password:password,
 
-    }
+options:{
+data:{
+first_name:first,
+last_name:last
+}
+}
 
-
-    currentUser = user;
-
-
-    const {
-        data: profile,
-        error
-    } =
-    await supabaseClient
-    .from("profiles")
-    .select(
-        "id,first_name,last_name,email,role,created_at"
-    )
-    .eq("id", user.id)
-    .maybeSingle();
+});
 
 
-    if(error){
+if(error){
 
-        console.error(
-            "Error cargando perfil:",
-            error
-        );
+showNotice(
+"No pudimos crear la cuenta",
+error.message
+);
 
-        return;
+return;
 
-    }
-
-
-    currentProfile = profile;
+}
 
 
-    updateHeader();
+/*
+   Con Confirm email desactivado,
+   Supabase crea la sesión directamente.
+*/
+
+closeModal();
+
+
+await loadCurrentUser();
+
+
+showNotice(
+"Cuenta creada",
+"Tu cuenta en SparkyKrea ya está lista."
+);
+
+return;
 
 }
 
 
 /* =====================================================
-   ACTUALIZAR HEADER
+   LOGIN
 ===================================================== */
 
-function updateHeader(){
+const { data, error } =
+await supabaseClient.auth.signInWithPassword({
 
-    const auth =
-        document.querySelector(".auth");
+email:email,
 
+password:password
 
-    if(!auth){
-
-        return;
-
-    }
+});
 
 
-    if(!currentUser || !currentProfile){
+if(error){
 
-        auth.innerHTML = `
+showNotice(
+"No pudimos iniciar sesión",
+error.message
+);
 
-            <button onclick="openModal('login')">
-                Iniciar sesión
-            </button>
+return;
 
-            <button
-                class="register"
-                onclick="openModal('register')"
-            >
-                Registrarse
-            </button>
-
-        `;
-
-        return;
-
-    }
+}
 
 
-    const first =
-        currentProfile.first_name || "";
-
-    const last =
-        currentProfile.last_name || "";
-
-    const fullName =
-        (first + " " + last).trim();
+closeModal();
 
 
-    let adminButton = "";
+await loadCurrentUser();
 
 
-    if(currentProfile.role === "admin"){
-
-        adminButton = `
-
-            <button
-                class="register"
-                onclick="openAdminPanel()"
-            >
-                Panel
-            </button>
-
-        `;
-
-    }
-
-
-    auth.innerHTML = `
-
-        <button
-            onclick="showAccountName()"
-        >
-            ${escapeHtml(fullName)}
-        </button>
-
-        ${adminButton}
-
-        <button
-            onclick="logout()"
-        >
-            Salir
-        </button>
-
-    `;
+showNotice(
+"Bienvenido a SparkyKrea",
+"Has iniciado sesión correctamente."
+);
 
 }
 
 
 /* =====================================================
-   MOSTRAR NOMBRE
+   CARGAR USUARIO
 ===================================================== */
 
-function showAccountName(){
+async function loadCurrentUser(){
 
-    if(!currentProfile){
+const {
+data:{
+user
+}
+} =
+await supabaseClient.auth.getUser();
 
-        return;
 
-    }
+if(!user){
+
+currentUser=null;
+currentProfile=null;
+
+resetAuthArea();
+
+return;
+
+}
 
 
-    alert(
-        "Sesión iniciada como " +
-        currentProfile.first_name +
-        " " +
-        currentProfile.last_name
-    );
+currentUser=user;
+
+
+/*
+   Cargamos el perfil de la tabla profiles.
+*/
+
+const {
+data:profile,
+error
+} =
+await supabaseClient
+
+.from("profiles")
+
+.select(
+"id,first_name,last_name,email,role,created_at"
+)
+
+.eq("id",user.id)
+
+.maybeSingle();
+
+
+if(error){
+
+console.error(error);
+
+}
+
+
+currentProfile=profile;
+
+
+updateAuthArea();
 
 }
 
 
 /* =====================================================
-   SEGURIDAD DE TEXTO
+   HEADER LOGUEADO
 ===================================================== */
 
-function escapeHtml(text){
+function updateAuthArea(){
 
-    const div =
-        document.createElement("div");
+const area=
+document.getElementById("authArea");
 
-    div.textContent = text;
 
-    return div.innerHTML;
+if(!currentUser){
+
+resetAuthArea();
+
+return;
+
+}
+
+
+const first=
+currentProfile?.first_name ||
+currentUser.user_metadata?.first_name ||
+"Usuario";
+
+
+const last=
+currentProfile?.last_name ||
+currentUser.user_metadata?.last_name ||
+"";
+
+
+const role=
+currentProfile?.role ||
+"user";
+
+
+const isAdmin =
+role==="admin" &&
+currentUser.email?.toLowerCase()===ADMIN_EMAIL;
+
+
+area.innerHTML="";
+
+
+const wrapper=
+document.createElement("div");
+
+wrapper.className="account-area";
+
+
+const name=
+document.createElement("div");
+
+name.className="account-name";
+
+name.textContent=
+(first+" "+last).trim();
+
+
+wrapper.appendChild(name);
+
+
+if(isAdmin){
+
+const adminButton=
+document.createElement("button");
+
+adminButton.className="account-admin";
+
+adminButton.textContent="Panel";
+
+adminButton.onclick=
+openAdminPanel;
+
+wrapper.appendChild(adminButton);
+
+}
+
+
+const logoutButton=
+document.createElement("button");
+
+logoutButton.className="account-logout";
+
+logoutButton.textContent="Salir";
+
+logoutButton.onclick=
+logoutUser;
+
+wrapper.appendChild(logoutButton);
+
+
+area.appendChild(wrapper);
+
+}
+
+
+/* =====================================================
+   RESTABLECER HEADER
+===================================================== */
+
+function resetAuthArea(){
+
+const area=
+document.getElementById("authArea");
+
+area.innerHTML=`
+
+<button onclick="openModal('login')">
+Iniciar sesión
+</button>
+
+<button
+class="register"
+onclick="openModal('register')"
+>
+Registrarse
+</button>
+
+`;
 
 }
 
@@ -2566,39 +2933,19 @@ function escapeHtml(text){
    LOGOUT
 ===================================================== */
 
-async function logout(){
+async function logoutUser(){
 
-    try{
+await supabaseClient.auth.signOut();
 
-        const {
-            error
-        } =
-        await supabaseClient.auth.signOut();
+currentUser=null;
+currentProfile=null;
 
+resetAuthArea();
 
-        if(error){
-
-            throw error;
-
-        }
-
-
-        currentUser = null;
-
-        currentProfile = null;
-
-        updateHeader();
-
-
-    }catch(error){
-
-        console.error(error);
-
-        alert(
-            "No se pudo cerrar la sesión."
-        );
-
-    }
+showNotice(
+"Hasta pronto",
+"Tu sesión se ha cerrado correctamente."
+);
 
 }
 
@@ -2609,390 +2956,242 @@ async function logout(){
 
 async function openAdminPanel(){
 
-    if(
-        !currentProfile ||
-        currentProfile.role !== "admin"
-    ){
+if(!currentUser){
 
-        alert(
-            "No tienes permisos de administrador."
-        );
-
-        return;
-
-    }
-
-
-    const {
-        data: profiles,
-        error
-    } =
-    await supabaseClient
-    .from("profiles")
-    .select(
-        "id,first_name,last_name,email,role,created_at"
-    )
-    .order(
-        "created_at",
-        {
-            ascending:false
-        }
-    );
-
-
-    if(error){
-
-        console.error(error);
-
-        alert(
-            "No se pudieron cargar los usuarios."
-        );
-
-        return;
-
-    }
-
-
-    showAdminPanel(
-        profiles || []
-    );
+return;
 
 }
 
 
-/* =====================================================
-   MOSTRAR PANEL ADMIN
-===================================================== */
+if(
+currentUser.email?.toLowerCase() !==
+ADMIN_EMAIL
+){
 
-function showAdminPanel(profiles){
+showNotice(
+"Acceso restringido",
+"No tienes acceso a este panel."
+);
 
-    const oldPanel =
-        document.getElementById(
-            "adminPanel"
-        );
-
-
-    if(oldPanel){
-
-        oldPanel.remove();
-
-    }
-
-
-    const panel =
-        document.createElement("div");
-
-
-    panel.id = "adminPanel";
-
-
-    panel.style.position = "fixed";
-
-    panel.style.inset = "0";
-
-    panel.style.background =
-        "rgba(0,0,0,.94)";
-
-    panel.style.backdropFilter =
-        "blur(7px)";
-
-    panel.style.zIndex = "3000";
-
-    panel.style.padding = "20px";
-
-    panel.style.overflowY = "auto";
-
-
-    const box =
-        document.createElement("div");
-
-
-    box.style.width =
-        "min(700px,100%)";
-
-    box.style.margin =
-        "30px auto";
-
-    box.style.background =
-        "#11110f";
-
-    box.style.border =
-        "1px solid #554d3e";
-
-    box.style.borderRadius =
-        "25px";
-
-    box.style.padding =
-        "30px";
-
-    box.style.position =
-        "relative";
-
-
-    let usersHTML = "";
-
-
-    profiles.forEach(function(profile){
-
-        const date =
-            new Date(
-                profile.created_at
-            ).toLocaleString(
-                "es-ES"
-            );
-
-
-        usersHTML += `
-
-            <div
-                style="
-                    padding:16px 0;
-                    border-bottom:1px solid #292721;
-                "
-            >
-
-                <div
-                    style="
-                        color:#f4efe7;
-                        font-size:16px;
-                        font-weight:600;
-                    "
-                >
-                    ${escapeHtml(
-                        profile.first_name
-                    )}
-                    ${escapeHtml(
-                        profile.last_name
-                    )}
-                </div>
-
-
-                <div
-                    style="
-                        color:#aaa59c;
-                        font-size:13px;
-                        margin-top:5px;
-                    "
-                >
-                    ${escapeHtml(
-                        profile.email
-                    )}
-                </div>
-
-
-                <div
-                    style="
-                        color:#e0cda7;
-                        font-size:12px;
-                        margin-top:5px;
-                    "
-                >
-                    ${escapeHtml(
-                        profile.role
-                    )}
-                    ·
-                    ${date}
-                </div>
-
-            </div>
-
-        `;
-
-    });
-
-
-    box.innerHTML = `
-
-        <button
-            onclick="closeAdminPanel()"
-            style="
-                position:absolute;
-                right:17px;
-                top:13px;
-                border:none;
-                background:none;
-                color:#e0cda7;
-                font-size:28px;
-                cursor:pointer;
-            "
-        >
-            ×
-        </button>
-
-
-        <div
-            style="
-                color:#f0dfbd;
-                font-size:11px;
-                font-weight:700;
-                letter-spacing:6px;
-                margin-bottom:17px;
-            "
-        >
-            ADMINISTRACIÓN
-        </div>
-
-
-        <h2
-            style="
-                font-family:'Playfair Display',serif;
-                font-size:34px;
-                color:#f4efe7;
-                margin-bottom:8px;
-            "
-        >
-            Usuarios registrados
-        </h2>
-
-
-        <p
-            style="
-                color:#99948c;
-                margin-bottom:20px;
-            "
-        >
-            ${profiles.length}
-            usuario${profiles.length === 1 ? "" : "s"} registrado${profiles.length === 1 ? "" : "s"}.
-        </p>
-
-
-        <div>
-
-            ${
-                usersHTML ||
-                `
-                <div
-                    style="
-                        color:#aaa59c;
-                        padding:20px 0;
-                    "
-                >
-                    Todavía no hay usuarios registrados.
-                </div>
-                `
-            }
-
-        </div>
-
-    `;
-
-
-    panel.appendChild(box);
-
-    document.body.appendChild(panel);
-
-    document.body.style.overflow =
-        "hidden";
+return;
 
 }
 
 
-/* =====================================================
-   CERRAR PANEL ADMIN
-===================================================== */
+/*
+   Comprobamos el rol real
+   en la base de datos.
+*/
+
+const {
+data:profile,
+error:profileError
+} =
+await supabaseClient
+
+.from("profiles")
+
+.select("role,email")
+
+.eq("id",currentUser.id)
+
+.maybeSingle();
+
+
+if(profileError){
+
+showNotice(
+"No pudimos abrir el panel",
+profileError.message
+);
+
+return;
+
+}
+
+
+if(!profile || profile.role!=="admin"){
+
+showNotice(
+"Panel no disponible",
+"Tu cuenta todavía no tiene el rol de administrador en la base de datos."
+);
+
+return;
+
+}
+
+
+document
+.getElementById("adminModal")
+.classList
+.add("active");
+
+
+await loadAdminUsers();
+
+}
+
 
 function closeAdminPanel(){
 
-    const panel =
-        document.getElementById(
-            "adminPanel"
-        );
-
-
-    if(panel){
-
-        panel.remove();
-
-    }
-
-
-    document.body.style.overflow = "";
+document
+.getElementById("adminModal")
+.classList
+.remove("active");
 
 }
 
 
 /* =====================================================
-   COMPROBAR SESIÓN
+   CARGAR USUARIOS
 ===================================================== */
 
-async function checkSession(){
+async function loadAdminUsers(){
 
-    try{
+const tbody=
+document.getElementById("adminUsers");
 
-        const {
-            data,
-            error
-        } =
-        await supabaseClient.auth.getSession();
+const count=
+document.getElementById("adminCount");
 
 
-        if(error){
+tbody.innerHTML=`
 
-            console.error(error);
+<tr>
+<td colspan="4">
+Cargando...
+</td>
+</tr>
 
-            return;
+`;
 
-        }
+const {
+data:profiles,
+error
+} =
+await supabaseClient
 
+.from("profiles")
 
-        if(
-            data.session &&
-            data.session.user
-        ){
+.select(
+"id,first_name,last_name,email,role,created_at"
+)
 
-            await loadUserProfile(
-                data.session.user
-            );
-
-        }
-
-    }catch(error){
-
-        console.error(
-            "Error comprobando sesión:",
-            error
-        );
-
-    }
-
+.order(
+"created_at",
+{
+ascending:false
 }
-
-
-/* =====================================================
-   CAMBIOS DE AUTENTICACIÓN
-===================================================== */
-
-supabaseClient.auth.onAuthStateChange(
-    function(event, session){
-
-        if(
-            session &&
-            session.user
-        ){
-
-            setTimeout(
-                function(){
-
-                    loadUserProfile(
-                        session.user
-                    );
-
-                },
-                0
-            );
-
-        }else{
-
-            currentUser = null;
-
-            currentProfile = null;
-
-            updateHeader();
-
-        }
-
-    }
 );
+
+
+if(error){
+
+tbody.innerHTML=`
+
+<tr>
+<td colspan="4">
+No se pudieron cargar los usuarios.
+</td>
+</tr>
+
+`;
+
+count.textContent=
+"Error al cargar";
+
+console.error(error);
+
+return;
+
+}
+
+
+count.textContent=
+profiles.length+
+(
+profiles.length===1
+?
+" usuario registrado"
+:
+" usuarios registrados"
+);
+
+
+if(!profiles.length){
+
+tbody.innerHTML=`
+
+<tr>
+<td colspan="4">
+Todavía no hay usuarios registrados.
+</td>
+</tr>
+
+`;
+
+return;
+
+}
+
+
+tbody.innerHTML="";
+
+
+profiles.forEach(function(profile){
+
+const row=
+document.createElement("tr");
+
+
+const nameCell=
+document.createElement("td");
+
+nameCell.textContent=
+(
+profile.first_name+
+" "+
+profile.last_name
+).trim();
+
+
+const emailCell=
+document.createElement("td");
+
+emailCell.textContent=
+profile.email;
+
+
+const roleCell=
+document.createElement("td");
+
+roleCell.textContent=
+profile.role;
+
+
+const dateCell=
+document.createElement("td");
+
+dateCell.textContent=
+new Date(
+profile.created_at
+).toLocaleDateString(
+"es-ES"
+);
+
+
+row.appendChild(nameCell);
+row.appendChild(emailCell);
+row.appendChild(roleCell);
+row.appendChild(dateCell);
+
+
+tbody.appendChild(row);
+
+});
+
+}
 
 
 /* =====================================================
@@ -3001,199 +3200,179 @@ supabaseClient.auth.onAuthStateChange(
 
 function openChat(){
 
-    document
-        .getElementById("chat")
-        .classList
-        .add("active");
+document
+.getElementById("chat")
+.classList
+.add("active");
 
-    document.body.style.overflow =
-        "hidden";
+document.body.style.overflow="hidden";
 
-    updateGreeting();
+updateGreeting();
 
 
-    setTimeout(function(){
+setTimeout(function(){
 
-        document
-            .getElementById("chatInput")
-            .focus();
+document
+.getElementById("chatInput")
+.focus();
 
-    },450);
+},450);
 
 }
 
 
 function closeChat(){
 
-    document
-        .getElementById("chat")
-        .classList
-        .remove("active");
+document
+.getElementById("chat")
+.classList
+.remove("active");
 
-    document.body.style.overflow = "";
+document.body.style.overflow="";
 
 }
 
 
 function updateGreeting(){
 
-    const hour =
-        new Date().getHours();
+const hour=
+new Date().getHours();
 
-    let greeting = "Hola.";
-
-
-    if(hour >= 5 && hour < 12){
-
-        greeting =
-            "Buenos días.";
-
-    }
-    else if(hour >= 12 && hour < 19){
-
-        greeting =
-            "Buenas tardes.";
-
-    }
-    else{
-
-        greeting =
-            "Buenas noches.";
-
-    }
+let greeting="Hola.";
 
 
-    document
-        .getElementById("welcome")
-        .textContent =
-        greeting +
-        " Cuéntame qué deseas hacer.";
+if(hour>=5 && hour<12){
+
+greeting="Buenos días.";
+
+}
+else if(hour>=12 && hour<19){
+
+greeting="Buenas tardes.";
+
+}
+else{
+
+greeting="Buenas noches.";
+
+}
+
+
+document
+.getElementById("welcome")
+.textContent=
+greeting+
+" Cuéntame qué deseas hacer.";
 
 }
 
 
 function handleEnter(event){
 
-    if(event.key === "Enter"){
+if(event.key==="Enter"){
 
-        sendMessage();
+sendMessage();
 
-    }
+}
 
 }
 
 
 function sendMessage(){
 
-    const input =
-        document.getElementById(
-            "chatInput"
-        );
+const input=
+document.getElementById("chatInput");
 
-    const text =
-        input.value.trim();
+const text=
+input.value.trim();
 
 
-    if(!text){
+if(!text){
 
-        return;
+return;
 
-    }
-
-
-    addMessage(
-        text,
-        "user"
-    );
-
-    input.value = "";
+}
 
 
-    setTimeout(function(){
+addMessage(text,"user");
 
-        const lower =
-            text.toLowerCase();
-
-        let response =
-            "Cuéntame un poco más sobre tu idea y qué resultado quieres conseguir.";
+input.value="";
 
 
-        if(
-            lower.includes("juego") ||
-            lower.includes("videojuego")
-        ){
+setTimeout(function(){
 
-            response =
-            "Perfecto. Podemos trabajar el concepto, estilo visual, mecánicas, público y estrategia de tu juego.";
+const lower=text.toLowerCase();
 
-        }
-
-        else if(
-            lower.includes("marketing") ||
-            lower.includes("publicidad")
-        ){
-
-            response =
-            "Perfecto. Podemos analizar tu propuesta, público, mensaje, contenido y estrategia.";
-
-        }
-
-        else if(
-            lower.includes("logo") ||
-            lower.includes("marca")
-        ){
-
-            response =
-            "Podemos trabajar la identidad de tu marca, su concepto, personalidad, colores y forma de comunicar.";
-
-        }
-
-        else if(
-            lower.includes("hola") ||
-            lower.includes("hey") ||
-            lower.includes("buenas")
-        ){
-
-            response =
-            "¡Hola! Cuéntame qué tienes en mente y lo construimos paso a paso.";
-
-        }
+let response=
+"Cuéntame un poco más sobre tu idea y qué resultado quieres conseguir.";
 
 
-        addMessage(
-            response,
-            "bot"
-        );
+if(
+lower.includes("juego") ||
+lower.includes("videojuego")
+){
 
-    },420);
+response=
+"Perfecto. Podemos trabajar el concepto, estilo visual, mecánicas, público y estrategia de tu juego.";
+
+}
+
+else if(
+lower.includes("marketing") ||
+lower.includes("publicidad")
+){
+
+response=
+"Perfecto. Podemos analizar tu propuesta, público, mensaje, contenido y estrategia.";
+
+}
+
+else if(
+lower.includes("logo") ||
+lower.includes("marca")
+){
+
+response=
+"Podemos trabajar la identidad de tu marca, su concepto, personalidad, colores y forma de comunicar.";
+
+}
+
+else if(
+lower.includes("hola") ||
+lower.includes("hey") ||
+lower.includes("buenas")
+){
+
+response=
+"¡Hola! Cuéntame qué tienes en mente y lo construimos paso a paso.";
+
+}
+
+
+addMessage(response,"bot");
+
+},420);
 
 }
 
 
 function addMessage(text,type){
 
-    const container =
-        document.getElementById(
-            "chatContent"
-        );
+const container=
+document.getElementById("chatContent");
 
-    const message =
-        document.createElement(
-            "div"
-        );
+const message=
+document.createElement("div");
 
-    message.className =
-        "message " + type;
+message.className=
+"message "+type;
 
-    message.textContent =
-        text;
+message.textContent=text;
 
-    container.appendChild(
-        message
-    );
+container.appendChild(message);
 
-    container.scrollTop =
-        container.scrollHeight;
+container.scrollTop=
+container.scrollHeight;
 
 }
 
@@ -3204,9 +3383,10 @@ function addMessage(text,type){
 
 function contactar(){
 
-    alert(
-        "Aquí colocaremos el correo oficial de SparkyKrea."
-    );
+showNotice(
+"Contáctanos",
+"Pronto colocaremos aquí el correo oficial de SparkyKrea."
+);
 
 }
 
@@ -3215,93 +3395,72 @@ function contactar(){
    CARRUSEL
 ===================================================== */
 
-const cards =
-    document.querySelectorAll(
-        ".service-card"
-    );
+const cards=
+document.querySelectorAll(".service-card");
 
-const dotsContainer =
-    document.getElementById(
-        "carouselDots"
-    );
+const dotsContainer=
+document.getElementById("carouselDots");
 
-let currentCard = 0;
+let currentCard=0;
 
 
 /* CREAR DOTS */
 
 cards.forEach(function(card,index){
 
-    const dot =
-        document.createElement(
-            "div"
-        );
+const dot=
+document.createElement("div");
 
-    dot.className =
-        "carousel-dot";
+dot.className="carousel-dot";
 
 
-    if(index === 0){
+if(index===0){
 
-        dot.classList.add(
-            "active"
-        );
+dot.classList.add("active");
 
-    }
+}
 
 
-    dot.addEventListener(
-        "click",
-        function(){
+dot.addEventListener(
+"click",
+function(){
 
-            showCard(index);
+showCard(index);
 
-        }
-    );
+}
+);
 
 
-    dotsContainer.appendChild(
-        dot
-    );
+dotsContainer.appendChild(dot);
 
 });
 
 
-const dots =
-    document.querySelectorAll(
-        ".carousel-dot"
-    );
+const dots=
+document.querySelectorAll(".carousel-dot");
 
 
 function showCard(index){
 
-    cards.forEach(function(card){
+cards.forEach(function(card){
 
-        card.classList.remove(
-            "active"
-        );
+card.classList.remove("active");
 
-    });
+});
 
 
-    dots.forEach(function(dot){
+dots.forEach(function(dot){
 
-        dot.classList.remove(
-            "active"
-        );
+dot.classList.remove("active");
 
-    });
+});
 
 
-    cards[index].classList.add(
-        "active"
-    );
+cards[index].classList.add("active");
 
-    dots[index].classList.add(
-        "active"
-    );
+dots[index].classList.add("active");
 
-    currentCard = index;
+currentCard=index;
 
 }
 
@@ -3310,21 +3469,49 @@ function showCard(index){
 
 setInterval(function(){
 
-    currentCard++;
+currentCard++;
 
+if(currentCard>=cards.length){
 
-    if(currentCard >= cards.length){
+currentCard=0;
 
-        currentCard = 0;
+}
 
-    }
-
-
-    showCard(
-        currentCard
-    );
+showCard(currentCard);
 
 },4400);
+
+
+/* =====================================================
+   SESIÓN AL ABRIR LA PÁGINA
+===================================================== */
+
+supabaseClient.auth.getSession()
+.then(async function(){
+
+await loadCurrentUser();
+
+});
+
+
+supabaseClient.auth.onAuthStateChange(
+async function(event,session){
+
+if(session){
+
+await loadCurrentUser();
+
+}else{
+
+currentUser=null;
+currentProfile=null;
+
+resetAuthArea();
+
+}
+
+}
+);
 
 
 /* =====================================================
@@ -3332,28 +3519,22 @@ setInterval(function(){
 ===================================================== */
 
 document.addEventListener(
-    "keydown",
-    function(event){
+"keydown",
+function(event){
 
-        if(event.key === "Escape"){
+if(event.key==="Escape"){
 
-            closeModal();
+closeModal();
 
-            closeChat();
+closeChat();
 
-            closeAdminPanel();
+closeNotice();
 
-        }
+closeAdminPanel();
 
-    }
-);
+}
 
-
-/* =====================================================
-   INICIAR SUPABASE
-===================================================== */
-
-checkSession();
+});
 
 </script>
 
