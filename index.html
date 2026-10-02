@@ -8,7 +8,10 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+
+<link
+href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
+rel="stylesheet">
 
 <style>
 
@@ -1543,8 +1546,7 @@ footer span{
 
 
 /* =====================================================
-   ELEMENTOS NUEVOS DE CUENTA
-   NO AFECTAN EL DISEÑO PRINCIPAL
+   CUENTA
 ===================================================== */
 
 .account-area{
@@ -1555,31 +1557,49 @@ footer span{
 
 .account-name{
     border:1px solid #514b40;
+
     background:#11110f;
+
     color:var(--cream);
+
     padding:10px 15px;
+
     border-radius:999px;
+
     font-size:13px;
 }
 
 .account-admin{
     border:1px solid var(--beige);
+
     background:var(--beige);
+
     color:#171611;
+
     padding:10px 15px;
+
     border-radius:999px;
+
     font-size:13px;
+
     font-weight:700;
+
     cursor:pointer;
 }
 
 .account-logout{
     border:1px solid #514b40;
+
     background:#11110f;
+
     color:var(--cream);
+
     padding:10px 15px;
+
     border-radius:999px;
+
     font-size:13px;
+
     cursor:pointer;
 }
 
@@ -1595,24 +1615,30 @@ footer span{
 
 .notice{
     position:fixed;
+
     inset:0;
+
     z-index:3000;
 
     background:rgba(0,0,0,.88);
+
     backdrop-filter:blur(8px);
 
     display:flex;
+
     align-items:center;
     justify-content:center;
 
     padding:20px;
 
     opacity:0;
+
     visibility:hidden;
 }
 
 .notice.active{
     opacity:1;
+
     visibility:visible;
 }
 
@@ -1674,13 +1700,17 @@ footer span{
 
 .notice-box h2{
     font-family:"Playfair Display",serif;
+
     font-size:32px;
+
     margin-bottom:9px;
 }
 
 .notice-box p{
     color:#a8a39b;
+
     line-height:1.55;
+
     font-size:15px;
 }
 
@@ -1709,6 +1739,7 @@ footer span{
 
 .admin-modal{
     position:fixed;
+
     inset:0;
 
     z-index:4000;
@@ -1735,6 +1766,7 @@ footer span{
 
 .admin-box{
     width:min(850px,100%);
+
     max-height:85vh;
 
     overflow:auto;
@@ -1758,12 +1790,15 @@ footer span{
 
 .admin-box h2{
     font-family:"Playfair Display",serif;
+
     font-size:34px;
+
     margin-bottom:5px;
 }
 
 .admin-box-subtitle{
     color:#99948c;
+
     margin-bottom:22px;
 }
 
@@ -1786,14 +1821,18 @@ footer span{
 
 .admin-table{
     width:100%;
+
     border-collapse:collapse;
 }
 
 .admin-table th,
 .admin-table td{
     padding:12px 8px;
+
     border-bottom:1px solid #292721;
+
     text-align:left;
+
     font-size:13px;
 }
 
@@ -1821,21 +1860,31 @@ footer span{
     font-size:13px;
 }
 
+
+/* =====================================================
+   MÓVIL CUENTA / ADMIN
+===================================================== */
+
 @media(max-width:600px){
 
     .account-name{
         max-width:95px;
+
         overflow:hidden;
+
         text-overflow:ellipsis;
+
         white-space:nowrap;
 
         padding:8px 9px;
+
         font-size:9px;
     }
 
     .account-admin,
     .account-logout{
         padding:8px 9px;
+
         font-size:9px;
     }
 
@@ -1850,6 +1899,7 @@ footer span{
     .admin-table th,
     .admin-table td{
         padding:9px 5px;
+
         font-size:10px;
     }
 }
@@ -2199,6 +2249,7 @@ Nombre
 id="firstName"
 type="text"
 placeholder="Tu nombre"
+autocomplete="given-name"
 >
 
 </div>
@@ -2218,6 +2269,7 @@ Apellido
 id="lastName"
 type="text"
 placeholder="Tu apellido"
+autocomplete="family-name"
 >
 
 </div>
@@ -2233,6 +2285,7 @@ Correo electrónico
 id="email"
 type="email"
 placeholder="correo@ejemplo.com"
+autocomplete="email"
 >
 
 </div>
@@ -2248,6 +2301,7 @@ Contraseña
 id="password"
 type="password"
 placeholder="Tu contraseña"
+autocomplete="current-password"
 >
 
 </div>
@@ -2255,6 +2309,7 @@ placeholder="Tu contraseña"
 
 <button
 class="submit-btn"
+id="submitAuthButton"
 onclick="submitAuth()"
 >
 
@@ -2271,9 +2326,16 @@ Continuar
      MENSAJE SPARKYKREA
 ===================================================== -->
 
-<div class="notice" id="notice">
+<div
+class="notice"
+id="notice"
+onclick="outsideNotice(event)"
+>
 
-<div class="notice-box">
+<div
+class="notice-box"
+onclick="event.stopPropagation()"
+>
 
 <div class="notice-logo"></div>
 
@@ -2281,8 +2343,7 @@ Continuar
 SparkyKrea
 </h2>
 
-<p id="noticeText">
-</p>
+<p id="noticeText"></p>
 
 <button
 class="notice-btn"
@@ -2303,9 +2364,13 @@ Continuar →
 <div
 class="admin-modal"
 id="adminModal"
+onclick="outsideAdmin(event)"
 >
 
-<div class="admin-box">
+<div
+class="admin-box"
+onclick="event.stopPropagation()"
+>
 
 <button
 class="admin-close"
@@ -2421,7 +2486,6 @@ placeholder="Escribe aquí..."
 onkeydown="handleEnter(event)"
 >
 
-
 <button
 class="chat-send"
 onclick="sendMessage()"
@@ -2441,7 +2505,6 @@ onclick="sendMessage()"
 ===================================================== -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 
 <script>
 
@@ -2480,28 +2543,31 @@ let currentProfile = null;
 
 function showNotice(title,text){
 
-document
-.getElementById("noticeTitle")
-.textContent=title;
+document.getElementById("noticeTitle").textContent =
+title;
 
-document
-.getElementById("noticeText")
-.textContent=text;
+document.getElementById("noticeText").textContent =
+text;
 
-document
-.getElementById("notice")
-.classList
-.add("active");
+document.getElementById("notice").classList.add("active");
 
 }
 
 
 function closeNotice(){
 
-document
-.getElementById("notice")
-.classList
-.remove("active");
+document.getElementById("notice").classList.remove("active");
+
+}
+
+
+function outsideNotice(event){
+
+if(event.target.id === "notice"){
+
+closeNotice();
+
+}
 
 }
 
@@ -2510,56 +2576,54 @@ document
    MODAL
 ===================================================== */
 
-let authMode="login";
+let authMode = "login";
 
 
 function openModal(mode){
 
-authMode=mode;
+authMode = mode;
 
-document
-.getElementById("modal")
-.classList
-.add("active");
+document.getElementById("modal").classList.add("active");
 
-
-const nameField=
+const nameField =
 document.getElementById("nameField");
 
-const surnameField=
+const surnameField =
 document.getElementById("surnameField");
 
+const passwordInput =
+document.getElementById("password");
 
-if(mode==="register"){
+passwordInput.value = "";
 
-document
-.getElementById("modalTitle")
-.textContent="Crear cuenta";
 
-document
-.getElementById("modalDescription")
-.textContent=
+if(mode === "register"){
+
+document.getElementById("modalTitle").textContent =
+"Crear cuenta";
+
+document.getElementById("modalDescription").textContent =
 "Crea tu espacio en SparkyKrea.";
 
-nameField.style.display="block";
+nameField.style.display = "block";
 
-surnameField.style.display="block";
+surnameField.style.display = "block";
+
+passwordInput.autocomplete = "new-password";
 
 }else{
 
-document
-.getElementById("modalTitle")
-.textContent=
+document.getElementById("modalTitle").textContent =
 "Iniciar sesión";
 
-document
-.getElementById("modalDescription")
-.textContent=
+document.getElementById("modalDescription").textContent =
 "Accede a tu espacio en SparkyKrea.";
 
-nameField.style.display="none";
+nameField.style.display = "none";
 
-surnameField.style.display="none";
+surnameField.style.display = "none";
+
+passwordInput.autocomplete = "current-password";
 
 }
 
@@ -2568,19 +2632,44 @@ surnameField.style.display="none";
 
 function closeModal(){
 
-document
-.getElementById("modal")
-.classList
-.remove("active");
+document.getElementById("modal").classList.remove("active");
 
 }
 
 
 function outsideModal(event){
 
-if(event.target.id==="modal"){
+if(event.target.id === "modal"){
 
 closeModal();
+
+}
+
+}
+
+
+/* =====================================================
+   BOTÓN CARGANDO
+===================================================== */
+
+function setAuthLoading(loading){
+
+const button =
+document.getElementById("submitAuthButton");
+
+button.disabled = loading;
+
+if(loading){
+
+button.textContent = "Procesando...";
+
+button.style.opacity = ".65";
+
+}else{
+
+button.textContent = "Continuar";
+
+button.style.opacity = "1";
 
 }
 
@@ -2593,62 +2682,74 @@ closeModal();
 
 async function submitAuth(){
 
-const email=
-document
-.getElementById("email")
-.value
-.trim()
-.toLowerCase();
+if(authMode === "register"){
 
-const password=
-document
-.getElementById("password")
-.value
-.trim();
+await registerUser();
 
+}else{
 
-if(!email || !password){
-
-showNotice(
-"Falta información",
-"Completa tu correo y contraseña para continuar."
-);
-
-return;
+await loginUser();
 
 }
-
-
-if(authMode==="register"){
-
-const first=
-document
-.getElementById("firstName")
-.value
-.trim();
-
-const last=
-document
-.getElementById("lastName")
-.value
-.trim();
-
-
-if(!first || !last){
-
-showNotice(
-"Falta información",
-"Completa tu nombre y apellido para crear tu cuenta."
-);
-
-return;
 
 }
 
 
 /* =====================================================
-   CREAR CUENTA
+   REGISTRO
 ===================================================== */
+
+async function registerUser(){
+
+const first =
+document.getElementById("firstName")
+.value
+.trim();
+
+const last =
+document.getElementById("lastName")
+.value
+.trim();
+
+const email =
+document.getElementById("email")
+.value
+.trim()
+.toLowerCase();
+
+const password =
+document.getElementById("password")
+.value;
+
+
+if(!first || !last || !email || !password){
+
+showNotice(
+"Falta información",
+"Completa todos los campos para crear tu cuenta."
+);
+
+return;
+
+}
+
+
+if(password.length < 6){
+
+showNotice(
+"Contraseña demasiado corta",
+"La contraseña debe tener al menos 6 caracteres."
+);
+
+return;
+
+}
+
+
+setAuthLoading(true);
+
+
+try{
 
 const { data, error } =
 await supabaseClient.auth.signUp({
@@ -2669,6 +2770,27 @@ last_name:last
 
 if(error){
 
+const message =
+String(error.message || "")
+.toLowerCase();
+
+
+if(
+message.includes("already registered") ||
+message.includes("already exists") ||
+message.includes("user already")
+){
+
+showNotice(
+"Cuenta existente",
+"Este correo ya está registrado. Inicia sesión para continuar."
+);
+
+return;
+
+}
+
+
 showNotice(
 "No pudimos crear la cuenta",
 error.message
@@ -2680,19 +2802,19 @@ return;
 
 
 /*
-   Con Confirm email desactivado,
-   Supabase crea la sesión directamente.
+   Si Supabase devuelve una sesión,
+   el registro fue inmediato.
 */
+
+if(data && data.session){
 
 closeModal();
 
-
 await loadCurrentUser();
-
 
 showNotice(
 "Cuenta creada",
-"Tu cuenta en SparkyKrea ya está lista."
+"Tu cuenta de SparkyKrea está lista. Ya puedes comenzar."
 );
 
 return;
@@ -2700,9 +2822,70 @@ return;
 }
 
 
+/*
+   Si no existe sesión aquí,
+   probablemente Confirm Email sigue activado
+   en Supabase.
+*/
+
+closeModal();
+
+showNotice(
+"Cuenta creada",
+"Tu cuenta fue creada. Si no puedes entrar directamente, revisa que Confirm Email esté desactivado en Supabase."
+);
+
+}catch(error){
+
+console.error(error);
+
+showNotice(
+"Error inesperado",
+"Ha ocurrido un problema al crear tu cuenta. Inténtalo nuevamente."
+);
+
+}finally{
+
+setAuthLoading(false);
+
+}
+
+}
+
+
 /* =====================================================
    LOGIN
 ===================================================== */
+
+async function loginUser(){
+
+const email =
+document.getElementById("email")
+.value
+.trim()
+.toLowerCase();
+
+const password =
+document.getElementById("password")
+.value;
+
+
+if(!email || !password){
+
+showNotice(
+"Falta información",
+"Escribe tu correo y contraseña para continuar."
+);
+
+return;
+
+}
+
+
+setAuthLoading(true);
+
+
+try{
 
 const { data, error } =
 await supabaseClient.auth.signInWithPassword({
@@ -2716,10 +2899,29 @@ password:password
 
 if(error){
 
+const message =
+String(error.message || "")
+.toLowerCase();
+
+
+if(
+message.includes("invalid login credentials") ||
+message.includes("invalid credentials")
+){
+
+showNotice(
+"No pudimos iniciar sesión",
+"El correo o la contraseña no son correctos."
+);
+
+}else{
+
 showNotice(
 "No pudimos iniciar sesión",
 error.message
 );
+
+}
 
 return;
 
@@ -2728,20 +2930,33 @@ return;
 
 closeModal();
 
-
 await loadCurrentUser();
-
 
 showNotice(
 "Bienvenido a SparkyKrea",
 "Has iniciado sesión correctamente."
 );
 
+}catch(error){
+
+console.error(error);
+
+showNotice(
+"Error inesperado",
+"Ha ocurrido un problema al iniciar sesión."
+);
+
+}finally{
+
+setAuthLoading(false);
+
+}
+
 }
 
 
 /* =====================================================
-   CARGAR USUARIO
+   CARGAR USUARIO ACTUAL
 ===================================================== */
 
 async function loadCurrentUser(){
@@ -2756,8 +2971,9 @@ await supabaseClient.auth.getUser();
 
 if(!user){
 
-currentUser=null;
-currentProfile=null;
+currentUser = null;
+
+currentProfile = null;
 
 resetAuthArea();
 
@@ -2766,12 +2982,8 @@ return;
 }
 
 
-currentUser=user;
+currentUser = user;
 
-
-/*
-   Cargamos el perfil de la tabla profiles.
-*/
 
 const {
 data:profile,
@@ -2792,12 +3004,18 @@ await supabaseClient
 
 if(error){
 
-console.error(error);
+console.error(
+"Error cargando perfil:",
+error
+);
+
+currentProfile = null;
+
+}else{
+
+currentProfile = profile;
 
 }
-
-
-currentProfile=profile;
 
 
 updateAuthArea();
@@ -2811,7 +3029,7 @@ updateAuthArea();
 
 function updateAuthArea(){
 
-const area=
+const area =
 document.getElementById("authArea");
 
 
@@ -2824,44 +3042,44 @@ return;
 }
 
 
-const first=
+const first =
 currentProfile?.first_name ||
 currentUser.user_metadata?.first_name ||
 "Usuario";
 
 
-const last=
+const last =
 currentProfile?.last_name ||
 currentUser.user_metadata?.last_name ||
 "";
 
 
-const role=
+const role =
 currentProfile?.role ||
 "user";
 
 
 const isAdmin =
-role==="admin" &&
-currentUser.email?.toLowerCase()===ADMIN_EMAIL;
+role === "admin" &&
+currentUser.email?.toLowerCase() === ADMIN_EMAIL;
 
 
-area.innerHTML="";
+area.innerHTML = "";
 
 
-const wrapper=
+const wrapper =
 document.createElement("div");
 
-wrapper.className="account-area";
+wrapper.className = "account-area";
 
 
-const name=
+const name =
 document.createElement("div");
 
-name.className="account-name";
+name.className = "account-name";
 
-name.textContent=
-(first+" "+last).trim();
+name.textContent =
+(first + " " + last).trim();
 
 
 wrapper.appendChild(name);
@@ -2869,14 +3087,16 @@ wrapper.appendChild(name);
 
 if(isAdmin){
 
-const adminButton=
+const adminButton =
 document.createElement("button");
 
-adminButton.className="account-admin";
+adminButton.className =
+"account-admin";
 
-adminButton.textContent="Panel";
+adminButton.textContent =
+"Panel";
 
-adminButton.onclick=
+adminButton.onclick =
 openAdminPanel;
 
 wrapper.appendChild(adminButton);
@@ -2884,14 +3104,16 @@ wrapper.appendChild(adminButton);
 }
 
 
-const logoutButton=
+const logoutButton =
 document.createElement("button");
 
-logoutButton.className="account-logout";
+logoutButton.className =
+"account-logout";
 
-logoutButton.textContent="Salir";
+logoutButton.textContent =
+"Salir";
 
-logoutButton.onclick=
+logoutButton.onclick =
 logoutUser;
 
 wrapper.appendChild(logoutButton);
@@ -2903,15 +3125,15 @@ area.appendChild(wrapper);
 
 
 /* =====================================================
-   RESTABLECER HEADER
+   HEADER NORMAL
 ===================================================== */
 
 function resetAuthArea(){
 
-const area=
+const area =
 document.getElementById("authArea");
 
-area.innerHTML=`
+area.innerHTML = `
 
 <button onclick="openModal('login')">
 Iniciar sesión
@@ -2930,15 +3152,30 @@ Registrarse
 
 
 /* =====================================================
-   LOGOUT
+   CERRAR SESIÓN
 ===================================================== */
 
 async function logoutUser(){
 
+const { error } =
 await supabaseClient.auth.signOut();
 
-currentUser=null;
-currentProfile=null;
+
+if(error){
+
+showNotice(
+"No pudimos cerrar sesión",
+error.message
+);
+
+return;
+
+}
+
+
+currentUser = null;
+
+currentProfile = null;
 
 resetAuthArea();
 
@@ -2951,12 +3188,17 @@ showNotice(
 
 
 /* =====================================================
-   PANEL ADMIN
+   ADMIN
 ===================================================== */
 
 async function openAdminPanel(){
 
 if(!currentUser){
+
+showNotice(
+"Acceso restringido",
+"Debes iniciar sesión para acceder."
+);
 
 return;
 
@@ -2979,30 +3221,29 @@ return;
 
 
 /*
-   Comprobamos el rol real
-   en la base de datos.
+   Comprobamos el rol real en Supabase.
 */
 
 const {
 data:profile,
-error:profileError
+error
 } =
 await supabaseClient
 
 .from("profiles")
 
-.select("role,email")
+.select("id,email,role")
 
 .eq("id",currentUser.id)
 
 .maybeSingle();
 
 
-if(profileError){
+if(error){
 
 showNotice(
 "No pudimos abrir el panel",
-profileError.message
+error.message
 );
 
 return;
@@ -3010,11 +3251,14 @@ return;
 }
 
 
-if(!profile || profile.role!=="admin"){
+if(
+!profile ||
+profile.role !== "admin"
+){
 
 showNotice(
 "Panel no disponible",
-"Tu cuenta todavía no tiene el rol de administrador en la base de datos."
+"Esta cuenta todavía no tiene permisos de administrador."
 );
 
 return;
@@ -3043,20 +3287,31 @@ document
 }
 
 
+function outsideAdmin(event){
+
+if(event.target.id === "adminModal"){
+
+closeAdminPanel();
+
+}
+
+}
+
+
 /* =====================================================
-   CARGAR USUARIOS
+   CARGAR TODOS LOS USUARIOS
 ===================================================== */
 
 async function loadAdminUsers(){
 
-const tbody=
+const tbody =
 document.getElementById("adminUsers");
 
-const count=
+const count =
 document.getElementById("adminCount");
 
 
-tbody.innerHTML=`
+tbody.innerHTML = `
 
 <tr>
 <td colspan="4">
@@ -3065,6 +3320,10 @@ Cargando...
 </tr>
 
 `;
+
+count.textContent =
+"Cargando usuarios...";
+
 
 const {
 data:profiles,
@@ -3088,7 +3347,9 @@ ascending:false
 
 if(error){
 
-tbody.innerHTML=`
+console.error(error);
+
+tbody.innerHTML = `
 
 <tr>
 <td colspan="4">
@@ -3098,20 +3359,18 @@ No se pudieron cargar los usuarios.
 
 `;
 
-count.textContent=
+count.textContent =
 "Error al cargar";
-
-console.error(error);
 
 return;
 
 }
 
 
-count.textContent=
-profiles.length+
+count.textContent =
+profiles.length +
 (
-profiles.length===1
+profiles.length === 1
 ?
 " usuario registrado"
 :
@@ -3121,7 +3380,7 @@ profiles.length===1
 
 if(!profiles.length){
 
-tbody.innerHTML=`
+tbody.innerHTML = `
 
 <tr>
 <td colspan="4">
@@ -3136,44 +3395,44 @@ return;
 }
 
 
-tbody.innerHTML="";
+tbody.innerHTML = "";
 
 
 profiles.forEach(function(profile){
 
-const row=
+const row =
 document.createElement("tr");
 
 
-const nameCell=
+const nameCell =
 document.createElement("td");
 
-nameCell.textContent=
+nameCell.textContent =
 (
-profile.first_name+
-" "+
+profile.first_name +
+" " +
 profile.last_name
 ).trim();
 
 
-const emailCell=
+const emailCell =
 document.createElement("td");
 
-emailCell.textContent=
+emailCell.textContent =
 profile.email;
 
 
-const roleCell=
+const roleCell =
 document.createElement("td");
 
-roleCell.textContent=
+roleCell.textContent =
 profile.role;
 
 
-const dateCell=
+const dateCell =
 document.createElement("td");
 
-dateCell.textContent=
+dateCell.textContent =
 new Date(
 profile.created_at
 ).toLocaleDateString(
@@ -3182,10 +3441,12 @@ profile.created_at
 
 
 row.appendChild(nameCell);
-row.appendChild(emailCell);
-row.appendChild(roleCell);
-row.appendChild(dateCell);
 
+row.appendChild(emailCell);
+
+row.appendChild(roleCell);
+
+row.appendChild(dateCell);
 
 tbody.appendChild(row);
 
@@ -3205,7 +3466,8 @@ document
 .classList
 .add("active");
 
-document.body.style.overflow="hidden";
+document.body.style.overflow =
+"hidden";
 
 updateGreeting();
 
@@ -3228,40 +3490,45 @@ document
 .classList
 .remove("active");
 
-document.body.style.overflow="";
+document.body.style.overflow =
+"";
 
 }
 
 
 function updateGreeting(){
 
-const hour=
+const hour =
 new Date().getHours();
 
-let greeting="Hola.";
+let greeting =
+"Hola.";
 
 
-if(hour>=5 && hour<12){
+if(hour >= 5 && hour < 12){
 
-greeting="Buenos días.";
+greeting =
+"Buenos días.";
 
 }
-else if(hour>=12 && hour<19){
+else if(hour >= 12 && hour < 19){
 
-greeting="Buenas tardes.";
+greeting =
+"Buenas tardes.";
 
 }
 else{
 
-greeting="Buenas noches.";
+greeting =
+"Buenas noches.";
 
 }
 
 
 document
 .getElementById("welcome")
-.textContent=
-greeting+
+.textContent =
+greeting +
 " Cuéntame qué deseas hacer.";
 
 }
@@ -3269,7 +3536,7 @@ greeting+
 
 function handleEnter(event){
 
-if(event.key==="Enter"){
+if(event.key === "Enter"){
 
 sendMessage();
 
@@ -3280,10 +3547,10 @@ sendMessage();
 
 function sendMessage(){
 
-const input=
+const input =
 document.getElementById("chatInput");
 
-const text=
+const text =
 input.value.trim();
 
 
@@ -3294,16 +3561,20 @@ return;
 }
 
 
-addMessage(text,"user");
+addMessage(
+text,
+"user"
+);
 
-input.value="";
+input.value = "";
 
 
 setTimeout(function(){
 
-const lower=text.toLowerCase();
+const lower =
+text.toLowerCase();
 
-let response=
+let response =
 "Cuéntame un poco más sobre tu idea y qué resultado quieres conseguir.";
 
 
@@ -3312,7 +3583,7 @@ lower.includes("juego") ||
 lower.includes("videojuego")
 ){
 
-response=
+response =
 "Perfecto. Podemos trabajar el concepto, estilo visual, mecánicas, público y estrategia de tu juego.";
 
 }
@@ -3322,7 +3593,7 @@ lower.includes("marketing") ||
 lower.includes("publicidad")
 ){
 
-response=
+response =
 "Perfecto. Podemos analizar tu propuesta, público, mensaje, contenido y estrategia.";
 
 }
@@ -3332,7 +3603,7 @@ lower.includes("logo") ||
 lower.includes("marca")
 ){
 
-response=
+response =
 "Podemos trabajar la identidad de tu marca, su concepto, personalidad, colores y forma de comunicar.";
 
 }
@@ -3343,13 +3614,16 @@ lower.includes("hey") ||
 lower.includes("buenas")
 ){
 
-response=
+response =
 "¡Hola! Cuéntame qué tienes en mente y lo construimos paso a paso.";
 
 }
 
 
-addMessage(response,"bot");
+addMessage(
+response,
+"bot"
+);
 
 },420);
 
@@ -3358,20 +3632,21 @@ addMessage(response,"bot");
 
 function addMessage(text,type){
 
-const container=
+const container =
 document.getElementById("chatContent");
 
-const message=
+const message =
 document.createElement("div");
 
-message.className=
-"message "+type;
+message.className =
+"message " + type;
 
-message.textContent=text;
+message.textContent =
+text;
 
 container.appendChild(message);
 
-container.scrollTop=
+container.scrollTop =
 container.scrollHeight;
 
 }
@@ -3395,26 +3670,29 @@ showNotice(
    CARRUSEL
 ===================================================== */
 
-const cards=
-document.querySelectorAll(".service-card");
+const cards =
+document.querySelectorAll(
+".service-card"
+);
 
-const dotsContainer=
-document.getElementById("carouselDots");
+const dotsContainer =
+document.getElementById(
+"carouselDots"
+);
 
-let currentCard=0;
+let currentCard = 0;
 
-
-/* CREAR DOTS */
 
 cards.forEach(function(card,index){
 
-const dot=
+const dot =
 document.createElement("div");
 
-dot.className="carousel-dot";
+dot.className =
+"carousel-dot";
 
 
-if(index===0){
+if(index === 0){
 
 dot.classList.add("active");
 
@@ -3436,8 +3714,10 @@ dotsContainer.appendChild(dot);
 });
 
 
-const dots=
-document.querySelectorAll(".carousel-dot");
+const dots =
+document.querySelectorAll(
+".carousel-dot"
+);
 
 
 function showCard(index){
@@ -3460,20 +3740,18 @@ cards[index].classList.add("active");
 
 dots[index].classList.add("active");
 
-currentCard=index;
+currentCard = index;
 
 }
 
-
-/* UN POQUITO MÁS RÁPIDO */
 
 setInterval(function(){
 
 currentCard++;
 
-if(currentCard>=cards.length){
+if(currentCard >= cards.length){
 
-currentCard=0;
+currentCard = 0;
 
 }
 
@@ -3483,35 +3761,58 @@ showCard(currentCard);
 
 
 /* =====================================================
-   SESIÓN AL ABRIR LA PÁGINA
+   SESIÓN AL ABRIR
 ===================================================== */
 
-supabaseClient.auth.getSession()
-.then(async function(){
+async function initializeAuth(){
+
+try{
 
 await loadCurrentUser();
 
-});
+}catch(error){
 
+console.error(
+"Error inicializando sesión:",
+error
+);
+
+}
+
+}
+
+
+initializeAuth();
+
+
+/*
+   IMPORTANTE:
+   No hacemos operaciones pesadas directamente
+   dentro del callback de Supabase.
+*/
 
 supabaseClient.auth.onAuthStateChange(
-async function(event,session){
+function(event,session){
+
+setTimeout(function(){
 
 if(session){
 
-await loadCurrentUser();
+loadCurrentUser();
 
 }else{
 
-currentUser=null;
-currentProfile=null;
+currentUser = null;
+
+currentProfile = null;
 
 resetAuthArea();
 
 }
 
-}
-);
+},0);
+
+});
 
 
 /* =====================================================
@@ -3522,7 +3823,7 @@ document.addEventListener(
 "keydown",
 function(event){
 
-if(event.key==="Escape"){
+if(event.key === "Escape"){
 
 closeModal();
 
