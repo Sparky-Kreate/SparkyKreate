@@ -2248,9 +2248,9 @@ onclick="sendMessage()"
 
 <script>
 
-/* =====================================================
+/* =========================================================
    SUPABASE
-   ===================================================== */
+   ========================================================= */
 
 const SUPABASE_URL =
 "https://lvsntxkywjyxumlgtayl.supabase.co";
@@ -2261,19 +2261,52 @@ const SUPABASE_PUBLISHABLE_KEY =
 const SUPABASE_REDIRECT_URL =
 "https://sparky-kreate.github.io/SparkyKreate/";
 
+const ADMIN_EMAIL =
+"guillermojose170512@gmail.com";
+
+
+/* =========================================================
+   DETECTAR RECUPERACIÓN ANTES DE LA SESIÓN NORMAL
+   ========================================================= */
+
+const initialUrl =
+new URL(window.location.href);
+
+const initialSearch =
+initialUrl.searchParams;
+
+const initialHashString =
+window.location.hash.startsWith("#")
+?
+window.location.hash.substring(1)
+:
+window.location.hash;
+
+const initialHash =
+new URLSearchParams(initialHashString);
+
 
 /*
    IMPORTANTE:
 
-   No dejamos que Supabase procese automáticamente
+   Supabase NO procesará automáticamente
    la URL de recuperación.
 
-   Nosotros detectamos el código y lo intercambiamos
-   manualmente.
-
-   Esto evita que una sesión normal guardada en el
-   navegador gane antes que la recuperación.
+   Nosotros decidimos cuándo abrir
+   el modal de nueva contraseña.
 */
+
+let recoveryMode =
+    initialSearch.has("code") ||
+    initialSearch.get("type") === "recovery" ||
+    initialSearch.get("reset") === "1" ||
+    initialHash.get("type") === "recovery" ||
+    initialHash.has("access_token");
+
+
+/* =========================================================
+   CLIENTE SUPABASE
+   ========================================================= */
 
 const supabaseClient =
 window.supabase.createClient(
@@ -2283,128 +2316,61 @@ window.supabase.createClient(
         auth:{
             persistSession:true,
             autoRefreshToken:true,
-            detectSessionInUrl:false,
-            flowType:"pkce"
+
+            /*
+               EVITA QUE SUPABASE PROCese
+               AUTOMÁTICAMENTE EL CALLBACK.
+            */
+            detectSessionInUrl:false
         }
     }
 );
 
 
-/* =====================================================
-   VARIABLES
-   ===================================================== */
-
-const ADMIN_EMAIL =
-"guillermojose170512@gmail.com";
-
 let currentUser = null;
 let currentProfile = null;
 let authMode = "login";
 
-/*
-   Esta variable permanece TRUE mientras estamos
-   procesando un enlace de recuperación.
-*/
-let recoveryMode = false;
 
-
-/* =====================================================
-   DETECTAR SI ESTA PÁGINA VIENE DEL CORREO
-   ===================================================== */
-
-function urlIsRecoveryCallback(){
-
-    const url =
-    new URL(window.location.href);
-
-    const params =
-    url.searchParams;
-
-    const hash =
-    new URLSearchParams(
-        window.location.hash.replace(/^#/,"")
-    );
-
-    /*
-       PKCE:
-       Supabase devuelve ?code=...
-    */
-
-    if(params.get("code")){
-
-        return true;
-
-    }
-
-    /*
-       Flujo anterior/implícito:
-       puede devolver access_token + refresh_token
-       en el hash.
-    */
-
-    if(
-        hash.get("type") === "recovery" &&
-        hash.get("access_token") &&
-        hash.get("refresh_token")
-    ){
-
-        return true;
-
-    }
-
-    /*
-       También soportamos tokens en query por
-       compatibilidad.
-    */
-
-    if(
-        params.get("type") === "recovery" &&
-        params.get("access_token") &&
-        params.get("refresh_token")
-    ){
-
-        return true;
-
-    }
-
-    return false;
-
-}
-
-
-/* =====================================================
+/* =========================================================
    LIMPIAR URL
-   ===================================================== */
+   ========================================================= */
 
 function cleanRecoveryUrl(){
 
     try{
 
         const cleanUrl =
-        window.location.origin +
-        window.location.pathname;
+        new URL(
+            SUPABASE_REDIRECT_URL
+        );
 
         window.history.replaceState(
             {},
             document.title,
-            cleanUrl
+            cleanUrl.pathname
         );
 
     }catch(error){
 
-        console.error(
-            "No se pudo limpiar la URL:",
-            error
-        );
+        try{
+
+            window.history.replaceState(
+                {},
+                document.title,
+                "/SparkyKreate/"
+            );
+
+        }catch(e){}
 
     }
 
 }
 
 
-/* =====================================================
+/* =========================================================
    NOTICE
-   ===================================================== */
+   ========================================================= */
 
 function showNotice(
     title,
@@ -2448,9 +2414,9 @@ function closeNotice(){
 }
 
 
-/* =====================================================
+/* =========================================================
    LOGIN / REGISTRO
-   ===================================================== */
+   ========================================================= */
 
 function openModal(mode){
 
@@ -2469,6 +2435,7 @@ function openModal(mode){
 
     const forgotButton =
     document.getElementById("forgotPasswordButton");
+
 
     if(mode === "register"){
 
@@ -2538,9 +2505,9 @@ function outsideModal(event){
 }
 
 
-/* =====================================================
+/* =========================================================
    RECUPERAR
-   ===================================================== */
+   ========================================================= */
 
 function openForgotPassword(){
 
@@ -2591,9 +2558,9 @@ function outsideForgotModal(event){
 }
 
 
-/* =====================================================
+/* =========================================================
    ENVIAR RECUPERACIÓN
-   ===================================================== */
+   ========================================================= */
 
 async function sendRecoveryEmail(){
 
@@ -2603,6 +2570,7 @@ async function sendRecoveryEmail(){
     .value
     .trim()
     .toLowerCase();
+
 
     if(!email){
 
@@ -2615,10 +2583,12 @@ async function sendRecoveryEmail(){
 
     }
 
+
     const button =
     document.querySelector(
         "#forgotModal .submit-btn"
     );
+
 
     button.disabled = true;
 
@@ -2626,52 +2596,67 @@ async function sendRecoveryEmail(){
     "Enviando...";
 
 
-    const {
-        error
-    } =
-    await supabaseClient.auth
-    .resetPasswordForEmail(
-        email,
-        {
-            redirectTo:
-            SUPABASE_REDIRECT_URL
-        }
-    );
+    try{
 
-
-    button.disabled = false;
-
-    button.textContent =
-    "Enviar enlace →";
-
-
-    if(error){
-
-        showNotice(
-            "No pudimos enviar el enlace",
-            translateSupabaseError(
-                error.message
-            )
+        const {error} =
+        await supabaseClient.auth
+        .resetPasswordForEmail(
+            email,
+            {
+                redirectTo:
+                SUPABASE_REDIRECT_URL
+            }
         );
 
-        return;
+
+        button.disabled = false;
+
+        button.textContent =
+        "Enviar enlace →";
+
+
+        if(error){
+
+            showNotice(
+                "No pudimos enviar el enlace",
+                translateSupabaseError(error.message)
+            );
+
+            return;
+
+        }
+
+
+        closeForgotPassword();
+
+
+        showNotice(
+            "Revisa tu correo",
+            "Si existe una cuenta con ese correo, recibirás un enlace para crear una nueva contraseña."
+        );
+
+
+    }catch(error){
+
+        button.disabled = false;
+
+        button.textContent =
+        "Enviar enlace →";
+
+
+        showNotice(
+            "Ocurrió un error",
+            translateSupabaseError(error.message)
+        );
 
     }
-
-
-    closeForgotPassword();
-
-    showNotice(
-        "Revisa tu correo",
-        "Si existe una cuenta con ese correo, recibirás un enlace para crear una nueva contraseña."
-    );
 
 }
 
 
-/* =====================================================
+/* =========================================================
    LOGIN / REGISTRO
-   ===================================================== */
+   ========================================================= */
 
 async function submitAuth(){
 
@@ -2688,6 +2673,7 @@ async function submitAuth(){
     .value
     .trim();
 
+
     if(!email || !password){
 
         showNotice(
@@ -2699,10 +2685,12 @@ async function submitAuth(){
 
     }
 
+
     const button =
     document.querySelector(
         "#modal .submit-btn"
     );
+
 
     button.disabled = true;
 
@@ -2710,31 +2698,103 @@ async function submitAuth(){
     "Procesando...";
 
 
-    if(authMode === "register"){
+    try{
 
-        const first =
-        document
-        .getElementById("firstName")
-        .value
-        .trim();
 
-        const last =
-        document
-        .getElementById("lastName")
-        .value
-        .trim();
+        if(authMode === "register"){
 
-        if(!first || !last){
+            const first =
+            document
+            .getElementById("firstName")
+            .value
+            .trim();
+
+            const last =
+            document
+            .getElementById("lastName")
+            .value
+            .trim();
+
+
+            if(!first || !last){
+
+                button.disabled = false;
+
+                button.textContent =
+                "Continuar";
+
+
+                showNotice(
+                    "Falta información",
+                    "Completa tu nombre y apellido para crear tu cuenta."
+                );
+
+                return;
+
+            }
+
+
+            const {
+                data,
+                error
+            } =
+            await supabaseClient.auth
+            .signUp({
+
+                email:email,
+
+                password:password,
+
+                options:{
+                    data:{
+                        first_name:first,
+                        last_name:last
+                    }
+                }
+
+            });
+
 
             button.disabled = false;
 
             button.textContent =
             "Continuar";
 
-            showNotice(
-                "Falta información",
-                "Completa tu nombre y apellido para crear tu cuenta."
-            );
+
+            if(error){
+
+                showNotice(
+                    "No pudimos crear la cuenta",
+                    translateSupabaseError(error.message)
+                );
+
+                return;
+
+            }
+
+
+            closeModal();
+
+
+            if(data.session){
+
+                await loadCurrentUser();
+
+
+                showNotice(
+                    "Cuenta creada",
+                    "Tu cuenta de SparkyKrea ya está lista. Bienvenido."
+                );
+
+            }else{
+
+                showNotice(
+                    "Cuenta creada",
+                    "La cuenta fue creada correctamente. Si no puedes iniciar sesión todavía, revisa la configuración de confirmación de correo en Supabase."
+                );
+
+            }
+
 
             return;
 
@@ -2742,21 +2802,14 @@ async function submitAuth(){
 
 
         const {
-            data,
             error
         } =
-        await supabaseClient.auth.signUp({
+        await supabaseClient.auth
+        .signInWithPassword({
 
             email:email,
 
-            password:password,
-
-            options:{
-                data:{
-                    first_name:first,
-                    last_name:last
-                }
-            }
+            password:password
 
         });
 
@@ -2770,10 +2823,8 @@ async function submitAuth(){
         if(error){
 
             showNotice(
-                "No pudimos crear la cuenta",
-                translateSupabaseError(
-                    error.message
-                )
+                "No pudimos iniciar sesión",
+                translateSupabaseError(error.message)
             );
 
             return;
@@ -2783,84 +2834,43 @@ async function submitAuth(){
 
         closeModal();
 
+        await loadCurrentUser();
 
-        if(data.session){
-
-            await loadCurrentUser();
-
-            showNotice(
-                "Cuenta creada",
-                "Tu cuenta de SparkyKrea ya está lista. Bienvenido."
-            );
-
-        }else{
-
-            showNotice(
-                "Cuenta creada",
-                "La cuenta fue creada correctamente. Si no puedes iniciar sesión todavía, revisa la configuración de confirmación de correo en Supabase."
-            );
-
-        }
-
-        return;
-
-    }
-
-
-    const {
-        error
-    } =
-    await supabaseClient.auth
-    .signInWithPassword({
-
-        email:email,
-
-        password:password
-
-    });
-
-
-    button.disabled = false;
-
-    button.textContent =
-    "Continuar";
-
-
-    if(error){
 
         showNotice(
-            "No pudimos iniciar sesión",
-            translateSupabaseError(
-                error.message
-            )
+            "Bienvenido a SparkyKrea",
+            "Has iniciado sesión correctamente."
         );
 
-        return;
+
+    }catch(error){
+
+        button.disabled = false;
+
+        button.textContent =
+        "Continuar";
+
+
+        showNotice(
+            "Ocurrió un error",
+            translateSupabaseError(error.message)
+        );
 
     }
-
-
-    closeModal();
-
-    await loadCurrentUser();
-
-    showNotice(
-        "Bienvenido a SparkyKrea",
-        "Has iniciado sesión correctamente."
-    );
 
 }
 
 
-/* =====================================================
+/* =========================================================
    ERRORES
-   ===================================================== */
+   ========================================================= */
 
 function translateSupabaseError(message){
 
     const text =
     String(message || "")
     .toLowerCase();
+
 
     if(
         text.includes(
@@ -2872,6 +2882,7 @@ function translateSupabaseError(message){
 
     }
 
+
     if(
         text.includes(
             "user already registered"
@@ -2881,6 +2892,7 @@ function translateSupabaseError(message){
         return "Ya existe una cuenta registrada con ese correo.";
 
     }
+
 
     if(
         text.includes(
@@ -2892,6 +2904,7 @@ function translateSupabaseError(message){
 
     }
 
+
     if(
         text.includes(
             "unable to validate email address"
@@ -2901,6 +2914,7 @@ function translateSupabaseError(message){
         return "El correo electrónico no parece válido.";
 
     }
+
 
     if(
         text.includes(
@@ -2912,38 +2926,15 @@ function translateSupabaseError(message){
 
     }
 
+
     if(
-        text.includes(
-            "code verifier"
-        )
+        text.includes("expired")
     ){
 
-        return "El enlace de recuperación debe abrirse en el mismo navegador donde solicitaste el cambio de contraseña.";
+        return "Este enlace ha expirado. Solicita uno nuevo.";
 
     }
 
-    if(
-        text.includes(
-            "expired"
-        )
-    ){
-
-        return "Este enlace de recuperación ya expiró. Solicita uno nuevo.";
-
-    }
-
-    if(
-        text.includes(
-            "invalid"
-        ) &&
-        text.includes(
-            "token"
-        )
-    ){
-
-        return "Este enlace de recuperación ya no es válido. Solicita uno nuevo.";
-
-    }
 
     return message ||
     "Ocurrió un problema. Inténtalo nuevamente.";
@@ -2951,9 +2942,9 @@ function translateSupabaseError(message){
 }
 
 
-/* =====================================================
+/* =========================================================
    CAMBIAR CONTRASEÑA
-   ===================================================== */
+   ========================================================= */
 
 async function updatePassword(){
 
@@ -2968,10 +2959,7 @@ async function updatePassword(){
     .value;
 
 
-    if(
-        !newPassword ||
-        !confirmPassword
-    ){
+    if(!newPassword || !confirmPassword){
 
         showNotice(
             "Falta información",
@@ -2995,10 +2983,7 @@ async function updatePassword(){
     }
 
 
-    if(
-        newPassword !==
-        confirmPassword
-    ){
+    if(newPassword !== confirmPassword){
 
         showNotice(
             "Las contraseñas no coinciden",
@@ -3015,131 +3000,131 @@ async function updatePassword(){
         ".reset-submit"
     );
 
+
     button.disabled = true;
 
     button.textContent =
     "Actualizando...";
 
 
-    /*
-       Comprobamos que exista una sesión.
-       Esta sesión es la sesión especial creada
-       por el enlace de recuperación.
-    */
+    try{
 
-    const {
-        data:{
-            session
-        }
-    } =
-    await supabaseClient.auth
-    .getSession();
+        const {
+            error
+        } =
+        await supabaseClient.auth
+        .updateUser({
 
+            password:newPassword
 
-    if(!session){
+        });
+
 
         button.disabled = false;
 
         button.textContent =
         "Actualizar contraseña →";
 
-        showNotice(
-            "Enlace no válido",
-            "La sesión de recuperación no está disponible. Solicita un nuevo enlace desde Iniciar sesión."
-        );
 
-        return;
+        if(error){
 
-    }
-
-
-    const {
-        error
-    } =
-    await supabaseClient.auth
-    .updateUser({
-
-        password:newPassword
-
-    });
-
-
-    button.disabled = false;
-
-    button.textContent =
-    "Actualizar contraseña →";
-
-
-    if(error){
-
-        showNotice(
-            "No pudimos actualizarla",
-            translateSupabaseError(
-                error.message
-            )
-        );
-
-        return;
-
-    }
-
-
-    document
-    .getElementById("newPassword")
-    .value = "";
-
-    document
-    .getElementById("confirmPassword")
-    .value = "";
-
-
-    document
-    .getElementById("resetModal")
-    .classList
-    .remove("active");
-
-
-    showNotice(
-        "Contraseña restablecida exitosamente",
-        "Tu nueva contraseña ya está activa. Ahora puedes volver a SparkyKrea.",
-        "Volver a SparkyKrea →",
-        async function(){
-
-            closeNotice();
-
-            recoveryMode = false;
-
-            /*
-               Cerramos únicamente la sesión actual.
-            */
-
-            await supabaseClient.auth
-            .signOut({
-                scope:"local"
-            });
-
-
-            currentUser = null;
-
-            currentProfile = null;
-
-            resetAuthArea();
-
-            cleanRecoveryUrl();
-
-            window.location.replace(
-                SUPABASE_REDIRECT_URL
+            showNotice(
+                "No pudimos actualizarla",
+                translateSupabaseError(error.message)
             );
 
+            return;
+
         }
-    );
+
+
+        document
+        .getElementById("newPassword")
+        .value = "";
+
+        document
+        .getElementById("confirmPassword")
+        .value = "";
+
+
+        document
+        .getElementById("resetModal")
+        .classList
+        .remove("active");
+
+
+        showNotice(
+
+            "Contraseña restablecida exitosamente",
+
+            "Tu nueva contraseña ya está activa. Ahora puedes volver a SparkyKrea.",
+
+            "Volver a SparkyKrea →",
+
+            async function(){
+
+                closeNotice();
+
+
+                /*
+                  Salimos solamente de la sesión local
+                  utilizada para recuperar la cuenta.
+                */
+
+                recoveryMode = false;
+
+
+                try{
+
+                    await supabaseClient.auth
+                    .signOut({
+                        scope:"local"
+                    });
+
+                }catch(error){
+
+                    console.error(
+                        "Error cerrando recuperación:",
+                        error
+                    );
+
+                }
+
+
+                currentUser = null;
+
+                currentProfile = null;
+
+                resetAuthArea();
+
+                cleanRecoveryUrl();
+
+            }
+
+        );
+
+
+    }catch(error){
+
+        button.disabled = false;
+
+        button.textContent =
+        "Actualizar contraseña →";
+
+
+        showNotice(
+            "Ocurrió un error",
+            translateSupabaseError(error.message)
+        );
+
+    }
 
 }
 
 
-/* =====================================================
+/* =========================================================
    ABRIR PANTALLA DE RECUPERACIÓN
-   ===================================================== */
+   ========================================================= */
 
 function openResetPassword(){
 
@@ -3147,6 +3132,7 @@ function openResetPassword(){
     .getElementById("resetModal")
     .classList
     .add("active");
+
 
     setTimeout(function(){
 
@@ -3159,364 +3145,83 @@ function openResetPassword(){
 }
 
 
-/* =====================================================
-   PROCESAR RECUPERACIÓN
-   ===================================================== */
-
-async function processRecovery(){
-
-    /*
-       IMPORTANTE:
-       Esto se ejecuta ANTES de cargar la sesión
-       normal del navegador.
-    */
-
-    const url =
-    new URL(window.location.href);
-
-    const params =
-    url.searchParams;
-
-    const hashParams =
-    new URLSearchParams(
-        window.location.hash.replace(/^#/,"")
-    );
-
-
-    /* ---------------------------------------------
-       OPCIÓN 1: PKCE
-       URL esperada:
-
-       https://sparky-kreate.github.io/SparkyKreate/?code=...
-       --------------------------------------------- */
-
-    const code =
-    params.get("code");
-
-
-    if(code){
-
-        recoveryMode = true;
-
-        resetAuthArea();
-
-
-        const flowId =
-        params.get("sb_flow_id");
-
-
-        let result;
-
-
-        if(flowId){
-
-            result =
-            await supabaseClient.auth
-            .exchangeCodeForSession(
-                code,
-                {
-                    flowId:flowId
-                }
-            );
-
-        }else{
-
-            result =
-            await supabaseClient.auth
-            .exchangeCodeForSession(
-                code
-            );
-
-        }
-
-
-        if(result.error){
-
-            console.error(
-                "Recovery code error:",
-                result.error
-            );
-
-
-            recoveryMode = false;
-
-            cleanRecoveryUrl();
-
-            showNotice(
-                "Enlace no válido",
-                translateSupabaseError(
-                    result.error.message
-                ),
-                "Volver a SparkyKrea →",
-                function(){
-
-                    closeNotice();
-
-                    window.location.replace(
-                        SUPABASE_REDIRECT_URL
-                    );
-
-                }
-            );
-
-            return true;
-
-        }
-
-
-        /*
-           El código ya fue convertido en sesión.
-           Ahora abrimos DIRECTAMENTE el formulario.
-        */
-
-        cleanRecoveryUrl();
-
-        openResetPassword();
-
-        return true;
-
-    }
-
-
-    /* ---------------------------------------------
-       OPCIÓN 2: TOKEN EN HASH
-       Compatibilidad con enlaces anteriores.
-       --------------------------------------------- */
-
-    const accessToken =
-    hashParams.get("access_token");
-
-    const refreshToken =
-    hashParams.get("refresh_token");
-
-    const recoveryType =
-    hashParams.get("type");
-
-
-    if(
-        recoveryType === "recovery" &&
-        accessToken &&
-        refreshToken
-    ){
-
-        recoveryMode = true;
-
-        resetAuthArea();
-
-
-        const {
-            data,
-            error
-        } =
-        await supabaseClient.auth
-        .setSession({
-
-            access_token:
-            accessToken,
-
-            refresh_token:
-            refreshToken
-
-        });
-
-
-        if(error){
-
-            console.error(
-                "Recovery token error:",
-                error
-            );
-
-
-            recoveryMode = false;
-
-            showNotice(
-                "Enlace no válido",
-                translateSupabaseError(
-                    error.message
-                ),
-                "Volver a SparkyKrea →",
-                function(){
-
-                    closeNotice();
-
-                    cleanRecoveryUrl();
-
-                    window.location.replace(
-                        SUPABASE_REDIRECT_URL
-                    );
-
-                }
-            );
-
-            return true;
-
-        }
-
-
-        cleanRecoveryUrl();
-
-        openResetPassword();
-
-        return true;
-
-    }
-
-
-    /* ---------------------------------------------
-       OPCIÓN 3: TOKEN EN QUERY
-       Compatibilidad.
-       --------------------------------------------- */
-
-    const queryAccessToken =
-    params.get("access_token");
-
-    const queryRefreshToken =
-    params.get("refresh_token");
-
-    const queryRecoveryType =
-    params.get("type");
-
-
-    if(
-        queryRecoveryType === "recovery" &&
-        queryAccessToken &&
-        queryRefreshToken
-    ){
-
-        recoveryMode = true;
-
-        resetAuthArea();
-
-
-        const {
-            error
-        } =
-        await supabaseClient.auth
-        .setSession({
-
-            access_token:
-            queryAccessToken,
-
-            refresh_token:
-            queryRefreshToken
-
-        });
-
-
-        if(error){
-
-            console.error(
-                "Query recovery error:",
-                error
-            );
-
-            recoveryMode = false;
-
-            showNotice(
-                "Enlace no válido",
-                translateSupabaseError(
-                    error.message
-                )
-            );
-
-            return true;
-
-        }
-
-
-        cleanRecoveryUrl();
-
-        openResetPassword();
-
-        return true;
-
-    }
-
-
-    return false;
-
-}
-
-
-/* =====================================================
+/* =========================================================
    USUARIO
-   ===================================================== */
+   ========================================================= */
 
 async function loadCurrentUser(){
 
-    /*
-       Nunca cargamos el usuario normal mientras
-       estamos procesando una recuperación.
-    */
+    try{
 
-    if(recoveryMode){
+        const {
+            data:{
+                user
+            }
+        } =
+        await supabaseClient.auth
+        .getUser();
 
-        return;
 
-    }
+        if(!user){
 
+            currentUser = null;
 
-    const {
-        data:{
-            user
+            currentProfile = null;
+
+            resetAuthArea();
+
+            return;
+
         }
-    } =
-    await supabaseClient.auth
-    .getUser();
 
 
-    if(!user){
+        currentUser = user;
 
-        currentUser = null;
 
-        currentProfile = null;
+        const {
+            data:profile,
+            error
+        } =
+        await supabaseClient
+        .from("profiles")
+        .select(
+            "id,first_name,last_name,email,role,created_at"
+        )
+        .eq("id",user.id)
+        .maybeSingle();
+
+
+        if(error){
+
+            console.error(error);
+
+        }
+
+
+        currentProfile =
+        profile;
+
+
+        updateAuthArea();
+
+
+    }catch(error){
+
+        console.error(
+            "Error cargando usuario:",
+            error
+        );
 
         resetAuthArea();
 
-        return;
-
     }
-
-
-    currentUser = user;
-
-
-    const {
-        data:profile,
-        error
-    } =
-    await supabaseClient
-    .from("profiles")
-    .select(
-        "id,first_name,last_name,email,role,created_at"
-    )
-    .eq(
-        "id",
-        user.id
-    )
-    .maybeSingle();
-
-
-    if(error){
-
-        console.error(error);
-
-    }
-
-
-    currentProfile =
-    profile;
-
-
-    updateAuthArea();
 
 }
 
 
-/* =====================================================
+/* =========================================================
    HEADER LOGUEADO
-   ===================================================== */
+   ========================================================= */
 
 function updateAuthArea(){
 
@@ -3553,7 +3258,7 @@ function updateAuthArea(){
     const isAdmin =
     role === "admin" &&
     currentUser.email?.toLowerCase() ===
-    ADMIN_EMAIL;
+    ADMIN_EMAIL.toLowerCase();
 
 
     area.innerHTML = "";
@@ -3576,9 +3281,7 @@ function updateAuthArea(){
     (first+" "+last).trim();
 
 
-    wrapper.appendChild(
-        name
-    );
+    wrapper.appendChild(name);
 
 
     if(isAdmin){
@@ -3621,16 +3324,14 @@ function updateAuthArea(){
     );
 
 
-    area.appendChild(
-        wrapper
-    );
+    area.appendChild(wrapper);
 
 }
 
 
-/* =====================================================
+/* =========================================================
    RESTABLECER HEADER
-   ===================================================== */
+   ========================================================= */
 
 function resetAuthArea(){
 
@@ -3654,22 +3355,30 @@ function resetAuthArea(){
 }
 
 
-/* =====================================================
+/* =========================================================
    LOGOUT
-   ===================================================== */
+   ========================================================= */
 
 async function logoutUser(){
 
-    await supabaseClient.auth
-    .signOut({
-        scope:"local"
-    });
+    try{
+
+        await supabaseClient.auth
+        .signOut();
+
+    }catch(error){
+
+        console.error(error);
+
+    }
+
 
     currentUser = null;
 
     currentProfile = null;
 
     resetAuthArea();
+
 
     showNotice(
         "Hasta pronto",
@@ -3679,9 +3388,9 @@ async function logoutUser(){
 }
 
 
-/* =====================================================
+/* =========================================================
    ADMIN
-   ===================================================== */
+   ========================================================= */
 
 async function openAdminPanel(){
 
@@ -3694,7 +3403,7 @@ async function openAdminPanel(){
 
     if(
         currentUser.email?.toLowerCase() !==
-        ADMIN_EMAIL
+        ADMIN_EMAIL.toLowerCase()
     ){
 
         showNotice(
@@ -3713,13 +3422,8 @@ async function openAdminPanel(){
     } =
     await supabaseClient
     .from("profiles")
-    .select(
-        "role,email"
-    )
-    .eq(
-        "id",
-        currentUser.id
-    )
+    .select("role,email")
+    .eq("id",currentUser.id)
     .maybeSingle();
 
 
@@ -3735,10 +3439,7 @@ async function openAdminPanel(){
     }
 
 
-    if(
-        !profile ||
-        profile.role !== "admin"
-    ){
+    if(!profile || profile.role !== "admin"){
 
         showNotice(
             "Panel no disponible",
@@ -3863,8 +3564,7 @@ async function loadAdminUsers(){
     tbody.innerHTML = "";
 
 
-    profiles.forEach(
-    function(profile){
+    profiles.forEach(function(profile){
 
         const row =
         document.createElement("tr");
@@ -3906,35 +3606,22 @@ async function loadAdminUsers(){
         );
 
 
-        row.appendChild(
-            nameCell
-        );
-
-        row.appendChild(
-            emailCell
-        );
-
-        row.appendChild(
-            roleCell
-        );
-
-        row.appendChild(
-            dateCell
-        );
+        row.appendChild(nameCell);
+        row.appendChild(emailCell);
+        row.appendChild(roleCell);
+        row.appendChild(dateCell);
 
 
-        tbody.appendChild(
-            row
-        );
+        tbody.appendChild(row);
 
     });
 
 }
 
 
-/* =====================================================
+/* =========================================================
    CHAT
-   ===================================================== */
+   ========================================================= */
 
 function openChat(){
 
@@ -3942,6 +3629,7 @@ function openChat(){
     .getElementById("chat")
     .classList
     .add("active");
+
 
     document.body.style.overflow =
     "hidden";
@@ -3968,6 +3656,7 @@ function closeChat(){
     .classList
     .remove("active");
 
+
     document.body.style.overflow = "";
 
 }
@@ -3983,19 +3672,13 @@ function updateGreeting(){
     "Hola.";
 
 
-    if(
-        hour >= 5 &&
-        hour < 12
-    ){
+    if(hour >= 5 && hour < 12){
 
         greeting =
         "Buenos días.";
 
     }
-    else if(
-        hour >= 12 &&
-        hour < 19
-    ){
+    else if(hour >= 12 && hour < 19){
 
         greeting =
         "Buenas tardes.";
@@ -4118,21 +3801,14 @@ function sendMessage(){
 }
 
 
-function addMessage(
-    text,
-    type
-){
+function addMessage(text,type){
 
     const container =
-    document.getElementById(
-        "chatContent"
-    );
+    document.getElementById("chatContent");
 
 
     const message =
-    document.createElement(
-        "div"
-    );
+    document.createElement("div");
 
 
     message.className =
@@ -4154,9 +3830,9 @@ function addMessage(
 }
 
 
-/* =====================================================
+/* =========================================================
    CONTACTO
-   ===================================================== */
+   ========================================================= */
 
 function contactar(){
 
@@ -4168,9 +3844,9 @@ function contactar(){
 }
 
 
-/* =====================================================
+/* =========================================================
    CARRUSEL
-   ===================================================== */
+   ========================================================= */
 
 const cards =
 document.querySelectorAll(
@@ -4191,9 +3867,7 @@ cards.forEach(
 function(card,index){
 
     const dot =
-    document.createElement(
-        "div"
-    );
+    document.createElement("div");
 
 
     dot.className =
@@ -4298,75 +3972,480 @@ function(){
 );
 
 
-/* =====================================================
-   AUTENTICACIÓN
-   ===================================================== */
+/* =========================================================
+   RECUPERACIÓN DE CONTRASEÑA
+   =========================================================
+   
+   ESTA ES LA PARTE NUEVA.
 
-/*
-   Detectamos SI EL USUARIO YA VIENE DE UN ENLACE
-   DE RECUPERACIÓN ANTES DE ESCUCHAR LA SESIÓN NORMAL.
-*/
+   Supabase puede devolver:
 
-recoveryMode =
-urlIsRecoveryCallback();
+   1. ?code=...
+   2. #access_token=...
+      #refresh_token=...
+      #type=recovery
 
+   Procesamos ambos manualmente.
+   ========================================================= */
 
-/*
-   IMPORTANTE:
+async function handleRecoveryCallback(){
 
-   El listener está registrado inmediatamente después
-   de crear el cliente.
-
-   Durante recuperación NO cargamos el usuario normal.
-*/
-
-supabaseClient.auth.onAuthStateChange(
-function(
-    event,
-    session
-){
-
-    console.log(
-        "Supabase auth:",
-        event
+    const url =
+    new URL(
+        window.location.href
     );
 
 
-    /*
-       Este evento es el importante para recuperación.
-    */
+    const search =
+    url.searchParams;
+
+
+    const hashString =
+    window.location.hash.startsWith("#")
+    ?
+    window.location.hash.substring(1)
+    :
+    window.location.hash;
+
+
+    const hash =
+    new URLSearchParams(
+        hashString
+    );
+
+
+    /* -----------------------------------------------------
+       ERRORES
+       ----------------------------------------------------- */
+
+    const recoveryError =
+        search.get("error_description") ||
+        hash.get("error_description") ||
+        search.get("error") ||
+        hash.get("error");
+
+
+    if(recoveryError){
+
+        cleanRecoveryUrl();
+
+        recoveryMode = false;
+
+
+        showNotice(
+            "Enlace no válido",
+            safeDecode(
+                recoveryError
+            )
+        );
+
+
+        return true;
+    }
+
+
+    /* -----------------------------------------------------
+       PKCE
+
+       ?code=...
+       ----------------------------------------------------- */
+
+    const code =
+    search.get("code");
+
+
+    const flowId =
+    search.get("sb_flow_id");
+
+
+    if(code){
+
+        try{
+
+            let result;
+
+
+            if(flowId){
+
+                result =
+                await supabaseClient.auth
+                .exchangeCodeForSession(
+                    code,
+                    {
+                        flowId:
+                        flowId
+                    }
+                );
+
+            }else{
+
+                result =
+                await supabaseClient.auth
+                .exchangeCodeForSession(
+                    code
+                );
+
+            }
+
+
+            if(result.error){
+
+                cleanRecoveryUrl();
+
+                recoveryMode = false;
+
+
+                showNotice(
+                    "No pudimos abrir el enlace",
+                    "El enlace de recuperación no pudo validarse. Solicita un enlace nuevo y ábrelo desde el mismo navegador donde pediste la recuperación."
+                );
+
+
+                return true;
+            }
+
+
+            /*
+              MUY IMPORTANTE:
+
+              NO llamamos getSession() aquí.
+
+              Ya sabemos que esta sesión fue creada
+              mediante el enlace de recuperación.
+
+              Abrimos directamente el modal.
+            */
+
+            cleanRecoveryUrl();
+
+            openResetPassword();
+
+
+            return true;
+
+
+        }catch(error){
+
+            console.error(
+                "Error PKCE:",
+                error
+            );
+
+
+            cleanRecoveryUrl();
+
+            recoveryMode = false;
+
+
+            showNotice(
+                "No pudimos abrir el enlace",
+                "El enlace de recuperación no pudo validarse. Solicita uno nuevo."
+            );
+
+
+            return true;
+
+        }
+
+    }
+
+
+    /* -----------------------------------------------------
+       FLUJO IMPLÍCITO
+
+       #access_token=...
+       #refresh_token=...
+       #type=recovery
+       ----------------------------------------------------- */
+
+    const accessToken =
+    hash.get(
+        "access_token"
+    );
+
+
+    const refreshToken =
+    hash.get(
+        "refresh_token"
+    );
+
 
     if(
-        event ===
-        "PASSWORD_RECOVERY"
+        accessToken &&
+        refreshToken
     ){
 
-        recoveryMode = true;
+        try{
 
-        resetAuthArea();
+            const {
+                error
+            } =
+            await supabaseClient.auth
+            .setSession({
 
-        setTimeout(
-            function(){
+                access_token:
+                accessToken,
 
-                openResetPassword();
+                refresh_token:
+                refreshToken
 
-            },
-            100
+            });
+
+
+            if(error){
+
+                cleanRecoveryUrl();
+
+                recoveryMode = false;
+
+
+                showNotice(
+                    "No pudimos abrir el enlace",
+                    "El enlace de recuperación no pudo validarse. Solicita uno nuevo."
+                );
+
+
+                return true;
+
+            }
+
+
+            cleanRecoveryUrl();
+
+            openResetPassword();
+
+
+            return true;
+
+
+        }catch(error){
+
+            console.error(
+                "Error de recuperación:",
+                error
+            );
+
+
+            cleanRecoveryUrl();
+
+            recoveryMode = false;
+
+
+            showNotice(
+                "No pudimos abrir el enlace",
+                "El enlace de recuperación no pudo validarse. Solicita uno nuevo."
+            );
+
+
+            return true;
+
+        }
+
+    }
+
+
+    /* -----------------------------------------------------
+       TOKENS EN QUERY
+       ----------------------------------------------------- */
+
+    const searchAccessToken =
+    search.get(
+        "access_token"
+    );
+
+
+    const searchRefreshToken =
+    search.get(
+        "refresh_token"
+    );
+
+
+    if(
+        searchAccessToken &&
+        searchRefreshToken
+    ){
+
+        try{
+
+            const {
+                error
+            } =
+            await supabaseClient.auth
+            .setSession({
+
+                access_token:
+                searchAccessToken,
+
+                refresh_token:
+                searchRefreshToken
+
+            });
+
+
+            if(error){
+
+                cleanRecoveryUrl();
+
+                recoveryMode = false;
+
+
+                showNotice(
+                    "No pudimos abrir el enlace",
+                    "El enlace de recuperación no pudo validarse. Solicita uno nuevo."
+                );
+
+
+                return true;
+
+            }
+
+
+            cleanRecoveryUrl();
+
+            openResetPassword();
+
+
+            return true;
+
+
+        }catch(error){
+
+            console.error(error);
+
+
+            cleanRecoveryUrl();
+
+            recoveryMode = false;
+
+
+            showNotice(
+                "No pudimos abrir el enlace",
+                "El enlace de recuperación no pudo validarse. Solicita uno nuevo."
+            );
+
+
+            return true;
+
+        }
+
+    }
+
+
+    /* -----------------------------------------------------
+       SI SABEMOS QUE ES RECOVERY PERO NO HAY TOKEN
+       ----------------------------------------------------- */
+
+    if(recoveryMode){
+
+        cleanRecoveryUrl();
+
+        recoveryMode = false;
+
+
+        showNotice(
+            "No pudimos abrir el enlace",
+            "El enlace de recuperación está incompleto o ha expirado. Solicita un enlace nuevo."
         );
+
+
+        return true;
+
+    }
+
+
+    return false;
+
+}
+
+
+function safeDecode(text){
+
+    try{
+
+        return decodeURIComponent(
+            text
+        );
+
+    }catch(error){
+
+        return text;
+
+    }
+
+}
+
+
+/* =========================================================
+   AUTH STATE CHANGE
+   ========================================================= */
+
+supabaseClient.auth.onAuthStateChange(
+function(event,session){
+
+    /*
+      SI ESTAMOS RECUPERANDO:
+
+      IGNORAMOS la sesión normal.
+
+      Esto evita exactamente el problema
+      que estabas teniendo con tu cuenta anterior
+      o con la cuenta de administrador.
+    */
+
+    if(recoveryMode){
+
+        if(
+            event ===
+            "PASSWORD_RECOVERY"
+            &&
+            session
+        ){
+
+            setTimeout(
+                function(){
+
+                    openResetPassword();
+
+                },
+                100
+            );
+
+        }
+
+
+        if(
+            event ===
+            "SIGNED_OUT"
+        ){
+
+            currentUser = null;
+
+            currentProfile = null;
+
+            resetAuthArea();
+
+        }
+
 
         return;
 
     }
 
 
-    /*
-       Mientras recoveryMode esté activo,
-       ningún evento normal puede cambiar el
-       header a "Guillermo..." ni abrir una sesión
-       normal.
-    */
+    /* -----------------------------------------------------
+       SESIÓN NORMAL
+       ----------------------------------------------------- */
 
-    if(recoveryMode){
+    if(
+        event ===
+        "SIGNED_OUT"
+    ){
+
+        currentUser = null;
+
+        currentProfile = null;
+
+        resetAuthArea();
 
         return;
 
@@ -4397,24 +4476,29 @@ function(
 });
 
 
-/* =====================================================
-   ARRANQUE
-   ===================================================== */
+/* =========================================================
+   INICIALIZAR AUTENTICACIÓN
+   ========================================================= */
 
-async function startApp(){
+async function initializeAuth(){
 
     /*
-       PRIMERO:
-       si venimos del enlace del correo,
-       procesamos recuperación.
+      PRIMERO revisamos recuperación.
 
-       NO llamamos getSession() primero.
+      Esto sucede ANTES de cargar la sesión normal.
     */
 
     if(recoveryMode){
 
+        currentUser = null;
+
+        currentProfile = null;
+
+        resetAuthArea();
+
+
         const handled =
-        await processRecovery();
+        await handleRecoveryCallback();
 
 
         if(handled){
@@ -4424,34 +4508,56 @@ async function startApp(){
         }
 
 
-        /*
-           Si recoveryMode era TRUE pero no encontramos
-           un callback válido, lo apagamos.
-        */
-
         recoveryMode = false;
 
     }
 
 
     /*
-       AHORA sí cargamos la sesión normal.
+      SOLO AQUÍ cargamos una sesión normal.
     */
 
-    const {
-        data:{
-            session
+    try{
+
+        const {
+            data,
+            error
+        } =
+        await supabaseClient.auth
+        .getSession();
+
+
+        if(error){
+
+            resetAuthArea();
+
+            return;
+
         }
-    } =
-    await supabaseClient.auth
-    .getSession();
 
 
-    if(session){
+        const session =
+        data.session;
 
-        await loadCurrentUser();
 
-    }else{
+        if(session){
+
+            await loadCurrentUser();
+
+        }else{
+
+            resetAuthArea();
+
+        }
+
+
+    }catch(error){
+
+        console.error(
+            "Error inicializando autenticación:",
+            error
+        );
+
 
         resetAuthArea();
 
@@ -4460,43 +4566,35 @@ async function startApp(){
 }
 
 
-/*
-   Arrancamos la aplicación.
-*/
+/* =========================================================
+   ARRANCAR AUTENTICACIÓN
+   ========================================================= */
 
-startApp();
+initializeAuth();
 
 
-/* =====================================================
+/* =========================================================
    ESCAPE
-   ===================================================== */
+   ========================================================= */
 
 document.addEventListener(
 "keydown",
 function(event){
 
     if(
-        event.key === "Escape"
+        event.key ===
+        "Escape"
     ){
 
-        /*
-           Durante recuperación no dejamos que ESC
-           cierre accidentalmente la pantalla.
-        */
+        closeModal();
 
-        if(!recoveryMode){
+        closeForgotPassword();
 
-            closeModal();
+        closeChat();
 
-            closeForgotPassword();
+        closeNotice();
 
-            closeChat();
-
-            closeNotice();
-
-            closeAdminPanel();
-
-        }
+        closeAdminPanel();
 
     }
 
