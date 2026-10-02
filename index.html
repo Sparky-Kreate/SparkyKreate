@@ -1982,6 +1982,303 @@ footer{
 }
 
 </style>
+
+<style id="sparky-final-layout-fix">
+/* =========================================================
+   FIX DEFINITIVO DEL CARRUSEL + VISTA PC
+   No cambia colores, fuentes ni identidad visual.
+   ========================================================= */
+
+/* El estado visual de las tarjetas depende EXCLUSIVAMENTE de .active. */
+.service-card{
+    visibility:hidden !important;
+    opacity:0 !important;
+    pointer-events:none !important;
+    transform:translate3d(-50%,0,0) scale(.96) !important;
+}
+
+.service-card.active{
+    visibility:visible !important;
+    opacity:1 !important;
+    pointer-events:auto !important;
+    transform:translate3d(-50%,0,0) scale(1) !important;
+}
+
+/* Nunca permitimos que las animaciones generales cambien el transform del carrusel. */
+.service-card.motion-hidden,
+.service-card.motion-visible{
+    visibility:hidden !important;
+    opacity:0 !important;
+    transform:translate3d(-50%,0,0) scale(.96) !important;
+}
+
+.service-card.motion-hidden.active,
+.service-card.motion-visible.active{
+    visibility:visible !important;
+    opacity:1 !important;
+    transform:translate3d(-50%,0,0) scale(1) !important;
+}
+
+/* PC: página compacta, pero conservando proporciones y estética. */
+@media (min-width:901px){
+    header{
+        padding-top:10px !important;
+        padding-bottom:10px !important;
+    }
+
+    .hero{
+        min-height:0 !important;
+        height:auto !important;
+        padding-top:12px !important;
+        padding-bottom:18px !important;
+    }
+
+    .hero-logo{
+        width:66px !important;
+        height:66px !important;
+        margin-bottom:12px !important;
+    }
+
+    .hero-logo::before,
+    .hero-logo::after{
+        width:40px !important;
+    }
+
+    .hero-logo-dot{
+        width:10px !important;
+        height:10px !important;
+    }
+
+    .hero h1{
+        font-size:clamp(48px,4.5vw,72px) !important;
+        line-height:.98 !important;
+    }
+
+    .hero-text{
+        margin-top:10px !important;
+        font-size:15px !important;
+        line-height:1.35 !important;
+    }
+
+    .main-btn{
+        margin-top:11px !important;
+        padding:11px 25px !important;
+    }
+
+    .services{
+        padding-top:15px !important;
+        padding-bottom:17px !important;
+    }
+
+    .section-label{
+        margin-bottom:7px !important;
+    }
+
+    .services h2{
+        font-size:clamp(42px,4vw,60px) !important;
+        line-height:.99 !important;
+    }
+
+    .services-description{
+        margin-top:7px !important;
+        font-size:14px !important;
+        line-height:1.35 !important;
+    }
+
+    .carousel-wrapper{
+        margin-top:13px !important;
+    }
+
+    .carousel{
+        min-height:145px !important;
+        overflow:visible !important;
+    }
+
+    .service-card{
+        width:min(680px,62vw) !important;
+        min-height:145px !important;
+        padding:20px 26px !important;
+        border-radius:20px !important;
+    }
+
+    .card-line{
+        margin-bottom:9px !important;
+    }
+
+    .service-card h3{
+        font-size:27px !important;
+        margin-bottom:5px !important;
+    }
+
+    .service-card p{
+        font-size:13px !important;
+        line-height:1.35 !important;
+    }
+
+    .carousel-dots{
+        margin-top:7px !important;
+    }
+
+    .contact{
+        padding-top:15px !important;
+        padding-bottom:17px !important;
+    }
+
+    .contact h2{
+        font-size:clamp(39px,3.7vw,56px) !important;
+        line-height:1 !important;
+    }
+
+    .contact p{
+        margin-top:7px !important;
+        font-size:13px !important;
+        line-height:1.35 !important;
+    }
+
+    .contact-btn{
+        margin-top:9px !important;
+        padding:10px 22px !important;
+    }
+
+    footer{
+        padding-top:9px !important;
+        padding-bottom:11px !important;
+    }
+}
+
+/* PC de poca altura: compacta todavía más sin tocar móvil. */
+@media (min-width:901px) and (max-height:850px){
+    header{
+        padding-top:6px !important;
+        padding-bottom:6px !important;
+    }
+
+    .hero{
+        padding-top:5px !important;
+        padding-bottom:8px !important;
+    }
+
+    .hero-logo{
+        width:52px !important;
+        height:52px !important;
+        margin-bottom:6px !important;
+    }
+
+    .hero-logo::before,
+    .hero-logo::after{
+        width:31px !important;
+    }
+
+    .hero-logo-dot{
+        width:8px !important;
+        height:8px !important;
+    }
+
+    .hero h1{
+        font-size:clamp(42px,4vw,62px) !important;
+    }
+
+    .hero-text{
+        margin-top:5px !important;
+        font-size:13px !important;
+    }
+
+    .main-btn{
+        margin-top:6px !important;
+        padding:8px 20px !important;
+        font-size:12px !important;
+    }
+
+    .services{
+        padding-top:8px !important;
+        padding-bottom:10px !important;
+    }
+
+    .services h2{
+        font-size:clamp(37px,3.6vw,52px) !important;
+    }
+
+    .services-description{
+        margin-top:4px !important;
+        font-size:12px !important;
+    }
+
+    .carousel-wrapper{
+        margin-top:7px !important;
+    }
+
+    .carousel{
+        min-height:105px !important;
+    }
+
+    .service-card{
+        width:min(650px,60vw) !important;
+        min-height:105px !important;
+        padding:12px 19px !important;
+    }
+
+    .card-line{
+        width:32px !important;
+        margin-bottom:5px !important;
+    }
+
+    .service-card h3{
+        font-size:21px !important;
+        margin-bottom:3px !important;
+    }
+
+    .service-card p{
+        font-size:11px !important;
+        line-height:1.25 !important;
+    }
+
+    .carousel-dots{
+        margin-top:4px !important;
+    }
+
+    .contact{
+        padding-top:9px !important;
+        padding-bottom:10px !important;
+    }
+
+    .contact h2{
+        font-size:clamp(33px,3.3vw,48px) !important;
+    }
+
+    .contact p{
+        margin-top:4px !important;
+        font-size:11px !important;
+    }
+
+    .contact-btn{
+        margin-top:6px !important;
+        padding:8px 19px !important;
+        font-size:12px !important;
+    }
+
+    footer{
+        padding-top:6px !important;
+        padding-bottom:7px !important;
+    }
+}
+
+/* MÓVIL: se conservan las medidas y estética actuales. */
+@media (max-width:900px){
+    .service-card.motion-hidden,
+    .service-card.motion-visible{
+        visibility:hidden !important;
+        opacity:0 !important;
+        transform:translate3d(-50%,0,0) scale(.96) !important;
+    }
+
+    .service-card.motion-hidden.active,
+    .service-card.motion-visible.active{
+        visibility:visible !important;
+        opacity:1 !important;
+        transform:translate3d(-50%,0,0) scale(1) !important;
+    }
+}
+</style>
 </head>
 
 <body>
@@ -5005,13 +5302,11 @@ function(event){
 
 
 <script>
-/* Animaciones de aparición al hacer scroll — sin modificar el diseño */
+/* Animaciones de aparición al hacer scroll — las tarjetas del carrusel quedan fuera para no interferir con su estado active */
 document.addEventListener("DOMContentLoaded", () => {
-    const elements = document.querySelectorAll(
-        ".service-card, .contact, footer"
-    );
-
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const elements = document.querySelectorAll(".contact, footer");
 
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
