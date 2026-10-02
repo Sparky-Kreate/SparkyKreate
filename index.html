@@ -1,1932 +1,4107 @@
-<script>
-
-/* =====================================================
-   SUPABASE
-===================================================== */
-
-const SUPABASE_URL =
-"https://lvsntxkywjyxumlgtayl.supabase.co";
-
-const SUPABASE_PUBLISHABLE_KEY =
-"sb_publishable_bhzMbxUHakbytVuVlNcz8A_f2f6szGA";
-
-const SUPABASE_REDIRECT_URL =
-"https://sparky-kreate.github.io/SparkyKreate/";
-
-const supabaseClient =
-window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_PUBLISHABLE_KEY
-);
-
-
-/* =====================================================
-   ADMIN
-===================================================== */
-
-const ADMIN_EMAIL =
-"guillermojose170512@gmail.com";
-
-
-let currentUser = null;
-let currentProfile = null;
-let authMode = "login";
-
-let recoveryMode = false;
-
-
-/* =====================================================
-   MENSAJES
-===================================================== */
-
-function showNotice(title,text){
-
-    document
-    .getElementById("noticeTitle")
-    .textContent = title;
-
-    document
-    .getElementById("noticeText")
-    .textContent = text;
-
-    document
-    .getElementById("notice")
-    .classList
-    .add("active");
-
-}
-
-
-function closeNotice(){
-
-    document
-    .getElementById("notice")
-    .classList
-    .remove("active");
-
-}
-
-
-/* =====================================================
-   MODAL LOGIN / REGISTRO
-===================================================== */
-
-function openModal(mode){
-
-    authMode = mode;
-
-    document
-    .getElementById("modal")
-    .classList
-    .add("active");
-
-
-    const nameField =
-    document.getElementById("nameField");
-
-    const surnameField =
-    document.getElementById("surnameField");
-
-    const forgotButton =
-    document.getElementById("forgotPasswordButton");
-
-
-    if(mode === "register"){
-
-        document
-        .getElementById("modalTitle")
-        .textContent =
-        "Crear cuenta";
-
-        document
-        .getElementById("modalDescription")
-        .textContent =
-        "Crea tu espacio en SparkyKrea.";
-
-        nameField.style.display =
-        "block";
-
-        surnameField.style.display =
-        "block";
-
-        forgotButton.style.display =
-        "none";
-
-    }else{
-
-        document
-        .getElementById("modalTitle")
-        .textContent =
-        "Iniciar sesión";
-
-        document
-        .getElementById("modalDescription")
-        .textContent =
-        "Accede a tu espacio en SparkyKrea.";
-
-        nameField.style.display =
-        "none";
-
-        surnameField.style.display =
-        "none";
-
-        forgotButton.style.display =
-        "block";
-
-    }
-
-}
-
-
-function closeModal(){
-
-    document
-    .getElementById("modal")
-    .classList
-    .remove("active");
-
-}
-
-
-function outsideModal(event){
-
-    if(event.target.id === "modal"){
-
-        closeModal();
-
-    }
-
-}
-
-
-/* =====================================================
-   RECUPERAR CONTRASEÑA
-===================================================== */
-
-function openForgotPassword(){
-
-    const loginEmail =
-    document
-    .getElementById("email")
-    .value
-    .trim()
-    .toLowerCase();
-
-
-    if(loginEmail){
-
-        document
-        .getElementById("recoveryEmail")
-        .value = loginEmail;
-
-    }
-
-
-    closeModal();
-
-
-    document
-    .getElementById("forgotModal")
-    .classList
-    .add("active");
-
-}
-
-
-function closeForgotPassword(){
-
-    document
-    .getElementById("forgotModal")
-    .classList
-    .remove("active");
-
-}
-
-
-function outsideForgotModal(event){
-
-    if(event.target.id === "forgotModal"){
-
-        closeForgotPassword();
-
-    }
-
-}
-
-
-/* =====================================================
-   ENVIAR CORREO DE RECUPERACIÓN
-===================================================== */
-
-async function sendRecoveryEmail(){
-
-    const email =
-    document
-    .getElementById("recoveryEmail")
-    .value
-    .trim()
-    .toLowerCase();
-
-
-    if(!email){
-
-        showNotice(
-            "Falta información",
-            "Escribe tu correo electrónico para continuar."
-        );
-
-        return;
-
-    }
-
-
-    const button =
-    document.querySelector(
-        "#forgotModal .submit-btn"
-    );
-
-
-    button.disabled = true;
-
-    button.textContent =
-    "Enviando...";
-
-
-    const { error } =
-    await supabaseClient.auth
-    .resetPasswordForEmail(
-        email,
-        {
-            redirectTo:
-            SUPABASE_REDIRECT_URL
-        }
-    );
-
-
-    button.disabled = false;
-
-    button.textContent =
-    "Enviar enlace →";
-
-
-    if(error){
-
-        showNotice(
-            "No pudimos enviar el enlace",
-            translateSupabaseError(error.message)
-        );
-
-        return;
-
-    }
-
-
-    closeForgotPassword();
-
-
-    showNotice(
-        "Revisa tu correo",
-        "Si existe una cuenta con ese correo, recibirás un enlace para crear una nueva contraseña."
-    );
-
-}
-
-
-/* =====================================================
-   REGISTRO / LOGIN
-===================================================== */
-
-async function submitAuth(){
-
-    const email =
-    document
-    .getElementById("email")
-    .value
-    .trim()
-    .toLowerCase();
-
-
-    const password =
-    document
-    .getElementById("password")
-    .value
-    .trim();
-
-
-    if(!email || !password){
-
-        showNotice(
-            "Falta información",
-            "Completa tu correo y contraseña para continuar."
-        );
-
-        return;
-
-    }
-
-
-    const button =
-    document.querySelector(
-        "#modal .submit-btn"
-    );
-
-
-    button.disabled = true;
-
-    button.textContent =
-    "Procesando...";
-
-
-    /* =================================================
-       REGISTRO
-    ================================================= */
-
-    if(authMode === "register"){
-
-        const first =
-        document
-        .getElementById("firstName")
-        .value
-        .trim();
-
-
-        const last =
-        document
-        .getElementById("lastName")
-        .value
-        .trim();
-
-
-        if(!first || !last){
-
-            button.disabled = false;
-
-            button.textContent =
-            "Continuar";
-
-
-            showNotice(
-                "Falta información",
-                "Completa tu nombre y apellido para crear tu cuenta."
-            );
-
-            return;
-
-        }
-
-
-        const {
-            data,
-            error
-        } =
-        await supabaseClient.auth.signUp({
-
-            email:email,
-
-            password:password,
-
-            options:{
-                data:{
-                    first_name:first,
-                    last_name:last
-                }
-            }
-
-        });
-
-
-        button.disabled = false;
-
-        button.textContent =
-        "Continuar";
-
-
-        if(error){
-
-            showNotice(
-                "No pudimos crear la cuenta",
-                translateSupabaseError(error.message)
-            );
-
-            return;
-
-        }
-
-
-        closeModal();
-
-
-        if(data.session){
-
-            await loadCurrentUser();
-
-
-            showNotice(
-                "Cuenta creada",
-                "Tu cuenta de SparkyKrea ya está lista. Bienvenido."
-            );
-
-        }else{
-
-            showNotice(
-                "Cuenta creada",
-                "La cuenta fue creada correctamente. Si no puedes iniciar sesión todavía, revisa la configuración de confirmación de correo en Supabase."
-            );
-
-        }
-
-
-        return;
-
-    }
-
-
-    /* =================================================
-       LOGIN
-    ================================================= */
-
-    const {
-        data,
-        error
-    } =
-    await supabaseClient.auth
-    .signInWithPassword({
-
-        email:email,
-
-        password:password
-
-    });
-
-
-    button.disabled = false;
-
-    button.textContent =
-    "Continuar";
-
-
-    if(error){
-
-        showNotice(
-            "No pudimos iniciar sesión",
-            translateSupabaseError(error.message)
-        );
-
-        return;
-
-    }
-
-
-    closeModal();
-
-
-    await loadCurrentUser();
-
-
-    showNotice(
-        "Bienvenido a SparkyKrea",
-        "Has iniciado sesión correctamente."
-    );
-
-}
-
-
-/* =====================================================
-   TRADUCIR ERRORES
-===================================================== */
-
-function translateSupabaseError(message){
-
-    const text =
-    String(message || "")
-    .toLowerCase();
-
-
-    if(text.includes("invalid login credentials")){
-
-        return "El correo o la contraseña no son correctos.";
-
-    }
-
-
-    if(text.includes("user already registered")){
-
-        return "Ya existe una cuenta registrada con ese correo.";
-
-    }
-
-
-    if(text.includes("password should be at least")){
-
-        return "La contraseña debe tener al menos 6 caracteres.";
-
-    }
-
-
-    if(text.includes("unable to validate email address")){
-
-        return "El correo electrónico no parece válido.";
-
-    }
-
-
-    if(text.includes("email not confirmed")){
-
-        return "Esta cuenta todavía necesita confirmar el correo electrónico.";
-
-    }
-
-
-    if(text.includes("same password")){
-
-        return "La nueva contraseña debe ser diferente a la anterior.";
-
-    }
-
-
-    return message ||
-    "Ocurrió un problema. Inténtalo nuevamente.";
-
-}
-
-
-/* =====================================================
-   PREPARAR PANTALLA DE NUEVA CONTRASEÑA
-===================================================== */
-
-function openResetPassword(){
-
-    recoveryMode = true;
-
-
-    const resetModal =
-    document.getElementById("resetModal");
-
-
-    /*
-      Volvemos a colocar la pantalla normal
-      por si anteriormente se había usado.
-    */
-
-    resetModal.innerHTML = `
-
-        <div class="reset-box">
-
-            <div class="reset-logo"></div>
-
-            <h2>
-                Crea tu nueva contraseña
-            </h2>
-
-            <p>
-                Escribe una nueva contraseña para volver a acceder a tu cuenta de SparkyKrea.
-            </p>
-
-
-            <div class="reset-field">
-
-                <label>
-                    Nueva contraseña
-                </label>
-
-                <input
-                    id="newPassword"
-                    type="password"
-                    placeholder="Tu nueva contraseña"
-                    autocomplete="new-password"
-                >
-
-            </div>
-
-
-            <div class="reset-field">
-
-                <label>
-                    Confirmar contraseña
-                </label>
-
-                <input
-                    id="confirmPassword"
-                    type="password"
-                    placeholder="Repite tu nueva contraseña"
-                    autocomplete="new-password"
-                >
-
-            </div>
-
-
-            <button
-                class="reset-submit"
-                onclick="updatePassword()"
-            >
-                Actualizar contraseña →
-            </button>
-
-        </div>
-
-    `;
-
-
-    resetModal
-    .classList
-    .add("active");
-
-
-    document.body.style.overflow =
-    "hidden";
-
-
-    setTimeout(function(){
-
-        const input =
-        document.getElementById(
-            "newPassword"
-        );
-
-        if(input){
-
-            input.focus();
-
-        }
-
-    },450);
-
-}
-
-
-/* =====================================================
-   ACTUALIZAR CONTRASEÑA
-===================================================== */
-
-async function updatePassword(){
-
-    const newPassword =
-    document
-    .getElementById("newPassword")
-    .value;
-
-
-    const confirmPassword =
-    document
-    .getElementById("confirmPassword")
-    .value;
-
-
-    if(!newPassword || !confirmPassword){
-
-        showNotice(
-            "Falta información",
-            "Completa los dos campos de contraseña."
-        );
-
-        return;
-
-    }
-
-
-    if(newPassword.length < 6){
-
-        showNotice(
-            "Contraseña demasiado corta",
-            "La contraseña debe tener al menos 6 caracteres."
-        );
-
-        return;
-
-    }
-
-
-    if(newPassword !== confirmPassword){
-
-        showNotice(
-            "Las contraseñas no coinciden",
-            "Escribe exactamente la misma contraseña en los dos campos."
-        );
-
-        return;
-
-    }
-
-
-    const button =
-    document.querySelector(
-        "#resetModal .reset-submit"
-    );
-
-
-    button.disabled = true;
-
-    button.textContent =
-    "Actualizando...";
-
-
-    try{
-
-        const {
-            error
-        } =
-        await supabaseClient.auth
-        .updateUser({
-
-            password:newPassword
-
-        });
-
-
-        if(error){
-
-            button.disabled = false;
-
-            button.textContent =
-            "Actualizar contraseña →";
-
-
-            showNotice(
-                "No pudimos actualizarla",
-                translateSupabaseError(
-                    error.message
-                )
-            );
-
-            return;
-
-        }
-
-
-        /*
-          Limpiamos los campos.
-        */
-
-        document
-        .getElementById("newPassword")
-        .value = "";
-
-        document
-        .getElementById("confirmPassword")
-        .value = "";
-
-
-        /*
-          Mostramos la pantalla de éxito
-          DENTRO del mismo diseño.
-        */
-
-        showPasswordResetSuccess();
-
-
-    }catch(error){
-
-        console.error(error);
-
-
-        button.disabled = false;
-
-        button.textContent =
-        "Actualizar contraseña →";
-
-
-        showNotice(
-            "No pudimos actualizarla",
-            "Ocurrió un problema al actualizar tu contraseña. Inténtalo nuevamente."
-        );
-
-    }
-
-}
-
-
-/* =====================================================
-   ÉXITO DE RECUPERACIÓN
-===================================================== */
-
-function showPasswordResetSuccess(){
-
-    const resetModal =
-    document.getElementById(
-        "resetModal"
-    );
-
-
-    resetModal.innerHTML = `
-
-        <div class="reset-box">
-
-            <div class="reset-logo"></div>
-
-            <h2>
-                Contraseña restablecida exitosamente
-            </h2>
-
-            <p>
-                Tu nueva contraseña ya está activa. Puedes volver a SparkyKrea y acceder a tu cuenta.
-            </p>
-
-
-            <button
-                class="reset-submit"
-                onclick="returnToSparkyKrea()"
-            >
-                Volver a SparkyKrea →
-            </button>
-
-        </div>
-
-    `;
-
-
-    resetModal
-    .classList
-    .add("active");
-
-
-    document.body.style.overflow =
-    "hidden";
-
-}
-
-
-/* =====================================================
-   VOLVER A SPARKYKREA
-===================================================== */
-
-async function returnToSparkyKrea(){
-
-    /*
-      Cerramos la sesión temporal de recuperación.
-      La contraseña ya quedó guardada en Supabase.
-    */
-
-    try{
-
-        await supabaseClient.auth.signOut();
-
-    }catch(error){
-
-        console.error(error);
-
-    }
-
-
-    currentUser = null;
-
-    currentProfile = null;
-
-    recoveryMode = false;
-
-
-    resetAuthArea();
-
-
-    document
-    .getElementById("resetModal")
-    .classList
-    .remove("active");
-
-
-    document.body.style.overflow = "";
-
-
-    /*
-      Volvemos a la página principal
-      sin localhost y sin abrir otra página.
-    */
-
-    window.history.replaceState(
-        {},
-        document.title,
-        SUPABASE_REDIRECT_URL
-    );
-
-
-    window.scrollTo({
-        top:0,
-        behavior:"smooth"
-    });
-
-
-    /*
-      Abrimos el login para que pueda
-      entrar con la contraseña nueva.
-    */
-
-    setTimeout(function(){
-
-        openModal("login");
-
-    },350);
-
-}
-
-
-/* =====================================================
-   DETECTAR RECUPERACIÓN
-===================================================== */
-
-function isRecoveryUrl(){
-
-    const hash =
-    window.location.hash || "";
-
-
-    const search =
-    window.location.search || "";
-
-
-    return (
-        hash.includes("type=recovery") ||
-        search.includes("type=recovery")
-    );
-
-}
-
-
-/* =====================================================
-   CARGAR USUARIO
-===================================================== */
-
-async function loadCurrentUser(){
-
-    const {
-        data:{
-            user
-        }
-    } =
-    await supabaseClient.auth.getUser();
-
-
-    if(!user){
-
-        currentUser = null;
-
-        currentProfile = null;
-
-        resetAuthArea();
-
-        return;
-
-    }
-
-
-    currentUser = user;
-
-
-    const {
-        data:profile,
-        error
-    } =
-    await supabaseClient
-
-    .from("profiles")
-
-    .select(
-        "id,first_name,last_name,email,role,created_at"
-    )
-
-    .eq("id",user.id)
-
-    .maybeSingle();
-
-
-    if(error){
-
-        console.error(error);
-
-    }
-
-
-    currentProfile = profile;
-
-
-    updateAuthArea();
-
-}
-
-
-/* =====================================================
-   HEADER LOGUEADO
-===================================================== */
-
-function updateAuthArea(){
-
-    const area =
-    document.getElementById("authArea");
-
-
-    if(!currentUser){
-
-        resetAuthArea();
-
-        return;
-
-    }
-
-
-    const first =
-    currentProfile?.first_name ||
-    currentUser.user_metadata?.first_name ||
-    "Usuario";
-
-
-    const last =
-    currentProfile?.last_name ||
-    currentUser.user_metadata?.last_name ||
-    "";
-
-
-    const role =
-    currentProfile?.role ||
-    "user";
-
-
-    const isAdmin =
-    role === "admin" &&
-    currentUser.email?.toLowerCase() ===
-    ADMIN_EMAIL;
-
-
-    area.innerHTML = "";
-
-
-    const wrapper =
-    document.createElement("div");
-
-    wrapper.className =
-    "account-area";
-
-
-    const name =
-    document.createElement("div");
-
-    name.className =
-    "account-name";
-
-    name.textContent =
-    (first+" "+last).trim();
-
-
-    wrapper.appendChild(name);
-
-
-    if(isAdmin){
-
-        const adminButton =
-        document.createElement("button");
-
-        adminButton.className =
-        "account-admin";
-
-        adminButton.textContent =
-        "Panel";
-
-        adminButton.onclick =
-        openAdminPanel;
-
-
-        wrapper.appendChild(adminButton);
-
-    }
-
-
-    const logoutButton =
-    document.createElement("button");
-
-    logoutButton.className =
-    "account-logout";
-
-    logoutButton.textContent =
-    "Salir";
-
-    logoutButton.onclick =
-    logoutUser;
-
-
-    wrapper.appendChild(logoutButton);
-
-
-    area.appendChild(wrapper);
-
-}
-
-
-/* =====================================================
-   RESTABLECER HEADER
-===================================================== */
-
-function resetAuthArea(){
-
-    const area =
-    document.getElementById("authArea");
-
-
-    area.innerHTML = `
-
-        <button onclick="openModal('login')">
-            Iniciar sesión
-        </button>
-
-        <button
-            class="register"
-            onclick="openModal('register')"
-        >
-            Registrarse
-        </button>
-
-    `;
-
-}
-
-
-/* =====================================================
-   LOGOUT
-===================================================== */
-
-async function logoutUser(){
-
-    await supabaseClient.auth.signOut();
-
-
-    currentUser = null;
-
-    currentProfile = null;
-
-
-    resetAuthArea();
-
-
-    showNotice(
-        "Hasta pronto",
-        "Tu sesión se ha cerrado correctamente."
-    );
-
-}
-
-
-/* =====================================================
-   PANEL ADMIN
-===================================================== */
-
-async function openAdminPanel(){
-
-    if(!currentUser){
-
-        return;
-
-    }
-
-
-    if(
-        currentUser.email?.toLowerCase() !==
-        ADMIN_EMAIL
-    ){
-
-        showNotice(
-            "Acceso restringido",
-            "No tienes acceso a este panel."
-        );
-
-        return;
-
-    }
-
-
-    const {
-        data:profile,
-        error:profileError
-    } =
-    await supabaseClient
-
-    .from("profiles")
-
-    .select("role,email")
-
-    .eq("id",currentUser.id)
-
-    .maybeSingle();
-
-
-    if(profileError){
-
-        showNotice(
-            "No pudimos abrir el panel",
-            profileError.message
-        );
-
-        return;
-
-    }
-
-
-    if(!profile || profile.role !== "admin"){
-
-        showNotice(
-            "Panel no disponible",
-            "Tu cuenta todavía no tiene el rol de administrador en la base de datos."
-        );
-
-        return;
-
-    }
-
-
-    document
-    .getElementById("adminModal")
-    .classList
-    .add("active");
-
-
-    await loadAdminUsers();
-
-}
-
-
-function closeAdminPanel(){
-
-    document
-    .getElementById("adminModal")
-    .classList
-    .remove("active");
-
-}
-
-
-/* =====================================================
-   CARGAR USUARIOS
-===================================================== */
-
-async function loadAdminUsers(){
-
-    const tbody =
-    document.getElementById("adminUsers");
-
-    const count =
-    document.getElementById("adminCount");
-
-
-    tbody.innerHTML = `
-
-        <tr>
-            <td colspan="4">
-                Cargando...
-            </td>
-        </tr>
-
-    `;
-
-
-    const {
-        data:profiles,
-        error
-    } =
-    await supabaseClient
-
-    .from("profiles")
-
-    .select(
-        "id,first_name,last_name,email,role,created_at"
-    )
-
-    .order(
-        "created_at",
-        {
-            ascending:false
-        }
-    );
-
-
-    if(error){
-
-        tbody.innerHTML = `
-
-            <tr>
-                <td colspan="4">
-                    No se pudieron cargar los usuarios.
-                </td>
-            </tr>
-
-        `;
-
-
-        count.textContent =
-        "Error al cargar";
-
-
-        console.error(error);
-
-        return;
-
-    }
-
-
-    count.textContent =
-    profiles.length +
-    (
-        profiles.length === 1
-        ?
-        " usuario registrado"
-        :
-        " usuarios registrados"
-    );
-
-
-    if(!profiles.length){
-
-        tbody.innerHTML = `
-
-            <tr>
-                <td colspan="4">
-                    Todavía no hay usuarios registrados.
-                </td>
-            </tr>
-
-        `;
-
-        return;
-
-    }
-
-
-    tbody.innerHTML = "";
-
-
-    profiles.forEach(function(profile){
-
-        const row =
-        document.createElement("tr");
-
-
-        const nameCell =
-        document.createElement("td");
-
-        nameCell.textContent =
-        (
-            profile.first_name +
-            " " +
-            profile.last_name
-        ).trim();
-
-
-        const emailCell =
-        document.createElement("td");
-
-        emailCell.textContent =
-        profile.email;
-
-
-        const roleCell =
-        document.createElement("td");
-
-        roleCell.textContent =
-        profile.role;
-
-
-        const dateCell =
-        document.createElement("td");
-
-        dateCell.textContent =
-        new Date(
-            profile.created_at
-        ).toLocaleDateString(
-            "es-ES"
-        );
-
-
-        row.appendChild(nameCell);
-
-        row.appendChild(emailCell);
-
-        row.appendChild(roleCell);
-
-        row.appendChild(dateCell);
-
-
-        tbody.appendChild(row);
-
-    });
-
-}
-
-
-/* =====================================================
-   CHAT
-===================================================== */
-
-function openChat(){
-
-    document
-    .getElementById("chat")
-    .classList
-    .add("active");
-
-
-    document.body.style.overflow =
-    "hidden";
-
-
-    updateGreeting();
-
-
-    setTimeout(function(){
-
-        document
-        .getElementById("chatInput")
-        .focus();
-
-    },450);
-
-}
-
-
-function closeChat(){
-
-    document
-    .getElementById("chat")
-    .classList
-    .remove("active");
-
-
-    document.body.style.overflow = "";
-
-}
-
-
-function updateGreeting(){
-
-    const hour =
-    new Date().getHours();
-
-
-    let greeting =
-    "Hola.";
-
-
-    if(hour >= 5 && hour < 12){
-
-        greeting =
-        "Buenos días.";
-
-    }
-    else if(hour >= 12 && hour < 19){
-
-        greeting =
-        "Buenas tardes.";
-
-    }
-    else{
-
-        greeting =
-        "Buenas noches.";
-
-    }
-
-
-    document
-    .getElementById("welcome")
-    .textContent =
-    greeting +
-    " Cuéntame qué deseas hacer.";
-
-}
-
-
-function handleEnter(event){
-
-    if(event.key === "Enter"){
-
-        sendMessage();
-
-    }
-
-}
-
-
-function sendMessage(){
-
-    const input =
-    document.getElementById("chatInput");
-
-
-    const text =
-    input.value.trim();
-
-
-    if(!text){
-
-        return;
-
-    }
-
-
-    addMessage(
-        text,
-        "user"
-    );
-
-
-    input.value = "";
-
-
-    setTimeout(function(){
-
-        const lower =
-        text.toLowerCase();
-
-
-        let response =
-        "Cuéntame un poco más sobre tu idea y qué resultado quieres conseguir.";
-
-
-        if(
-            lower.includes("juego") ||
-            lower.includes("videojuego")
-        ){
-
-            response =
-            "Perfecto. Podemos trabajar el concepto, estilo visual, mecánicas, público y estrategia de tu juego.";
-
-        }
-
-        else if(
-            lower.includes("marketing") ||
-            lower.includes("publicidad")
-        ){
-
-            response =
-            "Perfecto. Podemos analizar tu propuesta, público, mensaje, contenido y estrategia.";
-
-        }
-
-        else if(
-            lower.includes("logo") ||
-            lower.includes("marca")
-        ){
-
-            response =
-            "Podemos trabajar la identidad de tu marca, su concepto, personalidad, colores y forma de comunicar.";
-
-        }
-
-        else if(
-            lower.includes("hola") ||
-            lower.includes("hey") ||
-            lower.includes("buenas")
-        ){
-
-            response =
-            "¡Hola! Cuéntame qué tienes en mente y lo construimos paso a paso.";
-
-        }
-
-
-        addMessage(
-            response,
-            "bot"
-        );
-
-    },420);
-
-}
-
-
-function addMessage(text,type){
-
-    const container =
-    document.getElementById("chatContent");
-
-
-    const message =
-    document.createElement("div");
-
-
-    message.className =
-    "message " + type;
-
-
-    message.textContent =
-    text;
-
-
-    container.appendChild(message);
-
-
-    container.scrollTop =
-    container.scrollHeight;
-
-}
-
-
-/* =====================================================
-   CONTACTO
-===================================================== */
-
-function contactar(){
-
-    showNotice(
-        "Contáctanos",
-        "Pronto colocaremos aquí el correo oficial de SparkyKrea."
-    );
-
-}
-
-
-/* =====================================================
-   CARRUSEL
-===================================================== */
-
-const cards =
-document.querySelectorAll(
-    ".service-card"
-);
-
-
-const dotsContainer =
-document.getElementById(
-    "carouselDots"
-);
-
-
-let currentCard = 0;
-
-
-/* CREAR DOTS */
-
-cards.forEach(
-function(card,index){
-
-    const dot =
-    document.createElement("div");
-
-
-    dot.className =
-    "carousel-dot";
-
-
-    if(index === 0){
-
-        dot.classList.add("active");
-
-    }
-
-
-    dot.addEventListener(
-        "click",
-        function(){
-
-            showCard(index);
-
-        }
-    );
-
-
-    dotsContainer.appendChild(dot);
-
-});
-
-
-const dots =
-document.querySelectorAll(
-    ".carousel-dot"
-);
-
-
-function showCard(index){
-
-    cards.forEach(
-        function(card){
-
-            card.classList.remove(
-                "active"
-            );
-
-        }
-    );
-
-
-    dots.forEach(
-        function(dot){
-
-            dot.classList.remove(
-                "active"
-            );
-
-        }
-    );
-
-
-    cards[index]
-    .classList
-    .add("active");
-
-
-    dots[index]
-    .classList
-    .add("active");
-
-
-    currentCard =
-    index;
-
-}
-
-
-/* CARRUSEL AUTOMÁTICO */
-
-setInterval(
-function(){
-
-    currentCard++;
-
-
-    if(currentCard >= cards.length){
-
-        currentCard = 0;
-
-    }
-
-
-    showCard(
-        currentCard
-    );
-
-},
-4400
-);
-
-
-/* =====================================================
-   ESCUCHAR ESTADO DE AUTH
-   IMPORTANTE:
-   ESTE LISTENER SE REGISTRA ANTES DE GETSESSION
-===================================================== */
-
-supabaseClient.auth
-.onAuthStateChange(
-function(event,session){
-
-    console.log(
-        "Supabase auth:",
-        event
-    );
-
-
-    /*
-      Este es el evento principal que
-      Supabase dispara al volver desde
-      el enlace de recuperación.
-    */
-
-    if(event === "PASSWORD_RECOVERY"){
-
-        recoveryMode = true;
-
-
-        setTimeout(
-            function(){
-
-                openResetPassword();
-
-            },
-            150
-        );
-
-
-        return;
-
-    }
-
-
-    /*
-      Durante recuperación no dejamos que
-      un evento normal cierre la pantalla.
-    */
-
-    if(recoveryMode){
-
-        return;
-
-    }
-
-
-    if(session){
-
-        /*
-          No hacemos await aquí para evitar
-          bloqueos dentro del callback.
-        */
-
-        loadCurrentUser();
-
-    }else{
-
-        currentUser = null;
-
-        currentProfile = null;
-
-        resetAuthArea();
-
-    }
-
-});
-
-
-/* =====================================================
-   SESIÓN AL ABRIR
-===================================================== */
-
-(async function(){
-
-    /*
-      Primero dejamos que Supabase procese
-      el enlace de recuperación.
-    */
-
-    const recovery =
-    isRecoveryUrl();
-
-
-    const {
-        data:{
-            session
-        }
-    } =
-    await supabaseClient.auth.getSession();
-
-
-    /*
-      Si venimos desde el enlace de recuperación,
-      mostramos directamente la pantalla.
-    */
-
-    if(recovery){
-
-        recoveryMode = true;
-
-
-        setTimeout(
-            function(){
-
-                openResetPassword();
-
-            },
-            250
-        );
-
-
-        return;
-
-    }
-
-
-    /*
-      Funcionamiento normal.
-    */
-
-    if(session){
-
-        await loadCurrentUser();
-
-    }else{
-
-        resetAuthArea();
-
-    }
-
-})();
-
-
-/* =====================================================
-   ESCAPE
-===================================================== */
-
-document.addEventListener(
-"keydown",
-function(event){
-
-    if(event.key === "Escape"){
-
-        /*
-          No cerramos la pantalla de recuperación
-          con Escape mientras está en proceso.
-        */
-
-        if(recoveryMode){
-
-            return;
-
-        }
-
-
-        closeModal();
-
-        closeForgotPassword();
-
-        closeChat();
-
-        closeNotice();
-
-        closeAdminPanel();
-
-    }
-
-});
-
-</script>
+<!DOCTYPE html>  <html lang="es">  
+<head>  
+<meta charset="UTF-8">  
+<meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>SparkyKrea</title>  <link rel="preconnect" href="https://fonts.googleapis.com">  
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">  <style>  
+  
+/* =====================================================  
+   BASE  
+===================================================== */  
+  
+*{  
+    margin:0;  
+    padding:0;  
+    box-sizing:border-box;  
+}  
+  
+html{  
+    scroll-behavior:smooth;  
+}  
+  
+body{  
+    background:#080807;  
+    color:#f4efe7;  
+    font-family:"DM Sans",sans-serif;  
+    overflow-x:hidden;  
+}  
+  
+button,  
+input{  
+    font-family:inherit;  
+}  
+  
+button{  
+    -webkit-tap-highlight-color:transparent;  
+}  
+  
+:root{  
+  
+    --black:#080807;  
+    --black2:#11110f;  
+  
+    --cream:#f6f0e6;  
+  
+    --beige:#e0cda7;  
+    --beige-light:#f0dfbd;  
+  
+    --blue:#b9d8ee;  
+    --blue-light:#d0e6f5;  
+  
+    --rose:#e4bfc0;  
+    --lavender:#d0c5e5;  
+    --sage:#c1d6bd;  
+  
+    --gray:#aaa59c;  
+  
+    --line:#34312b;  
+}  
+  
+  
+/* =====================================================  
+   TRANSICIONES  
+===================================================== */  
+  
+*{  
+    transition:  
+        border-color .3s ease,  
+        background-color .3s ease,  
+        color .3s ease,  
+        opacity .3s ease,  
+        transform .35s cubic-bezier(.22,1,.36,1);  
+}  
+  
+  
+/* =====================================================  
+   HEADER  
+===================================================== */  
+  
+header{  
+    width:100%;  
+    padding:17px 25px;  
+    position:relative;  
+    z-index:20;  
+}  
+  
+.header-inner{  
+    width:min(1250px,100%);  
+    margin:auto;  
+  
+    display:flex;  
+    align-items:center;  
+    justify-content:space-between;  
+  
+    gap:20px;  
+}  
+  
+.brand{  
+    display:flex;  
+    align-items:center;  
+    gap:10px;  
+  
+    color:var(--cream);  
+    text-decoration:none;  
+  
+    font-size:18px;  
+    font-weight:600;  
+}  
+  
+.brand:hover{  
+    transform:translateY(-1px);  
+}  
+  
+  
+/* LOGO */  
+  
+.logo{  
+    width:40px;  
+    height:40px;  
+  
+    border:2px solid var(--beige);  
+  
+    border-radius:50%;  
+  
+    position:relative;  
+  
+    flex-shrink:0;  
+}  
+  
+.logo::before,  
+.logo::after{  
+    content:"";  
+  
+    position:absolute;  
+  
+    width:24px;  
+    height:2px;  
+  
+    background:var(--beige);  
+  
+    left:50%;  
+    top:50%;  
+}  
+  
+.logo::before{  
+    transform:translate(-50%,-50%) rotate(45deg);  
+}  
+  
+.logo::after{  
+    transform:translate(-50%,-50%) rotate(-45deg);  
+}  
+  
+.logo-dot{  
+    position:absolute;  
+  
+    width:8px;  
+    height:8px;  
+  
+    border-radius:50%;  
+  
+    background:var(--beige);  
+  
+    left:50%;  
+    top:50%;  
+  
+    transform:translate(-50%,-50%);  
+}  
+  
+  
+/* AUTH */  
+  
+.auth{  
+    display:flex;  
+    align-items:center;  
+    gap:10px;  
+}  
+  
+.auth button{  
+    border:1px solid #514b40;  
+  
+    background:#11110f;  
+  
+    color:var(--cream);  
+  
+    padding:11px 19px;  
+  
+    border-radius:999px;  
+  
+    font-size:14px;  
+  
+    cursor:pointer;  
+}  
+  
+.auth button:hover{  
+    background:var(--blue-light);  
+    color:#151513;  
+    border-color:var(--blue-light);  
+  
+    transform:translateY(-2px);  
+}  
+  
+.auth .register{  
+    background:var(--beige);  
+    color:#171611;  
+    border-color:var(--beige);  
+}  
+  
+.auth .register:hover{  
+    background:var(--beige-light);  
+    border-color:var(--beige-light);  
+}  
+  
+  
+/* =====================================================  
+   HERO  
+===================================================== */  
+  
+.hero{  
+    width:min(1250px,calc(100% - 40px));  
+  
+    margin:auto;  
+  
+    min-height:calc(100vh - 75px);  
+  
+    display:flex;  
+  
+    flex-direction:column;  
+  
+    align-items:center;  
+    justify-content:center;  
+  
+    text-align:center;  
+  
+    padding:55px 20px 80px;  
+}  
+  
+  
+/* HERO LOGO */  
+  
+.hero-logo{  
+    width:88px;  
+    height:88px;  
+  
+    border:2px solid var(--beige);  
+  
+    border-radius:50%;  
+  
+    position:relative;  
+  
+    margin-bottom:32px;  
+  
+    background:rgba(224,205,167,.035);  
+}  
+  
+.hero-logo::before,  
+.hero-logo::after{  
+    content:"";  
+  
+    position:absolute;  
+  
+    width:52px;  
+    height:2px;  
+  
+    background:var(--beige);  
+  
+    left:50%;  
+    top:50%;  
+}  
+  
+.hero-logo::before{  
+    transform:translate(-50%,-50%) rotate(45deg);  
+}  
+  
+.hero-logo::after{  
+    transform:translate(-50%,-50%) rotate(-45deg);  
+}  
+  
+.hero-logo-dot{  
+    position:absolute;  
+  
+    width:14px;  
+    height:14px;  
+  
+    border-radius:50%;  
+  
+    background:var(--beige);  
+  
+    left:50%;  
+    top:50%;  
+  
+    transform:translate(-50%,-50%);  
+}  
+  
+  
+/* HERO TITLE */  
+  
+.hero h1{  
+    max-width:1000px;  
+  
+    font-family:"Playfair Display",serif;  
+  
+    font-size:clamp(48px,6vw,84px);  
+  
+    line-height:.99;  
+  
+    letter-spacing:-2.8px;  
+  
+    font-weight:600;  
+}  
+  
+.hero h1 span{  
+    color:var(--beige);  
+}  
+  
+  
+/* HERO TEXT */  
+  
+.hero-text{  
+    max-width:760px;  
+  
+    margin-top:26px;  
+  
+    color:#b7b2aa;  
+  
+    font-size:18px;  
+  
+    line-height:1.6;  
+}  
+  
+  
+/* BUTTON */  
+  
+.main-btn{  
+    margin-top:30px;  
+  
+    padding:16px 31px;  
+  
+    border-radius:999px;  
+  
+    border:1px solid #746a57;  
+  
+    background:#29261f;  
+  
+    color:var(--beige-light);  
+  
+    font-size:16px;  
+  
+    font-weight:600;  
+  
+    cursor:pointer;  
+}  
+  
+.main-btn:hover{  
+    background:var(--beige);  
+    color:#171611;  
+    border-color:var(--beige);  
+  
+    transform:translateY(-3px);  
+}  
+  
+  
+/* =====================================================  
+   SERVICIOS  
+===================================================== */  
+  
+.services{  
+    width:min(1250px,calc(100% - 40px));  
+  
+    margin:auto;  
+  
+    padding:85px 0 95px;  
+  
+    text-align:center;  
+}  
+  
+.section-label{  
+    color:var(--beige-light);  
+  
+    font-size:11px;  
+  
+    font-weight:700;  
+  
+    letter-spacing:6px;  
+  
+    margin-bottom:17px;  
+}  
+  
+.services h2{  
+    max-width:900px;  
+  
+    margin:auto;  
+  
+    font-family:"Playfair Display",serif;  
+  
+    font-size:clamp(40px,5vw,68px);  
+  
+    line-height:1.02;  
+  
+    letter-spacing:-1.7px;  
+}  
+  
+.services-description{  
+    max-width:720px;  
+  
+    margin:21px auto 0;  
+  
+    color:#a8a39b;  
+  
+    font-size:17px;  
+  
+    line-height:1.6;  
+}  
+  
+  
+/* =====================================================  
+   CARRUSEL  
+===================================================== */  
+  
+.carousel-wrapper{  
+    width:100%;  
+  
+    margin:43px auto 0;  
+  
+    overflow:hidden;  
+  
+    position:relative;  
+}  
+  
+.carousel{  
+    width:100%;  
+  
+    display:flex;  
+  
+    justify-content:center;  
+  
+    align-items:stretch;  
+  
+    position:relative;  
+  
+    min-height:215px;  
+}  
+  
+.service-card{  
+    width:min(500px,90vw);  
+  
+    min-height:215px;  
+  
+    padding:31px;  
+  
+    text-align:left;  
+  
+    border-radius:24px;  
+  
+    background:#11110f;  
+  
+    border:1px solid #403c34;  
+  
+    position:absolute;  
+  
+    left:50%;  
+    top:0;  
+  
+    transform:translateX(-50%) scale(.96);  
+  
+    opacity:0;  
+  
+    pointer-events:none;  
+}  
+  
+.service-card.active{  
+    opacity:1;  
+  
+    pointer-events:auto;  
+  
+    transform:translateX(-50%) scale(1);  
+}  
+  
+  
+/* CARD COLORS */  
+  
+.service-card:nth-child(1){  
+    border-color:var(--beige);  
+}  
+  
+.service-card:nth-child(2){  
+    border-color:var(--blue);  
+}  
+  
+.service-card:nth-child(3){  
+    border-color:var(--rose);  
+}  
+  
+.service-card:nth-child(4){  
+    border-color:var(--lavender);  
+}  
+  
+.service-card:nth-child(5){  
+    border-color:var(--sage);  
+}  
+  
+  
+/* CARD LINE */  
+  
+.card-line{  
+    width:42px;  
+    height:3px;  
+  
+    border-radius:20px;  
+  
+    background:var(--beige);  
+  
+    margin-bottom:20px;  
+}  
+  
+.service-card:nth-child(2) .card-line{  
+    background:var(--blue);  
+}  
+  
+.service-card:nth-child(3) .card-line{  
+    background:var(--rose);  
+}  
+  
+.service-card:nth-child(4) .card-line{  
+    background:var(--lavender);  
+}  
+  
+.service-card:nth-child(5) .card-line{  
+    background:var(--sage);  
+}  
+  
+.service-card h3{  
+    font-family:"Playfair Display",serif;  
+  
+    font-size:30px;  
+  
+    line-height:1.1;  
+  
+    margin-bottom:12px;  
+}  
+  
+.service-card p{  
+    color:#aaa59c;  
+  
+    font-size:15px;  
+  
+    line-height:1.55;  
+}  
+  
+  
+/* DOTS */  
+  
+.carousel-dots{  
+    display:flex;  
+  
+    justify-content:center;  
+    align-items:center;  
+  
+    gap:9px;  
+  
+    margin-top:20px;  
+}  
+  
+.carousel-dot{  
+    width:7px;  
+    height:7px;  
+  
+    border-radius:50%;  
+  
+    background:#4a463d;  
+  
+    cursor:pointer;  
+}  
+  
+.carousel-dot.active{  
+    width:28px;  
+  
+    border-radius:10px;  
+  
+    background:var(--beige);  
+}  
+  
+  
+/* =====================================================  
+   CONTACTO  
+===================================================== */  
+  
+.contact{  
+    width:min(1000px,calc(100% - 40px));  
+  
+    margin:auto;  
+  
+    padding:75px 20px 90px;  
+  
+    text-align:center;  
+  
+    border-top:1px solid #292721;  
+}  
+  
+.contact h2{  
+    max-width:850px;  
+  
+    margin:auto;  
+  
+    font-family:"Playfair Display",serif;  
+  
+    font-size:clamp(40px,5vw,62px);  
+  
+    line-height:1.04;  
+  
+    letter-spacing:-1.2px;  
+}  
+  
+.contact p{  
+    max-width:700px;  
+  
+    margin:20px auto 0;  
+  
+    color:#a39e95;  
+  
+    font-size:16px;  
+  
+    line-height:1.65;  
+}  
+  
+.contact-btn{  
+    margin-top:24px;  
+  
+    padding:14px 25px;  
+  
+    border:none;  
+  
+    border-radius:999px;  
+  
+    background:var(--beige);  
+  
+    color:#171611;  
+  
+    font-size:14px;  
+  
+    font-weight:700;  
+  
+    cursor:pointer;  
+}  
+  
+.contact-btn:hover{  
+    background:var(--blue-light);  
+  
+    transform:translateY(-3px);  
+}  
+  
+  
+/* =====================================================  
+   FOOTER  
+===================================================== */  
+  
+footer{  
+    border-top:1px solid #292721;  
+  
+    text-align:center;  
+  
+    padding:26px 20px 32px;  
+  
+    color:var(--beige);  
+}  
+  
+footer strong{  
+    display:block;  
+  
+    font-size:14px;  
+  
+    margin-bottom:5px;  
+}  
+  
+footer span{  
+    color:#8b867e;  
+  
+    font-size:12px;  
+}  
+  
+  
+/* =====================================================  
+   MODAL  
+===================================================== */  
+  
+.modal{  
+    position:fixed;  
+  
+    inset:0;  
+  
+    background:rgba(0,0,0,.9);  
+  
+    backdrop-filter:blur(7px);  
+  
+    display:flex;  
+  
+    align-items:center;  
+    justify-content:center;  
+  
+    padding:20px;  
+  
+    z-index:1000;  
+  
+    opacity:0;  
+    visibility:hidden;  
+}  
+  
+.modal.active{  
+    opacity:1;  
+    visibility:visible;  
+}  
+  
+.modal-box{  
+    width:min(430px,100%);  
+  
+    background:#11110f;  
+  
+    border:1px solid #554d3e;  
+  
+    border-radius:25px;  
+  
+    padding:30px;  
+  
+    position:relative;  
+  
+    transform:translateY(25px) scale(.97);  
+  
+    opacity:0;  
+}  
+  
+.modal.active .modal-box{  
+    transform:translateY(0) scale(1);  
+  
+    opacity:1;  
+}  
+  
+.modal-box h2{  
+    font-family:"Playfair Display",serif;  
+  
+    font-size:34px;  
+}  
+  
+.modal-box p{  
+    color:#99948c;  
+  
+    margin:7px 0 23px;  
+}  
+  
+.close-modal{  
+    position:absolute;  
+  
+    right:17px;  
+    top:13px;  
+  
+    border:none;  
+  
+    background:none;  
+  
+    color:var(--beige);  
+  
+    font-size:28px;  
+  
+    cursor:pointer;  
+}  
+  
+.field{  
+    margin-bottom:14px;  
+}  
+  
+.field label{  
+    display:block;  
+  
+    margin-bottom:6px;  
+  
+    color:#c9c2b7;  
+  
+    font-size:13px;  
+}  
+  
+.field input{  
+    width:100%;  
+  
+    padding:13px;  
+  
+    border-radius:12px;  
+  
+    border:1px solid #39362f;  
+  
+    background:#080807;  
+  
+    color:white;  
+  
+    outline:none;  
+}  
+  
+.field input:focus{  
+    border-color:var(--blue);  
+}  
+  
+.submit-btn{  
+    width:100%;  
+  
+    padding:14px;  
+  
+    border:none;  
+  
+    border-radius:12px;  
+  
+    background:var(--beige);  
+  
+    color:#171611;  
+  
+    font-weight:700;  
+  
+    cursor:pointer;  
+}  
+  
+.submit-btn:hover{  
+    background:var(--blue-light);  
+  
+    transform:translateY(-2px);  
+}  
+  
+  
+/* =====================================================  
+   OLVIDASTE CONTRASEÑA  
+===================================================== */  
+  
+.forgot-password{  
+    display:block;  
+  
+    margin:14px auto 0;  
+  
+    border:none;  
+  
+    background:none;  
+  
+    color:#aaa59c;  
+  
+    font-size:13px;  
+  
+    cursor:pointer;  
+  
+    text-decoration:underline;  
+}  
+  
+.forgot-password:hover{  
+    color:var(--beige-light);  
+  
+    transform:translateY(-1px);  
+}  
+  
+  
+/* =====================================================  
+   CHAT  
+===================================================== */  
+  
+.chat{  
+    position:fixed;  
+  
+    inset:0;  
+  
+    background:#080807;  
+  
+    z-index:2000;  
+  
+    display:flex;  
+  
+    flex-direction:column;  
+  
+    opacity:0;  
+  
+    visibility:hidden;  
+  
+    transform:scale(1.025);  
+}  
+  
+.chat.active{  
+    opacity:1;  
+  
+    visibility:visible;  
+  
+    transform:scale(1);  
+}  
+  
+.chat-header{  
+    height:68px;  
+  
+    flex-shrink:0;  
+  
+    border-bottom:1px solid #292821;  
+  
+    display:flex;  
+  
+    align-items:center;  
+  
+    justify-content:space-between;  
+  
+    padding:0 25px;  
+}  
+  
+.chat-brand{  
+    display:flex;  
+  
+    align-items:center;  
+  
+    gap:10px;  
+  
+    font-weight:600;  
+}  
+  
+.chat-logo{  
+    width:34px;  
+    height:34px;  
+  
+    border:1.5px solid var(--beige);  
+  
+    border-radius:50%;  
+  
+    position:relative;  
+}  
+  
+.chat-logo::before,  
+.chat-logo::after{  
+    content:"";  
+  
+    position:absolute;  
+  
+    width:19px;  
+    height:1.5px;  
+  
+    background:var(--beige);  
+  
+    left:50%;  
+    top:50%;  
+}  
+  
+.chat-logo::before{  
+    transform:translate(-50%,-50%) rotate(45deg);  
+}  
+  
+.chat-logo::after{  
+    transform:translate(-50%,-50%) rotate(-45deg);  
+}  
+  
+.chat-close{  
+    border:none;  
+  
+    background:none;  
+  
+    color:var(--beige);  
+  
+    font-size:30px;  
+  
+    cursor:pointer;  
+}  
+  
+.chat-close:hover{  
+    transform:rotate(90deg);  
+  
+    color:var(--blue-light);  
+}  
+  
+.chat-content{  
+    width:min(850px,calc(100% - 30px));  
+  
+    flex:1;  
+  
+    overflow-y:auto;  
+  
+    margin:auto;  
+  
+    padding:30px 0 100px;  
+}  
+  
+.message{  
+    max-width:75%;  
+  
+    padding:13px 16px;  
+  
+    margin-bottom:15px;  
+  
+    border-radius:17px;  
+  
+    font-size:14px;  
+  
+    line-height:1.5;  
+  
+    animation:messageIn .35s ease;  
+}  
+  
+@keyframes messageIn{  
+  
+    from{  
+        opacity:0;  
+        transform:translateY(10px);  
+    }  
+  
+    to{  
+        opacity:1;  
+        transform:translateY(0);  
+    }  
+  
+}  
+  
+.message.bot{  
+    background:#151512;  
+  
+    border:1px solid #39352e;  
+  
+    color:#ddd8cd;  
+  
+    margin-right:auto;  
+}  
+  
+.message.user{  
+    background:var(--beige);  
+  
+    color:#171611;  
+  
+    margin-left:auto;  
+}  
+  
+.chat-input-area{  
+    flex-shrink:0;  
+  
+    border-top:1px solid #292821;  
+  
+    padding:14px 18px;  
+}  
+  
+.chat-input-box{  
+    width:min(850px,100%);  
+  
+    margin:auto;  
+  
+    display:flex;  
+  
+    gap:9px;  
+}  
+  
+.chat-input{  
+    flex:1;  
+  
+    padding:13px 15px;  
+  
+    border-radius:14px;  
+  
+    border:1px solid #38352e;  
+  
+    background:#11110f;  
+  
+    color:white;  
+  
+    outline:none;  
+}  
+  
+.chat-input:focus{  
+    border-color:var(--blue);  
+}  
+  
+.chat-send{  
+    width:48px;  
+  
+    border:none;  
+  
+    border-radius:14px;  
+  
+    background:var(--beige);  
+  
+    color:#171611;  
+  
+    font-size:18px;  
+  
+    cursor:pointer;  
+}  
+  
+.chat-send:hover{  
+    background:var(--blue-light);  
+  
+    transform:translateY(-2px);  
+}  
+  
+  
+/* =====================================================  
+   PC  
+===================================================== */  
+  
+@media(min-width:901px){  
+  
+    header{  
+        padding:14px 35px;  
+    }  
+  
+    .header-inner{  
+        max-width:1350px;  
+    }  
+  
+    .brand{  
+        font-size:19px;  
+    }  
+  
+    .logo{  
+        width:43px;  
+        height:43px;  
+    }  
+  
+    .auth button{  
+        padding:11px 19px;  
+  
+        font-size:14px;  
+    }  
+  
+    .hero{  
+        width:min(1400px,calc(100% - 70px));  
+  
+        min-height:36vh;  
+  
+        padding:20px 30px 25px;  
+    }  
+  
+    .hero-logo{  
+        width:78px;  
+        height:78px;  
+  
+        margin-bottom:18px;  
+    }  
+  
+    .hero-logo::before,  
+    .hero-logo::after{  
+        width:46px;  
+    }  
+  
+    .hero-logo-dot{  
+        width:12px;  
+        height:12px;  
+    }  
+  
+    .hero h1{  
+        max-width:1150px;  
+  
+        font-size:clamp(52px,5vw,78px);  
+  
+        line-height:.97;  
+  
+        letter-spacing:-2.8px;  
+    }  
+  
+    .hero-text{  
+        max-width:900px;  
+  
+        margin-top:16px;  
+  
+        font-size:16px;  
+  
+        line-height:1.45;  
+    }  
+  
+    .main-btn{  
+        margin-top:17px;  
+  
+        padding:13px 28px;  
+  
+        font-size:15px;  
+    }  
+  
+    .services{  
+        width:min(1400px,calc(100% - 70px));  
+  
+        padding:25px 0 28px;  
+    }  
+  
+    .section-label{  
+        font-size:11px;  
+  
+        letter-spacing:6px;  
+  
+        margin-bottom:10px;  
+    }  
+  
+    .services h2{  
+        max-width:1000px;  
+  
+        font-size:clamp(43px,4.2vw,62px);  
+  
+        line-height:1;  
+    }  
+  
+    .services-description{  
+        max-width:850px;  
+  
+        margin-top:9px;  
+  
+        font-size:15px;  
+  
+        line-height:1.4;  
+    }  
+  
+    .carousel-wrapper{  
+        margin-top:20px;  
+    }  
+  
+    .carousel{  
+        min-height:155px;  
+    }  
+  
+    .service-card{  
+        width:min(650px,70vw);  
+  
+        min-height:155px;  
+  
+        padding:22px 27px;  
+  
+        border-radius:20px;  
+    }  
+  
+    .card-line{  
+        width:40px;  
+  
+        height:3px;  
+  
+        margin-bottom:12px;  
+    }  
+  
+    .service-card h3{  
+        font-size:28px;  
+  
+        margin-bottom:6px;  
+    }  
+  
+    .service-card p{  
+        font-size:14px;  
+  
+        line-height:1.4;  
+    }  
+  
+    .carousel-dots{  
+        margin-top:12px;  
+    }  
+  
+    .contact{  
+        width:min(1200px,calc(100% - 70px));  
+  
+        padding:25px 20px 27px;  
+    }  
+  
+    .contact h2{  
+        max-width:1050px;  
+  
+        font-size:clamp(40px,4vw,58px);  
+    }  
+  
+    .contact p{  
+        max-width:850px;  
+  
+        margin-top:9px;  
+  
+        font-size:14px;  
+  
+        line-height:1.4;  
+    }  
+  
+    .contact-btn{  
+        margin-top:12px;  
+  
+        padding:11px 23px;  
+  
+        font-size:13px;  
+    }  
+  
+    footer{  
+        padding:12px 20px 14px;  
+    }  
+  
+    footer strong{  
+        font-size:13px;  
+  
+        margin-bottom:3px;  
+    }  
+  
+    footer span{  
+        font-size:11px;  
+    }  
+  
+}  
+  
+  
+/* =====================================================  
+   PC CON POCA ALTURA  
+===================================================== */  
+  
+@media(min-width:901px) and (max-height:800px){  
+  
+    header{  
+        padding:8px 30px;  
+    }  
+  
+    .hero{  
+        min-height:34vh;  
+  
+        padding-top:10px;  
+  
+        padding-bottom:12px;  
+    }  
+  
+    .hero-logo{  
+        width:64px;  
+        height:64px;  
+  
+        margin-bottom:11px;  
+    }  
+  
+    .hero-logo::before,  
+    .hero-logo::after{  
+        width:38px;  
+    }  
+  
+    .hero-logo-dot{  
+        width:10px;  
+        height:10px;  
+    }  
+  
+    .hero h1{  
+        font-size:clamp(48px,4.5vw,66px);  
+    }  
+  
+    .hero-text{  
+        margin-top:9px;  
+  
+        font-size:13px;  
+    }  
+  
+    .main-btn{  
+        margin-top:10px;  
+  
+        padding:10px 23px;  
+    }  
+  
+    .services{  
+        padding-top:15px;  
+  
+        padding-bottom:18px;  
+    }  
+  
+    .services h2{  
+        font-size:clamp(38px,3.8vw,52px);  
+    }  
+  
+    .services-description{  
+        font-size:12px;  
+    }  
+  
+    .carousel-wrapper{  
+        margin-top:13px;  
+    }  
+  
+    .carousel{  
+        min-height:120px;  
+    }  
+  
+    .service-card{  
+        min-height:120px;  
+  
+        padding:17px 23px;  
+    }  
+  
+    .service-card h3{  
+        font-size:23px;  
+    }  
+  
+    .service-card p{  
+        font-size:11px;  
+    }  
+  
+    .carousel-dots{  
+        margin-top:7px;  
+    }  
+  
+    .contact{  
+        padding-top:16px;  
+  
+        padding-bottom:17px;  
+    }  
+  
+    .contact h2{  
+        font-size:clamp(35px,3.5vw,49px);  
+    }  
+  
+    .contact p{  
+        font-size:11px;  
+  
+        margin-top:6px;  
+    }  
+  
+    .contact-btn{  
+        margin-top:7px;  
+  
+        padding:8px 19px;  
+  
+        font-size:11px;  
+    }  
+  
+    footer{  
+        padding:8px 20px 10px;  
+    }  
+  
+}  
+  
+  
+/* =====================================================  
+   MÓVIL  
+===================================================== */  
+  
+@media(max-width:600px){  
+  
+    header{  
+        padding:13px 12px;  
+    }  
+  
+    .header-inner{  
+        gap:8px;  
+    }  
+  
+    .brand{  
+        font-size:14px;  
+  
+        gap:7px;  
+    }  
+  
+    .logo{  
+        width:34px;  
+        height:34px;  
+    }  
+  
+    .logo::before,  
+    .logo::after{  
+        width:20px;  
+    }  
+  
+    .logo-dot{  
+        width:6px;  
+        height:6px;  
+    }  
+  
+    .auth{  
+        gap:4px;  
+    }  
+  
+    .auth button{  
+        padding:8px 10px;  
+  
+        font-size:10px;  
+    }  
+  
+    .hero{  
+        width:100%;  
+  
+        min-height:calc(100svh - 60px);  
+  
+        padding:55px 15px 70px;  
+    }  
+  
+    .hero-logo{  
+        width:84px;  
+        height:84px;  
+  
+        margin-bottom:30px;  
+    }  
+  
+    .hero-logo::before,  
+    .hero-logo::after{  
+        width:49px;  
+    }  
+  
+    .hero h1{  
+        font-size:42px;  
+  
+        line-height:1.02;  
+  
+        letter-spacing:-1.8px;  
+    }  
+  
+    .hero-text{  
+        margin-top:25px;  
+  
+        font-size:15px;  
+  
+        line-height:1.65;  
+    }  
+  
+    .main-btn{  
+        margin-top:29px;  
+  
+        padding:15px 25px;  
+  
+        font-size:15px;  
+    }  
+  
+    .services{  
+        width:100%;  
+  
+        padding:75px 15px 85px;  
+    }  
+  
+    .section-label{  
+        font-size:10px;  
+  
+        letter-spacing:5px;  
+    }  
+  
+    .services h2{  
+        font-size:40px;  
+  
+        line-height:1.04;  
+    }  
+  
+    .services-description{  
+        font-size:15px;  
+  
+        line-height:1.6;  
+    }  
+  
+    .carousel-wrapper{  
+        margin-top:35px;  
+    }  
+  
+    .carousel{  
+        min-height:205px;  
+    }  
+  
+    .service-card{  
+        width:min(330px,90vw);  
+  
+        min-height:205px;  
+  
+        padding:27px;  
+    }  
+  
+    .service-card h3{  
+        font-size:24px;  
+    }  
+  
+    .service-card p{  
+        font-size:14px;  
+    }  
+  
+    .contact{  
+        width:100%;  
+  
+        padding:75px 18px 85px;  
+    }  
+  
+    .contact h2{  
+        font-size:40px;  
+    }  
+  
+    .contact p{  
+        font-size:15px;  
+  
+        line-height:1.65;  
+    }  
+  
+    footer{  
+        padding-bottom:30px;  
+    }  
+  
+    .message{  
+        max-width:88%;  
+    }  
+  
+}  
+  
+  
+/* =====================================================  
+   ELEMENTOS DE CUENTA  
+===================================================== */  
+  
+.account-area{  
+    display:flex;  
+  
+    align-items:center;  
+  
+    gap:8px;  
+}  
+  
+.account-name{  
+    border:1px solid #514b40;  
+  
+    background:#11110f;  
+  
+    color:var(--cream);  
+  
+    padding:10px 15px;  
+  
+    border-radius:999px;  
+  
+    font-size:13px;  
+}  
+  
+.account-admin{  
+    border:1px solid var(--beige);  
+  
+    background:var(--beige);  
+  
+    color:#171611;  
+  
+    padding:10px 15px;  
+  
+    border-radius:999px;  
+  
+    font-size:13px;  
+  
+    font-weight:700;  
+  
+    cursor:pointer;  
+}  
+  
+.account-logout{  
+    border:1px solid #514b40;  
+  
+    background:#11110f;  
+  
+    color:var(--cream);  
+  
+    padding:10px 15px;  
+  
+    border-radius:999px;  
+  
+    font-size:13px;  
+  
+    cursor:pointer;  
+}  
+  
+.account-admin:hover,  
+.account-logout:hover{  
+    transform:translateY(-2px);  
+}  
+  
+  
+/* =====================================================  
+   MENSAJE SPARKYKREA  
+===================================================== */  
+  
+.notice{  
+    position:fixed;  
+  
+    inset:0;  
+  
+    z-index:3000;  
+  
+    background:rgba(0,0,0,.88);  
+  
+    backdrop-filter:blur(8px);  
+  
+    display:flex;  
+  
+    align-items:center;  
+    justify-content:center;  
+  
+    padding:20px;  
+  
+    opacity:0;  
+    visibility:hidden;  
+}  
+  
+.notice.active{  
+    opacity:1;  
+    visibility:visible;  
+}  
+  
+.notice-box{  
+    width:min(430px,100%);  
+  
+    background:#11110f;  
+  
+    border:1px solid #554d3e;  
+  
+    border-radius:25px;  
+  
+    padding:32px;  
+  
+    text-align:center;  
+  
+    transform:translateY(25px) scale(.97);  
+}  
+  
+.notice.active .notice-box{  
+    transform:translateY(0) scale(1);  
+}  
+  
+.notice-logo{  
+    width:58px;  
+    height:58px;  
+  
+    border:2px solid var(--beige);  
+  
+    border-radius:50%;  
+  
+    position:relative;  
+  
+    margin:0 auto 22px;  
+}  
+  
+.notice-logo::before,  
+.notice-logo::after{  
+    content:"";  
+  
+    position:absolute;  
+  
+    width:34px;  
+    height:2px;  
+  
+    background:var(--beige);  
+  
+    left:50%;  
+    top:50%;  
+}  
+  
+.notice-logo::before{  
+    transform:translate(-50%,-50%) rotate(45deg);  
+}  
+  
+.notice-logo::after{  
+    transform:translate(-50%,-50%) rotate(-45deg);  
+}  
+  
+.notice-box h2{  
+    font-family:"Playfair Display",serif;  
+  
+    font-size:32px;  
+  
+    margin-bottom:9px;  
+}  
+  
+.notice-box p{  
+    color:#a8a39b;  
+  
+    line-height:1.55;  
+  
+    font-size:15px;  
+}  
+  
+.notice-btn{  
+    margin-top:23px;  
+  
+    padding:13px 25px;  
+  
+    border:none;  
+  
+    border-radius:999px;  
+  
+    background:var(--beige);  
+  
+    color:#171611;  
+  
+    font-weight:700;  
+  
+    cursor:pointer;  
+}  
+  
+.notice-btn:hover{  
+    background:var(--blue-light);  
+  
+    transform:translateY(-2px);  
+}  
+  
+  
+/* =====================================================  
+   NUEVA CONTRASEÑA  
+===================================================== */  
+  
+.reset-modal{  
+    position:fixed;  
+  
+    inset:0;  
+  
+    z-index:3500;  
+  
+    background:rgba(0,0,0,.92);  
+  
+    backdrop-filter:blur(8px);  
+  
+    display:flex;  
+  
+    align-items:center;  
+  
+    justify-content:center;  
+  
+    padding:20px;  
+  
+    opacity:0;  
+  
+    visibility:hidden;  
+}  
+  
+.reset-modal.active{  
+    opacity:1;  
+  
+    visibility:visible;  
+}  
+  
+.reset-box{  
+    width:min(450px,100%);  
+  
+    background:#11110f;  
+  
+    border:1px solid #554d3e;  
+  
+    border-radius:25px;  
+  
+    padding:32px;  
+  
+    text-align:center;  
+  
+    transform:translateY(25px) scale(.97);  
+}  
+  
+.reset-modal.active .reset-box{  
+    transform:translateY(0) scale(1);  
+}  
+  
+.reset-logo{  
+    width:68px;  
+    height:68px;  
+  
+    border:2px solid var(--beige);  
+  
+    border-radius:50%;  
+  
+    position:relative;  
+  
+    margin:0 auto 23px;  
+}  
+  
+.reset-logo::before,  
+.reset-logo::after{  
+    content:"";  
+  
+    position:absolute;  
+  
+    width:39px;  
+    height:2px;  
+  
+    background:var(--beige);  
+  
+    left:50%;  
+    top:50%;  
+}  
+  
+.reset-logo::before{  
+    transform:translate(-50%,-50%) rotate(45deg);  
+}  
+  
+.reset-logo::after{  
+    transform:translate(-50%,-50%) rotate(-45deg);  
+}  
+  
+.reset-box h2{  
+    font-family:"Playfair Display",serif;  
+  
+    font-size:34px;  
+  
+    line-height:1.1;  
+  
+    margin-bottom:10px;  
+}  
+  
+.reset-box p{  
+    color:#a8a39b;  
+  
+    font-size:15px;  
+  
+    line-height:1.55;  
+  
+    margin-bottom:25px;  
+}  
+  
+.reset-field{  
+    text-align:left;  
+  
+    margin-bottom:14px;  
+}  
+  
+.reset-field label{  
+    display:block;  
+  
+    margin-bottom:7px;  
+  
+    color:#c9c2b7;  
+  
+    font-size:13px;  
+}  
+  
+.reset-field input{  
+    width:100%;  
+  
+    padding:14px;  
+  
+    border-radius:13px;  
+  
+    border:1px solid #39362f;  
+  
+    background:#080807;  
+  
+    color:white;  
+  
+    outline:none;  
+  
+    font-size:15px;  
+}  
+  
+.reset-field input:focus{  
+    border-color:var(--blue);  
+}  
+  
+.reset-submit{  
+    width:100%;  
+  
+    margin-top:5px;  
+  
+    padding:14px;  
+  
+    border:none;  
+  
+    border-radius:13px;  
+  
+    background:var(--beige);  
+  
+    color:#171611;  
+  
+    font-weight:700;  
+  
+    cursor:pointer;  
+  
+    font-size:15px;  
+}  
+  
+.reset-submit:hover{  
+    background:var(--blue-light);  
+  
+    transform:translateY(-2px);  
+}  
+  
+  
+/* =====================================================  
+   PANEL ADMIN  
+===================================================== */  
+  
+.admin-modal{  
+    position:fixed;  
+  
+    inset:0;  
+  
+    z-index:4000;  
+  
+    background:rgba(0,0,0,.9);  
+  
+    backdrop-filter:blur(8px);  
+  
+    display:flex;  
+  
+    align-items:center;  
+    justify-content:center;  
+  
+    padding:20px;  
+  
+    opacity:0;  
+    visibility:hidden;  
+}  
+  
+.admin-modal.active{  
+    opacity:1;  
+    visibility:visible;  
+}  
+  
+.admin-box{  
+    width:min(850px,100%);  
+  
+    max-height:85vh;  
+  
+    overflow:auto;  
+  
+    background:#11110f;  
+  
+    border:1px solid #554d3e;  
+  
+    border-radius:25px;  
+  
+    padding:30px;  
+  
+    position:relative;  
+  
+    transform:translateY(25px) scale(.97);  
+}  
+  
+.admin-modal.active .admin-box{  
+    transform:translateY(0) scale(1);  
+}  
+  
+.admin-box h2{  
+    font-family:"Playfair Display",serif;  
+  
+    font-size:34px;  
+  
+    margin-bottom:5px;  
+}  
+  
+.admin-box-subtitle{  
+    color:#99948c;  
+  
+    margin-bottom:22px;  
+}  
+  
+.admin-close{  
+    position:absolute;  
+  
+    right:17px;  
+  
+    top:13px;  
+  
+    border:none;  
+  
+    background:none;  
+  
+    color:var(--beige);  
+  
+    font-size:28px;  
+  
+    cursor:pointer;  
+}  
+  
+.admin-table{  
+    width:100%;  
+  
+    border-collapse:collapse;  
+}  
+  
+.admin-table th,  
+.admin-table td{  
+    padding:12px 8px;  
+  
+    border-bottom:1px solid #292721;  
+  
+    text-align:left;  
+  
+    font-size:13px;  
+}  
+  
+.admin-table th{  
+    color:var(--beige-light);  
+}  
+  
+.admin-table td{  
+    color:#c9c2b7;  
+}  
+  
+.admin-count{  
+    display:inline-block;  
+  
+    padding:7px 12px;  
+  
+    border-radius:999px;  
+  
+    background:#29261f;  
+  
+    color:var(--beige-light);  
+  
+    margin-bottom:18px;  
+  
+    font-size:13px;  
+}  
+  
+  
+/* =====================================================  
+   MÓVIL CUENTA / ADMIN  
+===================================================== */  
+  
+@media(max-width:600px){  
+  
+    .account-name{  
+        max-width:95px;  
+  
+        overflow:hidden;  
+  
+        text-overflow:ellipsis;  
+  
+        white-space:nowrap;  
+  
+        padding:8px 9px;  
+  
+        font-size:9px;  
+    }  
+  
+    .account-admin,  
+    .account-logout{  
+        padding:8px 9px;  
+  
+        font-size:9px;  
+    }  
+  
+    .admin-box{  
+        padding:24px 17px;  
+    }  
+  
+    .admin-box h2{  
+        font-size:29px;  
+    }  
+  
+    .admin-table th,  
+    .admin-table td{  
+        padding:9px 5px;  
+  
+        font-size:10px;  
+    }  
+  
+    .reset-box{  
+        padding:27px 22px;  
+    }  
+  
+    .reset-box h2{  
+        font-size:30px;  
+    }  
+  
+}  
+  
+  
+/* =====================================================  
+   ANIMACIONES REDUCIDAS  
+===================================================== */  
+  
+@media(prefers-reduced-motion:reduce){  
+  
+    *,  
+    *::before,  
+    *::after{  
+  
+        animation-duration:.01ms !important;  
+  
+        animation-iteration-count:1 !important;  
+  
+        scroll-behavior:auto !important;  
+  
+        transition-duration:.01ms !important;  
+    }  
+  
+}  
+  
+</style>  </head>  <body>  <div class="page">  <!-- =====================================================  
+     HEADER  
+===================================================== -->  <header>  <div class="header-inner">  <a href="#" class="brand">  <div class="logo">  
+<div class="logo-dot"></div>  
+</div>  <span>SparkyKrea</span>
+
+</a>  <div class="auth" id="authArea">  <button onclick="openModal('login')">  
+Iniciar sesión  
+</button>  <button
+class="register"
+onclick="openModal('register')"
+
+> 
+
+Registrarse
+</button>
+
+</div>  </div>  </header>  <!-- =====================================================  
+     HERO  
+===================================================== -->  <section class="hero">  <div class="hero-logo">  
+<div class="hero-logo-dot"></div>  
+</div>  <h1>  Damos forma a
+
+<br>  ideas que
+<span>merecen</span>
+
+<br>  hacerse realidad.
+
+</h1>  <p class="hero-text">  Estrategia, creatividad y desarrollo para convertir
+una visión en una propuesta clara, atractiva y bien
+construida.
+
+</p>  <button
+class="main-btn"
+onclick="openChat()"
+
+> 
+
+Comenzar ahora  →
+
+</button>  </section>  <!-- =====================================================  
+     SERVICIOS  
+===================================================== -->  <section class="services">  <div class="section-label">  
+SERVICIOS  
+</div>  <h2>  
+Construimos cada idea  
+desde su esencia.  
+</h2>  <p class="services-description">  Analizamos lo que tienes, entendemos hacia dónde
+quieres llegar y damos forma a una propuesta con
+sentido.
+
+</p>  <div class="carousel-wrapper">  <div class="carousel">  <article class="service-card active">  <div class="card-line"></div>  <h3>  
+Marketing y estrategia  
+</h3>  <p>  
+Analizamos tu propuesta y construimos  
+una dirección clara para hacerla crecer.  
+</p>  </article>  <article class="service-card">  <div class="card-line"></div>  <h3>  
+Contenido creativo  
+</h3>  <p>  
+Ideas y contenido pensado para conectar  
+con las personas.  
+</p>  </article>  <article class="service-card">  <div class="card-line"></div>  <h3>  
+Identidad y presencia  
+</h3>  <p>  
+Una identidad coherente, reconocible  
+y alineada con tu proyecto.  
+</p>  </article>  <article class="service-card">  <div class="card-line"></div>  <h3>  
+Desarrollo y experiencia  
+</h3>  <p>  
+Convertimos conceptos en experiencias  
+digitales funcionales.  
+</p>  </article>  <article class="service-card">  <div class="card-line"></div>  <h3>  
+Campañas y crecimiento  
+</h3>  <p>  
+Organizamos acciones para llevar  
+tu proyecto más lejos.  
+</p>  </article>  </div>  <div  
+class="carousel-dots"  
+id="carouselDots"  
+></div>  </div>  </section>  <!-- =====================================================  
+     CONTACTO  
+===================================================== -->  <section class="contact">  <div class="section-label">  
+CONTACTO  
+</div>  <h2>  
+Tu opinión también  
+forma parte de SparkyKrea.  
+</h2>  <p>  Queremos saber qué piensas. ¿Tienes una sugerencia,
+una crítica, encontraste algún problema o simplemente
+quieres contarnos algo? Déjanos saber tu opinión.
+
+</p>  <button
+class="contact-btn"
+onclick="contactar()"
+
+> 
+
+Contáctanos →
+
+</button>  </section>  <!-- =====================================================  
+     FOOTER  
+===================================================== -->  <footer>  <strong>  
+by SparkyKreate  
+</strong>  <span>  
+asesoría de marketing  
+</span>  </footer>  </div>  <!-- =====================================================  
+     LOGIN / REGISTRO  
+===================================================== -->  <div  
+class="modal"  
+id="modal"  
+onclick="outsideModal(event)"  
+>  <div  
+class="modal-box"  
+onclick="event.stopPropagation()"  
+>  <button
+class="close-modal"
+onclick="closeModal()"
+
+> 
+
+×
+</button>
+
+<h2 id="modalTitle">  
+Iniciar sesión  
+</h2>  <p id="modalDescription">  
+Accede a tu espacio en SparkyKrea.  
+</p>  <div  
+class="field"  
+id="nameField"  
+style="display:none;"  
+>  <label>  
+Nombre  
+</label>  <input
+id="firstName"
+type="text"
+placeholder="Tu nombre"
+
+> 
+
+</div>  <div  
+class="field"  
+id="surnameField"  
+style="display:none;"  
+>  <label>  
+Apellido  
+</label>  <input
+id="lastName"
+type="text"
+placeholder="Tu apellido"
+
+> 
+
+</div>  <div class="field">  <label>  
+Correo electrónico  
+</label>  <input
+id="email"
+type="email"
+placeholder="correo@ejemplo.com"
+
+> 
+
+</div>  <div class="field">  <label>  
+Contraseña  
+</label>  <input
+id="password"
+type="password"
+placeholder="Tu contraseña"
+
+> 
+
+</div>  <button
+class="submit-btn"
+onclick="submitAuth()"
+
+> 
+
+Continuar
+
+</button>  <button
+class="forgot-password"
+id="forgotPasswordButton"
+onclick="openForgotPassword()"
+
+> 
+
+¿Olvidaste tu contraseña?
+
+</button>  </div>  </div>  <!-- =====================================================  
+     MODAL RECUPERAR CONTRASEÑA  
+===================================================== -->  <div  
+class="modal"  
+id="forgotModal"  
+onclick="outsideForgotModal(event)"  
+>  <div  
+class="modal-box"  
+onclick="event.stopPropagation()"  
+>  <button
+class="close-modal"
+onclick="closeForgotPassword()"
+
+> 
+
+×
+</button>
+
+<h2>  
+Recuperar contraseña  
+</h2>  <p>  
+Escribe tu correo y te enviaremos un enlace para crear una nueva contraseña.  
+</p>  <div class="field">  <label>  
+Correo electrónico  
+</label>  <input
+id="recoveryEmail"
+type="email"
+placeholder="correo@ejemplo.com"
+
+> 
+
+</div>  <button
+class="submit-btn"
+onclick="sendRecoveryEmail()"
+
+> 
+
+Enviar enlace →
+
+</button>  </div>  </div>  <!-- =====================================================  
+     MENSAJE SPARKYKREA  
+===================================================== -->  <div  
+class="notice"  
+id="notice"  
+>  <div class="notice-box">  <div class="notice-logo"></div>  <h2 id="noticeTitle">  
+SparkyKrea  
+</h2>  <p id="noticeText"></p>  <button
+class="notice-btn"
+onclick="closeNotice()"
+
+> 
+
+Continuar →
+</button>
+
+</div>  </div>  <!-- =====================================================  
+     NUEVA CONTRASEÑA  
+===================================================== -->  <div  
+class="reset-modal"  
+id="resetModal"  
+>  <div class="reset-box">  <div class="reset-logo"></div>  <h2>  
+Crea tu nueva contraseña  
+</h2>  <p>  
+Escribe una nueva contraseña para volver a acceder a tu cuenta de SparkyKrea.  
+</p>  <div class="reset-field">  <label>  
+Nueva contraseña  
+</label>  <input
+id="newPassword"
+type="password"
+placeholder="Tu nueva contraseña"
+autocomplete="new-password"
+
+> 
+
+</div>  <div class="reset-field">  <label>  
+Confirmar contraseña  
+</label>  <input
+id="confirmPassword"
+type="password"
+placeholder="Repite tu nueva contraseña"
+autocomplete="new-password"
+
+> 
+
+</div>  <button
+class="reset-submit"
+onclick="updatePassword()"
+
+> 
+
+Actualizar contraseña →
+
+</button>  </div>  </div>  <!-- =====================================================  
+     PANEL ADMIN  
+===================================================== -->  <div  
+class="admin-modal"  
+id="adminModal"  
+>  <div class="admin-box">  <button
+class="admin-close"
+onclick="closeAdminPanel()"
+
+> 
+
+×
+</button>
+
+<h2>  
+Panel de administrador  
+</h2>  <p class="admin-box-subtitle">  
+Usuarios registrados en SparkyKrea.  
+</p>  <div  
+class="admin-count"  
+id="adminCount"  
+>  
+Cargando usuarios...  
+</div>  <div style="overflow-x:auto;">  <table class="admin-table">  <thead>  <tr>  <th>  
+Nombre  
+</th>  <th>  
+Correo  
+</th>  <th>  
+Rol  
+</th>  <th>  
+Fecha  
+</th>  </tr>  </thead>  <tbody id="adminUsers">  <tr>  <td colspan="4">  
+Cargando...  
+</td>  </tr>  </tbody>  </table>  </div>  </div>  </div>  <!-- =====================================================  
+     CHAT  
+===================================================== -->  <div  
+class="chat"  
+id="chat"  
+>  <div class="chat-header">  <div class="chat-brand">  <div class="chat-logo"></div>  <span>  
+SparkyKrea  
+</span>  </div>  <button
+class="chat-close"
+onclick="closeChat()"
+
+> 
+
+×
+</button>
+
+</div>  <div  
+class="chat-content"  
+id="chatContent"  
+>  <div  
+class="message bot"  
+id="welcome"  
+>  
+Hola. Cuéntame qué deseas hacer.  
+</div>  </div>  <div class="chat-input-area">  <div class="chat-input-box">  <input
+class="chat-input"
+id="chatInput"
+placeholder="Escribe aquí..."
+onkeydown="handleEnter(event)"
+
+> 
+
+<button
+class="chat-send"
+onclick="sendMessage()"
+
+> 
+
+↑
+</button>
+
+</div>  </div>  </div>  <!-- =====================================================  
+     SUPABASE  
+===================================================== -->  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>  <script>  
+  
+/* =====================================================  
+   SUPABASE  
+===================================================== */  
+  
+const SUPABASE_URL =  
+"https://lvsntxkywjyxumlgtayl.supabase.co";  
+  
+const SUPABASE_PUBLISHABLE_KEY =  
+"sb_publishable_bhzMbxUHakbytVuVlNcz8A_f2f6szGA";  
+  
+const SUPABASE_REDIRECT_URL =  
+"https://sparky-kreate.github.io/SparkyKreate/";  
+  
+const supabaseClient =  
+window.supabase.createClient(  
+    SUPABASE_URL,  
+    SUPABASE_PUBLISHABLE_KEY  
+);  
+  
+  
+/* =====================================================  
+   ADMIN  
+===================================================== */  
+  
+const ADMIN_EMAIL =  
+"guillermojose170512@gmail.com";  
+  
+  
+let currentUser = null;  
+let currentProfile = null;  
+let authMode = "login";  
+  
+  
+/* =====================================================  
+   MENSAJES  
+===================================================== */  
+  
+function showNotice(title,text){  
+  
+    document  
+    .getElementById("noticeTitle")  
+    .textContent = title;  
+  
+    document  
+    .getElementById("noticeText")  
+    .textContent = text;  
+  
+    document  
+    .getElementById("notice")  
+    .classList  
+    .add("active");  
+  
+}  
+  
+  
+function closeNotice(){  
+  
+    document  
+    .getElementById("notice")  
+    .classList  
+    .remove("active");  
+  
+}  
+  
+  
+/* =====================================================  
+   MODAL LOGIN / REGISTRO  
+===================================================== */  
+  
+function openModal(mode){  
+  
+    authMode = mode;  
+  
+    document  
+    .getElementById("modal")  
+    .classList  
+    .add("active");  
+  
+  
+    const nameField =  
+    document.getElementById("nameField");  
+  
+    const surnameField =  
+    document.getElementById("surnameField");  
+  
+    const forgotButton =  
+    document.getElementById("forgotPasswordButton");  
+  
+  
+    if(mode === "register"){  
+  
+        document  
+        .getElementById("modalTitle")  
+        .textContent =  
+        "Crear cuenta";  
+  
+        document  
+        .getElementById("modalDescription")  
+        .textContent =  
+        "Crea tu espacio en SparkyKrea.";  
+  
+        nameField.style.display =  
+        "block";  
+  
+        surnameField.style.display =  
+        "block";  
+  
+        forgotButton.style.display =  
+        "none";  
+  
+    }else{  
+  
+        document  
+        .getElementById("modalTitle")  
+        .textContent =  
+        "Iniciar sesión";  
+  
+        document  
+        .getElementById("modalDescription")  
+        .textContent =  
+        "Accede a tu espacio en SparkyKrea.";  
+  
+        nameField.style.display =  
+        "none";  
+  
+        surnameField.style.display =  
+        "none";  
+  
+        forgotButton.style.display =  
+        "block";  
+  
+    }  
+  
+}  
+  
+  
+function closeModal(){  
+  
+    document  
+    .getElementById("modal")  
+    .classList  
+    .remove("active");  
+  
+}  
+  
+  
+function outsideModal(event){  
+  
+    if(event.target.id === "modal"){  
+  
+        closeModal();  
+  
+    }  
+  
+}  
+  
+  
+/* =====================================================  
+   RECUPERAR CONTRASEÑA  
+===================================================== */  
+  
+function openForgotPassword(){  
+  
+    const loginEmail =  
+    document  
+    .getElementById("email")  
+    .value  
+    .trim()  
+    .toLowerCase();  
+  
+  
+    if(loginEmail){  
+  
+        document  
+        .getElementById("recoveryEmail")  
+        .value = loginEmail;  
+  
+    }  
+  
+  
+    closeModal();  
+  
+  
+    document  
+    .getElementById("forgotModal")  
+    .classList  
+    .add("active");  
+  
+}  
+  
+  
+function closeForgotPassword(){  
+  
+    document  
+    .getElementById("forgotModal")  
+    .classList  
+    .remove("active");  
+  
+}  
+  
+  
+function outsideForgotModal(event){  
+  
+    if(event.target.id === "forgotModal"){  
+  
+        closeForgotPassword();  
+  
+    }  
+  
+}  
+  
+  
+/* =====================================================  
+   ENVIAR CORREO DE RECUPERACIÓN  
+===================================================== */  
+  
+async function sendRecoveryEmail(){  
+  
+    const email =  
+    document  
+    .getElementById("recoveryEmail")  
+    .value  
+    .trim()  
+    .toLowerCase();  
+  
+  
+    if(!email){  
+  
+        showNotice(  
+            "Falta información",  
+            "Escribe tu correo electrónico para continuar."  
+        );  
+  
+        return;  
+  
+    }  
+  
+  
+    const button =  
+    document.querySelector(  
+        "#forgotModal .submit-btn"  
+    );  
+  
+  
+    button.disabled = true;  
+  
+    button.textContent =  
+    "Enviando...";  
+  
+  
+    const { error } =  
+    await supabaseClient.auth  
+    .resetPasswordForEmail(  
+        email,  
+        {  
+            redirectTo:  
+            SUPABASE_REDIRECT_URL  
+        }  
+    );  
+  
+  
+    button.disabled = false;  
+  
+    button.textContent =  
+    "Enviar enlace →";  
+  
+  
+    if(error){  
+  
+        showNotice(  
+            "No pudimos enviar el enlace",  
+            error.message  
+        );  
+  
+        return;  
+  
+    }  
+  
+  
+    closeForgotPassword();  
+  
+  
+    showNotice(  
+        "Revisa tu correo",  
+        "Si existe una cuenta con ese correo, recibirás un enlace para crear una nueva contraseña."  
+    );  
+  
+}  
+  
+  
+/* =====================================================  
+   REGISTRO / LOGIN  
+===================================================== */  
+  
+async function submitAuth(){  
+  
+    const email =  
+    document  
+    .getElementById("email")  
+    .value  
+    .trim()  
+    .toLowerCase();  
+  
+  
+    const password =  
+    document  
+    .getElementById("password")  
+    .value  
+    .trim();  
+  
+  
+    if(!email || !password){  
+  
+        showNotice(  
+            "Falta información",  
+            "Completa tu correo y contraseña para continuar."  
+        );  
+  
+        return;  
+  
+    }  
+  
+  
+    const button =  
+    document.querySelector(  
+        "#modal .submit-btn"  
+    );  
+  
+  
+    button.disabled = true;  
+  
+    button.textContent =  
+    "Procesando...";  
+  
+  
+    /* =================================================  
+       REGISTRO  
+    ================================================= */  
+  
+    if(authMode === "register"){  
+  
+        const first =  
+        document  
+        .getElementById("firstName")  
+        .value  
+        .trim();  
+  
+  
+        const last =  
+        document  
+        .getElementById("lastName")  
+        .value  
+        .trim();  
+  
+  
+        if(!first || !last){  
+  
+            button.disabled = false;  
+  
+            button.textContent =  
+            "Continuar";  
+  
+  
+            showNotice(  
+                "Falta información",  
+                "Completa tu nombre y apellido para crear tu cuenta."  
+            );  
+  
+            return;  
+  
+        }  
+  
+  
+        const {  
+            data,  
+            error  
+        } =  
+        await supabaseClient.auth.signUp({  
+  
+            email:email,  
+  
+            password:password,  
+  
+            options:{  
+                data:{  
+                    first_name:first,  
+                    last_name:last  
+                }  
+            }  
+  
+        });  
+  
+  
+        button.disabled = false;  
+  
+        button.textContent =  
+        "Continuar";  
+  
+  
+        if(error){  
+  
+            showNotice(  
+                "No pudimos crear la cuenta",  
+                translateSupabaseError(error.message)  
+            );  
+  
+            return;  
+  
+        }  
+  
+  
+        closeModal();  
+  
+  
+        /*  
+          Con Confirm Email desactivado,  
+          Supabase devuelve una sesión.  
+        */  
+  
+        if(data.session){  
+  
+            await loadCurrentUser();  
+  
+  
+            showNotice(  
+                "Cuenta creada",  
+                "Tu cuenta de SparkyKrea ya está lista. Bienvenido."  
+            );  
+  
+        }else{  
+  
+            showNotice(  
+                "Cuenta creada",  
+                "La cuenta fue creada correctamente. Si no puedes iniciar sesión todavía, revisa la configuración de confirmación de correo en Supabase."  
+            );  
+  
+        }  
+  
+  
+        return;  
+  
+    }  
+  
+  
+    /* =================================================  
+       LOGIN  
+    ================================================= */  
+  
+    const {  
+        data,  
+        error  
+    } =  
+    await supabaseClient.auth  
+    .signInWithPassword({  
+  
+        email:email,  
+  
+        password:password  
+  
+    });  
+  
+  
+    button.disabled = false;  
+  
+    button.textContent =  
+    "Continuar";  
+  
+  
+    if(error){  
+  
+        showNotice(  
+            "No pudimos iniciar sesión",  
+            translateSupabaseError(error.message)  
+        );  
+  
+        return;  
+  
+    }  
+  
+  
+    closeModal();  
+  
+  
+    await loadCurrentUser();  
+  
+  
+    showNotice(  
+        "Bienvenido a SparkyKrea",  
+        "Has iniciado sesión correctamente."  
+    );  
+  
+}  
+  
+  
+/* =====================================================  
+   TRADUCIR ERRORES COMUNES  
+===================================================== */  
+  
+function translateSupabaseError(message){  
+  
+    const text =  
+    String(message || "")  
+    .toLowerCase();  
+  
+  
+    if(text.includes("invalid login credentials")){  
+  
+        return "El correo o la contraseña no son correctos.";  
+  
+    }  
+  
+  
+    if(text.includes("user already registered")){  
+  
+        return "Ya existe una cuenta registrada con ese correo.";  
+  
+    }  
+  
+  
+    if(text.includes("password should be at least")){  
+  
+        return "La contraseña debe tener al menos 6 caracteres.";  
+  
+    }  
+  
+  
+    if(text.includes("unable to validate email address")){  
+  
+        return "El correo electrónico no parece válido.";  
+  
+    }  
+  
+  
+    if(text.includes("email not confirmed")){  
+  
+        return "Esta cuenta todavía necesita confirmar el correo electrónico.";  
+  
+    }  
+  
+  
+    return message ||  
+    "Ocurrió un problema. Inténtalo nuevamente.";  
+  
+}  
+  
+  
+/* =====================================================  
+   CAMBIAR CONTRASEÑA  
+===================================================== */  
+  
+async function updatePassword(){  
+  
+    const newPassword =  
+    document  
+    .getElementById("newPassword")  
+    .value;  
+  
+  
+    const confirmPassword =  
+    document  
+    .getElementById("confirmPassword")  
+    .value;  
+  
+  
+    if(!newPassword || !confirmPassword){  
+  
+        showNotice(  
+            "Falta información",  
+            "Completa los dos campos de contraseña."  
+        );  
+  
+        return;  
+  
+    }  
+  
+  
+    if(newPassword.length < 6){  
+  
+        showNotice(  
+            "Contraseña demasiado corta",  
+            "La contraseña debe tener al menos 6 caracteres."  
+        );  
+  
+        return;  
+  
+    }  
+  
+  
+    if(newPassword !== confirmPassword){  
+  
+        showNotice(  
+            "Las contraseñas no coinciden",  
+            "Escribe exactamente la misma contraseña en los dos campos."  
+        );  
+  
+        return;  
+  
+    }  
+  
+  
+    const button =  
+    document.querySelector(  
+        ".reset-submit"  
+    );  
+  
+  
+    button.disabled = true;  
+  
+    button.textContent =  
+    "Actualizando...";  
+  
+  
+    const {  
+        data,  
+        error  
+    } =  
+    await supabaseClient.auth  
+    .updateUser({  
+  
+        password:newPassword  
+  
+    });  
+  
+  
+    button.disabled = false;  
+  
+    button.textContent =  
+    "Actualizar contraseña →";  
+  
+  
+    if(error){  
+  
+        showNotice(  
+            "No pudimos actualizarla",  
+            error.message  
+        );  
+  
+        return;  
+  
+    }  
+  
+  
+    document  
+    .getElementById("newPassword")  
+    .value = "";  
+  
+    document  
+    .getElementById("confirmPassword")  
+    .value = "";  
+  
+  
+    document  
+    .getElementById("resetModal")  
+    .classList  
+    .remove("active");  
+  
+  
+    showNotice(  
+        "Contraseña actualizada",  
+        "Tu nueva contraseña ya está activa. Ahora puedes iniciar sesión con ella."  
+    );  
+  
+  
+    /*  
+      Cerramos la sesión de recuperación para  
+      que la persona vuelva a iniciar sesión  
+      normalmente con su nueva contraseña.  
+    */  
+  
+    setTimeout(async function(){  
+  
+        await supabaseClient.auth.signOut();  
+  
+        currentUser = null;  
+  
+        currentProfile = null;  
+  
+        resetAuthArea();  
+  
+    },700);  
+  
+}  
+  
+  
+/* =====================================================  
+   DETECTAR RECUPERACIÓN DE CONTRASEÑA  
+===================================================== */  
+  
+function openResetPassword(){  
+  
+    document  
+    .getElementById("resetModal")  
+    .classList  
+    .add("active");  
+  
+  
+    setTimeout(function(){  
+  
+        document  
+        .getElementById("newPassword")  
+        .focus();  
+  
+    },350);  
+  
+}  
+  
+  
+/* =====================================================  
+   CARGAR USUARIO  
+===================================================== */  
+  
+async function loadCurrentUser(){  
+  
+    const {  
+        data:{  
+            user  
+        }  
+    } =  
+    await supabaseClient.auth.getUser();  
+  
+  
+    if(!user){  
+  
+        currentUser = null;  
+  
+        currentProfile = null;  
+  
+        resetAuthArea();  
+  
+        return;  
+  
+    }  
+  
+  
+    currentUser = user;  
+  
+  
+    const {  
+        data:profile,  
+        error  
+    } =  
+    await supabaseClient  
+  
+    .from("profiles")  
+  
+    .select(  
+        "id,first_name,last_name,email,role,created_at"  
+    )  
+  
+    .eq("id",user.id)  
+  
+    .maybeSingle();  
+  
+  
+    if(error){  
+  
+        console.error(error);  
+  
+    }  
+  
+  
+    currentProfile = profile;  
+  
+  
+    updateAuthArea();  
+  
+}  
+  
+  
+/* =====================================================  
+   HEADER LOGUEADO  
+===================================================== */  
+  
+function updateAuthArea(){  
+  
+    const area =  
+    document.getElementById("authArea");  
+  
+  
+    if(!currentUser){  
+  
+        resetAuthArea();  
+  
+        return;  
+  
+    }  
+  
+  
+    const first =  
+    currentProfile?.first_name ||  
+    currentUser.user_metadata?.first_name ||  
+    "Usuario";  
+  
+  
+    const last =  
+    currentProfile?.last_name ||  
+    currentUser.user_metadata?.last_name ||  
+    "";  
+  
+  
+    const role =  
+    currentProfile?.role ||  
+    "user";  
+  
+  
+    const isAdmin =  
+    role === "admin" &&  
+    currentUser.email?.toLowerCase() ===  
+    ADMIN_EMAIL;  
+  
+  
+    area.innerHTML = "";  
+  
+  
+    const wrapper =  
+    document.createElement("div");  
+  
+    wrapper.className =  
+    "account-area";  
+  
+  
+    const name =  
+    document.createElement("div");  
+  
+    name.className =  
+    "account-name";  
+  
+    name.textContent =  
+    (first+" "+last).trim();  
+  
+  
+    wrapper.appendChild(name);  
+  
+  
+    if(isAdmin){  
+  
+        const adminButton =  
+        document.createElement("button");  
+  
+        adminButton.className =  
+        "account-admin";  
+  
+        adminButton.textContent =  
+        "Panel";  
+  
+        adminButton.onclick =  
+        openAdminPanel;  
+  
+  
+        wrapper.appendChild(adminButton);  
+  
+    }  
+  
+  
+    const logoutButton =  
+    document.createElement("button");  
+  
+    logoutButton.className =  
+    "account-logout";  
+  
+    logoutButton.textContent =  
+    "Salir";  
+  
+    logoutButton.onclick =  
+    logoutUser;  
+  
+  
+    wrapper.appendChild(logoutButton);  
+  
+  
+    area.appendChild(wrapper);  
+  
+}  
+  
+  
+/* =====================================================  
+   RESTABLECER HEADER  
+===================================================== */  
+  
+function resetAuthArea(){  
+  
+    const area =  
+    document.getElementById("authArea");  
+  
+  
+    area.innerHTML = `  
+  
+        <button onclick="openModal('login')">  
+            Iniciar sesión  
+        </button>  
+  
+        <button  
+            class="register"  
+            onclick="openModal('register')"  
+        >  
+            Registrarse  
+        </button>  
+  
+    `;  
+  
+}  
+  
+  
+/* =====================================================  
+   LOGOUT  
+===================================================== */  
+  
+async function logoutUser(){  
+  
+    await supabaseClient.auth.signOut();  
+  
+  
+    currentUser = null;  
+  
+    currentProfile = null;  
+  
+  
+    resetAuthArea();  
+  
+  
+    showNotice(  
+        "Hasta pronto",  
+        "Tu sesión se ha cerrado correctamente."  
+    );  
+  
+}  
+  
+  
+/* =====================================================  
+   PANEL ADMIN  
+===================================================== */  
+  
+async function openAdminPanel(){  
+  
+    if(!currentUser){  
+  
+        return;  
+  
+    }  
+  
+  
+    if(  
+        currentUser.email?.toLowerCase() !==  
+        ADMIN_EMAIL  
+    ){  
+  
+        showNotice(  
+            "Acceso restringido",  
+            "No tienes acceso a este panel."  
+        );  
+  
+        return;  
+  
+    }  
+  
+  
+    const {  
+        data:profile,  
+        error:profileError  
+    } =  
+    await supabaseClient  
+  
+    .from("profiles")  
+  
+    .select("role,email")  
+  
+    .eq("id",currentUser.id)  
+  
+    .maybeSingle();  
+  
+  
+    if(profileError){  
+  
+        showNotice(  
+            "No pudimos abrir el panel",  
+            profileError.message  
+        );  
+  
+        return;  
+  
+    }  
+  
+  
+    if(!profile || profile.role !== "admin"){  
+  
+        showNotice(  
+            "Panel no disponible",  
+            "Tu cuenta todavía no tiene el rol de administrador en la base de datos."  
+        );  
+  
+        return;  
+  
+    }  
+  
+  
+    document  
+    .getElementById("adminModal")  
+    .classList  
+    .add("active");  
+  
+  
+    await loadAdminUsers();  
+  
+}  
+  
+  
+function closeAdminPanel(){  
+  
+    document  
+    .getElementById("adminModal")  
+    .classList  
+    .remove("active");  
+  
+}  
+  
+  
+/* =====================================================  
+   CARGAR USUARIOS  
+===================================================== */  
+  
+async function loadAdminUsers(){  
+  
+    const tbody =  
+    document.getElementById("adminUsers");  
+  
+    const count =  
+    document.getElementById("adminCount");  
+  
+  
+    tbody.innerHTML = `  
+  
+        <tr>  
+            <td colspan="4">  
+                Cargando...  
+            </td>  
+        </tr>  
+  
+    `;  
+  
+  
+    const {  
+        data:profiles,  
+        error  
+    } =  
+    await supabaseClient  
+  
+    .from("profiles")  
+  
+    .select(  
+        "id,first_name,last_name,email,role,created_at"  
+    )  
+  
+    .order(  
+        "created_at",  
+        {  
+            ascending:false  
+        }  
+    );  
+  
+  
+    if(error){  
+  
+        tbody.innerHTML = `  
+  
+            <tr>  
+                <td colspan="4">  
+                    No se pudieron cargar los usuarios.  
+                </td>  
+            </tr>  
+  
+        `;  
+  
+  
+        count.textContent =  
+        "Error al cargar";  
+  
+  
+        console.error(error);  
+  
+        return;  
+  
+    }  
+  
+  
+    count.textContent =  
+    profiles.length +  
+    (  
+        profiles.length === 1  
+        ?  
+        " usuario registrado"  
+        :  
+        " usuarios registrados"  
+    );  
+  
+  
+    if(!profiles.length){  
+  
+        tbody.innerHTML = `  
+  
+            <tr>  
+                <td colspan="4">  
+                    Todavía no hay usuarios registrados.  
+                </td>  
+            </tr>  
+  
+        `;  
+  
+        return;  
+  
+    }  
+  
+  
+    tbody.innerHTML = "";  
+  
+  
+    profiles.forEach(function(profile){  
+  
+        const row =  
+        document.createElement("tr");  
+  
+  
+        const nameCell =  
+        document.createElement("td");  
+  
+        nameCell.textContent =  
+        (  
+            profile.first_name +  
+            " " +  
+            profile.last_name  
+        ).trim();  
+  
+  
+        const emailCell =  
+        document.createElement("td");  
+  
+        emailCell.textContent =  
+        profile.email;  
+  
+  
+        const roleCell =  
+        document.createElement("td");  
+  
+        roleCell.textContent =  
+        profile.role;  
+  
+  
+        const dateCell =  
+        document.createElement("td");  
+  
+        dateCell.textContent =  
+        new Date(  
+            profile.created_at  
+        ).toLocaleDateString(  
+            "es-ES"  
+        );  
+  
+  
+        row.appendChild(nameCell);  
+  
+        row.appendChild(emailCell);  
+  
+        row.appendChild(roleCell);  
+  
+        row.appendChild(dateCell);  
+  
+  
+        tbody.appendChild(row);  
+  
+    });  
+  
+}  
+  
+  
+/* =====================================================  
+   CHAT  
+===================================================== */  
+  
+function openChat(){  
+  
+    document  
+    .getElementById("chat")  
+    .classList  
+    .add("active");  
+  
+  
+    document.body.style.overflow =  
+    "hidden";  
+  
+  
+    updateGreeting();  
+  
+  
+    setTimeout(function(){  
+  
+        document  
+        .getElementById("chatInput")  
+        .focus();  
+  
+    },450);  
+  
+}  
+  
+  
+function closeChat(){  
+  
+    document  
+    .getElementById("chat")  
+    .classList  
+    .remove("active");  
+  
+  
+    document.body.style.overflow = "";  
+  
+}  
+  
+  
+function updateGreeting(){  
+  
+    const hour =  
+    new Date().getHours();  
+  
+  
+    let greeting =  
+    "Hola.";  
+  
+  
+    if(hour >= 5 && hour < 12){  
+  
+        greeting =  
+        "Buenos días.";  
+  
+    }  
+    else if(hour >= 12 && hour < 19){  
+  
+        greeting =  
+        "Buenas tardes.";  
+  
+    }  
+    else{  
+  
+        greeting =  
+        "Buenas noches.";  
+  
+    }  
+  
+  
+    document  
+    .getElementById("welcome")  
+    .textContent =  
+    greeting +  
+    " Cuéntame qué deseas hacer.";  
+  
+}  
+  
+  
+function handleEnter(event){  
+  
+    if(event.key === "Enter"){  
+  
+        sendMessage();  
+  
+    }  
+  
+}  
+  
+  
+function sendMessage(){  
+  
+    const input =  
+    document.getElementById("chatInput");  
+  
+  
+    const text =  
+    input.value.trim();  
+  
+  
+    if(!text){  
+  
+        return;  
+  
+    }  
+  
+  
+    addMessage(  
+        text,  
+        "user"  
+    );  
+  
+  
+    input.value = "";  
+  
+  
+    setTimeout(function(){  
+  
+        const lower =  
+        text.toLowerCase();  
+  
+  
+        let response =  
+        "Cuéntame un poco más sobre tu idea y qué resultado quieres conseguir.";  
+  
+  
+        if(  
+            lower.includes("juego") ||  
+            lower.includes("videojuego")  
+        ){  
+  
+            response =  
+            "Perfecto. Podemos trabajar el concepto, estilo visual, mecánicas, público y estrategia de tu juego.";  
+  
+        }  
+  
+        else if(  
+            lower.includes("marketing") ||  
+            lower.includes("publicidad")  
+        ){  
+  
+            response =  
+            "Perfecto. Podemos analizar tu propuesta, público, mensaje, contenido y estrategia.";  
+  
+        }  
+  
+        else if(  
+            lower.includes("logo") ||  
+            lower.includes("marca")  
+        ){  
+  
+            response =  
+            "Podemos trabajar la identidad de tu marca, su concepto, personalidad, colores y forma de comunicar.";  
+  
+        }  
+  
+        else if(  
+            lower.includes("hola") ||  
+            lower.includes("hey") ||  
+            lower.includes("buenas")  
+        ){  
+  
+            response =  
+            "¡Hola! Cuéntame qué tienes en mente y lo construimos paso a paso.";  
+  
+        }  
+  
+  
+        addMessage(  
+            response,  
+            "bot"  
+        );  
+  
+    },420);  
+  
+}  
+  
+  
+function addMessage(text,type){  
+  
+    const container =  
+    document.getElementById("chatContent");  
+  
+  
+    const message =  
+    document.createElement("div");  
+  
+  
+    message.className =  
+    "message " + type;  
+  
+  
+    message.textContent =  
+    text;  
+  
+  
+    container.appendChild(message);  
+  
+  
+    container.scrollTop =  
+    container.scrollHeight;  
+  
+}  
+  
+  
+/* =====================================================  
+   CONTACTO  
+===================================================== */  
+  
+function contactar(){  
+  
+    showNotice(  
+        "Contáctanos",  
+        "Pronto colocaremos aquí el correo oficial de SparkyKrea."  
+    );  
+  
+}  
+  
+  
+/* =====================================================  
+   CARRUSEL  
+===================================================== */  
+  
+const cards =  
+document.querySelectorAll(  
+    ".service-card"  
+);  
+  
+  
+const dotsContainer =  
+document.getElementById(  
+    "carouselDots"  
+);  
+  
+  
+let currentCard = 0;  
+  
+  
+/* CREAR DOTS */  
+  
+cards.forEach(  
+function(card,index){  
+  
+    const dot =  
+    document.createElement("div");  
+  
+  
+    dot.className =  
+    "carousel-dot";  
+  
+  
+    if(index === 0){  
+  
+        dot.classList.add("active");  
+  
+    }  
+  
+  
+    dot.addEventListener(  
+        "click",  
+        function(){  
+  
+            showCard(index);  
+  
+        }  
+    );  
+  
+  
+    dotsContainer.appendChild(dot);  
+  
+});  
+  
+  
+const dots =  
+document.querySelectorAll(  
+    ".carousel-dot"  
+);  
+  
+  
+function showCard(index){  
+  
+    cards.forEach(  
+        function(card){  
+  
+            card.classList.remove(  
+                "active"  
+            );  
+  
+        }  
+    );  
+  
+  
+    dots.forEach(  
+        function(dot){  
+  
+            dot.classList.remove(  
+                "active"  
+            );  
+  
+        }  
+    );  
+  
+  
+    cards[index]  
+    .classList  
+    .add("active");  
+  
+  
+    dots[index]  
+    .classList  
+    .add("active");  
+  
+  
+    currentCard =  
+    index;  
+  
+}  
+  
+  
+/* CARRUSEL AUTOMÁTICO */  
+  
+setInterval(  
+function(){  
+  
+    currentCard++;  
+  
+  
+    if(currentCard >= cards.length){  
+  
+        currentCard = 0;  
+  
+    }  
+  
+  
+    showCard(  
+        currentCard  
+    );  
+  
+},  
+4400  
+);  
+  
+  
+/* =====================================================  
+   SESIÓN AL ABRIR  
+===================================================== */  
+  
+supabaseClient.auth  
+.getSession()  
+.then(  
+async function(){  
+  
+    await loadCurrentUser();  
+  
+}  
+);  
+  
+  
+/* =====================================================  
+   CAMBIO DE ESTADO DE AUTENTICACIÓN  
+===================================================== */  
+  
+supabaseClient.auth  
+.onAuthStateChange(  
+async function(event,session){  
+  
+    /*  
+      Este evento aparece cuando la persona  
+      llega desde el enlace de recuperación.  
+    */  
+  
+    if(event === "PASSWORD_RECOVERY"){  
+  
+        setTimeout(  
+            function(){  
+  
+                openResetPassword();  
+  
+            },  
+            200  
+        );  
+  
+        return;  
+  
+    }  
+  
+  
+    if(session){  
+  
+        await loadCurrentUser();  
+  
+    }else{  
+  
+        currentUser = null;  
+  
+        currentProfile = null;  
+  
+        resetAuthArea();  
+  
+    }  
+  
+});  
+  
+  
+/* =====================================================  
+   ESCAPE  
+===================================================== */  
+  
+document.addEventListener(  
+"keydown",  
+function(event){  
+  
+    if(event.key === "Escape"){  
+  
+        closeModal();  
+  
+        closeForgotPassword();  
+  
+        closeChat();  
+  
+        closeNotice();  
+  
+        closeAdminPanel();  
+  
+    }  
+  
+});  
+  
+</script>  </body>  
+</html> ese es, añadele lo nuevo ysin ambiar nada estetico
