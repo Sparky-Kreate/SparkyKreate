@@ -8,14 +8,19 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
 
 <style>
 
+/* =====================================================
+   BASE
+===================================================== */
+
 *{
-    box-sizing:border-box;
     margin:0;
     padding:0;
+    box-sizing:border-box;
 }
 
 html{
@@ -34,62 +39,127 @@ input{
     font-family:inherit;
 }
 
-/* =========================
-   CONTENEDOR
-========================= */
+button{
+    -webkit-tap-highlight-color:transparent;
+}
 
 .page{
     width:100%;
     min-height:100vh;
 }
 
-/* =========================
+
+/* =====================================================
+   COLORES
+===================================================== */
+
+:root{
+
+    --black:#080807;
+    --black2:#11110f;
+
+    --cream:#f3eee5;
+    --beige:#d9c7a4;
+    --beige2:#cbb58d;
+
+    --gray:#96928a;
+    --line:#302e29;
+
+    --sage:#aecaad;
+    --rose:#d9aaa9;
+    --lavender:#c4b7dc;
+    --blue:#a9c5d9;
+
+}
+
+
+/* =====================================================
+   TRANSICIONES GENERALES
+===================================================== */
+
+a,
+button,
+.service-card,
+.brand,
+.auth button,
+.main-btn,
+.contact-btn,
+.modal-box,
+.chat{
+    transition:
+        transform .35s cubic-bezier(.22,1,.36,1),
+        opacity .35s ease,
+        background .35s ease,
+        border-color .35s ease,
+        color .35s ease;
+}
+
+
+/* =====================================================
    HEADER
-========================= */
+===================================================== */
 
 header{
     width:100%;
     padding:18px 25px;
+
     position:relative;
-    z-index:10;
+    z-index:20;
 }
 
 .header-inner{
+
     width:min(1200px,100%);
     margin:auto;
 
     display:flex;
     align-items:center;
     justify-content:space-between;
+
     gap:20px;
 }
 
-/* LOGO */
+
+/* BRAND */
 
 .brand{
+
     display:flex;
     align-items:center;
     gap:10px;
 
-    color:#f3eee5;
+    color:var(--cream);
+
     text-decoration:none;
 
     font-size:18px;
     font-weight:600;
 }
 
+.brand:hover{
+    transform:translateY(-1px);
+}
+
+
+/* LOGO */
+
 .logo{
+
     width:40px;
     height:40px;
 
-    border:2px solid #d8c7a5;
+    border:2px solid var(--beige);
+
     border-radius:50%;
 
     position:relative;
+
+    flex-shrink:0;
 }
 
 .logo::before,
 .logo::after{
+
     content:"";
 
     position:absolute;
@@ -97,7 +167,7 @@ header{
     width:24px;
     height:2px;
 
-    background:#d8c7a5;
+    background:var(--beige);
 
     left:50%;
     top:50%;
@@ -112,6 +182,7 @@ header{
 }
 
 .logo-dot{
+
     position:absolute;
 
     width:8px;
@@ -119,7 +190,7 @@ header{
 
     border-radius:50%;
 
-    background:#d8c7a5;
+    background:var(--beige);
 
     left:50%;
     top:50%;
@@ -127,20 +198,24 @@ header{
     transform:translate(-50%,-50%);
 }
 
-/* BOTONES HEADER */
+
+/* AUTH */
 
 .auth{
+
     display:flex;
     align-items:center;
+
     gap:9px;
 }
 
 .auth button{
-    border:1px solid #47443c;
+
+    border:1px solid #454139;
 
     background:transparent;
 
-    color:#eee9df;
+    color:var(--cream);
 
     padding:11px 18px;
 
@@ -149,27 +224,42 @@ header{
     font-size:14px;
 
     cursor:pointer;
-
-    transition:.25s;
 }
 
 .auth button:hover{
-    background:#d8c7a5;
+
+    background:var(--beige);
+
     color:#171611;
-    border-color:#d8c7a5;
+
+    border-color:var(--beige);
+
+    transform:translateY(-2px);
 }
 
 .auth .register{
-    background:#d8c7a5;
+
+    background:var(--beige);
+
     color:#171611;
-    border-color:#d8c7a5;
+
+    border-color:var(--beige);
 }
 
-/* =========================
+.auth .register:hover{
+
+    background:#eadbc0;
+
+    border-color:#eadbc0;
+}
+
+
+/* =====================================================
    HERO
-========================= */
+===================================================== */
 
 .hero{
+
     width:min(1150px,calc(100% - 40px));
 
     margin:0 auto;
@@ -181,7 +271,6 @@ header{
     flex-direction:column;
 
     align-items:center;
-
     justify-content:center;
 
     text-align:center;
@@ -189,13 +278,15 @@ header{
     padding:55px 20px 80px;
 }
 
-/* LOGO GRANDE */
+
+/* HERO LOGO */
 
 .hero-logo{
+
     width:88px;
     height:88px;
 
-    border:2px solid #d8c7a5;
+    border:2px solid var(--beige);
 
     border-radius:50%;
 
@@ -206,6 +297,7 @@ header{
 
 .hero-logo::before,
 .hero-logo::after{
+
     content:"";
 
     position:absolute;
@@ -213,7 +305,7 @@ header{
     width:52px;
     height:2px;
 
-    background:#d8c7a5;
+    background:var(--beige);
 
     left:50%;
     top:50%;
@@ -228,6 +320,7 @@ header{
 }
 
 .hero-logo-dot{
+
     position:absolute;
 
     width:14px;
@@ -235,7 +328,7 @@ header{
 
     border-radius:50%;
 
-    background:#d8c7a5;
+    background:var(--beige);
 
     left:50%;
     top:50%;
@@ -243,9 +336,11 @@ header{
     transform:translate(-50%,-50%);
 }
 
-/* TITULO */
+
+/* HERO TITLE */
 
 .hero h1{
+
     max-width:900px;
 
     font-family:"Playfair Display",serif;
@@ -260,60 +355,67 @@ header{
 }
 
 .hero h1 span{
-    color:#d8c7a5;
+    color:var(--beige);
 }
 
-/* TEXTO */
+
+/* HERO TEXT */
 
 .hero-text{
+
     max-width:700px;
 
     margin-top:27px;
 
-    color:#a7a39b;
+    color:#aaa69e;
 
     font-size:18px;
 
     line-height:1.6;
 }
 
-/* BOTON */
+
+/* MAIN BUTTON */
 
 .main-btn{
+
     margin-top:30px;
 
     padding:16px 29px;
 
     border-radius:999px;
 
-    border:1px solid #696052;
+    border:1px solid #6d634f;
 
-    background:#292720;
+    background:#29261f;
 
-    color:#e4d5b6;
+    color:#e5d5b5;
 
     font-size:16px;
 
     font-weight:600;
 
     cursor:pointer;
-
-    transition:.25s;
 }
 
 .main-btn:hover{
-    background:#d8c7a5;
+
+    background:var(--beige);
 
     color:#171611;
 
-    border-color:#d8c7a5;
+    border-color:var(--beige);
+
+    transform:translateY(-3px);
 }
 
-/* =========================
+
+/* =====================================================
    SERVICIOS
-========================= */
+===================================================== */
 
 .services{
+
     width:min(1150px,calc(100% - 40px));
 
     margin:0 auto;
@@ -324,7 +426,8 @@ header{
 }
 
 .section-label{
-    color:#d8c7a5;
+
+    color:var(--beige);
 
     font-size:11px;
 
@@ -336,6 +439,7 @@ header{
 }
 
 .services h2{
+
     max-width:800px;
 
     margin:auto;
@@ -350,121 +454,209 @@ header{
 }
 
 .services-description{
+
     max-width:700px;
 
     margin:22px auto 0;
 
-    color:#98948b;
+    color:#98948c;
 
     font-size:17px;
 
     line-height:1.6;
 }
 
-/* CARRUSEL */
+
+/* =====================================================
+   CARRUSEL
+   UNA TARJETA POR VEZ
+===================================================== */
 
 .carousel-wrapper{
+
     width:100%;
 
-    overflow:hidden;
+    margin:48px auto 0;
 
-    margin-top:48px;
+    overflow:hidden;
 
     position:relative;
 }
 
 .carousel{
+
+    width:100%;
+
     display:flex;
 
-    gap:18px;
+    justify-content:center;
 
-    width:max-content;
+    align-items:stretch;
 
-    animation:carouselMove 30s linear infinite;
+    position:relative;
+
+    min-height:205px;
 }
 
 .service-card{
-    width:285px;
 
-    min-height:190px;
+    width:min(440px,90vw);
 
-    flex-shrink:0;
+    min-height:205px;
+
+    padding:30px;
 
     text-align:left;
 
-    padding:28px;
-
-    border-radius:22px;
+    border-radius:24px;
 
     background:#11110f;
 
-    border:1px solid #35322b;
+    border:1px solid #39362f;
 
-    transition:.25s;
+    position:absolute;
+
+    left:50%;
+    top:0;
+
+    transform:translateX(-50%);
+
+    opacity:0;
+
+    pointer-events:none;
+}
+
+
+/* TARJETA ACTIVA */
+
+.service-card.active{
+
+    opacity:1;
+
+    pointer-events:auto;
+
+    transform:translateX(-50%);
+}
+
+
+/* colores de tarjetas */
+
+.service-card:nth-child(1){
+    border-color:#bca87e;
 }
 
 .service-card:nth-child(2){
-    border-color:#879780;
+    border-color:var(--sage);
 }
 
 .service-card:nth-child(3){
-    border-color:#a98e8b;
+    border-color:var(--rose);
 }
 
 .service-card:nth-child(4){
-    border-color:#958fa9;
+    border-color:var(--lavender);
 }
 
 .service-card:nth-child(5){
-    border-color:#8797a7;
+    border-color:var(--blue);
 }
 
+
+/* línea */
+
 .card-line{
-    width:34px;
+
+    width:38px;
     height:3px;
 
-    border-radius:5px;
+    border-radius:20px;
 
-    background:#d8c7a5;
+    background:var(--beige);
 
     margin-bottom:20px;
 }
 
+.service-card:nth-child(2) .card-line{
+    background:var(--sage);
+}
+
+.service-card:nth-child(3) .card-line{
+    background:var(--rose);
+}
+
+.service-card:nth-child(4) .card-line{
+    background:var(--lavender);
+}
+
+.service-card:nth-child(5) .card-line{
+    background:var(--blue);
+}
+
+
 .service-card h3{
+
     font-family:"Playfair Display",serif;
 
-    font-size:24px;
+    font-size:28px;
 
     line-height:1.1;
 
-    margin-bottom:11px;
+    margin-bottom:12px;
 }
 
 .service-card p{
-    color:#8f8b83;
 
-    font-size:14px;
+    color:#96928a;
 
-    line-height:1.5;
+    font-size:15px;
+
+    line-height:1.55;
 }
 
-@keyframes carouselMove{
 
-    0%{
-        transform:translateX(0);
-    }
+/* INDICADORES */
 
-    100%{
-        transform:translateX(-50%);
-    }
+.carousel-dots{
 
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    gap:8px;
+
+    margin-top:20px;
 }
 
-/* =========================
+.carousel-dot{
+
+    width:7px;
+    height:7px;
+
+    border-radius:50%;
+
+    background:#403d36;
+
+    transition:.35s;
+}
+
+.carousel-dot.active{
+
+    width:25px;
+
+    border-radius:10px;
+
+    background:var(--beige);
+}
+
+
+/* =====================================================
    CONTACTO
-========================= */
+===================================================== */
 
 .contact{
+
     width:min(900px,calc(100% - 40px));
 
     margin:0 auto;
@@ -473,10 +665,11 @@ header{
 
     text-align:center;
 
-    border-top:1px solid #22211d;
+    border-top:1px solid #24231f;
 }
 
 .contact h2{
+
     max-width:750px;
 
     margin:auto;
@@ -491,6 +684,7 @@ header{
 }
 
 .contact p{
+
     max-width:650px;
 
     margin:22px auto 0;
@@ -503,6 +697,7 @@ header{
 }
 
 .contact-btn{
+
     margin-top:25px;
 
     padding:13px 23px;
@@ -511,7 +706,7 @@ header{
 
     border-radius:999px;
 
-    background:#d8c7a5;
+    background:var(--beige);
 
     color:#171611;
 
@@ -520,29 +715,33 @@ header{
     font-weight:700;
 
     cursor:pointer;
-
-    transition:.25s;
 }
 
 .contact-btn:hover{
-    transform:translateY(-2px);
+
+    background:#eadbc0;
+
+    transform:translateY(-3px);
 }
 
-/* =========================
+
+/* =====================================================
    FOOTER
-========================= */
+===================================================== */
 
 footer{
-    border-top:1px solid #22211d;
+
+    border-top:1px solid #24231f;
 
     text-align:center;
 
     padding:28px 20px 35px;
 
-    color:#d8c7a5;
+    color:var(--beige);
 }
 
 footer strong{
+
     display:block;
 
     font-size:14px;
@@ -551,64 +750,98 @@ footer strong{
 }
 
 footer span{
+
     color:#77736c;
 
     font-size:12px;
 }
 
-/* =========================
+
+/* =====================================================
    MODAL
-========================= */
+===================================================== */
 
 .modal{
+
     position:fixed;
 
     inset:0;
 
-    background:rgba(0,0,0,.9);
+    background:rgba(0,0,0,.88);
 
-    display:none;
+    backdrop-filter:blur(7px);
+
+    display:flex;
 
     align-items:center;
-
     justify-content:center;
 
     padding:20px;
 
     z-index:1000;
+
+    opacity:0;
+
+    visibility:hidden;
+
+    transition:
+        opacity .35s ease,
+        visibility .35s ease;
 }
 
 .modal.active{
-    display:flex;
+
+    opacity:1;
+
+    visibility:visible;
 }
 
 .modal-box{
+
     width:min(430px,100%);
 
     background:#11110f;
 
-    border:1px solid #454138;
+    border:1px solid #4b4438;
 
     border-radius:25px;
 
     padding:30px;
 
     position:relative;
+
+    transform:translateY(25px) scale(.97);
+
+    opacity:0;
+
+    transition:
+        transform .4s cubic-bezier(.22,1,.36,1),
+        opacity .3s ease;
+}
+
+.modal.active .modal-box{
+
+    transform:translateY(0) scale(1);
+
+    opacity:1;
 }
 
 .modal-box h2{
+
     font-family:"Playfair Display",serif;
 
     font-size:34px;
 }
 
 .modal-box p{
+
     color:#96928a;
 
     margin:7px 0 23px;
 }
 
 .close-modal{
+
     position:absolute;
 
     right:17px;
@@ -618,7 +851,7 @@ footer span{
 
     background:none;
 
-    color:#d8c7a5;
+    color:var(--beige);
 
     font-size:28px;
 
@@ -630,6 +863,7 @@ footer span{
 }
 
 .field label{
+
     display:block;
 
     margin-bottom:6px;
@@ -640,6 +874,7 @@ footer span{
 }
 
 .field input{
+
     width:100%;
 
     padding:13px;
@@ -653,9 +888,17 @@ footer span{
     color:white;
 
     outline:none;
+
+    transition:.25s;
+}
+
+.field input:focus{
+
+    border-color:var(--beige);
 }
 
 .submit-btn{
+
     width:100%;
 
     padding:14px;
@@ -664,7 +907,7 @@ footer span{
 
     border-radius:12px;
 
-    background:#d8c7a5;
+    background:var(--beige);
 
     color:#171611;
 
@@ -673,11 +916,20 @@ footer span{
     cursor:pointer;
 }
 
-/* =========================
+.submit-btn:hover{
+
+    background:#eadbc0;
+
+    transform:translateY(-2px);
+}
+
+
+/* =====================================================
    CHAT
-========================= */
+===================================================== */
 
 .chat{
+
     position:fixed;
 
     inset:0;
@@ -686,16 +938,33 @@ footer span{
 
     z-index:2000;
 
-    display:none;
+    display:flex;
 
     flex-direction:column;
+
+    opacity:0;
+
+    visibility:hidden;
+
+    transform:scale(1.025);
+
+    transition:
+        opacity .4s ease,
+        transform .45s cubic-bezier(.22,1,.36,1),
+        visibility .4s ease;
 }
 
 .chat.active{
-    display:flex;
+
+    opacity:1;
+
+    visibility:visible;
+
+    transform:scale(1);
 }
 
 .chat-header{
+
     height:68px;
 
     flex-shrink:0;
@@ -712,6 +981,7 @@ footer span{
 }
 
 .chat-brand{
+
     display:flex;
 
     align-items:center;
@@ -722,10 +992,11 @@ footer span{
 }
 
 .chat-logo{
+
     width:34px;
     height:34px;
 
-    border:1.5px solid #d8c7a5;
+    border:1.5px solid var(--beige);
 
     border-radius:50%;
 
@@ -734,6 +1005,7 @@ footer span{
 
 .chat-logo::before,
 .chat-logo::after{
+
     content:"";
 
     position:absolute;
@@ -741,7 +1013,7 @@ footer span{
     width:19px;
     height:1.5px;
 
-    background:#d8c7a5;
+    background:var(--beige);
 
     left:50%;
     top:50%;
@@ -756,18 +1028,28 @@ footer span{
 }
 
 .chat-close{
+
     border:none;
 
     background:none;
 
-    color:#d8c7a5;
+    color:var(--beige);
 
     font-size:30px;
 
     cursor:pointer;
 }
 
+.chat-close:hover{
+
+    transform:rotate(90deg);
+}
+
+
+/* CHAT CONTENT */
+
 .chat-content{
+
     width:min(850px,calc(100% - 30px));
 
     flex:1;
@@ -780,6 +1062,7 @@ footer span{
 }
 
 .message{
+
     max-width:75%;
 
     padding:13px 16px;
@@ -791,9 +1074,25 @@ footer span{
     font-size:14px;
 
     line-height:1.5;
+
+    animation:messageIn .35s ease;
+}
+
+@keyframes messageIn{
+
+    from{
+        opacity:0;
+        transform:translateY(10px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
 }
 
 .message.bot{
+
     background:#151512;
 
     border:1px solid #302e28;
@@ -804,14 +1103,19 @@ footer span{
 }
 
 .message.user{
-    background:#d8c7a5;
+
+    background:var(--beige);
 
     color:#171611;
 
     margin-left:auto;
 }
 
+
+/* CHAT INPUT */
+
 .chat-input-area{
+
     flex-shrink:0;
 
     border-top:1px solid #292821;
@@ -820,6 +1124,7 @@ footer span{
 }
 
 .chat-input-box{
+
     width:min(850px,100%);
 
     margin:auto;
@@ -830,6 +1135,7 @@ footer span{
 }
 
 .chat-input{
+
     flex:1;
 
     padding:13px 15px;
@@ -845,14 +1151,20 @@ footer span{
     outline:none;
 }
 
+.chat-input:focus{
+
+    border-color:var(--beige);
+}
+
 .chat-send{
+
     width:48px;
 
     border:none;
 
     border-radius:14px;
 
-    background:#d8c7a5;
+    background:var(--beige);
 
     color:#171611;
 
@@ -861,74 +1173,336 @@ footer span{
     cursor:pointer;
 }
 
-/* =========================
+.chat-send:hover{
+
+    background:#eadbc0;
+
+    transform:translateY(-2px);
+}
+
+
+/* =====================================================
    TABLET
-========================= */
+===================================================== */
 
 @media(max-width:900px){
 
     .hero{
+
         min-height:calc(100vh - 75px);
 
         padding-top:60px;
     }
 
     .hero h1{
+
         font-size:clamp(44px,8vw,65px);
     }
 
     .services{
+
         padding-top:75px;
+    }
+}
+
+
+/* =====================================================
+   PC
+   TODO COMPACTO PARA APROVECHAR LA PANTALLA
+===================================================== */
+
+@media(min-width:901px){
+
+    header{
+
+        padding:10px 25px;
+    }
+
+    .logo{
+
+        width:36px;
+        height:36px;
+    }
+
+    .brand{
+
+        font-size:16px;
+    }
+
+    .auth button{
+
+        padding:8px 15px;
+
+        font-size:12px;
+    }
+
+
+    /* HERO */
+
+    .hero{
+
+        min-height:39vh;
+
+        padding:22px 20px 25px;
+    }
+
+    .hero-logo{
+
+        width:62px;
+        height:62px;
+
+        margin-bottom:14px;
+    }
+
+    .hero-logo::before,
+    .hero-logo::after{
+
+        width:37px;
+    }
+
+    .hero-logo-dot{
+
+        width:10px;
+        height:10px;
+    }
+
+    .hero h1{
+
+        font-size:clamp(39px,4vw,57px);
+
+        line-height:.99;
+
+        letter-spacing:-1.8px;
+    }
+
+    .hero-text{
+
+        margin-top:12px;
+
+        font-size:13px;
+
+        line-height:1.45;
+
+        max-width:650px;
+    }
+
+    .main-btn{
+
+        margin-top:14px;
+
+        padding:11px 23px;
+
+        font-size:13px;
+    }
+
+
+    /* SERVICIOS */
+
+    .services{
+
+        padding:20px 0 25px;
+    }
+
+    .section-label{
+
+        font-size:9px;
+
+        letter-spacing:5px;
+
+        margin-bottom:8px;
+    }
+
+    .services h2{
+
+        font-size:clamp(31px,3.3vw,46px);
+
+        line-height:1;
+    }
+
+    .services-description{
+
+        margin-top:8px;
+
+        font-size:12px;
+
+        line-height:1.4;
+    }
+
+    .carousel-wrapper{
+
+        margin-top:16px;
+    }
+
+    .carousel{
+
+        min-height:125px;
+    }
+
+    .service-card{
+
+        width:430px;
+
+        min-height:125px;
+
+        padding:18px 22px;
+
+        border-radius:18px;
+    }
+
+    .card-line{
+
+        width:30px;
+        height:2px;
+
+        margin-bottom:10px;
+    }
+
+    .service-card h3{
+
+        font-size:21px;
+
+        margin-bottom:5px;
+    }
+
+    .service-card p{
+
+        font-size:11px;
+
+        line-height:1.4;
+    }
+
+    .carousel-dots{
+
+        margin-top:10px;
+
+        gap:6px;
+    }
+
+    .carousel-dot{
+
+        width:5px;
+        height:5px;
+    }
+
+    .carousel-dot.active{
+
+        width:18px;
+    }
+
+
+    /* CONTACTO */
+
+    .contact{
+
+        padding:24px 20px 25px;
+    }
+
+    .contact h2{
+
+        font-size:clamp(30px,3.3vw,45px);
+    }
+
+    .contact p{
+
+        margin-top:8px;
+
+        font-size:11px;
+
+        line-height:1.4;
+
+        max-width:600px;
+    }
+
+    .contact-btn{
+
+        margin-top:10px;
+
+        padding:9px 19px;
+
+        font-size:12px;
+    }
+
+
+    /* FOOTER */
+
+    footer{
+
+        padding:10px 20px 12px;
+    }
+
+    footer strong{
+
+        font-size:11px;
+
+        margin-bottom:2px;
+    }
+
+    footer span{
+
+        font-size:9px;
     }
 
 }
 
-/* =========================
+
+/* =====================================================
    MOVIL
-========================= */
+===================================================== */
 
 @media(max-width:600px){
 
     header{
+
         padding:13px 12px;
     }
 
     .header-inner{
+
         gap:8px;
     }
 
     .brand{
+
         font-size:14px;
 
         gap:7px;
     }
 
     .logo{
+
         width:34px;
         height:34px;
     }
 
     .logo::before,
     .logo::after{
+
         width:20px;
     }
 
     .logo-dot{
+
         width:6px;
         height:6px;
     }
 
     .auth{
+
         gap:4px;
     }
 
     .auth button{
+
         padding:8px 10px;
 
         font-size:10px;
     }
 
+
+    /* HERO */
+
     .hero{
+
         width:100%;
 
         min-height:calc(100svh - 60px);
@@ -937,6 +1511,7 @@ footer span{
     }
 
     .hero-logo{
+
         width:84px;
         height:84px;
 
@@ -945,10 +1520,12 @@ footer span{
 
     .hero-logo::before,
     .hero-logo::after{
+
         width:49px;
     }
 
     .hero h1{
+
         font-size:42px;
 
         line-height:1.02;
@@ -957,6 +1534,7 @@ footer span{
     }
 
     .hero-text{
+
         margin-top:25px;
 
         font-size:15px;
@@ -965,6 +1543,7 @@ footer span{
     }
 
     .main-btn{
+
         margin-top:29px;
 
         padding:15px 25px;
@@ -972,36 +1551,50 @@ footer span{
         font-size:15px;
     }
 
+
+    /* SERVICIOS */
+
     .services{
+
         width:100%;
 
         padding:75px 15px 85px;
     }
 
     .section-label{
+
         font-size:10px;
 
         letter-spacing:5px;
     }
 
     .services h2{
+
         font-size:40px;
 
         line-height:1.04;
     }
 
     .services-description{
+
         font-size:15px;
 
         line-height:1.6;
     }
 
     .carousel-wrapper{
+
         margin-top:35px;
     }
 
+    .carousel{
+
+        min-height:205px;
+    }
+
     .service-card{
-        width:285px;
+
+        width:min(330px,90vw);
 
         min-height:205px;
 
@@ -1009,43 +1602,196 @@ footer span{
     }
 
     .service-card h3{
+
         font-size:24px;
     }
 
+    .service-card p{
+
+        font-size:14px;
+    }
+
+
+    /* CONTACTO */
+
     .contact{
+
         width:100%;
 
         padding:75px 18px 85px;
     }
 
     .contact h2{
+
         font-size:40px;
     }
 
     .contact p{
+
         font-size:15px;
 
         line-height:1.65;
     }
 
+
+    /* FOOTER */
+
     footer{
+
         padding-bottom:30px;
     }
 
+
+    /* CHAT */
+
     .message{
+
         max-width:88%;
     }
 
 }
 
+
+/* =====================================================
+   PANTALLAS MUY BAJAS EN PC
+   Reduce todavía un poco para intentar que todo entre
+===================================================== */
+
+@media(min-width:901px) and (max-height:750px){
+
+    .hero{
+
+        min-height:34vh;
+
+        padding-top:12px;
+
+        padding-bottom:15px;
+    }
+
+    .hero-logo{
+
+        width:52px;
+        height:52px;
+
+        margin-bottom:9px;
+    }
+
+    .hero-logo::before,
+    .hero-logo::after{
+
+        width:30px;
+    }
+
+    .hero h1{
+
+        font-size:42px;
+    }
+
+    .hero-text{
+
+        font-size:11px;
+
+        margin-top:8px;
+    }
+
+    .main-btn{
+
+        margin-top:9px;
+
+        padding:9px 20px;
+    }
+
+    .services{
+
+        padding-top:12px;
+
+        padding-bottom:15px;
+    }
+
+    .services h2{
+
+        font-size:36px;
+    }
+
+    .services-description{
+
+        font-size:10px;
+    }
+
+    .carousel{
+
+        min-height:100px;
+    }
+
+    .service-card{
+
+        min-height:100px;
+
+        padding:14px 18px;
+    }
+
+    .service-card h3{
+
+        font-size:18px;
+    }
+
+    .service-card p{
+
+        font-size:9px;
+    }
+
+    .contact{
+
+        padding-top:14px;
+
+        padding-bottom:15px;
+    }
+
+    .contact h2{
+
+        font-size:34px;
+    }
+
+    .contact p{
+
+        font-size:10px;
+    }
+
+}
+
+
+/* =====================================================
+   ACCESIBILIDAD
+===================================================== */
+
+@media(prefers-reduced-motion:reduce){
+
+    *,
+    *::before,
+    *::after{
+
+        animation-duration:.01ms !important;
+
+        animation-iteration-count:1 !important;
+
+        scroll-behavior:auto !important;
+
+        transition-duration:.01ms !important;
+    }
+}
+
 </style>
 </head>
+
 
 <body>
 
 <div class="page">
 
-<!-- ================= HEADER ================= -->
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
 
 <header>
 
@@ -1054,12 +1800,15 @@ footer span{
         <a href="#" class="brand">
 
             <div class="logo">
+
                 <div class="logo-dot"></div>
+
             </div>
 
             <span>SparkyKrea</span>
 
         </a>
+
 
         <div class="auth">
 
@@ -1081,7 +1830,9 @@ footer span{
 </header>
 
 
-<!-- ================= HERO ================= -->
+<!-- =====================================================
+     HERO
+===================================================== -->
 
 <section class="hero">
 
@@ -1091,17 +1842,22 @@ footer span{
 
     </div>
 
+
     <h1>
 
         Damos forma a
+
         <br>
 
-        ideas que <span>merecen</span>
+        ideas que
+        <span>merecen</span>
+
         <br>
 
         hacerse realidad.
 
     </h1>
+
 
     <p class="hero-text">
 
@@ -1111,17 +1867,22 @@ footer span{
 
     </p>
 
+
     <button
         class="main-btn"
         onclick="openChat()"
     >
+
         Comenzar ahora&nbsp; →
+
     </button>
 
 </section>
 
 
-<!-- ================= SERVICIOS ================= -->
+<!-- =====================================================
+     SERVICIOS
+===================================================== -->
 
 <section class="services">
 
@@ -1129,10 +1890,14 @@ footer span{
         SERVICIOS
     </div>
 
+
     <h2>
+
         Construimos cada idea
         desde su esencia.
+
     </h2>
+
 
     <p class="services-description">
 
@@ -1147,7 +1912,8 @@ footer span{
 
         <div class="carousel">
 
-            <article class="service-card">
+
+            <article class="service-card active">
 
                 <div class="card-line"></div>
 
@@ -1157,7 +1923,7 @@ footer span{
 
                 <p>
                     Analizamos tu propuesta y construimos
-                    una dirección clara.
+                    una dirección clara para hacerla crecer.
                 </p>
 
             </article>
@@ -1189,7 +1955,7 @@ footer span{
 
                 <p>
                     Una identidad coherente, reconocible
-                    y alineada contigo.
+                    y alineada con tu proyecto.
                 </p>
 
             </article>
@@ -1226,64 +1992,22 @@ footer span{
 
             </article>
 
-
-            <!-- COPIAS -->
-
-            <article class="service-card">
-
-                <div class="card-line"></div>
-
-                <h3>
-                    Marketing y estrategia
-                </h3>
-
-                <p>
-                    Analizamos tu propuesta y construimos
-                    una dirección clara.
-                </p>
-
-            </article>
-
-
-            <article class="service-card">
-
-                <div class="card-line"></div>
-
-                <h3>
-                    Contenido creativo
-                </h3>
-
-                <p>
-                    Ideas y contenido pensado para conectar
-                    con las personas.
-                </p>
-
-            </article>
-
-
-            <article class="service-card">
-
-                <div class="card-line"></div>
-
-                <h3>
-                    Identidad y presencia
-                </h3>
-
-                <p>
-                    Una identidad coherente, reconocible
-                    y alineada contigo.
-                </p>
-
-            </article>
-
         </div>
+
+
+        <div
+            class="carousel-dots"
+            id="carouselDots"
+        ></div>
 
     </div>
 
 </section>
 
 
-<!-- ================= CONTACTO ================= -->
+<!-- =====================================================
+     CONTACTO
+===================================================== -->
 
 <section class="contact">
 
@@ -1291,10 +2015,14 @@ footer span{
         CONTACTO
     </div>
 
+
     <h2>
+
         Tu opinión también
         forma parte de SparkyKrea.
+
     </h2>
+
 
     <p>
 
@@ -1304,17 +2032,22 @@ footer span{
 
     </p>
 
+
     <button
         class="contact-btn"
         onclick="contactar()"
     >
+
         Contáctanos →
+
     </button>
 
 </section>
 
 
-<!-- ================= FOOTER ================= -->
+<!-- =====================================================
+     FOOTER
+===================================================== -->
 
 <footer>
 
@@ -1331,7 +2064,9 @@ footer span{
 </div>
 
 
-<!-- ================= LOGIN / REGISTRO ================= -->
+<!-- =====================================================
+     MODAL LOGIN / REGISTRO
+===================================================== -->
 
 <div
     class="modal"
@@ -1351,9 +2086,11 @@ footer span{
             ×
         </button>
 
+
         <h2 id="modalTitle">
             Iniciar sesión
         </h2>
+
 
         <p id="modalDescription">
             Accede a tu espacio en SparkyKrea.
@@ -1432,7 +2169,9 @@ footer span{
             class="submit-btn"
             onclick="submitAuth()"
         >
+
             Continuar
+
         </button>
 
     </div>
@@ -1440,7 +2179,9 @@ footer span{
 </div>
 
 
-<!-- ================= CHAT ================= -->
+<!-- =====================================================
+     CHAT
+===================================================== -->
 
 <div
     class="chat"
@@ -1459,11 +2200,14 @@ footer span{
 
         </div>
 
+
         <button
             class="chat-close"
             onclick="closeChat()"
         >
+
             ×
+
         </button>
 
     </div>
@@ -1478,7 +2222,9 @@ footer span{
             class="message bot"
             id="welcome"
         >
+
             Hola. Cuéntame qué deseas hacer.
+
         </div>
 
     </div>
@@ -1495,11 +2241,14 @@ footer span{
                 onkeydown="handleEnter(event)"
             >
 
+
             <button
                 class="chat-send"
                 onclick="sendMessage()"
             >
+
                 ↑
+
             </button>
 
         </div>
@@ -1511,20 +2260,23 @@ footer span{
 
 <script>
 
-/* =========================
+/* =====================================================
    MODAL
-========================= */
+===================================================== */
 
 let authMode="login";
+
 
 function openModal(mode){
 
     authMode=mode;
 
+
     document
         .getElementById("modal")
         .classList
         .add("active");
+
 
     const nameField=
         document.getElementById("nameField");
@@ -1535,12 +2287,16 @@ function openModal(mode){
 
     if(mode==="register"){
 
-        document.getElementById("modalTitle")
+        document
+            .getElementById("modalTitle")
             .textContent="Crear cuenta";
 
-        document.getElementById("modalDescription")
+
+        document
+            .getElementById("modalDescription")
             .textContent=
             "Crea tu espacio en SparkyKrea.";
+
 
         nameField.style.display="block";
 
@@ -1548,16 +2304,22 @@ function openModal(mode){
 
     }else{
 
-        document.getElementById("modalTitle")
-            .textContent="Iniciar sesión";
+        document
+            .getElementById("modalTitle")
+            .textContent=
+            "Iniciar sesión";
 
-        document.getElementById("modalDescription")
+
+        document
+            .getElementById("modalDescription")
             .textContent=
             "Accede a tu espacio en SparkyKrea.";
+
 
         nameField.style.display="none";
 
         surnameField.style.display="none";
+
     }
 
 }
@@ -1576,7 +2338,9 @@ function closeModal(){
 function outsideModal(event){
 
     if(event.target.id==="modal"){
+
         closeModal();
+
     }
 
 }
@@ -1585,10 +2349,17 @@ function outsideModal(event){
 function submitAuth(){
 
     const email=
-        document.getElementById("email").value.trim();
+        document
+            .getElementById("email")
+            .value
+            .trim();
+
 
     const password=
-        document.getElementById("password").value.trim();
+        document
+            .getElementById("password")
+            .value
+            .trim();
 
 
     if(!email || !password){
@@ -1598,18 +2369,24 @@ function submitAuth(){
         );
 
         return;
+
     }
 
 
     if(authMode==="register"){
 
         const first=
-            document.getElementById("firstName")
-            .value.trim();
+            document
+                .getElementById("firstName")
+                .value
+                .trim();
+
 
         const last=
-            document.getElementById("lastName")
-            .value.trim();
+            document
+                .getElementById("lastName")
+                .value
+                .trim();
 
 
         if(!first || !last){
@@ -1619,6 +2396,7 @@ function submitAuth(){
             );
 
             return;
+
         }
 
 
@@ -1637,9 +2415,9 @@ function submitAuth(){
 }
 
 
-/* =========================
+/* =====================================================
    CHAT
-========================= */
+===================================================== */
 
 function openChat(){
 
@@ -1648,9 +2426,12 @@ function openChat(){
         .classList
         .add("active");
 
+
     document.body.style.overflow="hidden";
 
+
     updateGreeting();
+
 
     setTimeout(function(){
 
@@ -1658,7 +2439,7 @@ function openChat(){
             .getElementById("chatInput")
             .focus();
 
-    },200);
+    },450);
 
 }
 
@@ -1670,6 +2451,7 @@ function closeChat(){
         .classList
         .remove("active");
 
+
     document.body.style.overflow="";
 
 }
@@ -1680,6 +2462,7 @@ function updateGreeting(){
     const hour=
         new Date().getHours();
 
+
     let greeting="Hola.";
 
 
@@ -1687,11 +2470,13 @@ function updateGreeting(){
 
         greeting="Buenos días.";
 
-    }else if(hour>=12 && hour<19){
+    }
+    else if(hour>=12 && hour<19){
 
         greeting="Buenas tardes.";
 
-    }else{
+    }
+    else{
 
         greeting="Buenas noches.";
 
@@ -1721,14 +2506,20 @@ function handleEnter(event){
 function sendMessage(){
 
     const input=
-        document.getElementById("chatInput");
+        document
+            .getElementById("chatInput");
+
 
     const text=
-        input.value.trim();
+        input
+            .value
+            .trim();
 
 
     if(!text){
+
         return;
+
     }
 
 
@@ -1746,6 +2537,7 @@ function sendMessage(){
         const lower=
             text.toLowerCase();
 
+
         let response=
             "Cuéntame un poco más sobre tu idea y qué resultado quieres conseguir.";
 
@@ -1759,6 +2551,7 @@ function sendMessage(){
                 "Perfecto. Podemos trabajar el concepto, estilo visual, mecánicas, público y estrategia de tu juego.";
 
         }
+
         else if(
             lower.includes("marketing") ||
             lower.includes("publicidad")
@@ -1768,6 +2561,7 @@ function sendMessage(){
                 "Perfecto. Podemos analizar tu propuesta, público, mensaje, contenido y estrategia.";
 
         }
+
         else if(
             lower.includes("logo") ||
             lower.includes("marca")
@@ -1777,6 +2571,7 @@ function sendMessage(){
                 "Podemos trabajar la identidad de tu marca, su concepto, personalidad, colores y forma de comunicar.";
 
         }
+
         else if(
             lower.includes("hola") ||
             lower.includes("hey") ||
@@ -1794,6 +2589,7 @@ function sendMessage(){
             "bot"
         );
 
+
     },450);
 
 }
@@ -1802,18 +2598,25 @@ function sendMessage(){
 function addMessage(text,type){
 
     const container=
-        document.getElementById("chatContent");
+        document
+            .getElementById("chatContent");
+
 
     const message=
-        document.createElement("div");
+        document
+            .createElement("div");
+
 
     message.className=
         "message "+type;
 
+
     message.textContent=
         text;
 
+
     container.appendChild(message);
+
 
     container.scrollTop=
         container.scrollHeight;
@@ -1821,9 +2624,9 @@ function addMessage(text,type){
 }
 
 
-/* =========================
+/* =====================================================
    CONTACTO
-========================= */
+===================================================== */
 
 function contactar(){
 
@@ -1832,6 +2635,117 @@ function contactar(){
     );
 
 }
+
+
+/* =====================================================
+   CARRUSEL
+   CAMBIA UNA TARJETA COMPLETA
+===================================================== */
+
+const cards=
+    document.querySelectorAll(".service-card");
+
+const dotsContainer=
+    document.getElementById("carouselDots");
+
+let currentCard=0;
+
+
+/* CREAR PUNTOS */
+
+cards.forEach(function(card,index){
+
+    const dot=
+        document.createElement("div");
+
+    dot.className=
+        "carousel-dot";
+
+
+    if(index===0){
+
+        dot.classList.add("active");
+
+    }
+
+
+    dot.addEventListener("click",function(){
+
+        showCard(index);
+
+    });
+
+
+    dotsContainer.appendChild(dot);
+
+});
+
+
+const dots=
+    document.querySelectorAll(".carousel-dot");
+
+
+function showCard(index){
+
+    cards.forEach(function(card){
+
+        card.classList.remove("active");
+
+    });
+
+
+    dots.forEach(function(dot){
+
+        dot.classList.remove("active");
+
+    });
+
+
+    cards[index].classList.add("active");
+
+    dots[index].classList.add("active");
+
+
+    currentCard=index;
+
+}
+
+
+/* AUTOMÁTICO */
+
+setInterval(function(){
+
+    currentCard++;
+
+    if(currentCard>=cards.length){
+
+        currentCard=0;
+
+    }
+
+    showCard(currentCard);
+
+},5200);
+
+
+/* =====================================================
+   ESCAPE
+===================================================== */
+
+document.addEventListener(
+    "keydown",
+    function(event){
+
+        if(event.key==="Escape"){
+
+            closeModal();
+
+            closeChat();
+
+        }
+
+    }
+);
 
 </script>
 
