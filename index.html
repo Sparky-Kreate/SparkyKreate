@@ -2076,154 +2076,923 @@ onclick="sendMessage()"
 </div>
 
 
+<!-- =====================================================
+     SUPABASE
+===================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
 <script>
+
+/* =====================================================
+   SUPABASE
+===================================================== */
+
+const SUPABASE_URL =
+"https://lvsntxkywjyxumlgtayl.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+"sb_publishable_bhzMbxUHakbytVuVlNcz8A_f2f6szGA";
+
+const supabaseClient =
+window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+);
+
+
+/* =====================================================
+   VARIABLES
+===================================================== */
+
+let authMode = "login";
+
+let currentUser = null;
+
+let currentProfile = null;
+
 
 /* =====================================================
    MODAL
 ===================================================== */
 
-let authMode="login";
-
-
 function openModal(mode){
 
-authMode=mode;
+    authMode = mode;
 
-document
-.getElementById("modal")
-.classList
-.add("active");
-
-
-const nameField=
-document.getElementById("nameField");
-
-const surnameField=
-document.getElementById("surnameField");
+    document
+        .getElementById("modal")
+        .classList
+        .add("active");
 
 
-if(mode==="register"){
+    const nameField =
+        document.getElementById("nameField");
 
-document
-.getElementById("modalTitle")
-.textContent="Crear cuenta";
+    const surnameField =
+        document.getElementById("surnameField");
 
-document
-.getElementById("modalDescription")
-.textContent=
-"Crea tu espacio en SparkyKrea.";
 
-nameField.style.display="block";
+    if(mode === "register"){
 
-surnameField.style.display="block";
+        document
+            .getElementById("modalTitle")
+            .textContent =
+            "Crear cuenta";
 
-}else{
+        document
+            .getElementById("modalDescription")
+            .textContent =
+            "Crea tu espacio en SparkyKrea.";
 
-document
-.getElementById("modalTitle")
-.textContent=
-"Iniciar sesión";
+        nameField.style.display = "block";
 
-document
-.getElementById("modalDescription")
-.textContent=
-"Accede a tu espacio en SparkyKrea.";
+        surnameField.style.display = "block";
 
-nameField.style.display="none";
+    }else{
 
-surnameField.style.display="none";
+        document
+            .getElementById("modalTitle")
+            .textContent =
+            "Iniciar sesión";
 
-}
+        document
+            .getElementById("modalDescription")
+            .textContent =
+            "Accede a tu espacio en SparkyKrea.";
+
+        nameField.style.display = "none";
+
+        surnameField.style.display = "none";
+
+    }
 
 }
 
 
 function closeModal(){
 
-document
-.getElementById("modal")
-.classList
-.remove("active");
+    document
+        .getElementById("modal")
+        .classList
+        .remove("active");
 
 }
 
 
 function outsideModal(event){
 
-if(event.target.id==="modal"){
+    if(event.target.id === "modal"){
 
-closeModal();
+        closeModal();
+
+    }
 
 }
 
+
+/* =====================================================
+   REGISTRO / LOGIN REAL
+===================================================== */
+
+async function submitAuth(){
+
+    const email =
+        document
+        .getElementById("email")
+        .value
+        .trim();
+
+    const password =
+        document
+        .getElementById("password")
+        .value
+        .trim();
+
+
+    if(!email || !password){
+
+        alert(
+            "Completa tu correo y contraseña."
+        );
+
+        return;
+
+    }
+
+
+    /* ================================================
+       REGISTRO
+    ================================================ */
+
+    if(authMode === "register"){
+
+        const first =
+            document
+            .getElementById("firstName")
+            .value
+            .trim();
+
+        const last =
+            document
+            .getElementById("lastName")
+            .value
+            .trim();
+
+
+        if(!first || !last){
+
+            alert(
+                "Completa tu nombre y apellido."
+            );
+
+            return;
+
+        }
+
+
+        if(password.length < 6){
+
+            alert(
+                "La contraseña debe tener al menos 6 caracteres."
+            );
+
+            return;
+
+        }
+
+
+        try{
+
+            const {
+                data,
+                error
+            } =
+            await supabaseClient.auth.signUp({
+
+                email: email,
+
+                password: password,
+
+                options: {
+
+                    data: {
+
+                        first_name: first,
+
+                        last_name: last
+
+                    }
+
+                }
+
+            });
+
+
+            if(error){
+
+                alert(error.message);
+
+                return;
+
+            }
+
+
+            closeModal();
+
+
+            if(data.session){
+
+                alert(
+                    "Cuenta creada correctamente."
+                );
+
+                await loadUserProfile(
+                    data.user
+                );
+
+            }else{
+
+                alert(
+                    "Cuenta creada. Revisa tu correo para confirmar la cuenta."
+                );
+
+            }
+
+
+        }catch(error){
+
+            console.error(error);
+
+            alert(
+                "Ocurrió un error al crear la cuenta."
+            );
+
+        }
+
+
+        return;
+
+    }
+
+
+    /* ================================================
+       INICIO DE SESIÓN
+    ================================================ */
+
+    try{
+
+        const {
+            data,
+            error
+        } =
+        await supabaseClient.auth.signInWithPassword({
+
+            email: email,
+
+            password: password
+
+        });
+
+
+        if(error){
+
+            alert(error.message);
+
+            return;
+
+        }
+
+
+        closeModal();
+
+        await loadUserProfile(
+            data.user
+        );
+
+
+    }catch(error){
+
+        console.error(error);
+
+        alert(
+            "Ocurrió un error al iniciar sesión."
+        );
+
+    }
+
 }
 
 
-function submitAuth(){
+/* =====================================================
+   CARGAR PERFIL
+===================================================== */
 
-const email=
-document
-.getElementById("email")
-.value
-.trim();
+async function loadUserProfile(user){
 
-const password=
-document
-.getElementById("password")
-.value
-.trim();
+    if(!user){
+
+        return;
+
+    }
 
 
-if(!email || !password){
+    currentUser = user;
 
-alert(
-"Completa tu correo y contraseña."
+
+    const {
+        data: profile,
+        error
+    } =
+    await supabaseClient
+    .from("profiles")
+    .select(
+        "id,first_name,last_name,email,role,created_at"
+    )
+    .eq("id", user.id)
+    .maybeSingle();
+
+
+    if(error){
+
+        console.error(
+            "Error cargando perfil:",
+            error
+        );
+
+        return;
+
+    }
+
+
+    currentProfile = profile;
+
+
+    updateHeader();
+
+}
+
+
+/* =====================================================
+   ACTUALIZAR HEADER
+===================================================== */
+
+function updateHeader(){
+
+    const auth =
+        document.querySelector(".auth");
+
+
+    if(!auth){
+
+        return;
+
+    }
+
+
+    if(!currentUser || !currentProfile){
+
+        auth.innerHTML = `
+
+            <button onclick="openModal('login')">
+                Iniciar sesión
+            </button>
+
+            <button
+                class="register"
+                onclick="openModal('register')"
+            >
+                Registrarse
+            </button>
+
+        `;
+
+        return;
+
+    }
+
+
+    const first =
+        currentProfile.first_name || "";
+
+    const last =
+        currentProfile.last_name || "";
+
+    const fullName =
+        (first + " " + last).trim();
+
+
+    let adminButton = "";
+
+
+    if(currentProfile.role === "admin"){
+
+        adminButton = `
+
+            <button
+                class="register"
+                onclick="openAdminPanel()"
+            >
+                Panel
+            </button>
+
+        `;
+
+    }
+
+
+    auth.innerHTML = `
+
+        <button
+            onclick="showAccountName()"
+        >
+            ${escapeHtml(fullName)}
+        </button>
+
+        ${adminButton}
+
+        <button
+            onclick="logout()"
+        >
+            Salir
+        </button>
+
+    `;
+
+}
+
+
+/* =====================================================
+   MOSTRAR NOMBRE
+===================================================== */
+
+function showAccountName(){
+
+    if(!currentProfile){
+
+        return;
+
+    }
+
+
+    alert(
+        "Sesión iniciada como " +
+        currentProfile.first_name +
+        " " +
+        currentProfile.last_name
+    );
+
+}
+
+
+/* =====================================================
+   SEGURIDAD DE TEXTO
+===================================================== */
+
+function escapeHtml(text){
+
+    const div =
+        document.createElement("div");
+
+    div.textContent = text;
+
+    return div.innerHTML;
+
+}
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+async function logout(){
+
+    try{
+
+        const {
+            error
+        } =
+        await supabaseClient.auth.signOut();
+
+
+        if(error){
+
+            throw error;
+
+        }
+
+
+        currentUser = null;
+
+        currentProfile = null;
+
+        updateHeader();
+
+
+    }catch(error){
+
+        console.error(error);
+
+        alert(
+            "No se pudo cerrar la sesión."
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   PANEL ADMIN
+===================================================== */
+
+async function openAdminPanel(){
+
+    if(
+        !currentProfile ||
+        currentProfile.role !== "admin"
+    ){
+
+        alert(
+            "No tienes permisos de administrador."
+        );
+
+        return;
+
+    }
+
+
+    const {
+        data: profiles,
+        error
+    } =
+    await supabaseClient
+    .from("profiles")
+    .select(
+        "id,first_name,last_name,email,role,created_at"
+    )
+    .order(
+        "created_at",
+        {
+            ascending:false
+        }
+    );
+
+
+    if(error){
+
+        console.error(error);
+
+        alert(
+            "No se pudieron cargar los usuarios."
+        );
+
+        return;
+
+    }
+
+
+    showAdminPanel(
+        profiles || []
+    );
+
+}
+
+
+/* =====================================================
+   MOSTRAR PANEL ADMIN
+===================================================== */
+
+function showAdminPanel(profiles){
+
+    const oldPanel =
+        document.getElementById(
+            "adminPanel"
+        );
+
+
+    if(oldPanel){
+
+        oldPanel.remove();
+
+    }
+
+
+    const panel =
+        document.createElement("div");
+
+
+    panel.id = "adminPanel";
+
+
+    panel.style.position = "fixed";
+
+    panel.style.inset = "0";
+
+    panel.style.background =
+        "rgba(0,0,0,.94)";
+
+    panel.style.backdropFilter =
+        "blur(7px)";
+
+    panel.style.zIndex = "3000";
+
+    panel.style.padding = "20px";
+
+    panel.style.overflowY = "auto";
+
+
+    const box =
+        document.createElement("div");
+
+
+    box.style.width =
+        "min(700px,100%)";
+
+    box.style.margin =
+        "30px auto";
+
+    box.style.background =
+        "#11110f";
+
+    box.style.border =
+        "1px solid #554d3e";
+
+    box.style.borderRadius =
+        "25px";
+
+    box.style.padding =
+        "30px";
+
+    box.style.position =
+        "relative";
+
+
+    let usersHTML = "";
+
+
+    profiles.forEach(function(profile){
+
+        const date =
+            new Date(
+                profile.created_at
+            ).toLocaleString(
+                "es-ES"
+            );
+
+
+        usersHTML += `
+
+            <div
+                style="
+                    padding:16px 0;
+                    border-bottom:1px solid #292721;
+                "
+            >
+
+                <div
+                    style="
+                        color:#f4efe7;
+                        font-size:16px;
+                        font-weight:600;
+                    "
+                >
+                    ${escapeHtml(
+                        profile.first_name
+                    )}
+                    ${escapeHtml(
+                        profile.last_name
+                    )}
+                </div>
+
+
+                <div
+                    style="
+                        color:#aaa59c;
+                        font-size:13px;
+                        margin-top:5px;
+                    "
+                >
+                    ${escapeHtml(
+                        profile.email
+                    )}
+                </div>
+
+
+                <div
+                    style="
+                        color:#e0cda7;
+                        font-size:12px;
+                        margin-top:5px;
+                    "
+                >
+                    ${escapeHtml(
+                        profile.role
+                    )}
+                    ·
+                    ${date}
+                </div>
+
+            </div>
+
+        `;
+
+    });
+
+
+    box.innerHTML = `
+
+        <button
+            onclick="closeAdminPanel()"
+            style="
+                position:absolute;
+                right:17px;
+                top:13px;
+                border:none;
+                background:none;
+                color:#e0cda7;
+                font-size:28px;
+                cursor:pointer;
+            "
+        >
+            ×
+        </button>
+
+
+        <div
+            style="
+                color:#f0dfbd;
+                font-size:11px;
+                font-weight:700;
+                letter-spacing:6px;
+                margin-bottom:17px;
+            "
+        >
+            ADMINISTRACIÓN
+        </div>
+
+
+        <h2
+            style="
+                font-family:'Playfair Display',serif;
+                font-size:34px;
+                color:#f4efe7;
+                margin-bottom:8px;
+            "
+        >
+            Usuarios registrados
+        </h2>
+
+
+        <p
+            style="
+                color:#99948c;
+                margin-bottom:20px;
+            "
+        >
+            ${profiles.length}
+            usuario${profiles.length === 1 ? "" : "s"} registrado${profiles.length === 1 ? "" : "s"}.
+        </p>
+
+
+        <div>
+
+            ${
+                usersHTML ||
+                `
+                <div
+                    style="
+                        color:#aaa59c;
+                        padding:20px 0;
+                    "
+                >
+                    Todavía no hay usuarios registrados.
+                </div>
+                `
+            }
+
+        </div>
+
+    `;
+
+
+    panel.appendChild(box);
+
+    document.body.appendChild(panel);
+
+    document.body.style.overflow =
+        "hidden";
+
+}
+
+
+/* =====================================================
+   CERRAR PANEL ADMIN
+===================================================== */
+
+function closeAdminPanel(){
+
+    const panel =
+        document.getElementById(
+            "adminPanel"
+        );
+
+
+    if(panel){
+
+        panel.remove();
+
+    }
+
+
+    document.body.style.overflow = "";
+
+}
+
+
+/* =====================================================
+   COMPROBAR SESIÓN
+===================================================== */
+
+async function checkSession(){
+
+    try{
+
+        const {
+            data,
+            error
+        } =
+        await supabaseClient.auth.getSession();
+
+
+        if(error){
+
+            console.error(error);
+
+            return;
+
+        }
+
+
+        if(
+            data.session &&
+            data.session.user
+        ){
+
+            await loadUserProfile(
+                data.session.user
+            );
+
+        }
+
+    }catch(error){
+
+        console.error(
+            "Error comprobando sesión:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   CAMBIOS DE AUTENTICACIÓN
+===================================================== */
+
+supabaseClient.auth.onAuthStateChange(
+    function(event, session){
+
+        if(
+            session &&
+            session.user
+        ){
+
+            setTimeout(
+                function(){
+
+                    loadUserProfile(
+                        session.user
+                    );
+
+                },
+                0
+            );
+
+        }else{
+
+            currentUser = null;
+
+            currentProfile = null;
+
+            updateHeader();
+
+        }
+
+    }
 );
-
-return;
-
-}
-
-
-if(authMode==="register"){
-
-const first=
-document
-.getElementById("firstName")
-.value
-.trim();
-
-const last=
-document
-.getElementById("lastName")
-.value
-.trim();
-
-
-if(!first || !last){
-
-alert(
-"Completa tu nombre y apellido."
-);
-
-return;
-
-}
-
-
-alert(
-"El registro se conectará a la base de datos."
-);
-
-}else{
-
-alert(
-"El inicio de sesión se conectará a la base de datos."
-);
-
-}
-
-}
 
 
 /* =====================================================
@@ -2232,179 +3001,199 @@ alert(
 
 function openChat(){
 
-document
-.getElementById("chat")
-.classList
-.add("active");
+    document
+        .getElementById("chat")
+        .classList
+        .add("active");
 
-document.body.style.overflow="hidden";
+    document.body.style.overflow =
+        "hidden";
 
-updateGreeting();
+    updateGreeting();
 
 
-setTimeout(function(){
+    setTimeout(function(){
 
-document
-.getElementById("chatInput")
-.focus();
+        document
+            .getElementById("chatInput")
+            .focus();
 
-},450);
+    },450);
 
 }
 
 
 function closeChat(){
 
-document
-.getElementById("chat")
-.classList
-.remove("active");
+    document
+        .getElementById("chat")
+        .classList
+        .remove("active");
 
-document.body.style.overflow="";
+    document.body.style.overflow = "";
 
 }
 
 
 function updateGreeting(){
 
-const hour=
-new Date().getHours();
+    const hour =
+        new Date().getHours();
 
-let greeting="Hola.";
-
-
-if(hour>=5 && hour<12){
-
-greeting="Buenos días.";
-
-}
-else if(hour>=12 && hour<19){
-
-greeting="Buenas tardes.";
-
-}
-else{
-
-greeting="Buenas noches.";
-
-}
+    let greeting = "Hola.";
 
 
-document
-.getElementById("welcome")
-.textContent=
-greeting+
-" Cuéntame qué deseas hacer.";
+    if(hour >= 5 && hour < 12){
+
+        greeting =
+            "Buenos días.";
+
+    }
+    else if(hour >= 12 && hour < 19){
+
+        greeting =
+            "Buenas tardes.";
+
+    }
+    else{
+
+        greeting =
+            "Buenas noches.";
+
+    }
+
+
+    document
+        .getElementById("welcome")
+        .textContent =
+        greeting +
+        " Cuéntame qué deseas hacer.";
 
 }
 
 
 function handleEnter(event){
 
-if(event.key==="Enter"){
+    if(event.key === "Enter"){
 
-sendMessage();
+        sendMessage();
 
-}
+    }
 
 }
 
 
 function sendMessage(){
 
-const input=
-document.getElementById("chatInput");
+    const input =
+        document.getElementById(
+            "chatInput"
+        );
 
-const text=
-input.value.trim();
-
-
-if(!text){
-
-return;
-
-}
+    const text =
+        input.value.trim();
 
 
-addMessage(text,"user");
+    if(!text){
 
-input.value="";
+        return;
 
-
-setTimeout(function(){
-
-const lower=text.toLowerCase();
-
-let response=
-"Cuéntame un poco más sobre tu idea y qué resultado quieres conseguir.";
+    }
 
 
-if(
-lower.includes("juego") ||
-lower.includes("videojuego")
-){
+    addMessage(
+        text,
+        "user"
+    );
 
-response=
-"Perfecto. Podemos trabajar el concepto, estilo visual, mecánicas, público y estrategia de tu juego.";
-
-}
-
-else if(
-lower.includes("marketing") ||
-lower.includes("publicidad")
-){
-
-response=
-"Perfecto. Podemos analizar tu propuesta, público, mensaje, contenido y estrategia.";
-
-}
-
-else if(
-lower.includes("logo") ||
-lower.includes("marca")
-){
-
-response=
-"Podemos trabajar la identidad de tu marca, su concepto, personalidad, colores y forma de comunicar.";
-
-}
-
-else if(
-lower.includes("hola") ||
-lower.includes("hey") ||
-lower.includes("buenas")
-){
-
-response=
-"¡Hola! Cuéntame qué tienes en mente y lo construimos paso a paso.";
-
-}
+    input.value = "";
 
 
-addMessage(response,"bot");
+    setTimeout(function(){
 
-},420);
+        const lower =
+            text.toLowerCase();
+
+        let response =
+            "Cuéntame un poco más sobre tu idea y qué resultado quieres conseguir.";
+
+
+        if(
+            lower.includes("juego") ||
+            lower.includes("videojuego")
+        ){
+
+            response =
+            "Perfecto. Podemos trabajar el concepto, estilo visual, mecánicas, público y estrategia de tu juego.";
+
+        }
+
+        else if(
+            lower.includes("marketing") ||
+            lower.includes("publicidad")
+        ){
+
+            response =
+            "Perfecto. Podemos analizar tu propuesta, público, mensaje, contenido y estrategia.";
+
+        }
+
+        else if(
+            lower.includes("logo") ||
+            lower.includes("marca")
+        ){
+
+            response =
+            "Podemos trabajar la identidad de tu marca, su concepto, personalidad, colores y forma de comunicar.";
+
+        }
+
+        else if(
+            lower.includes("hola") ||
+            lower.includes("hey") ||
+            lower.includes("buenas")
+        ){
+
+            response =
+            "¡Hola! Cuéntame qué tienes en mente y lo construimos paso a paso.";
+
+        }
+
+
+        addMessage(
+            response,
+            "bot"
+        );
+
+    },420);
 
 }
 
 
 function addMessage(text,type){
 
-const container=
-document.getElementById("chatContent");
+    const container =
+        document.getElementById(
+            "chatContent"
+        );
 
-const message=
-document.createElement("div");
+    const message =
+        document.createElement(
+            "div"
+        );
 
-message.className=
-"message "+type;
+    message.className =
+        "message " + type;
 
-message.textContent=text;
+    message.textContent =
+        text;
 
-container.appendChild(message);
+    container.appendChild(
+        message
+    );
 
-container.scrollTop=
-container.scrollHeight;
+    container.scrollTop =
+        container.scrollHeight;
 
 }
 
@@ -2415,9 +3204,9 @@ container.scrollHeight;
 
 function contactar(){
 
-alert(
-"Aquí colocaremos el correo oficial de SparkyKrea."
-);
+    alert(
+        "Aquí colocaremos el correo oficial de SparkyKrea."
+    );
 
 }
 
@@ -2426,72 +3215,93 @@ alert(
    CARRUSEL
 ===================================================== */
 
-const cards=
-document.querySelectorAll(".service-card");
+const cards =
+    document.querySelectorAll(
+        ".service-card"
+    );
 
-const dotsContainer=
-document.getElementById("carouselDots");
+const dotsContainer =
+    document.getElementById(
+        "carouselDots"
+    );
 
-let currentCard=0;
+let currentCard = 0;
 
 
 /* CREAR DOTS */
 
 cards.forEach(function(card,index){
 
-const dot=
-document.createElement("div");
+    const dot =
+        document.createElement(
+            "div"
+        );
 
-dot.className="carousel-dot";
-
-
-if(index===0){
-
-dot.classList.add("active");
-
-}
+    dot.className =
+        "carousel-dot";
 
 
-dot.addEventListener(
-"click",
-function(){
+    if(index === 0){
 
-showCard(index);
+        dot.classList.add(
+            "active"
+        );
 
-}
-);
+    }
 
 
-dotsContainer.appendChild(dot);
+    dot.addEventListener(
+        "click",
+        function(){
+
+            showCard(index);
+
+        }
+    );
+
+
+    dotsContainer.appendChild(
+        dot
+    );
 
 });
 
 
-const dots=
-document.querySelectorAll(".carousel-dot");
+const dots =
+    document.querySelectorAll(
+        ".carousel-dot"
+    );
 
 
 function showCard(index){
 
-cards.forEach(function(card){
+    cards.forEach(function(card){
 
-card.classList.remove("active");
+        card.classList.remove(
+            "active"
+        );
 
-});
-
-
-dots.forEach(function(dot){
-
-dot.classList.remove("active");
-
-});
+    });
 
 
-cards[index].classList.add("active");
+    dots.forEach(function(dot){
 
-dots[index].classList.add("active");
+        dot.classList.remove(
+            "active"
+        );
 
-currentCard=index;
+    });
+
+
+    cards[index].classList.add(
+        "active"
+    );
+
+    dots[index].classList.add(
+        "active"
+    );
+
+    currentCard = index;
 
 }
 
@@ -2500,15 +3310,19 @@ currentCard=index;
 
 setInterval(function(){
 
-currentCard++;
+    currentCard++;
 
-if(currentCard>=cards.length){
 
-currentCard=0;
+    if(currentCard >= cards.length){
 
-}
+        currentCard = 0;
 
-showCard(currentCard);
+    }
+
+
+    showCard(
+        currentCard
+    );
 
 },4400);
 
@@ -2518,18 +3332,28 @@ showCard(currentCard);
 ===================================================== */
 
 document.addEventListener(
-"keydown",
-function(event){
+    "keydown",
+    function(event){
 
-if(event.key==="Escape"){
+        if(event.key === "Escape"){
 
-closeModal();
+            closeModal();
 
-closeChat();
+            closeChat();
 
-}
+            closeAdminPanel();
 
-});
+        }
+
+    }
+);
+
+
+/* =====================================================
+   INICIAR SUPABASE
+===================================================== */
+
+checkSession();
 
 </script>
 
