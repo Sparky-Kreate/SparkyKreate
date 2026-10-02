@@ -2266,42 +2266,22 @@ const ADMIN_EMAIL =
 
 
 /* =========================================================
-   DETECTAR RECUPERACIÓN ANTES DE LA SESIÓN NORMAL
-   ========================================================= */
+   RECUPERACIÓN DE CONTRASEÑA
+   =========================================================
+
+   Supabase procesa automáticamente el enlace de recuperación.
+   Cuando llega el evento PASSWORD_RECOVERY mostramos el modal
+   para crear la nueva contraseña.
+*/
 
 const initialUrl =
 new URL(window.location.href);
 
-const initialSearch =
-initialUrl.searchParams;
-
-const initialHashString =
-window.location.hash.startsWith("#")
-?
-window.location.hash.substring(1)
-:
-window.location.hash;
-
-const initialHash =
-new URLSearchParams(initialHashString);
-
-
-/*
-   IMPORTANTE:
-
-   Supabase NO procesará automáticamente
-   la URL de recuperación.
-
-   Nosotros decidimos cuándo abrir
-   el modal de nueva contraseña.
-*/
-
-let recoveryMode =
-    initialSearch.has("code") ||
-    initialSearch.get("type") === "recovery" ||
-    initialSearch.get("reset") === "1" ||
-    initialHash.get("type") === "recovery" ||
-    initialHash.has("access_token");
+const recoveryHint =
+    initialUrl.searchParams.has("code") ||
+    initialUrl.searchParams.get("type") === "recovery" ||
+    initialUrl.hash.includes("type=recovery") ||
+    initialUrl.hash.includes("access_token=");
 
 
 /* =========================================================
@@ -2318,10 +2298,11 @@ window.supabase.createClient(
             autoRefreshToken:true,
 
             /*
-               EVITA QUE SUPABASE PROCese
-               AUTOMÁTICAMENTE EL CALLBACK.
+               IMPORTANTE:
+               Supabase procesa automáticamente el callback
+               del enlace de recuperación.
             */
-            detectSessionInUrl:false
+            detectSessionInUrl:true
         }
     }
 );
@@ -2330,6 +2311,33 @@ window.supabase.createClient(
 let currentUser = null;
 let currentProfile = null;
 let authMode = "login";
+let recoveryMode = recoveryHint;
+
+
+/* =========================================================
+   LIMPIAR URL DESPUÉS DE RECUPERACIÓN
+   ========================================================= */
+
+function cleanRecoveryUrl(){
+
+    try{
+
+        window.history.replaceState(
+            {},
+            document.title,
+            SUPABASE_REDIRECT_URL
+        );
+
+    }catch(error){
+
+        console.error(
+            "No se pudo limpiar la URL:",
+            error
+        );
+
+    }
+
+}
 
 
 /* =========================================================
@@ -3974,458 +3982,52 @@ function(){
 
 /* =========================================================
    RECUPERACIÓN DE CONTRASEÑA
-   =========================================================
-   
-   ESTA ES LA PARTE NUEVA.
-
-   Supabase puede devolver:
-
-   1. ?code=...
-   2. #access_token=...
-      #refresh_token=...
-      #type=recovery
-
-   Procesamos ambos manualmente.
    ========================================================= */
 
-async function handleRecoveryCallback(){
-
-    const url =
-    new URL(
-        window.location.href
-    );
-
-
-    const search =
-    url.searchParams;
-
-
-    const hashString =
-    window.location.hash.startsWith("#")
-    ?
-    window.location.hash.substring(1)
-    :
-    window.location.hash;
-
-
-    const hash =
-    new URLSearchParams(
-        hashString
-    );
-
-
-    /* -----------------------------------------------------
-       ERRORES
-       ----------------------------------------------------- */
-
-    const recoveryError =
-        search.get("error_description") ||
-        hash.get("error_description") ||
-        search.get("error") ||
-        hash.get("error");
-
-
-    if(recoveryError){
-
-        cleanRecoveryUrl();
-
-        recoveryMode = false;
-
-
-        showNotice(
-            "Enlace no válido",
-            safeDecode(
-                recoveryError
-            )
-        );
-
-
-        return true;
-    }
-
-
-    /* -----------------------------------------------------
-       PKCE
-
-       ?code=...
-       ----------------------------------------------------- */
-
-    const code =
-    search.get("code");
-
-
-    const flowId =
-    search.get("sb_flow_id");
-
-
-    if(code){
-
-        try{
-
-            let result;
-
-
-            if(flowId){
-
-                result =
-                await supabaseClient.auth
-                .exchangeCodeForSession(
-                    code,
-                    {
-                        flowId:
-                        flowId
-                    }
-                );
-
-            }else{
-
-                result =
-                await supabaseClient.auth
-                .exchangeCodeForSession(
-                    code
-                );
-
-            }
-
-
-            if(result.error){
-
-                cleanRecoveryUrl();
-
-                recoveryMode = false;
-
-
-                showNotice(
-                    "No pudimos abrir el enlace",
-                    "El enlace de recuperación no pudo validarse. Solicita un enlace nuevo y ábrelo desde el mismo navegador donde pediste la recuperación."
-                );
-
-
-                return true;
-            }
-
-
-            /*
-              MUY IMPORTANTE:
-
-              NO llamamos getSession() aquí.
-
-              Ya sabemos que esta sesión fue creada
-              mediante el enlace de recuperación.
-
-              Abrimos directamente el modal.
-            */
-
-            cleanRecoveryUrl();
-
-            openResetPassword();
-
-
-            return true;
-
-
-        }catch(error){
-
-            console.error(
-                "Error PKCE:",
-                error
-            );
-
-
-            cleanRecoveryUrl();
-
-            recoveryMode = false;
-
-
-            showNotice(
-                "No pudimos abrir el enlace",
-                "El enlace de recuperación no pudo validarse. Solicita uno nuevo."
-            );
-
-
-            return true;
-
-        }
-
-    }
-
-
-    /* -----------------------------------------------------
-       FLUJO IMPLÍCITO
-
-       #access_token=...
-       #refresh_token=...
-       #type=recovery
-       ----------------------------------------------------- */
-
-    const accessToken =
-    hash.get(
-        "access_token"
-    );
-
-
-    const refreshToken =
-    hash.get(
-        "refresh_token"
-    );
-
-
-    if(
-        accessToken &&
-        refreshToken
-    ){
-
-        try{
-
-            const {
-                error
-            } =
-            await supabaseClient.auth
-            .setSession({
-
-                access_token:
-                accessToken,
-
-                refresh_token:
-                refreshToken
-
-            });
-
-
-            if(error){
-
-                cleanRecoveryUrl();
-
-                recoveryMode = false;
-
-
-                showNotice(
-                    "No pudimos abrir el enlace",
-                    "El enlace de recuperación no pudo validarse. Solicita uno nuevo."
-                );
-
-
-                return true;
-
-            }
-
-
-            cleanRecoveryUrl();
-
-            openResetPassword();
-
-
-            return true;
-
-
-        }catch(error){
-
-            console.error(
-                "Error de recuperación:",
-                error
-            );
-
-
-            cleanRecoveryUrl();
-
-            recoveryMode = false;
-
-
-            showNotice(
-                "No pudimos abrir el enlace",
-                "El enlace de recuperación no pudo validarse. Solicita uno nuevo."
-            );
-
-
-            return true;
-
-        }
-
-    }
-
-
-    /* -----------------------------------------------------
-       TOKENS EN QUERY
-       ----------------------------------------------------- */
-
-    const searchAccessToken =
-    search.get(
-        "access_token"
-    );
-
-
-    const searchRefreshToken =
-    search.get(
-        "refresh_token"
-    );
-
-
-    if(
-        searchAccessToken &&
-        searchRefreshToken
-    ){
-
-        try{
-
-            const {
-                error
-            } =
-            await supabaseClient.auth
-            .setSession({
-
-                access_token:
-                searchAccessToken,
-
-                refresh_token:
-                searchRefreshToken
-
-            });
-
-
-            if(error){
-
-                cleanRecoveryUrl();
-
-                recoveryMode = false;
-
-
-                showNotice(
-                    "No pudimos abrir el enlace",
-                    "El enlace de recuperación no pudo validarse. Solicita uno nuevo."
-                );
-
-
-                return true;
-
-            }
-
-
-            cleanRecoveryUrl();
-
-            openResetPassword();
-
-
-            return true;
-
-
-        }catch(error){
-
-            console.error(error);
-
-
-            cleanRecoveryUrl();
-
-            recoveryMode = false;
-
-
-            showNotice(
-                "No pudimos abrir el enlace",
-                "El enlace de recuperación no pudo validarse. Solicita uno nuevo."
-            );
-
-
-            return true;
-
-        }
-
-    }
-
-
-    /* -----------------------------------------------------
-       SI SABEMOS QUE ES RECOVERY PERO NO HAY TOKEN
-       ----------------------------------------------------- */
-
-    if(recoveryMode){
-
-        cleanRecoveryUrl();
-
-        recoveryMode = false;
-
-
-        showNotice(
-            "No pudimos abrir el enlace",
-            "El enlace de recuperación está incompleto o ha expirado. Solicita un enlace nuevo."
-        );
-
-
-        return true;
-
-    }
-
-
-    return false;
-
-}
-
-
-function safeDecode(text){
-
-    try{
-
-        return decodeURIComponent(
-            text
-        );
-
-    }catch(error){
-
-        return text;
-
-    }
-
-}
-
-
-/* =========================================================
-   AUTH STATE CHANGE
-   ========================================================= */
+/*
+   Ya no intercambiamos manualmente ?code= ni #access_token=.
+   Supabase lo hace automáticamente porque detectSessionInUrl
+   está activado arriba. El evento PASSWORD_RECOVERY es el que
+   abre la pantalla para crear la nueva contraseña.
+*/
 
 supabaseClient.auth.onAuthStateChange(
 function(event,session){
 
-    /*
-      SI ESTAMOS RECUPERANDO:
+    if(event === "PASSWORD_RECOVERY"){
 
-      IGNORAMOS la sesión normal.
+        recoveryMode = true;
 
-      Esto evita exactamente el problema
-      que estabas teniendo con tu cuenta anterior
-      o con la cuenta de administrador.
-    */
+        currentUser = null;
+        currentProfile = null;
+
+        resetAuthArea();
+
+        cleanRecoveryUrl();
+
+        setTimeout(
+            function(){
+
+                openResetPassword();
+
+            },
+            100
+        );
+
+        return;
+
+    }
+
 
     if(recoveryMode){
 
-        if(
-            event ===
-            "PASSWORD_RECOVERY"
-            &&
-            session
-        ){
-
-            setTimeout(
-                function(){
-
-                    openResetPassword();
-
-                },
-                100
-            );
-
-        }
-
-
-        if(
-            event ===
-            "SIGNED_OUT"
-        ){
+        if(event === "SIGNED_OUT"){
 
             currentUser = null;
-
             currentProfile = null;
-
             resetAuthArea();
 
         }
-
 
         return;
 
@@ -4436,15 +4038,10 @@ function(event,session){
        SESIÓN NORMAL
        ----------------------------------------------------- */
 
-    if(
-        event ===
-        "SIGNED_OUT"
-    ){
+    if(event === "SIGNED_OUT"){
 
         currentUser = null;
-
         currentProfile = null;
-
         resetAuthArea();
 
         return;
@@ -4466,9 +4063,7 @@ function(event,session){
     }else{
 
         currentUser = null;
-
         currentProfile = null;
-
         resetAuthArea();
 
     }
@@ -4483,39 +4078,19 @@ function(event,session){
 async function initializeAuth(){
 
     /*
-      PRIMERO revisamos recuperación.
-
-      Esto sucede ANTES de cargar la sesión normal.
+       Si venimos de un enlace de recuperación, NO intentamos
+       procesarlo manualmente. Esperamos PASSWORD_RECOVERY.
     */
-
     if(recoveryMode){
 
         currentUser = null;
-
         currentProfile = null;
-
         resetAuthArea();
 
-
-        const handled =
-        await handleRecoveryCallback();
-
-
-        if(handled){
-
-            return;
-
-        }
-
-
-        recoveryMode = false;
+        return;
 
     }
 
-
-    /*
-      SOLO AQUÍ cargamos una sesión normal.
-    */
 
     try{
 
@@ -4523,14 +4098,12 @@ async function initializeAuth(){
             data,
             error
         } =
-        await supabaseClient.auth
-        .getSession();
+        await supabaseClient.auth.getSession();
 
 
         if(error){
 
             resetAuthArea();
-
             return;
 
         }
@@ -4557,7 +4130,6 @@ async function initializeAuth(){
             "Error inicializando autenticación:",
             error
         );
-
 
         resetAuthArea();
 
