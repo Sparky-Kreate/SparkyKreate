@@ -8,18 +8,16 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
-
-/* =====================================================
-   BASE
-===================================================== */
-
 *{
+    box-sizing:border-box;
     margin:0;
     padding:0;
-    box-sizing:border-box;
 }
 
 html{
@@ -27,2509 +25,2526 @@ html{
 }
 
 body{
-    background:#080807;
-    color:#f4efe7;
+    background:#0b0b0b;
+    color:#f5f1e9;
     font-family:"DM Sans",sans-serif;
     overflow-x:hidden;
 }
 
 button,
-input{
+input,
+textarea{
     font-family:inherit;
 }
 
 button{
-    -webkit-tap-highlight-color:transparent;
+    cursor:pointer;
 }
 
 :root{
-
-    --black:#080807;
-    --black2:#11110f;
-
-    --cream:#f6f0e6;
-
-    --beige:#e0cda7;
-    --beige-light:#f0dfbd;
-
-    --blue:#b9d8ee;
-    --blue-light:#d0e6f5;
-
-    --rose:#e4bfc0;
-    --lavender:#d0c5e5;
-    --sage:#c1d6bd;
-
-    --gray:#aaa59c;
-
-    --line:#34312b;
+    --cream:#eee4d2;
+    --cream2:#d9c7aa;
+    --blue:#c9e4f2;
+    --rose:#edcbd2;
+    --lavender:#d9cef0;
+    --sage:#cadbc9;
+    --dark:#0b0b0b;
+    --dark2:#151515;
+    --gray:#969696;
 }
 
-
-/* =====================================================
-   TRANSICIONES
-===================================================== */
-
-*{
-    transition:
-        border-color .3s ease,
-        background-color .3s ease,
-        color .3s ease,
-        opacity .3s ease,
-        transform .35s cubic-bezier(.22,1,.36,1);
-}
-
-
-/* =====================================================
-   HEADER
-===================================================== */
+/* ================= HEADER ================= */
 
 header{
+    position:fixed;
+    top:0;
+    left:0;
     width:100%;
-    padding:17px 25px;
-    position:relative;
-    z-index:20;
-}
-
-.header-inner{
-    width:min(1250px,100%);
-    margin:auto;
+    z-index:1000;
 
     display:flex;
     align-items:center;
     justify-content:space-between;
 
-    gap:20px;
+    padding:18px 5vw;
+
+    background:rgba(11,11,11,.82);
+    backdrop-filter:blur(18px);
+    border-bottom:1px solid rgba(255,255,255,.07);
 }
-
-.brand{
-    display:flex;
-    align-items:center;
-    gap:10px;
-
-    color:var(--cream);
-    text-decoration:none;
-
-    font-size:18px;
-    font-weight:600;
-}
-
-.brand:hover{
-    transform:translateY(-1px);
-}
-
-
-/* LOGO */
 
 .logo{
-    width:40px;
-    height:40px;
+    display:flex;
+    align-items:center;
+    gap:10px;
 
-    border:2px solid var(--beige);
-
-    border-radius:50%;
-
-    position:relative;
-
-    flex-shrink:0;
+    color:white;
+    text-decoration:none;
+    font-weight:700;
+    font-size:20px;
+    letter-spacing:-.5px;
 }
 
-.logo::before,
-.logo::after{
-    content:"";
+.logo-mark{
+    width:38px;
+    height:38px;
+    border-radius:12px;
 
-    position:absolute;
+    display:grid;
+    place-items:center;
 
-    width:24px;
-    height:2px;
-
-    background:var(--beige);
-
-    left:50%;
-    top:50%;
+    background:linear-gradient(135deg,var(--cream),var(--lavender));
+    color:#111;
+    font-weight:800;
 }
 
-.logo::before{
-    transform:translate(-50%,-50%) rotate(45deg);
-}
-
-.logo::after{
-    transform:translate(-50%,-50%) rotate(-45deg);
-}
-
-.logo-dot{
-    position:absolute;
-
-    width:8px;
-    height:8px;
-
-    border-radius:50%;
-
-    background:var(--beige);
-
-    left:50%;
-    top:50%;
-
-    transform:translate(-50%,-50%);
-}
-
-
-/* AUTH */
-
-.auth{
+.header-right{
     display:flex;
     align-items:center;
     gap:10px;
 }
 
-.auth button{
-    border:1px solid #514b40;
+.header-btn{
+    border:1px solid rgba(255,255,255,.15);
+    background:rgba(255,255,255,.04);
+    color:white;
 
-    background:#11110f;
-
-    color:var(--cream);
-
-    padding:11px 19px;
-
+    padding:11px 18px;
     border-radius:999px;
 
-    font-size:14px;
-
-    cursor:pointer;
+    transition:.3s;
 }
 
-.auth button:hover{
-    background:var(--blue-light);
-    color:#151513;
-    border-color:var(--blue-light);
-
+.header-btn:hover{
     transform:translateY(-2px);
+    background:rgba(255,255,255,.1);
 }
 
-.auth .register{
-    background:var(--beige);
-    color:#171611;
-    border-color:var(--beige);
+.register-btn{
+    background:var(--cream);
+    color:#111;
+    border-color:transparent;
 }
 
-.auth .register:hover{
-    background:var(--beige-light);
-    border-color:var(--beige-light);
+.user-pill{
+    display:none;
+    align-items:center;
+    gap:9px;
+
+    padding:10px 15px;
+    border-radius:999px;
+
+    background:rgba(238,228,210,.12);
+    border:1px solid rgba(238,228,210,.25);
 }
 
+.user-dot{
+    width:9px;
+    height:9px;
+    border-radius:50%;
+    background:var(--sage);
+}
 
-/* =====================================================
-   HERO
-===================================================== */
+/* ================= HERO ================= */
 
 .hero{
-    width:min(1250px,calc(100% - 40px));
-
-    margin:auto;
-
-    min-height:calc(100vh - 75px);
+    min-height:100vh;
+    padding:150px 6vw 70px;
 
     display:flex;
-
-    flex-direction:column;
-
     align-items:center;
-    justify-content:center;
-
-    text-align:center;
-
-    padding:55px 20px 80px;
-}
-
-
-/* HERO LOGO */
-
-.hero-logo{
-    width:88px;
-    height:88px;
-
-    border:2px solid var(--beige);
-
-    border-radius:50%;
 
     position:relative;
-
-    margin-bottom:32px;
-
-    background:rgba(224,205,167,.035);
-}
-
-.hero-logo::before,
-.hero-logo::after{
-    content:"";
-
-    position:absolute;
-
-    width:52px;
-    height:2px;
-
-    background:var(--beige);
-
-    left:50%;
-    top:50%;
-}
-
-.hero-logo::before{
-    transform:translate(-50%,-50%) rotate(45deg);
-}
-
-.hero-logo::after{
-    transform:translate(-50%,-50%) rotate(-45deg);
-}
-
-.hero-logo-dot{
-    position:absolute;
-
-    width:14px;
-    height:14px;
-
-    border-radius:50%;
-
-    background:var(--beige);
-
-    left:50%;
-    top:50%;
-
-    transform:translate(-50%,-50%);
-}
-
-
-/* HERO TITLE */
-
-.hero h1{
-    max-width:1000px;
-
-    font-family:"Playfair Display",serif;
-
-    font-size:clamp(48px,6vw,84px);
-
-    line-height:.99;
-
-    letter-spacing:-2.8px;
-
-    font-weight:600;
-}
-
-.hero h1 span{
-    color:var(--beige);
-}
-
-
-/* HERO TEXT */
-
-.hero-text{
-    max-width:760px;
-
-    margin-top:26px;
-
-    color:#b7b2aa;
-
-    font-size:18px;
-
-    line-height:1.6;
-}
-
-
-/* BUTTON */
-
-.main-btn{
-    margin-top:30px;
-
-    padding:16px 31px;
-
-    border-radius:999px;
-
-    border:1px solid #746a57;
-
-    background:#29261f;
-
-    color:var(--beige-light);
-
-    font-size:16px;
-
-    font-weight:600;
-
-    cursor:pointer;
-}
-
-.main-btn:hover{
-    background:var(--beige);
-    color:#171611;
-    border-color:var(--beige);
-
-    transform:translateY(-3px);
-}
-
-
-/* =====================================================
-   SERVICIOS
-===================================================== */
-
-.services{
-    width:min(1250px,calc(100% - 40px));
-
-    margin:auto;
-
-    padding:85px 0 95px;
-
-    text-align:center;
-}
-
-.section-label{
-    color:var(--beige-light);
-
-    font-size:11px;
-
-    font-weight:700;
-
-    letter-spacing:6px;
-
-    margin-bottom:17px;
-}
-
-.services h2{
-    max-width:900px;
-
-    margin:auto;
-
-    font-family:"Playfair Display",serif;
-
-    font-size:clamp(40px,5vw,68px);
-
-    line-height:1.02;
-
-    letter-spacing:-1.7px;
-}
-
-.services-description{
-    max-width:720px;
-
-    margin:21px auto 0;
-
-    color:#a8a39b;
-
-    font-size:17px;
-
-    line-height:1.6;
-}
-
-
-/* =====================================================
-   CARRUSEL
-===================================================== */
-
-.carousel-wrapper{
-    width:100%;
-
-    margin:43px auto 0;
-
     overflow:hidden;
-
-    position:relative;
 }
 
-.carousel{
-    width:100%;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:stretch;
-
-    position:relative;
-
-    min-height:215px;
-}
-
-.service-card{
-    width:min(500px,90vw);
-
-    min-height:215px;
-
-    padding:31px;
-
-    text-align:left;
-
-    border-radius:24px;
-
-    background:#11110f;
-
-    border:1px solid #403c34;
-
+.hero::before{
+    content:"";
     position:absolute;
+    width:500px;
+    height:500px;
+    right:-180px;
+    top:50px;
 
-    left:50%;
-    top:0;
-
-    transform:translateX(-50%) scale(.96);
-
-    opacity:0;
+    background:radial-gradient(
+        circle,
+        rgba(217,206,240,.18),
+        transparent 65%
+    );
 
     pointer-events:none;
 }
 
-.service-card.active{
-    opacity:1;
+.hero-content{
+    width:100%;
+    max-width:1400px;
+    margin:auto;
 
-    pointer-events:auto;
-
-    transform:translateX(-50%) scale(1);
+    display:grid;
+    grid-template-columns:1.15fr .85fr;
+    gap:70px;
+    align-items:center;
 }
 
-
-/* CARD COLORS */
-
-.service-card:nth-child(1){
-    border-color:var(--beige);
+.hero h1{
+    font-family:"Playfair Display",serif;
+    font-size:clamp(48px,6vw,90px);
+    line-height:.98;
+    letter-spacing:-3px;
+    max-width:900px;
 }
 
-.service-card:nth-child(2){
-    border-color:var(--blue);
+.hero h1 span{
+    color:var(--cream);
 }
 
-.service-card:nth-child(3){
-    border-color:var(--rose);
+.hero-text{
+    margin-top:25px;
+    max-width:650px;
+
+    color:#a9a9a9;
+    font-size:19px;
+    line-height:1.7;
 }
 
-.service-card:nth-child(4){
-    border-color:var(--lavender);
+.hero-buttons{
+    margin-top:35px;
+    display:flex;
+    gap:13px;
+    flex-wrap:wrap;
 }
 
-.service-card:nth-child(5){
-    border-color:var(--sage);
+.primary-btn{
+    border:0;
+    padding:15px 25px;
+    border-radius:999px;
+
+    background:var(--cream);
+    color:#111;
+
+    font-weight:700;
+    transition:.35s;
 }
 
-
-/* CARD LINE */
-
-.card-line{
-    width:42px;
-    height:3px;
-
-    border-radius:20px;
-
-    background:var(--beige);
-
-    margin-bottom:20px;
+.primary-btn:hover{
+    transform:translateY(-3px) scale(1.02);
 }
 
-.service-card:nth-child(2) .card-line{
+.secondary-btn{
+    padding:15px 25px;
+    border-radius:999px;
+
+    background:transparent;
+    border:1px solid rgba(255,255,255,.2);
+    color:white;
+
+    transition:.35s;
+}
+
+.secondary-btn:hover{
+    background:rgba(255,255,255,.08);
+    transform:translateY(-3px);
+}
+
+/* HERO CARD */
+
+.hero-card{
+    min-height:450px;
+
+    border-radius:35px;
+    padding:35px;
+
+    position:relative;
+    overflow:hidden;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(238,228,210,.14),
+            rgba(217,206,240,.07)
+        );
+
+    border:1px solid rgba(255,255,255,.1);
+
+    box-shadow:0 30px 100px rgba(0,0,0,.35);
+}
+
+.hero-card::after{
+    content:"";
+    position:absolute;
+    width:260px;
+    height:260px;
+    border-radius:50%;
+
+    background:var(--rose);
+
+    opacity:.13;
+
+    right:-80px;
+    bottom:-80px;
+}
+
+.hero-card-top{
+    color:#aaa;
+    font-size:13px;
+    text-transform:uppercase;
+    letter-spacing:2px;
+}
+
+.hero-card h2{
+    margin-top:25px;
+
+    font-family:"Playfair Display",serif;
+    font-size:45px;
+    line-height:1.05;
+}
+
+.hero-card-line{
+    margin-top:30px;
+
+    height:1px;
+    background:rgba(255,255,255,.15);
+}
+
+.hero-mini{
+    margin-top:25px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.mini-circle{
+    width:50px;
+    height:50px;
+    border-radius:50%;
+
     background:var(--blue);
 }
 
-.service-card:nth-child(3) .card-line{
+.mini-text{
+    color:#aaa;
+}
+
+/* ================= SECTION ================= */
+
+.section{
+    padding:90px 6vw;
+}
+
+.section-inner{
+    max-width:1400px;
+    margin:auto;
+}
+
+.section-title{
+    font-family:"Playfair Display",serif;
+    font-size:clamp(38px,4vw,65px);
+    line-height:1;
+}
+
+.section-subtitle{
+    color:#999;
+    margin-top:15px;
+    max-width:650px;
+    line-height:1.7;
+}
+
+/* ================= CAROUSEL ================= */
+
+.carousel-wrapper{
+    margin-top:50px;
+    overflow:hidden;
+}
+
+.carousel{
+    display:flex;
+    transition:transform .7s cubic-bezier(.2,.8,.2,1);
+}
+
+.service-card{
+    min-width:100%;
+    min-height:330px;
+
+    padding:45px;
+
+    border-radius:35px;
+
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+
+    border:1px solid rgba(0,0,0,.06);
+
+    color:#111;
+}
+
+.service-card:nth-child(1){
+    background:var(--cream);
+}
+
+.service-card:nth-child(2){
+    background:var(--blue);
+}
+
+.service-card:nth-child(3){
     background:var(--rose);
 }
 
-.service-card:nth-child(4) .card-line{
+.service-card:nth-child(4){
     background:var(--lavender);
 }
 
-.service-card:nth-child(5) .card-line{
+.service-card:nth-child(5){
     background:var(--sage);
+}
+
+.service-number{
+    font-size:14px;
+    font-weight:700;
+    opacity:.55;
 }
 
 .service-card h3{
     font-family:"Playfair Display",serif;
-
-    font-size:30px;
-
-    line-height:1.1;
-
-    margin-bottom:12px;
+    font-size:clamp(35px,5vw,65px);
+    max-width:800px;
 }
 
 .service-card p{
-    color:#aaa59c;
-
-    font-size:15px;
-
-    line-height:1.55;
+    max-width:700px;
+    line-height:1.6;
+    font-size:17px;
 }
-
-
-/* DOTS */
 
 .carousel-dots{
-    display:flex;
-
-    justify-content:center;
-    align-items:center;
-
-    gap:9px;
-
     margin-top:20px;
+    display:flex;
+    justify-content:center;
+    gap:8px;
 }
 
-.carousel-dot{
-    width:7px;
-    height:7px;
-
+.dot{
+    width:8px;
+    height:8px;
     border-radius:50%;
-
-    background:#4a463d;
-
-    cursor:pointer;
+    border:0;
+    background:#555;
+    transition:.3s;
 }
 
-.carousel-dot.active{
-    width:28px;
-
+.dot.active{
+    width:30px;
     border-radius:10px;
-
-    background:var(--beige);
+    background:var(--cream);
 }
 
-
-/* =====================================================
-   CONTACTO
-===================================================== */
+/* ================= CONTACT ================= */
 
 .contact{
-    width:min(1000px,calc(100% - 40px));
-
-    margin:auto;
-
-    padding:75px 20px 90px;
-
-    text-align:center;
-
-    border-top:1px solid #292721;
+    padding:80px 6vw 100px;
 }
 
-.contact h2{
-    max-width:850px;
-
+.contact-box{
+    max-width:1400px;
     margin:auto;
 
+    padding:60px;
+
+    border-radius:35px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(238,228,210,.11),
+            rgba(201,228,242,.06)
+        );
+
+    border:1px solid rgba(255,255,255,.1);
+}
+
+.contact-box h2{
     font-family:"Playfair Display",serif;
-
-    font-size:clamp(40px,5vw,62px);
-
-    line-height:1.04;
-
-    letter-spacing:-1.2px;
+    font-size:clamp(38px,5vw,70px);
 }
 
-.contact p{
+.contact-box p{
     max-width:700px;
-
-    margin:20px auto 0;
-
-    color:#a39e95;
-
-    font-size:16px;
-
-    line-height:1.65;
+    margin-top:20px;
+    color:#aaa;
+    line-height:1.7;
 }
 
-.contact-btn{
-    margin-top:24px;
-
-    padding:14px 25px;
-
-    border:none;
-
-    border-radius:999px;
-
-    background:var(--beige);
-
-    color:#171611;
-
-    font-size:14px;
-
-    font-weight:700;
-
-    cursor:pointer;
-}
-
-.contact-btn:hover{
-    background:var(--blue-light);
-
-    transform:translateY(-3px);
-}
-
-
-/* =====================================================
-   FOOTER
-===================================================== */
+/* ================= FOOTER ================= */
 
 footer{
-    border-top:1px solid #292721;
+    padding:30px 6vw;
 
+    border-top:1px solid rgba(255,255,255,.08);
+
+    color:#777;
     text-align:center;
-
-    padding:26px 20px 32px;
-
-    color:var(--beige);
 }
 
-footer strong{
-    display:block;
-
-    font-size:14px;
-
-    margin-bottom:5px;
-}
-
-footer span{
-    color:#8b867e;
-
-    font-size:12px;
-}
-
-
-/* =====================================================
-   MODAL
-===================================================== */
+/* ================= MODALS ================= */
 
 .modal{
     position:fixed;
-
     inset:0;
+    z-index:3000;
 
-    background:rgba(0,0,0,.9);
-
-    backdrop-filter:blur(7px);
-
-    display:flex;
-
+    display:none;
     align-items:center;
     justify-content:center;
 
     padding:20px;
 
-    z-index:1000;
+    background:rgba(0,0,0,.75);
+    backdrop-filter:blur(15px);
 
     opacity:0;
-    visibility:hidden;
+    transition:.3s;
 }
 
-.modal.active{
+.modal.show{
     opacity:1;
-    visibility:visible;
 }
 
 .modal-box{
-    width:min(430px,100%);
+    width:100%;
+    max-width:470px;
 
-    background:#11110f;
+    padding:35px;
 
-    border:1px solid #554d3e;
+    border-radius:28px;
 
-    border-radius:25px;
+    background:#151515;
+    border:1px solid rgba(255,255,255,.12);
 
-    padding:30px;
-
-    position:relative;
-
-    transform:translateY(25px) scale(.97);
-
-    opacity:0;
+    transform:translateY(20px) scale(.97);
+    transition:.35s;
 }
 
-.modal.active .modal-box{
+.modal.show .modal-box{
     transform:translateY(0) scale(1);
-
-    opacity:1;
 }
 
-.modal-box h2{
+.modal-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.modal-header h2{
     font-family:"Playfair Display",serif;
-
-    font-size:34px;
+    font-size:35px;
 }
 
-.modal-box p{
-    color:#99948c;
+.close-btn{
+    width:40px;
+    height:40px;
 
-    margin:7px 0 23px;
+    border-radius:50%;
+    border:1px solid rgba(255,255,255,.15);
+
+    background:transparent;
+    color:white;
+
+    font-size:20px;
 }
 
-.close-modal{
-    position:absolute;
-
-    right:17px;
-    top:13px;
-
-    border:none;
-
-    background:none;
-
-    color:var(--beige);
-
-    font-size:28px;
-
-    cursor:pointer;
+.form{
+    margin-top:25px;
 }
 
-.field{
-    margin-bottom:14px;
-}
-
-.field label{
+.form label{
     display:block;
+    margin-bottom:7px;
 
-    margin-bottom:6px;
-
-    color:#c9c2b7;
-
+    color:#aaa;
     font-size:13px;
 }
 
-.field input{
+.form input,
+.form textarea{
     width:100%;
 
-    padding:13px;
+    padding:14px 15px;
+    margin-bottom:17px;
 
-    border-radius:12px;
+    border-radius:13px;
 
-    border:1px solid #39362f;
+    border:1px solid rgba(255,255,255,.12);
 
-    background:#080807;
-
+    background:#0d0d0d;
     color:white;
 
     outline:none;
 }
 
-.field input:focus{
-    border-color:var(--blue);
+.form input:focus,
+.form textarea:focus{
+    border-color:var(--cream);
 }
 
-.submit-btn{
+.form button{
     width:100%;
-
-    padding:14px;
-
-    border:none;
-
-    border-radius:12px;
-
-    background:var(--beige);
-
-    color:#171611;
-
-    font-weight:700;
-
-    cursor:pointer;
 }
 
-.submit-btn:hover{
-    background:var(--blue-light);
-
-    transform:translateY(-2px);
+.form-switch{
+    margin-top:18px;
+    text-align:center;
+    color:#888;
 }
 
+.form-switch button{
+    width:auto;
+    border:0;
+    background:none;
+    color:var(--cream);
+}
 
-/* =====================================================
-   CHAT
-===================================================== */
+/* ================= CHAT ================= */
 
-.chat{
+.chat-overlay{
     position:fixed;
-
     inset:0;
+    z-index:2500;
 
-    background:#080807;
+    display:none;
 
-    z-index:2000;
-
-    display:flex;
-
-    flex-direction:column;
+    background:#090909;
 
     opacity:0;
-
-    visibility:hidden;
-
-    transform:scale(1.025);
+    transition:.4s;
 }
 
-.chat.active{
+.chat-overlay.show{
     opacity:1;
-
-    visibility:visible;
-
-    transform:scale(1);
 }
 
 .chat-header{
-    height:68px;
-
-    flex-shrink:0;
-
-    border-bottom:1px solid #292821;
+    height:75px;
 
     display:flex;
-
     align-items:center;
-
     justify-content:space-between;
 
     padding:0 25px;
+
+    border-bottom:1px solid rgba(255,255,255,.08);
 }
 
 .chat-brand{
     display:flex;
-
     align-items:center;
-
-    gap:10px;
-
-    font-weight:600;
+    gap:12px;
 }
 
-.chat-logo{
-    width:34px;
-    height:34px;
+.chat-menu{
+    width:40px;
+    height:40px;
 
-    border:1.5px solid var(--beige);
+    border-radius:12px;
+    border:1px solid rgba(255,255,255,.1);
 
-    border-radius:50%;
+    background:#151515;
+    color:white;
 
-    position:relative;
-}
-
-.chat-logo::before,
-.chat-logo::after{
-    content:"";
-
-    position:absolute;
-
-    width:19px;
-    height:1.5px;
-
-    background:var(--beige);
-
-    left:50%;
-    top:50%;
-}
-
-.chat-logo::before{
-    transform:translate(-50%,-50%) rotate(45deg);
-}
-
-.chat-logo::after{
-    transform:translate(-50%,-50%) rotate(-45deg);
+    font-size:20px;
 }
 
 .chat-close{
-    border:none;
+    width:40px;
+    height:40px;
 
-    background:none;
+    border-radius:50%;
+    border:1px solid rgba(255,255,255,.12);
 
-    color:var(--beige);
-
-    font-size:30px;
-
-    cursor:pointer;
+    background:#151515;
+    color:white;
 }
 
-.chat-close:hover{
-    transform:rotate(90deg);
+.chat-body{
+    height:calc(100vh - 145px);
 
-    color:var(--blue-light);
-}
-
-.chat-content{
-    width:min(850px,calc(100% - 30px));
-
-    flex:1;
-
-    overflow-y:auto;
-
+    max-width:950px;
     margin:auto;
 
-    padding:30px 0 100px;
+    padding:40px 20px;
+
+    overflow-y:auto;
+}
+
+.chat-welcome{
+    min-height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+}
+
+.chat-welcome h2{
+    font-family:"Playfair Display",serif;
+    font-size:clamp(38px,6vw,70px);
+}
+
+.chat-welcome p{
+    margin-top:15px;
+    color:#888;
+}
+
+.messages{
+    display:flex;
+    flex-direction:column;
+    gap:15px;
 }
 
 .message{
     max-width:75%;
-
-    padding:13px 16px;
-
-    margin-bottom:15px;
-
-    border-radius:17px;
-
-    font-size:14px;
-
-    line-height:1.5;
-
-    animation:messageIn .35s ease;
-}
-
-@keyframes messageIn{
-    from{
-        opacity:0;
-        transform:translateY(10px);
-    }
-
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
-}
-
-.message.bot{
-    background:#151512;
-
-    border:1px solid #39352e;
-
-    color:#ddd8cd;
-
-    margin-right:auto;
+    padding:14px 17px;
+    border-radius:20px;
+    line-height:1.55;
 }
 
 .message.user{
-    background:var(--beige);
+    align-self:flex-end;
+    background:var(--cream);
+    color:#111;
+    border-bottom-right-radius:5px;
+}
 
-    color:#171611;
-
-    margin-left:auto;
+.message.assistant{
+    align-self:flex-start;
+    background:#181818;
+    border:1px solid rgba(255,255,255,.08);
+    border-bottom-left-radius:5px;
 }
 
 .chat-input-area{
-    flex-shrink:0;
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
 
-    border-top:1px solid #292821;
+    padding:15px 20px;
 
-    padding:14px 18px;
-}
+    background:rgba(9,9,9,.9);
+    backdrop-filter:blur(15px);
 
-.chat-input-box{
-    width:min(850px,100%);
-
-    margin:auto;
-
-    display:flex;
-
-    gap:9px;
+    border-top:1px solid rgba(255,255,255,.08);
 }
 
 .chat-input{
+    max-width:950px;
+    margin:auto;
+
+    display:flex;
+    gap:10px;
+}
+
+.chat-input input{
     flex:1;
 
-    padding:13px 15px;
+    border-radius:999px;
+    border:1px solid rgba(255,255,255,.13);
 
-    border-radius:14px;
-
-    border:1px solid #38352e;
-
-    background:#11110f;
-
+    background:#151515;
     color:white;
 
+    padding:15px 20px;
     outline:none;
 }
 
-.chat-input:focus{
-    border-color:var(--blue);
-}
-
 .chat-send{
-    width:48px;
+    width:50px;
+    height:50px;
 
-    border:none;
+    border:0;
+    border-radius:50%;
 
-    border-radius:14px;
-
-    background:var(--beige);
-
-    color:#171611;
-
-    font-size:18px;
-
-    cursor:pointer;
+    background:var(--cream);
+    color:#111;
 }
 
-.chat-send:hover{
-    background:var(--blue-light);
+/* ================= ADMIN ================= */
 
-    transform:translateY(-2px);
+.admin-modal-box{
+    max-width:850px;
+    max-height:85vh;
+    overflow-y:auto;
 }
 
+.admin-table{
+    width:100%;
+    margin-top:25px;
+    border-collapse:collapse;
+}
 
-/* =====================================================
-   TABLET
-===================================================== */
+.admin-table th,
+.admin-table td{
+    padding:13px 8px;
+    text-align:left;
+    border-bottom:1px solid rgba(255,255,255,.08);
+    font-size:14px;
+}
 
-@media(max-width:900px){
+.admin-table th{
+    color:#aaa;
+}
+
+.role-admin{
+    color:var(--sage);
+}
+
+/* ================= TOAST ================= */
+
+.toast{
+    position:fixed;
+    bottom:25px;
+    left:50%;
+    z-index:5000;
+
+    transform:translate(-50%,30px);
+
+    background:#eee4d2;
+    color:#111;
+
+    padding:13px 20px;
+
+    border-radius:999px;
+
+    opacity:0;
+    pointer-events:none;
+
+    transition:.35s;
+}
+
+.toast.show{
+    opacity:1;
+    transform:translate(-50%,0);
+}
+
+/* ================= DESKTOP ================= */
+
+@media(min-width:1100px){
 
     .hero{
-        min-height:calc(100vh - 75px);
+        min-height:100vh;
+        padding-top:115px;
+        padding-bottom:35px;
+    }
 
+    .hero-card{
+        min-height:390px;
+    }
+
+    .section{
         padding-top:60px;
-    }
-
-    .hero h1{
-        font-size:clamp(44px,8vw,65px);
-    }
-
-}
-
-
-/* =====================================================
-   💻 PC
-   VERSIÓN GRANDE Y COMPACTA
-===================================================== */
-
-@media(min-width:901px){
-
-    header{
-        padding:14px 35px;
-    }
-
-    .header-inner{
-        max-width:1350px;
-    }
-
-    .brand{
-        font-size:19px;
-    }
-
-    .logo{
-        width:43px;
-        height:43px;
-    }
-
-    .auth button{
-        padding:11px 19px;
-
-        font-size:14px;
-    }
-
-
-    /* HERO */
-
-    .hero{
-        width:min(1400px,calc(100% - 70px));
-
-        min-height:36vh;
-
-        padding:20px 30px 25px;
-    }
-
-    .hero-logo{
-        width:78px;
-        height:78px;
-
-        margin-bottom:18px;
-    }
-
-    .hero-logo::before,
-    .hero-logo::after{
-        width:46px;
-    }
-
-    .hero-logo-dot{
-        width:12px;
-        height:12px;
-    }
-
-    .hero h1{
-        max-width:1150px;
-
-        font-size:clamp(52px,5vw,78px);
-
-        line-height:.97;
-
-        letter-spacing:-2.8px;
-    }
-
-    .hero-text{
-        max-width:900px;
-
-        margin-top:16px;
-
-        font-size:16px;
-
-        line-height:1.45;
-    }
-
-    .main-btn{
-        margin-top:17px;
-
-        padding:13px 28px;
-
-        font-size:15px;
-    }
-
-
-    /* SERVICIOS */
-
-    .services{
-        width:min(1400px,calc(100% - 70px));
-
-        padding:25px 0 28px;
-    }
-
-    .section-label{
-        font-size:11px;
-
-        letter-spacing:6px;
-
-        margin-bottom:10px;
-    }
-
-    .services h2{
-        max-width:1000px;
-
-        font-size:clamp(43px,4.2vw,62px);
-
-        line-height:1;
-    }
-
-    .services-description{
-        max-width:850px;
-
-        margin-top:9px;
-
-        font-size:15px;
-
-        line-height:1.4;
-    }
-
-    .carousel-wrapper{
-        margin-top:20px;
-    }
-
-    .carousel{
-        min-height:155px;
+        padding-bottom:60px;
     }
 
     .service-card{
-        width:min(650px,70vw);
-
-        min-height:155px;
-
-        padding:22px 27px;
-
-        border-radius:20px;
-    }
-
-    .card-line{
-        width:40px;
-
-        height:3px;
-
-        margin-bottom:12px;
-    }
-
-    .service-card h3{
-        font-size:28px;
-
-        margin-bottom:6px;
-    }
-
-    .service-card p{
-        font-size:14px;
-
-        line-height:1.4;
-    }
-
-    .carousel-dots{
-        margin-top:12px;
-    }
-
-
-    /* CONTACT */
-
-    .contact{
-        width:min(1200px,calc(100% - 70px));
-
-        padding:25px 20px 27px;
-    }
-
-    .contact h2{
-        max-width:1050px;
-
-        font-size:clamp(40px,4vw,58px);
-    }
-
-    .contact p{
-        max-width:850px;
-
-        margin-top:9px;
-
-        font-size:14px;
-
-        line-height:1.4;
-    }
-
-    .contact-btn{
-        margin-top:12px;
-
-        padding:11px 23px;
-
-        font-size:13px;
-    }
-
-
-    /* FOOTER */
-
-    footer{
-        padding:12px 20px 14px;
-    }
-
-    footer strong{
-        font-size:13px;
-
-        margin-bottom:3px;
-    }
-
-    footer span{
-        font-size:11px;
+        min-height:280px;
     }
 
 }
 
+/* ================= MOBILE ================= */
 
-/* =====================================================
-   PC CON POCA ALTURA
-===================================================== */
-
-@media(min-width:901px) and (max-height:800px){
+@media(max-width:800px){
 
     header{
-        padding:8px 30px;
-    }
-
-    .hero{
-        min-height:34vh;
-
-        padding-top:10px;
-
-        padding-bottom:12px;
-    }
-
-    .hero-logo{
-        width:64px;
-        height:64px;
-
-        margin-bottom:11px;
-    }
-
-    .hero-logo::before,
-    .hero-logo::after{
-        width:38px;
-    }
-
-    .hero-logo-dot{
-        width:10px;
-        height:10px;
-    }
-
-    .hero h1{
-        font-size:clamp(48px,4.5vw,66px);
-    }
-
-    .hero-text{
-        margin-top:9px;
-
-        font-size:13px;
-    }
-
-    .main-btn{
-        margin-top:10px;
-
-        padding:10px 23px;
-    }
-
-    .services{
-        padding-top:15px;
-
-        padding-bottom:18px;
-    }
-
-    .services h2{
-        font-size:clamp(38px,3.8vw,52px);
-    }
-
-    .services-description{
-        font-size:12px;
-    }
-
-    .carousel-wrapper{
-        margin-top:13px;
-    }
-
-    .carousel{
-        min-height:120px;
-    }
-
-    .service-card{
-        min-height:120px;
-
-        padding:17px 23px;
-    }
-
-    .service-card h3{
-        font-size:23px;
-    }
-
-    .service-card p{
-        font-size:11px;
-    }
-
-    .carousel-dots{
-        margin-top:7px;
-    }
-
-    .contact{
-        padding-top:16px;
-
-        padding-bottom:17px;
-    }
-
-    .contact h2{
-        font-size:clamp(35px,3.5vw,49px);
-    }
-
-    .contact p{
-        font-size:11px;
-
-        margin-top:6px;
-    }
-
-    .contact-btn{
-        margin-top:7px;
-
-        padding:8px 19px;
-
-        font-size:11px;
-    }
-
-    footer{
-        padding:8px 20px 10px;
-    }
-}
-
-
-/* =====================================================
-   📱 MÓVIL
-===================================================== */
-
-@media(max-width:600px){
-
-    header{
-        padding:13px 12px;
-    }
-
-    .header-inner{
-        gap:8px;
-    }
-
-    .brand{
-        font-size:14px;
-
-        gap:7px;
+        padding:13px 15px;
     }
 
     .logo{
+        font-size:17px;
+    }
+
+    .logo-mark{
         width:34px;
         height:34px;
     }
 
-    .logo::before,
-    .logo::after{
-        width:20px;
+    .header-btn{
+        padding:9px 12px;
+        font-size:12px;
     }
-
-    .logo-dot{
-        width:6px;
-        height:6px;
-    }
-
-    .auth{
-        gap:4px;
-    }
-
-    .auth button{
-        padding:8px 10px;
-
-        font-size:10px;
-    }
-
-
-    /* HERO */
 
     .hero{
-        width:100%;
-
-        min-height:calc(100svh - 60px);
-
-        padding:55px 15px 70px;
+        padding:125px 20px 55px;
+        min-height:auto;
     }
 
-    .hero-logo{
-        width:84px;
-        height:84px;
-
-        margin-bottom:30px;
-    }
-
-    .hero-logo::before,
-    .hero-logo::after{
-        width:49px;
+    .hero-content{
+        grid-template-columns:1fr;
+        gap:40px;
     }
 
     .hero h1{
-        font-size:42px;
-
-        line-height:1.02;
-
-        letter-spacing:-1.8px;
+        font-size:50px;
+        letter-spacing:-2px;
     }
 
     .hero-text{
-        margin-top:25px;
-
-        font-size:15px;
-
-        line-height:1.65;
+        font-size:16px;
     }
 
-    .main-btn{
-        margin-top:29px;
-
-        padding:15px 25px;
-
-        font-size:15px;
+    .hero-card{
+        min-height:330px;
     }
 
-
-    /* SERVICIOS */
-
-    .services{
-        width:100%;
-
-        padding:75px 15px 85px;
-    }
-
-    .section-label{
-        font-size:10px;
-
-        letter-spacing:5px;
-    }
-
-    .services h2{
-        font-size:40px;
-
-        line-height:1.04;
-    }
-
-    .services-description{
-        font-size:15px;
-
-        line-height:1.6;
-    }
-
-    .carousel-wrapper{
-        margin-top:35px;
-    }
-
-    .carousel{
-        min-height:205px;
+    .section{
+        padding:65px 20px;
     }
 
     .service-card{
-        width:min(330px,90vw);
-
-        min-height:205px;
-
-        padding:27px;
+        min-height:360px;
+        padding:30px;
     }
 
     .service-card h3{
-        font-size:24px;
-    }
-
-    .service-card p{
-        font-size:14px;
-    }
-
-
-    /* CONTACT */
-
-    .contact{
-        width:100%;
-
-        padding:75px 18px 85px;
-    }
-
-    .contact h2{
         font-size:40px;
     }
 
-    .contact p{
-        font-size:15px;
-
-        line-height:1.65;
+    .contact{
+        padding:55px 20px 70px;
     }
 
-
-    /* FOOTER */
-
-    footer{
-        padding-bottom:30px;
+    .contact-box{
+        padding:35px 25px;
     }
 
+    .chat-header{
+        padding:0 15px;
+    }
 
-    /* CHAT */
+    .chat-body{
+        padding:25px 15px 90px;
+    }
 
     .message{
         max-width:88%;
     }
 
-}
-
-
-/* =====================================================
-   ANIMACIONES REDUCIDAS
-===================================================== */
-
-@media(prefers-reduced-motion:reduce){
-
-    *,
-    *::before,
-    *::after{
-        animation-duration:.01ms !important;
-
-        animation-iteration-count:1 !important;
-
-        scroll-behavior:auto !important;
-
-        transition-duration:.01ms !important;
+    .admin-table{
+        font-size:11px;
     }
 
+    .admin-table th,
+    .admin-table td{
+        padding:9px 5px;
+    }
 }
-
 </style>
 </head>
 
-
 <body>
 
-<div class="page">
-
-
-<!-- =====================================================
-     HEADER
-===================================================== -->
+<!-- ================= HEADER ================= -->
 
 <header>
 
-<div class="header-inner">
+    <a href="#" class="logo">
+        <div class="logo-mark">S</div>
+        SparkyKrea
+    </a>
 
-<a href="#" class="brand">
+    <div class="header-right">
 
-<div class="logo">
-<div class="logo-dot"></div>
-</div>
+        <button
+            id="loginBtn"
+            class="header-btn"
+            onclick="openAuth('login')">
+            Iniciar sesión
+        </button>
 
-<span>SparkyKrea</span>
+        <button
+            id="registerBtn"
+            class="header-btn register-btn"
+            onclick="openAuth('register')">
+            Registrarse
+        </button>
 
-</a>
+        <div id="userArea" class="user-pill">
+            <div class="user-dot"></div>
+            <span id="userName"></span>
+        </div>
 
+        <button
+            id="adminBtn"
+            class="header-btn"
+            style="display:none"
+            onclick="openAdmin()">
+            Panel
+        </button>
 
-<div class="auth">
+        <button
+            id="logoutBtn"
+            class="header-btn"
+            style="display:none"
+            onclick="logout()">
+            Salir
+        </button>
 
-<button onclick="openModal('login')">
-Iniciar sesión
-</button>
-
-<button
-class="register"
-onclick="openModal('register')"
->
-Registrarse
-</button>
-
-</div>
-
-</div>
+    </div>
 
 </header>
 
 
-<!-- =====================================================
-     HERO
-===================================================== -->
+<!-- ================= HERO ================= -->
+
+<main>
 
 <section class="hero">
 
-<div class="hero-logo">
-<div class="hero-logo-dot"></div>
-</div>
+    <div class="hero-content">
+
+        <div>
+
+            <h1>
+                Damos forma a
+                <span>ideas que merecen hacerse realidad.</span>
+            </h1>
+
+            <p class="hero-text">
+                Una experiencia pensada para ayudarte a desarrollar,
+                organizar y convertir tus ideas en proyectos claros,
+                atractivos y listos para crecer.
+            </p>
+
+            <div class="hero-buttons">
+
+                <button
+                    class="primary-btn"
+                    onclick="openChat()">
+                    Comenzar ahora →
+                </button>
+
+                <button
+                    class="secondary-btn"
+                    onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})">
+                    Explorar
+                </button>
+
+            </div>
+
+        </div>
 
 
-<h1>
+        <div class="hero-card">
 
-Damos forma a
+            <div class="hero-card-top">
+                SparkyKrea
+            </div>
 
-<br>
+            <h2>
+                Convierte una idea
+                en algo que puedas mostrar.
+            </h2>
 
-ideas que
-<span>merecen</span>
+            <div class="hero-card-line"></div>
 
-<br>
+            <div class="hero-mini">
 
-hacerse realidad.
+                <div class="mini-circle"></div>
 
-</h1>
+                <div class="mini-text">
+                    Creatividad · estrategia · contenido
+                </div>
 
+            </div>
 
-<p class="hero-text">
+        </div>
 
-Estrategia, creatividad y desarrollo para convertir
-una visión en una propuesta clara, atractiva y bien
-construida.
-
-</p>
-
-
-<button
-class="main-btn"
-onclick="openChat()"
->
-
-Comenzar ahora&nbsp; →
-
-</button>
+    </div>
 
 </section>
 
 
-<!-- =====================================================
-     SERVICIOS
-===================================================== -->
+<!-- ================= SERVICES ================= -->
 
-<section class="services">
+<section class="section" id="services">
 
-<div class="section-label">
-SERVICIOS
-</div>
+    <div class="section-inner">
 
+        <h2 class="section-title">
+            ¿Qué quieres trabajar?
+        </h2>
 
-<h2>
-Construimos cada idea
-desde su esencia.
-</h2>
-
-
-<p class="services-description">
-
-Analizamos lo que tienes, entendemos hacia dónde
-quieres llegar y damos forma a una propuesta con
-sentido.
-
-</p>
+        <p class="section-subtitle">
+            Explora las posibilidades y empieza a construir
+            desde el punto en el que estés.
+        </p>
 
 
-<div class="carousel-wrapper">
+        <div class="carousel-wrapper">
 
-<div class="carousel">
+            <div class="carousel" id="carousel">
 
+                <article class="service-card">
 
-<article class="service-card active">
+                    <span class="service-number">01</span>
 
-<div class="card-line"></div>
+                    <h3>
+                        Marketing y estrategia
+                    </h3>
 
-<h3>
-Marketing y estrategia
-</h3>
+                    <p>
+                        Analiza una idea, producto, imagen o negocio
+                        y desarrolla una estrategia clara para
+                        comunicarlo mejor.
+                    </p>
 
-<p>
-Analizamos tu propuesta y construimos
-una dirección clara para hacerla crecer.
-</p>
-
-</article>
-
-
-<article class="service-card">
-
-<div class="card-line"></div>
-
-<h3>
-Contenido creativo
-</h3>
-
-<p>
-Ideas y contenido pensado para conectar
-con las personas.
-</p>
-
-</article>
+                </article>
 
 
-<article class="service-card">
+                <article class="service-card">
 
-<div class="card-line"></div>
+                    <span class="service-number">02</span>
 
-<h3>
-Identidad y presencia
-</h3>
+                    <h3>
+                        Contenido
+                    </h3>
 
-<p>
-Una identidad coherente, reconocible
-y alineada con tu proyecto.
-</p>
+                    <p>
+                        Desarrolla conceptos, publicaciones,
+                        campañas y piezas de contenido adaptadas
+                        a diferentes plataformas.
+                    </p>
 
-</article>
-
-
-<article class="service-card">
-
-<div class="card-line"></div>
-
-<h3>
-Desarrollo y experiencia
-</h3>
-
-<p>
-Convertimos conceptos en experiencias
-digitales funcionales.
-</p>
-
-</article>
+                </article>
 
 
-<article class="service-card">
+                <article class="service-card">
 
-<div class="card-line"></div>
+                    <span class="service-number">03</span>
 
-<h3>
-Campañas y crecimiento
-</h3>
+                    <h3>
+                        Publicidad
+                    </h3>
 
-<p>
-Organizamos acciones para llevar
-tu proyecto más lejos.
-</p>
+                    <p>
+                        Convierte un producto o servicio en una
+                        propuesta publicitaria con una idea,
+                        estructura y mensaje definidos.
+                    </p>
 
-</article>
-
-
-</div>
+                </article>
 
 
-<div
-class="carousel-dots"
-id="carouselDots"
-></div>
+                <article class="service-card">
 
-</div>
+                    <span class="service-number">04</span>
+
+                    <h3>
+                        Guiones
+                    </h3>
+
+                    <p>
+                        Organiza vídeos con escenas, tiempos,
+                        diálogos, acciones y estructura narrativa.
+                    </p>
+
+                </article>
+
+
+                <article class="service-card">
+
+                    <span class="service-number">05</span>
+
+                    <h3>
+                        Tu próximo proyecto
+                    </h3>
+
+                    <p>
+                        Empieza desde cero y desarrolla una idea
+                        paso a paso hasta convertirla en un proyecto.
+                    </p>
+
+                </article>
+
+            </div>
+
+        </div>
+
+
+        <div class="carousel-dots">
+
+            <button class="dot active" onclick="goSlide(0)"></button>
+            <button class="dot" onclick="goSlide(1)"></button>
+            <button class="dot" onclick="goSlide(2)"></button>
+            <button class="dot" onclick="goSlide(3)"></button>
+            <button class="dot" onclick="goSlide(4)"></button>
+
+        </div>
+
+    </div>
 
 </section>
 
 
-<!-- =====================================================
-     CONTACTO
-===================================================== -->
+<!-- ================= CONTACT ================= -->
 
 <section class="contact">
 
-<div class="section-label">
-CONTACTO
-</div>
+    <div class="contact-box">
 
+        <h2>
+            Tu opinión también forma parte de SparkyKrea.
+        </h2>
 
-<h2>
-Tu opinión también
-forma parte de SparkyKrea.
-</h2>
+        <p>
+            Queremos saber qué piensas. ¿Tienes una sugerencia,
+            una crítica, encontraste algún problema o simplemente
+            quieres contarnos algo? Déjanos saber tu opinión.
+        </p>
 
+        <button
+            class="primary-btn"
+            style="margin-top:28px"
+            onclick="openContact()">
+            Contáctanos →
+        </button>
 
-<p>
-
-Queremos saber qué piensas. ¿Tienes una sugerencia,
-una crítica, encontraste algún problema o simplemente
-quieres contarnos algo? Déjanos saber tu opinión.
-
-</p>
-
-
-<button
-class="contact-btn"
-onclick="contactar()"
->
-
-Contáctanos →
-
-</button>
+    </div>
 
 </section>
 
+</main>
 
-<!-- =====================================================
-     FOOTER
-===================================================== -->
 
 <footer>
-
-<strong>
-by SparkyKreate
-</strong>
-
-<span>
-asesoría de marketing
-</span>
-
+    © 2026 SparkyKrea
 </footer>
 
-</div>
+
+<!-- ================= AUTH MODAL ================= -->
+
+<div class="modal" id="authModal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <h2 id="authTitle">
+                Iniciar sesión
+            </h2>
+
+            <button
+                class="close-btn"
+                onclick="closeAuth()">
+                ×
+            </button>
+
+        </div>
 
 
-<!-- =====================================================
-     LOGIN / REGISTRO
-===================================================== -->
+        <form
+            class="form"
+            id="authForm"
+            onsubmit="handleAuth(event)">
 
-<div
-class="modal"
-id="modal"
-onclick="outsideModal(event)"
->
+            <div id="registerFields">
 
-<div
-class="modal-box"
-onclick="event.stopPropagation()"
->
+                <label>Nombre</label>
 
-<button
-class="close-modal"
-onclick="closeModal()"
->
-×
-</button>
+                <input
+                    id="firstName"
+                    type="text"
+                    placeholder="Tu nombre"
+                    autocomplete="given-name">
 
 
-<h2 id="modalTitle">
-Iniciar sesión
-</h2>
+                <label>Apellido</label>
+
+                <input
+                    id="lastName"
+                    type="text"
+                    placeholder="Tu apellido"
+                    autocomplete="family-name">
+
+            </div>
 
 
-<p id="modalDescription">
-Accede a tu espacio en SparkyKrea.
-</p>
+            <label>Correo electrónico</label>
+
+            <input
+                id="email"
+                type="email"
+                placeholder="tu@email.com"
+                required
+                autocomplete="email">
 
 
-<div
-class="field"
-id="nameField"
-style="display:none;"
->
+            <label>Contraseña</label>
 
-<label>
-Nombre
-</label>
-
-<input
-id="firstName"
-type="text"
-placeholder="Tu nombre"
->
-
-</div>
+            <input
+                id="password"
+                type="password"
+                placeholder="Tu contraseña"
+                required
+                minlength="6"
+                autocomplete="current-password">
 
 
-<div
-class="field"
-id="surnameField"
-style="display:none;"
->
+            <button
+                class="primary-btn"
+                type="submit"
+                id="authSubmit">
+                Iniciar sesión
+            </button>
 
-<label>
-Apellido
-</label>
-
-<input
-id="lastName"
-type="text"
-placeholder="Tu apellido"
->
-
-</div>
+        </form>
 
 
-<div class="field">
+        <div class="form-switch">
 
-<label>
-Correo electrónico
-</label>
+            <span id="switchText">
+                ¿No tienes una cuenta?
+            </span>
 
-<input
-id="email"
-type="email"
-placeholder="correo@ejemplo.com"
->
+            <button
+                id="switchButton"
+                onclick="switchAuth()">
+                Registrarse
+            </button>
 
-</div>
+        </div>
 
-
-<div class="field">
-
-<label>
-Contraseña
-</label>
-
-<input
-id="password"
-type="password"
-placeholder="Tu contraseña"
->
+    </div>
 
 </div>
 
 
-<button
-class="submit-btn"
-onclick="submitAuth()"
->
+<!-- ================= CONTACT MODAL ================= -->
 
-Continuar
+<div class="modal" id="contactModal">
 
-</button>
+    <div class="modal-box">
 
-</div>
+        <div class="modal-header">
 
-</div>
+            <h2>Cuéntanos</h2>
 
+            <button
+                class="close-btn"
+                onclick="closeContact()">
+                ×
+            </button>
 
-<!-- =====================================================
-     CHAT
-===================================================== -->
+        </div>
 
-<div
-class="chat"
-id="chat"
->
+        <form
+            class="form"
+            onsubmit="sendContact(event)">
 
-<div class="chat-header">
+            <label>Nombre</label>
 
-<div class="chat-brand">
-
-<div class="chat-logo"></div>
-
-<span>
-SparkyKrea
-</span>
-
-</div>
+            <input
+                id="contactName"
+                type="text"
+                required
+                placeholder="Tu nombre">
 
 
-<button
-class="chat-close"
-onclick="closeChat()"
->
-×
-</button>
+            <label>Mensaje</label>
 
-</div>
+            <textarea
+                id="contactMessage"
+                rows="5"
+                required
+                placeholder="Escribe tu mensaje..."></textarea>
 
 
-<div
-class="chat-content"
-id="chatContent"
->
+            <button
+                class="primary-btn"
+                type="submit">
+                Enviar
+            </button>
 
-<div
-class="message bot"
-id="welcome"
->
-Hola. Cuéntame qué deseas hacer.
-</div>
+        </form>
+
+    </div>
 
 </div>
 
 
-<div class="chat-input-area">
+<!-- ================= ADMIN ================= -->
 
-<div class="chat-input-box">
+<div class="modal" id="adminModal">
 
-<input
-class="chat-input"
-id="chatInput"
-placeholder="Escribe aquí..."
-onkeydown="handleEnter(event)"
->
+    <div class="modal-box admin-modal-box">
 
+        <div class="modal-header">
 
-<button
-class="chat-send"
-onclick="sendMessage()"
->
-↑
-</button>
+            <h2>Usuarios</h2>
+
+            <button
+                class="close-btn"
+                onclick="closeAdmin()">
+                ×
+            </button>
+
+        </div>
+
+        <p
+            id="userCount"
+            style="margin-top:15px;color:#999;">
+            Cargando...
+        </p>
+
+        <div style="overflow-x:auto;">
+
+            <table class="admin-table">
+
+                <thead>
+
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Correo</th>
+                        <th>Rol</th>
+                        <th>Fecha</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="usersTable">
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
 
 </div>
 
-</div>
+
+<!-- ================= CHAT ================= -->
+
+<div class="chat-overlay" id="chatOverlay">
+
+    <div class="chat-header">
+
+        <div class="chat-brand">
+
+            <button class="chat-menu">
+                ☰
+            </button>
+
+            <div class="logo-mark">
+                S
+            </div>
+
+            <strong>
+                SparkyKrea
+            </strong>
+
+        </div>
+
+        <button
+            class="chat-close"
+            onclick="closeChat()">
+            ×
+        </button>
+
+    </div>
+
+
+    <div class="chat-body" id="chatBody">
+
+        <div class="chat-welcome" id="chatWelcome">
+
+            <div>
+
+                <h2 id="chatGreeting">
+                    Hola.
+                </h2>
+
+                <p>
+                    Cuéntame qué deseas hacer.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div
+            class="messages"
+            id="messages">
+        </div>
+
+    </div>
+
+
+    <div class="chat-input-area">
+
+        <div class="chat-input">
+
+            <input
+                id="chatInput"
+                type="text"
+                placeholder="Escribe aquí..."
+                autocomplete="off">
+
+            <button
+                class="chat-send"
+                onclick="sendMessage()">
+                ↑
+            </button>
+
+        </div>
+
+    </div>
 
 </div>
+
+
+<!-- ================= TOAST ================= -->
+
+<div class="toast" id="toast"></div>
 
 
 <script>
 
-/* =====================================================
-   MODAL
-===================================================== */
+/* =========================================================
+   SUPABASE
+========================================================= */
 
-let authMode="login";
+const SUPABASE_URL =
+"https://lvsntxkywjyxumlgtayl.supabase.co";
 
+const SUPABASE_PUBLISHABLE_KEY =
+"sb_publishable_bhzMbxUHakbytVuVlNcz8A_f2f6szGA";
 
-function openModal(mode){
-
-authMode=mode;
-
-document
-.getElementById("modal")
-.classList
-.add("active");
-
-
-const nameField=
-document.getElementById("nameField");
-
-const surnameField=
-document.getElementById("surnameField");
-
-
-if(mode==="register"){
-
-document
-.getElementById("modalTitle")
-.textContent="Crear cuenta";
-
-document
-.getElementById("modalDescription")
-.textContent=
-"Crea tu espacio en SparkyKrea.";
-
-nameField.style.display="block";
-
-surnameField.style.display="block";
-
-}else{
-
-document
-.getElementById("modalTitle")
-.textContent=
-"Iniciar sesión";
-
-document
-.getElementById("modalDescription")
-.textContent=
-"Accede a tu espacio en SparkyKrea.";
-
-nameField.style.display="none";
-
-surnameField.style.display="none";
-
-}
-
-}
-
-
-function closeModal(){
-
-document
-.getElementById("modal")
-.classList
-.remove("active");
-
-}
-
-
-function outsideModal(event){
-
-if(event.target.id==="modal"){
-
-closeModal();
-
-}
-
-}
-
-
-function submitAuth(){
-
-const email=
-document
-.getElementById("email")
-.value
-.trim();
-
-const password=
-document
-.getElementById("password")
-.value
-.trim();
-
-
-if(!email || !password){
-
-alert(
-"Completa tu correo y contraseña."
+const supabaseClient =
+window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
 );
 
-return;
 
+/* =========================================================
+   ESTADO
+========================================================= */
+
+let authMode = "login";
+let currentUser = null;
+let currentProfile = null;
+
+
+/* =========================================================
+   TOAST
+========================================================= */
+
+function showToast(message){
+
+    const toast =
+        document.getElementById("toast");
+
+    toast.textContent = message;
+
+    toast.classList.add("show");
+
+    setTimeout(() => {
+        toast.classList.remove("show");
+    },3500);
 }
 
 
-if(authMode==="register"){
+/* =========================================================
+   AUTH MODAL
+========================================================= */
 
-const first=
-document
-.getElementById("firstName")
-.value
-.trim();
+function openAuth(mode){
 
-const last=
-document
-.getElementById("lastName")
-.value
-.trim();
+    authMode = mode;
+
+    const modal =
+        document.getElementById("authModal");
+
+    modal.style.display = "flex";
+
+    setTimeout(() => {
+        modal.classList.add("show");
+    },10);
+
+    updateAuthUI();
+}
 
 
-if(!first || !last){
+function closeAuth(){
 
-alert(
-"Completa tu nombre y apellido."
+    const modal =
+        document.getElementById("authModal");
+
+    modal.classList.remove("show");
+
+    setTimeout(() => {
+        modal.style.display = "none";
+    },300);
+}
+
+
+function switchAuth(){
+
+    authMode =
+        authMode === "login"
+        ? "register"
+        : "login";
+
+    updateAuthUI();
+}
+
+
+function updateAuthUI(){
+
+    const title =
+        document.getElementById("authTitle");
+
+    const registerFields =
+        document.getElementById("registerFields");
+
+    const submit =
+        document.getElementById("authSubmit");
+
+    const switchText =
+        document.getElementById("switchText");
+
+    const switchButton =
+        document.getElementById("switchButton");
+
+    if(authMode === "register"){
+
+        title.textContent =
+            "Crear cuenta";
+
+        registerFields.style.display =
+            "block";
+
+        submit.textContent =
+            "Registrarme";
+
+        switchText.textContent =
+            "¿Ya tienes una cuenta?";
+
+        switchButton.textContent =
+            "Iniciar sesión";
+
+    }else{
+
+        title.textContent =
+            "Iniciar sesión";
+
+        registerFields.style.display =
+            "none";
+
+        submit.textContent =
+            "Iniciar sesión";
+
+        switchText.textContent =
+            "¿No tienes una cuenta?";
+
+        switchButton.textContent =
+            "Registrarse";
+    }
+}
+
+
+/* =========================================================
+   REGISTRO / LOGIN
+========================================================= */
+
+async function handleAuth(event){
+
+    event.preventDefault();
+
+    const email =
+        document.getElementById("email").value.trim();
+
+    const password =
+        document.getElementById("password").value;
+
+    const submit =
+        document.getElementById("authSubmit");
+
+    submit.disabled = true;
+    submit.textContent = "Procesando...";
+
+
+    try{
+
+        if(authMode === "register"){
+
+            const firstName =
+                document.getElementById("firstName")
+                .value
+                .trim();
+
+            const lastName =
+                document.getElementById("lastName")
+                .value
+                .trim();
+
+
+            if(!firstName || !lastName){
+
+                showToast(
+                    "Escribe tu nombre y apellido."
+                );
+
+                return;
+            }
+
+
+            const {
+                data,
+                error
+            } =
+            await supabaseClient.auth.signUp({
+
+                email:email,
+
+                password:password,
+
+                options:{
+                    data:{
+                        first_name:firstName,
+                        last_name:lastName
+                    }
+                }
+
+            });
+
+
+            if(error){
+                throw error;
+            }
+
+
+            /*
+              Si Supabase requiere confirmación
+              por correo, session puede ser null.
+            */
+
+            if(data.session){
+
+                showToast(
+                    "Cuenta creada correctamente."
+                );
+
+                closeAuth();
+
+            }else{
+
+                showToast(
+                    "Cuenta creada. Revisa tu correo para confirmar la cuenta."
+                );
+
+                closeAuth();
+            }
+
+
+        }else{
+
+            const {
+                data,
+                error
+            } =
+            await supabaseClient.auth
+            .signInWithPassword({
+
+                email:email,
+
+                password:password
+
+            });
+
+
+            if(error){
+                throw error;
+            }
+
+
+            currentUser =
+                data.user;
+
+            await loadProfile(currentUser);
+
+
+            showToast(
+                "Sesión iniciada correctamente."
+            );
+
+            closeAuth();
+
+        }
+
+    }catch(error){
+
+        console.error(error);
+
+        showToast(
+            getFriendlyAuthError(error)
+        );
+
+    }finally{
+
+        submit.disabled = false;
+
+        submit.textContent =
+            authMode === "register"
+            ? "Registrarme"
+            : "Iniciar sesión";
+    }
+}
+
+
+/* =========================================================
+   ERRORES
+========================================================= */
+
+function getFriendlyAuthError(error){
+
+    const message =
+        (error?.message || "").toLowerCase();
+
+    if(message.includes("invalid login credentials")){
+        return "Correo o contraseña incorrectos.";
+    }
+
+    if(message.includes("user already registered")){
+        return "Ese correo ya tiene una cuenta.";
+    }
+
+    if(message.includes("password")){
+        return "La contraseña debe tener al menos 6 caracteres.";
+    }
+
+    if(message.includes("email")){
+        return "Revisa el correo electrónico.";
+    }
+
+    return error?.message ||
+        "Ocurrió un error. Inténtalo nuevamente.";
+}
+
+
+/* =========================================================
+   PERFIL
+========================================================= */
+
+async function loadProfile(user){
+
+    if(!user){
+        return;
+    }
+
+
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
+    .from("profiles")
+    .select(
+        "id,first_name,last_name,email,role,created_at"
+    )
+    .eq("id",user.id)
+    .maybeSingle();
+
+
+    if(error){
+
+        console.error(
+            "Error cargando perfil:",
+            error
+        );
+
+        return;
+    }
+
+
+    currentProfile = data;
+
+    updateHeader();
+}
+
+
+/* =========================================================
+   HEADER LOGUEADO
+========================================================= */
+
+function updateHeader(){
+
+    const loginBtn =
+        document.getElementById("loginBtn");
+
+    const registerBtn =
+        document.getElementById("registerBtn");
+
+    const userArea =
+        document.getElementById("userArea");
+
+    const userName =
+        document.getElementById("userName");
+
+    const logoutBtn =
+        document.getElementById("logoutBtn");
+
+    const adminBtn =
+        document.getElementById("adminBtn");
+
+
+    if(currentUser && currentProfile){
+
+        loginBtn.style.display =
+            "none";
+
+        registerBtn.style.display =
+            "none";
+
+        userArea.style.display =
+            "flex";
+
+        logoutBtn.style.display =
+            "block";
+
+
+        userName.textContent =
+            `${currentProfile.first_name} ${currentProfile.last_name}`;
+
+
+        if(currentProfile.role === "admin"){
+
+            adminBtn.style.display =
+                "block";
+
+        }else{
+
+            adminBtn.style.display =
+                "none";
+        }
+
+    }else{
+
+        loginBtn.style.display =
+            "block";
+
+        registerBtn.style.display =
+            "block";
+
+        userArea.style.display =
+            "none";
+
+        logoutBtn.style.display =
+            "none";
+
+        adminBtn.style.display =
+            "none";
+    }
+}
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+
+async function logout(){
+
+    const {
+        error
+    } =
+    await supabaseClient.auth.signOut();
+
+
+    if(error){
+
+        showToast(
+            error.message
+        );
+
+        return;
+    }
+
+
+    currentUser = null;
+    currentProfile = null;
+
+    updateHeader();
+
+    showToast(
+        "Sesión cerrada."
+    );
+}
+
+
+/* =========================================================
+   COMPROBAR SESIÓN AL ABRIR
+========================================================= */
+
+async function checkSession(){
+
+    const {
+        data
+    } =
+    await supabaseClient.auth.getSession();
+
+
+    currentUser =
+        data.session?.user || null;
+
+
+    if(currentUser){
+
+        await loadProfile(
+            currentUser
+        );
+
+    }else{
+
+        updateHeader();
+    }
+}
+
+
+/* =========================================================
+   CAMBIOS DE SESIÓN
+========================================================= */
+
+supabaseClient.auth
+.onAuthStateChange(
+    async (event,session) => {
+
+        currentUser =
+            session?.user || null;
+
+
+        if(currentUser){
+
+            /*
+              Pequeño retraso para permitir
+              que el trigger cree profiles.
+            */
+
+            setTimeout(
+                () => loadProfile(currentUser),
+                400
+            );
+
+        }else{
+
+            currentProfile = null;
+
+            updateHeader();
+        }
+    }
 );
 
-return;
 
+/* =========================================================
+   ADMIN
+========================================================= */
+
+async function openAdmin(){
+
+    if(!currentProfile ||
+       currentProfile.role !== "admin"){
+
+        showToast(
+            "No tienes acceso a este panel."
+        );
+
+        return;
+    }
+
+
+    const modal =
+        document.getElementById("adminModal");
+
+    modal.style.display =
+        "flex";
+
+    setTimeout(() => {
+        modal.classList.add("show");
+    },10);
+
+
+    await loadUsers();
 }
 
 
-alert(
-"El registro se conectará a la base de datos."
+function closeAdmin(){
+
+    const modal =
+        document.getElementById("adminModal");
+
+    modal.classList.remove("show");
+
+    setTimeout(() => {
+        modal.style.display =
+            "none";
+    },300);
+}
+
+
+async function loadUsers(){
+
+    const table =
+        document.getElementById("usersTable");
+
+    const count =
+        document.getElementById("userCount");
+
+
+    table.innerHTML = "";
+
+    count.textContent =
+        "Cargando usuarios...";
+
+
+    const {
+        data,
+        error
+    } =
+    await supabaseClient
+    .from("profiles")
+    .select(
+        "id,first_name,last_name,email,role,created_at"
+    )
+    .order(
+        "created_at",
+        {ascending:false}
+    );
+
+
+    if(error){
+
+        console.error(error);
+
+        count.textContent =
+            "No se pudieron cargar los usuarios.";
+
+        return;
+    }
+
+
+    count.textContent =
+        `${data.length} usuario${data.length === 1 ? "" : "s"}`;
+
+
+    data.forEach(user => {
+
+        const row =
+            document.createElement("tr");
+
+
+        const date =
+            new Date(
+                user.created_at
+            ).toLocaleDateString(
+                "es-ES"
+            );
+
+
+        row.innerHTML = `
+
+            <td>
+                ${escapeHTML(user.first_name)}
+                ${escapeHTML(user.last_name)}
+            </td>
+
+            <td>
+                ${escapeHTML(user.email)}
+            </td>
+
+            <td class="${user.role === "admin" ? "role-admin" : ""}">
+                ${escapeHTML(user.role)}
+            </td>
+
+            <td>
+                ${date}
+            </td>
+
+        `;
+
+
+        table.appendChild(row);
+    });
+}
+
+
+/* =========================================================
+   SEGURIDAD HTML
+========================================================= */
+
+function escapeHTML(value){
+
+    return String(value ?? "")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+}
+
+
+/* =========================================================
+   CONTACTO
+========================================================= */
+
+function openContact(){
+
+    const modal =
+        document.getElementById("contactModal");
+
+    modal.style.display =
+        "flex";
+
+    setTimeout(() => {
+        modal.classList.add("show");
+    },10);
+}
+
+
+function closeContact(){
+
+    const modal =
+        document.getElementById("contactModal");
+
+    modal.classList.remove("show");
+
+    setTimeout(() => {
+        modal.style.display =
+            "none";
+    },300);
+}
+
+
+function sendContact(event){
+
+    event.preventDefault();
+
+    showToast(
+        "Mensaje preparado. Pronto conectaremos el sistema de contacto."
+    );
+
+    event.target.reset();
+
+    closeContact();
+}
+
+
+/* =========================================================
+   CAROUSEL
+========================================================= */
+
+let currentSlide = 0;
+
+const totalSlides = 5;
+
+
+function goSlide(index){
+
+    currentSlide =
+        index;
+
+    const carousel =
+        document.getElementById("carousel");
+
+    carousel.style.transform =
+        `translateX(-${index * 100}%)`;
+
+
+    document
+        .querySelectorAll(".dot")
+        .forEach(
+            (dot,i) => {
+
+                dot.classList.toggle(
+                    "active",
+                    i === index
+                );
+            }
+        );
+}
+
+
+function nextSlide(){
+
+    currentSlide =
+        (currentSlide + 1)
+        % totalSlides;
+
+    goSlide(currentSlide);
+}
+
+
+/*
+   Rotación automática.
+   Un poco rápida pero suave.
+*/
+
+setInterval(
+    nextSlide,
+    3900
 );
 
-}else{
 
-alert(
-"El inicio de sesión se conectará a la base de datos."
-);
-
-}
-
-}
-
-
-/* =====================================================
+/* =========================================================
    CHAT
-===================================================== */
+========================================================= */
 
 function openChat(){
 
-document
-.getElementById("chat")
-.classList
-.add("active");
+    const overlay =
+        document.getElementById("chatOverlay");
 
-document.body.style.overflow="hidden";
+    overlay.style.display =
+        "block";
 
-updateGreeting();
+    setTimeout(() => {
+
+        overlay.classList.add("show");
+
+        updateGreeting();
+
+    },20);
 
 
-setTimeout(function(){
-
-document
-.getElementById("chatInput")
-.focus();
-
-},450);
-
+    document.body.style.overflow =
+        "hidden";
 }
 
 
 function closeChat(){
 
-document
-.getElementById("chat")
-.classList
-.remove("active");
+    const overlay =
+        document.getElementById("chatOverlay");
 
-document.body.style.overflow="";
+    overlay.classList.remove("show");
 
+    setTimeout(() => {
+
+        overlay.style.display =
+            "none";
+
+    },350);
+
+
+    document.body.style.overflow =
+        "";
 }
 
 
 function updateGreeting(){
 
-const hour=
-new Date().getHours();
+    const hour =
+        new Date().getHours();
 
-let greeting="Hola.";
+    let greeting = "Hola.";
 
-
-if(hour>=5 && hour<12){
-
-greeting="Buenos días.";
-
-}
-else if(hour>=12 && hour<19){
-
-greeting="Buenas tardes.";
-
-}
-else{
-
-greeting="Buenas noches.";
-
-}
+    if(hour >= 5 && hour < 12){
+        greeting = "Buenos días.";
+    }
+    else if(hour >= 12 && hour < 19){
+        greeting = "Buenas tardes.";
+    }
+    else{
+        greeting = "Buenas noches.";
+    }
 
 
-document
-.getElementById("welcome")
-.textContent=
-greeting+
-" Cuéntame qué deseas hacer.";
-
+    document.getElementById(
+        "chatGreeting"
+    ).textContent =
+        greeting;
 }
 
 
-function handleEnter(event){
-
-if(event.key==="Enter"){
-
-sendMessage();
-
-}
-
-}
-
+/* =========================================================
+   CHAT MENSAJES
+========================================================= */
 
 function sendMessage(){
 
-const input=
-document.getElementById("chatInput");
+    const input =
+        document.getElementById("chatInput");
 
-const text=
-input.value.trim();
+    const text =
+        input.value.trim();
 
 
-if(!text){
+    if(!text){
+        return;
+    }
 
-return;
 
+    document.getElementById(
+        "chatWelcome"
+    ).style.display =
+        "none";
+
+
+    addMessage(
+        text,
+        "user"
+    );
+
+
+    input.value = "";
+
+
+    /*
+      Esta parte todavía es una respuesta
+      local de prueba.
+
+      MÁS ADELANTE conectaremos el chat
+      a una función segura para utilizar
+      un modelo real.
+    */
+
+    setTimeout(() => {
+
+        const response =
+            understandMessage(text);
+
+        addMessage(
+            response,
+            "assistant"
+        );
+
+    },650);
 }
 
 
-addMessage(text,"user");
-
-input.value="";
-
-
-setTimeout(function(){
-
-const lower=text.toLowerCase();
-
-let response=
-"Cuéntame un poco más sobre tu idea y qué resultado quieres conseguir.";
-
-
-if(
-lower.includes("juego") ||
-lower.includes("videojuego")
+function addMessage(
+    text,
+    role
 ){
 
-response=
-"Perfecto. Podemos trabajar el concepto, estilo visual, mecánicas, público y estrategia de tu juego.";
-
-}
-
-else if(
-lower.includes("marketing") ||
-lower.includes("publicidad")
-){
-
-response=
-"Perfecto. Podemos analizar tu propuesta, público, mensaje, contenido y estrategia.";
-
-}
-
-else if(
-lower.includes("logo") ||
-lower.includes("marca")
-){
-
-response=
-"Podemos trabajar la identidad de tu marca, su concepto, personalidad, colores y forma de comunicar.";
-
-}
-
-else if(
-lower.includes("hola") ||
-lower.includes("hey") ||
-lower.includes("buenas")
-){
-
-response=
-"¡Hola! Cuéntame qué tienes en mente y lo construimos paso a paso.";
-
-}
+    const messages =
+        document.getElementById(
+            "messages"
+        );
 
 
-addMessage(response,"bot");
+    const message =
+        document.createElement(
+            "div"
+        );
 
-},420);
 
+    message.className =
+        `message ${role}`;
+
+
+    message.textContent =
+        text;
+
+
+    messages.appendChild(
+        message
+    );
+
+
+    const body =
+        document.getElementById(
+            "chatBody"
+        );
+
+
+    body.scrollTop =
+        body.scrollHeight;
 }
 
 
-function addMessage(text,type){
+/* =========================================================
+   RESPUESTAS TEMPORALES
+========================================================= */
 
-const container=
-document.getElementById("chatContent");
+function understandMessage(text){
 
-const message=
-document.createElement("div");
+    const normalized =
+        text
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(
+            /[\u0300-\u036f]/g,
+            ""
+        );
 
-message.className=
-"message "+type;
 
-message.textContent=text;
+    if(
+        normalized.includes("hola") ||
+        normalized.includes("hey") ||
+        normalized.includes("hello") ||
+        normalized.includes("holi")
+    ){
 
-container.appendChild(message);
+        return "¡Hola! Cuéntame qué tienes en mente y empezamos desde ahí.";
+    }
 
-container.scrollTop=
-container.scrollHeight;
 
+    if(
+        normalized.includes("publicidad") ||
+        normalized.includes("anuncio") ||
+        normalized.includes("vender")
+    ){
+
+        return "Perfecto. Cuéntame qué producto o servicio quieres promocionar y para quién está pensado.";
+    }
+
+
+    if(
+        normalized.includes("video") ||
+        normalized.includes("video")
+    ){
+
+        return "Podemos estructurar el vídeo por segundos. Cuéntame qué quieres promocionar y qué formato tienes pensado.";
+    }
+
+
+    if(
+        normalized.includes("imagen") ||
+        normalized.includes("foto")
+    ){
+
+        return "Puedes contarme qué quieres conseguir con la imagen y, cuando conectemos el sistema de archivos, podremos analizarla directamente.";
+    }
+
+
+    return "Entiendo. Cuéntame un poco más sobre la idea y qué resultado quieres conseguir.";
 }
 
 
-/* =====================================================
-   CONTACTO
-===================================================== */
+/* Enter para enviar */
 
-function contactar(){
+document
+.getElementById("chatInput")
+.addEventListener(
+    "keydown",
+    function(event){
 
-alert(
-"Aquí colocaremos el correo oficial de SparkyKrea."
+        if(event.key === "Enter"){
+
+            event.preventDefault();
+
+            sendMessage();
+        }
+    }
 );
 
-}
 
+/* =========================================================
+   INICIO
+========================================================= */
 
-/* =====================================================
-   CARRUSEL
-===================================================== */
-
-const cards=
-document.querySelectorAll(".service-card");
-
-const dotsContainer=
-document.getElementById("carouselDots");
-
-let currentCard=0;
-
-
-/* CREAR DOTS */
-
-cards.forEach(function(card,index){
-
-const dot=
-document.createElement("div");
-
-dot.className="carousel-dot";
-
-
-if(index===0){
-
-dot.classList.add("active");
-
-}
-
-
-dot.addEventListener(
-"click",
-function(){
-
-showCard(index);
-
-}
-);
-
-
-dotsContainer.appendChild(dot);
-
-});
-
-
-const dots=
-document.querySelectorAll(".carousel-dot");
-
-
-function showCard(index){
-
-cards.forEach(function(card){
-
-card.classList.remove("active");
-
-});
-
-
-dots.forEach(function(dot){
-
-dot.classList.remove("active");
-
-});
-
-
-cards[index].classList.add("active");
-
-dots[index].classList.add("active");
-
-currentCard=index;
-
-}
-
-
-/* UN POQUITO MÁS RÁPIDO */
-
-setInterval(function(){
-
-currentCard++;
-
-if(currentCard>=cards.length){
-
-currentCard=0;
-
-}
-
-showCard(currentCard);
-
-},4400);
-
-
-/* =====================================================
-   ESCAPE
-===================================================== */
-
-document.addEventListener(
-"keydown",
-function(event){
-
-if(event.key==="Escape"){
-
-closeModal();
-
-closeChat();
-
-}
-
-});
+checkSession();
 
 </script>
 
