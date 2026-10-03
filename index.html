@@ -2323,6 +2323,46 @@ footer{
     }
 }
 </style>
+
+<style id="sparky-bg-balance">
+/* FONDO EQUILIBRADO: hero y contacto más visuales; servicios se mantiene igual. */
+.hero{
+    background-image:
+        linear-gradient(rgba(8,8,7,.48),rgba(8,8,7,.68)),
+        url("https://images.pexels.com/photos/6483621/pexels-photo-6483621.jpeg?auto=compress&cs=tinysrgb&w=1600");
+    background-size:cover;
+    background-position:center 62%;
+    background-repeat:no-repeat;
+    border-radius:0;
+}
+
+.contact{
+    background-image:
+        linear-gradient(rgba(8,8,7,.48),rgba(8,8,7,.72)),
+        url("https://images.pexels.com/photos/6483621/pexels-photo-6483621.jpeg?auto=compress&cs=tinysrgb&w=1600");
+    background-size:cover;
+    background-position:center 28%;
+    background-repeat:no-repeat;
+}
+
+/* En móvil dejamos ver claramente la foto sin perder el contraste del texto. */
+@media(max-width:900px){
+    .hero{
+        background-image:
+            linear-gradient(rgba(8,8,7,.40),rgba(8,8,7,.66)),
+            url("https://images.pexels.com/photos/6483621/pexels-photo-6483621.jpeg?auto=compress&cs=tinysrgb&w=1200");
+        background-position:center 68%;
+    }
+
+    .contact{
+        background-image:
+            linear-gradient(rgba(8,8,7,.42),rgba(8,8,7,.70)),
+            url("https://images.pexels.com/photos/6483621/pexels-photo-6483621.jpeg?auto=compress&cs=tinysrgb&w=1200");
+        background-position:center 30%;
+    }
+}
+</style>
+
 </head>
 
 <body>
