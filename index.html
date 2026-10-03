@@ -24,7 +24,14 @@ html{
 }
 
 body{
-    background:#080807;
+    background-color:#080807;
+    background-image:
+        linear-gradient(rgba(8,8,7,.78),rgba(8,8,7,.88)),
+        url("https://images.pexels.com/photos/6483621/pexels-photo-6483621.jpeg?cs=srgb&dl=pexels-mikael-blomkvist-6483621.jpg&fm=jpg");
+    background-size:cover;
+    background-position:center center;
+    background-attachment:fixed;
+    background-repeat:no-repeat;
     color:#f4efe7;
     font-family:"DM Sans",sans-serif;
     overflow-x:hidden;
@@ -34,6 +41,26 @@ button,
 input{
     font-family:inherit;
 }
+/* FONDO VISUAL — MARKETING / CREATIVIDAD */
+@media (min-width:901px){
+    body{
+        background-image:
+            linear-gradient(rgba(8,8,7,.70),rgba(8,8,7,.84)),
+            url("https://images.pexels.com/photos/6483621/pexels-photo-6483621.jpeg?cs=srgb&dl=pexels-mikael-blomkvist-6483621.jpg&fm=jpg");
+        background-position:center 42%;
+    }
+}
+
+@media (max-width:900px){
+    body{
+        background-image:
+            linear-gradient(rgba(8,8,7,.76),rgba(8,8,7,.90)),
+            url("https://images.pexels.com/photos/6483621/pexels-photo-6483621.jpeg?cs=srgb&dl=pexels-mikael-blomkvist-6483621.jpg&fm=jpg");
+        background-position:center center;
+        background-attachment:scroll;
+    }
+}
+
 
 button{
     -webkit-tap-highlight-color:transparent;
@@ -1981,6 +2008,21 @@ footer{
     }
 }
 
+
+/* ACABADO VISUAL */
+.hero, .services, .contact{
+    position:relative;
+}
+.hero::before{
+    content:"";
+    position:absolute;
+    inset:10% 8%;
+    border-radius:40px;
+    background:radial-gradient(circle at center,rgba(224,205,167,.07),transparent 62%);
+    pointer-events:none;
+    z-index:-1;
+}
+
 </style>
 
 <style id="sparky-final-layout-fix">
@@ -2286,25 +2328,7 @@ footer{
 <body>
 
 <div class="page">
-    <div class="pc-side-decor" aria-hidden="true">
-        <aside class="pc-side left">
-            <div class="pc-side-label">SparkyKrea</div>
-            <div class="pc-side-line"></div>
-            <div class="pc-side-item"><span class="pc-side-dot"></span><span>Estrategia</span></div>
-            <div class="pc-side-item"><span class="pc-side-dot"></span><span>Creatividad</span></div>
-            <div class="pc-side-orbit"></div>
-            <div class="pc-side-note">Ideas claras. Identidad. Experiencias digitales.</div>
-        </aside>
 
-        <aside class="pc-side right">
-            <div class="pc-side-label">Estudio creativo</div>
-            <div class="pc-side-line"></div>
-            <div class="pc-side-item"><span class="pc-side-dot"></span><span>Diseño</span></div>
-            <div class="pc-side-item"><span class="pc-side-dot"></span><span>Desarrollo</span></div>
-            <div class="pc-side-orbit"></div>
-            <div class="pc-side-note">Construimos propuestas con sentido.</div>
-        </aside>
-    </div>
 
 
 <header>
