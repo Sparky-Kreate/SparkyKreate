@@ -2381,318 +2381,11 @@ body{
         background-color:#080807 !important;
         background-image:
             linear-gradient(rgba(8,8,7,.62),rgba(8,8,7,.78)),
-            url("https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=2400&q=85") !important;
+            url("https://images.pexels.com/photos/6483621/pexels-photo-6483621.jpeg?cs=srgb&dl=pexels-mikael-blomkvist-6483621.jpg&fm=jpg") !important;
         background-size:cover !important;
         background-position:center center !important;
         background-repeat:no-repeat !important;
         background-attachment:fixed !important;
-    }
-}
-</style>
-
-
-<style id="sparky-pc-fullscreen-scroll">
-/* =========================================================
-   PC: 3 BLOQUES GRANDES, UNIDOS VISUALMENTE
-   - Bloque 1: INICIO + su contenido
-   - Bloque 2: SERVICIOS + carrusel
-   - Bloque 3: CONTACTO + footer
-   No modifica fondos, colores, tipografías ni contenido.
-   Móvil queda intacto.
-   ========================================================= */
-@media (min-width:901px){
-    html{
-        scroll-snap-type:y mandatory !important;
-        scroll-padding-top:0 !important;
-        scroll-behavior:smooth !important;
-        overflow-y:auto !important;
-    }
-
-    body{
-        overflow-x:hidden !important;
-        overflow-y:auto !important;
-    }
-
-    header{
-        position:fixed !important;
-        top:0 !important;
-        left:0 !important;
-        right:0 !important;
-        width:100% !important;
-        z-index:100 !important;
-    }
-
-    .page{
-        width:100% !important;
-    }
-
-    /* 1 — INICIO: todo permanece dentro del mismo bloque */
-    .hero{
-        min-height:100vh !important;
-        height:100vh !important;
-        scroll-snap-align:start !important;
-        scroll-snap-stop:always !important;
-        display:flex !important;
-        flex-direction:column !important;
-        justify-content:center !important;
-        align-items:center !important;
-        overflow:hidden !important;
-        box-sizing:border-box !important;
-        padding-top:90px !important;
-        padding-bottom:35px !important;
-    }
-
-    /* 2 — SERVICIOS: título + descripción + panel/carrusel unidos */
-    .services{
-        min-height:100vh !important;
-        height:100vh !important;
-        scroll-snap-align:start !important;
-        scroll-snap-stop:always !important;
-        display:flex !important;
-        flex-direction:column !important;
-        justify-content:center !important;
-        align-items:center !important;
-        overflow:hidden !important;
-        box-sizing:border-box !important;
-        padding-top:85px !important;
-        padding-bottom:45px !important;
-    }
-
-    .services .carousel-wrapper{
-        width:100% !important;
-        flex:0 0 auto !important;
-    }
-
-    /* 3 — CONTACTO + FOOTER: forman un único bloque visual */
-    .contact{
-        min-height:88vh !important;
-        height:88vh !important;
-        scroll-snap-align:start !important;
-        scroll-snap-stop:always !important;
-        display:flex !important;
-        flex-direction:column !important;
-        justify-content:center !important;
-        align-items:center !important;
-        overflow:hidden !important;
-        box-sizing:border-box !important;
-        padding-top:75px !important;
-        padding-bottom:25px !important;
-    }
-
-    footer{
-        height:12vh !important;
-        min-height:70px !important;
-        box-sizing:border-box !important;
-        display:flex !important;
-        flex-direction:column !important;
-        justify-content:center !important;
-        align-items:center !important;
-        padding:8px 20px !important;
-        overflow:hidden !important;
-        scroll-snap-align:none !important;
-        scroll-snap-stop:normal !important;
-    }
-}
-
-/* Móvil intacto: sin snap ni cambios de distribución. */
-@media (max-width:900px){
-    html{
-        scroll-snap-type:none !important;
-        scroll-behavior:auto !important;
-    }
-}
-</style>
-
-
-<style id="sparky-pc-3-sections-compact-final">
-/* PC: mantiene 3 secciones, pero agrupa cada título con su contenido.
-   No cambia fondos, tipografías, colores ni el contenido. */
-@media (min-width:901px){
-    .hero{
-        min-height:100vh !important;
-        height:100vh !important;
-        justify-content:center !important;
-        padding:80px 20px 45px !important;
-    }
-    .hero-logo{
-        margin-bottom:14px !important;
-    }
-    .hero-text{
-        margin-top:11px !important;
-        line-height:1.4 !important;
-    }
-    .main-btn{
-        margin-top:14px !important;
-    }
-
-    .services{
-        min-height:100vh !important;
-        height:100vh !important;
-        justify-content:center !important;
-        padding:75px 20px 45px !important;
-    }
-    .services .section-label{
-        margin-bottom:7px !important;
-    }
-    .services h2{
-        margin-top:0 !important;
-    }
-    .services-description{
-        margin-top:8px !important;
-        line-height:1.4 !important;
-    }
-    .services .carousel-wrapper{
-        margin-top:17px !important;
-    }
-    .services .carousel-dots{
-        margin-top:8px !important;
-    }
-
-    .contact{
-        min-height:82vh !important;
-        height:82vh !important;
-        justify-content:center !important;
-        padding:65px 20px 30px !important;
-    }
-    .contact .section-label{
-        margin-bottom:8px !important;
-    }
-    .contact p{
-        margin-top:10px !important;
-        line-height:1.45 !important;
-    }
-    .contact-btn{
-        margin-top:14px !important;
-    }
-    footer{
-        height:18vh !important;
-        min-height:85px !important;
-        padding:12px 20px !important;
-    }
-}
-</style>
-
-<style id="sparky-pc-final-tidy">
-/* =========================================================
-   PC (901px o más): 3 bloques a pantalla completa, títulos
-   y textos agrupados y tipografía optimizada.
-   NO toca fondos, colores, fuentes ni el móvil.
-   ========================================================= */
-@media (min-width:901px){
-
-    /* ---------- BLOQUE 1: INICIO ---------- */
-    .hero{
-        min-height:100vh !important;
-        height:auto !important;
-        overflow:visible !important;
-        justify-content:center !important;
-        padding:90px 30px 50px !important;
-    }
-    .hero-logo{
-        width:72px !important;
-        height:72px !important;
-        margin-bottom:20px !important;
-    }
-    .hero-logo::before,
-    .hero-logo::after{ width:43px !important; }
-    .hero-logo-dot{ width:11px !important; height:11px !important; }
-
-    .hero h1{
-        max-width:1000px !important;
-        font-size:clamp(54px,5vw,82px) !important;
-        line-height:1.03 !important;
-        letter-spacing:-1.6px !important;
-    }
-    .hero-text{
-        max-width:700px !important;
-        margin-top:16px !important;
-        font-size:clamp(16px,1.2vw,19px) !important;
-        line-height:1.55 !important;
-    }
-    .main-btn{
-        margin-top:24px !important;
-        padding:14px 30px !important;
-        font-size:15px !important;
-    }
-
-    /* ---------- BLOQUE 2: SERVICIOS ---------- */
-    .services{
-        min-height:100vh !important;
-        height:auto !important;
-        overflow:visible !important;
-        justify-content:center !important;
-        padding:90px 20px 50px !important;
-    }
-    .services .section-label,
-    .contact .section-label{
-        font-size:12px !important;
-        letter-spacing:6px !important;
-        margin-bottom:10px !important;
-    }
-    .services h2{
-        max-width:900px !important;
-        margin:0 auto !important;
-        font-size:clamp(44px,4.2vw,64px) !important;
-        line-height:1.04 !important;
-        letter-spacing:-1.2px !important;
-    }
-    .services-description{
-        max-width:680px !important;
-        margin:14px auto 0 !important;
-        font-size:clamp(15px,1.1vw,17px) !important;
-        line-height:1.55 !important;
-    }
-    .services .carousel-wrapper{
-        margin-top:30px !important;
-    }
-    .carousel{ min-height:165px !important; }
-    .service-card{
-        width:min(700px,60vw) !important;
-        min-height:165px !important;
-        padding:24px 30px !important;
-    }
-    .card-line{ margin-bottom:12px !important; }
-    .service-card h3{
-        font-size:28px !important;
-        line-height:1.12 !important;
-        margin-bottom:7px !important;
-    }
-    .service-card p{
-        font-size:15px !important;
-        line-height:1.5 !important;
-    }
-    .services .carousel-dots{ margin-top:16px !important; }
-
-    /* ---------- BLOQUE 3: CONTACTO + FOOTER (juntos = 100vh) ---------- */
-    .contact{
-        min-height:calc(100vh - 110px) !important;
-        height:auto !important;
-        overflow:visible !important;
-        justify-content:center !important;
-        padding:90px 20px 30px !important;
-    }
-    .contact h2{
-        max-width:900px !important;
-        margin:0 auto !important;
-        font-size:clamp(40px,3.9vw,58px) !important;
-        line-height:1.05 !important;
-        letter-spacing:-1.1px !important;
-    }
-    .contact p{
-        max-width:700px !important;
-        margin-top:14px !important;
-        font-size:clamp(15px,1.1vw,17px) !important;
-        line-height:1.55 !important;
-    }
-    .contact-btn{
-        margin-top:22px !important;
-        padding:13px 26px !important;
-        font-size:14px !important;
-    }
-    footer{
-        height:110px !important;
-        min-height:0 !important;
-        padding:10px 20px !important;
     }
 }
 </style>
@@ -4165,9 +3858,9 @@ async function updatePassword(){
 
             "Contraseña restablecida exitosamente",
 
-            "Tu nueva contraseña ya está activa. Ahora puedes volver a tu correo.",
+            "Tu nueva contraseña ya está activa. Ahora puedes volver a SparkyKrea.",
 
-            "Volver a Gmail →",
+            "Volver a SparkyKrea →",
 
             async function(){
 
@@ -4206,10 +3899,6 @@ async function updatePassword(){
                 resetAuthArea();
 
                 cleanRecoveryUrl();
-
-                /* Devuelve al usuario a Gmail */
-                window.location.href =
-                "https://mail.google.com/";
 
             }
 
@@ -4824,91 +4513,77 @@ function handleEnter(event){
 }
 
 
-function sendMessage(){
+async function sendMessage(){
 
     const input =
     document.getElementById("chatInput");
 
-
     const text =
     input.value.trim();
 
-
     if(!text){
-
         return;
-
     }
 
-
-    addMessage(
-        text,
-        "user"
-    );
-
-
+    addMessage(text,"user");
     input.value = "";
 
+    const loadingId = "sparky-ai-loading-" + Date.now();
+    const container = document.getElementById("chatContent");
+    const loading = document.createElement("div");
+    loading.className = "message bot";
+    loading.id = loadingId;
+    loading.textContent = "Pensando...";
+    container.appendChild(loading);
+    container.scrollTop = container.scrollHeight;
 
-    setTimeout(function(){
+    try{
 
-        const lower =
-        text.toLowerCase();
+        const { data, error } =
+        await supabaseClient.functions.invoke("chat-ia",{
+            body:{ message:text }
+        });
 
+        const loadingMessage =
+        document.getElementById(loadingId);
 
-        let response =
-        "Cuéntame un poco más sobre tu idea y qué resultado quieres conseguir.";
-
-
-        if(
-            lower.includes("juego") ||
-            lower.includes("videojuego")
-        ){
-
-            response =
-            "Perfecto. Podemos trabajar el concepto, estilo visual, mecánicas, público y estrategia de tu juego.";
-
+        if(loadingMessage){
+            loadingMessage.remove();
         }
 
-        else if(
-            lower.includes("marketing") ||
-            lower.includes("publicidad")
-        ){
-
-            response =
-            "Perfecto. Podemos analizar tu propuesta, público, mensaje, contenido y estrategia.";
-
+        if(error){
+            console.error("SparkyKrea AI:",error);
+            addMessage(
+                "No pude conectar con la IA. Revisa la configuración de SparkyKrea en Supabase.",
+                "bot"
+            );
+            return;
         }
-
-        else if(
-            lower.includes("logo") ||
-            lower.includes("marca")
-        ){
-
-            response =
-            "Podemos trabajar la identidad de tu marca, su concepto, personalidad, colores y forma de comunicar.";
-
-        }
-
-        else if(
-            lower.includes("hola") ||
-            lower.includes("hey") ||
-            lower.includes("buenas")
-        ){
-
-            response =
-            "¡Hola! Cuéntame qué tienes en mente y lo construimos paso a paso.";
-
-        }
-
 
         addMessage(
-            response,
+            data && data.reply
+                ? data.reply
+                : "La IA no devolvió una respuesta.",
             "bot"
         );
 
+    }catch(error){
 
-    },420);
+        console.error("SparkyKrea AI:",error);
+
+        const loadingMessage =
+        document.getElementById(loadingId);
+
+        if(loadingMessage){
+            loadingMessage.remove();
+        }
+
+        addMessage(
+            "Ha ocurrido un error al conectar con la IA.",
+            "bot"
+        );
+
+    }
 
 }
 
