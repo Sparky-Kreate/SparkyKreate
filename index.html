@@ -2351,6 +2351,24 @@ body{
 }
 </style>
 
+
+<style id="sparky-pc-background-final">
+/* FONDO EXCLUSIVO DE PC: otra foto, completa y sin repetir.
+   El móvil conserva exactamente su fondo actual. */
+@media (min-width:901px){
+    body{
+        background-color:#080807 !important;
+        background-image:
+            linear-gradient(rgba(8,8,7,.58),rgba(8,8,7,.72)),
+            url("https://images.pexels.com/photos/15555796/pexels-photo-15555796.jpeg?auto=compress&cs=tinysrgb&w=1920") !important;
+        background-size:cover, contain !important;
+        background-position:center center, center center !important;
+        background-repeat:no-repeat,no-repeat !important;
+        background-attachment:fixed,fixed !important;
+    }
+}
+</style>
+
 </head>
 
 <body>
