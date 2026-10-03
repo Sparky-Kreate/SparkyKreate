@@ -2025,6 +2025,159 @@ footer{
     z-index:-1;
 }
 
+
+
+/* =========================================================
+   PC — 3 PANTALLAS / FONDO EXCLUSIVO PC
+   El móvil conserva su estética y fondo actuales.
+   ========================================================= */
+
+@media (min-width:901px){
+
+    html{
+        scroll-behavior:smooth;
+        scroll-snap-type:y mandatory;
+    }
+
+    body{
+        background-image:
+            linear-gradient(rgba(7,9,11,.64),rgba(7,9,11,.82)),
+            url("https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=2400&q=85");
+        background-size:cover;
+        background-position:center center;
+        background-attachment:fixed;
+        background-repeat:no-repeat;
+        overflow-x:hidden;
+    }
+
+    header{
+        height:76px;
+        padding:17px 25px;
+        scroll-snap-align:start;
+        scroll-snap-stop:always;
+    }
+
+    /* PARTE 1 — INICIO */
+    .hero{
+        width:100%;
+        max-width:none;
+        height:calc(100vh - 76px);
+        min-height:calc(100vh - 76px);
+        padding:25px 40px 45px;
+        scroll-snap-align:start;
+        scroll-snap-stop:always;
+    }
+
+    .hero-logo{
+        width:76px;
+        height:76px;
+        margin-bottom:22px;
+    }
+
+    .hero h1{
+        max-width:1000px;
+        font-size:clamp(48px,5.4vw,78px);
+    }
+
+    .hero-text{
+        margin-top:18px;
+        max-width:720px;
+        font-size:17px;
+    }
+
+    .main-btn{
+        margin-top:22px;
+    }
+
+    /* PARTE 2 — SERVICIOS */
+    .services{
+        width:100%;
+        max-width:none;
+        height:100vh;
+        min-height:100vh;
+        padding:45px 40px 55px;
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        align-items:center;
+        scroll-snap-align:start;
+        scroll-snap-stop:always;
+    }
+
+    .section-label{
+        margin-bottom:12px;
+    }
+
+    .services h2{
+        font-size:clamp(40px,4.4vw,64px);
+    }
+
+    .services-description{
+        margin-top:14px;
+        max-width:700px;
+    }
+
+    .carousel-wrapper{
+        margin-top:28px;
+    }
+
+    .carousel{
+        min-height:205px;
+    }
+
+    .service-card{
+        min-height:205px;
+        padding:28px;
+    }
+
+    .carousel-dots{
+        margin-top:15px;
+    }
+
+    /* PARTE 3 — CONTACTO + FOOTER */
+    .contact{
+        width:100%;
+        max-width:none;
+        height:calc(100vh - 78px);
+        min-height:calc(100vh - 78px);
+        padding:35px 40px 25px;
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        align-items:center;
+        scroll-snap-align:start;
+        scroll-snap-stop:always;
+        border-top:1px solid rgba(255,255,255,.12);
+    }
+
+    .contact h2{
+        max-width:850px;
+        font-size:clamp(40px,4.3vw,60px);
+    }
+
+    .contact p{
+        margin-top:15px;
+        max-width:680px;
+    }
+
+    .contact-btn{
+        margin-top:20px;
+    }
+
+    footer{
+        height:78px;
+        min-height:78px;
+        padding:16px 20px 18px;
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        align-items:center;
+        scroll-snap-align:start;
+        scroll-snap-stop:always;
+        border-top:1px solid rgba(255,255,255,.12);
+    }
+}
+
 </style>
 
 <style id="sparky-final-layout-fix">
