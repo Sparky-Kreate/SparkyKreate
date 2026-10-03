@@ -2393,14 +2393,18 @@ body{
 
 <style id="sparky-pc-fullscreen-scroll">
 /* =========================================================
-   PC: SECCIONES SEPARADAS POR PANTALLA + SCROLL SNAP
-   No cambia fondos, colores, tipografías ni contenido.
-   Solo actúa en pantallas de 901px o más.
+   PC: 3 BLOQUES GRANDES, UNIDOS VISUALMENTE
+   - Bloque 1: INICIO + su contenido
+   - Bloque 2: SERVICIOS + carrusel
+   - Bloque 3: CONTACTO + footer
+   No modifica fondos, colores, tipografías ni contenido.
+   Móvil queda intacto.
    ========================================================= */
 @media (min-width:901px){
     html{
         scroll-snap-type:y mandatory !important;
         scroll-padding-top:0 !important;
+        scroll-behavior:smooth !important;
         overflow-y:auto !important;
     }
 
@@ -2422,10 +2426,8 @@ body{
         width:100% !important;
     }
 
-    .hero,
-    .services,
-    .contact,
-    footer{
+    /* 1 — INICIO: todo permanece dentro del mismo bloque */
+    .hero{
         min-height:100vh !important;
         height:100vh !important;
         scroll-snap-align:start !important;
@@ -2435,34 +2437,68 @@ body{
         justify-content:center !important;
         align-items:center !important;
         overflow:hidden !important;
+        box-sizing:border-box !important;
+        padding-top:90px !important;
+        padding-bottom:35px !important;
     }
 
-    /* El encabezado queda sobre la primera pantalla sin modificar su estética. */
-    .hero{
-        padding-top:95px !important;
+    /* 2 — SERVICIOS: título + descripción + panel/carrusel unidos */
+    .services{
+        min-height:100vh !important;
+        height:100vh !important;
+        scroll-snap-align:start !important;
+        scroll-snap-stop:always !important;
+        display:flex !important;
+        flex-direction:column !important;
+        justify-content:center !important;
+        align-items:center !important;
+        overflow:hidden !important;
+        box-sizing:border-box !important;
+        padding-top:85px !important;
         padding-bottom:45px !important;
     }
 
-    .services{
-        padding-top:95px !important;
-        padding-bottom:55px !important;
+    .services .carousel-wrapper{
+        width:100% !important;
+        flex:0 0 auto !important;
     }
 
+    /* 3 — CONTACTO + FOOTER: forman un único bloque visual */
     .contact{
-        padding-top:95px !important;
-        padding-bottom:55px !important;
+        min-height:88vh !important;
+        height:88vh !important;
+        scroll-snap-align:start !important;
+        scroll-snap-stop:always !important;
+        display:flex !important;
+        flex-direction:column !important;
+        justify-content:center !important;
+        align-items:center !important;
+        overflow:hidden !important;
+        box-sizing:border-box !important;
+        padding-top:75px !important;
+        padding-bottom:25px !important;
     }
 
     footer{
-        padding-top:95px !important;
-        padding-bottom:55px !important;
+        height:12vh !important;
+        min-height:70px !important;
+        box-sizing:border-box !important;
+        display:flex !important;
+        flex-direction:column !important;
+        justify-content:center !important;
+        align-items:center !important;
+        padding:8px 20px !important;
+        overflow:hidden !important;
+        scroll-snap-align:none !important;
+        scroll-snap-stop:normal !important;
     }
 }
 
-/* Móvil intacto. */
+/* Móvil intacto: sin snap ni cambios de distribución. */
 @media (max-width:900px){
     html{
         scroll-snap-type:none !important;
+        scroll-behavior:auto !important;
     }
 }
 </style>
