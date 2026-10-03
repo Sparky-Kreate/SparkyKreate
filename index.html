@@ -4165,9 +4165,9 @@ async function updatePassword(){
 
             "Contraseña restablecida exitosamente",
 
-            "Tu nueva contraseña ya está activa. Ahora puedes volver a SparkyKrea.",
+            "Tu nueva contraseña ya está activa. Ahora puedes volver a tu correo.",
 
-            "Volver a SparkyKrea →",
+            "Volver a Gmail →",
 
             async function(){
 
@@ -4206,6 +4206,10 @@ async function updatePassword(){
                 resetAuthArea();
 
                 cleanRecoveryUrl();
+
+                /* Devuelve al usuario a Gmail */
+                window.location.href =
+                "https://mail.google.com/";
 
             }
 
