@@ -54,10 +54,12 @@ input{
 @media (max-width:900px){
     body{
         background-image:
-            linear-gradient(rgba(8,8,7,.76),rgba(8,8,7,.90)),
+            linear-gradient(rgba(8,8,7,.62),rgba(8,8,7,.78)),
             url("https://images.pexels.com/photos/6483621/pexels-photo-6483621.jpeg?cs=srgb&dl=pexels-mikael-blomkvist-6483621.jpg&fm=jpg");
+        background-size:cover;
         background-position:center center;
-        background-attachment:scroll;
+        background-attachment:fixed;
+        background-repeat:no-repeat;
     }
 }
 
@@ -2342,8 +2344,9 @@ body{
 
 @media(max-width:900px){
     body{
-        background-attachment:scroll !important;
+        background-attachment:fixed !important;
         background-repeat:no-repeat !important;
+        background-size:cover !important;
     }
 }
 </style>
