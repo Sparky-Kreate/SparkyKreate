@@ -2571,6 +2571,132 @@ body{
     }
 }
 </style>
+
+<style id="sparky-pc-final-tidy">
+/* =========================================================
+   PC (901px o más): 3 bloques a pantalla completa, títulos
+   y textos agrupados y tipografía optimizada.
+   NO toca fondos, colores, fuentes ni el móvil.
+   ========================================================= */
+@media (min-width:901px){
+
+    /* ---------- BLOQUE 1: INICIO ---------- */
+    .hero{
+        min-height:100vh !important;
+        height:auto !important;
+        overflow:visible !important;
+        justify-content:center !important;
+        padding:90px 30px 50px !important;
+    }
+    .hero-logo{
+        width:72px !important;
+        height:72px !important;
+        margin-bottom:20px !important;
+    }
+    .hero-logo::before,
+    .hero-logo::after{ width:43px !important; }
+    .hero-logo-dot{ width:11px !important; height:11px !important; }
+
+    .hero h1{
+        max-width:1000px !important;
+        font-size:clamp(54px,5vw,82px) !important;
+        line-height:1.03 !important;
+        letter-spacing:-1.6px !important;
+    }
+    .hero-text{
+        max-width:700px !important;
+        margin-top:16px !important;
+        font-size:clamp(16px,1.2vw,19px) !important;
+        line-height:1.55 !important;
+    }
+    .main-btn{
+        margin-top:24px !important;
+        padding:14px 30px !important;
+        font-size:15px !important;
+    }
+
+    /* ---------- BLOQUE 2: SERVICIOS ---------- */
+    .services{
+        min-height:100vh !important;
+        height:auto !important;
+        overflow:visible !important;
+        justify-content:center !important;
+        padding:90px 20px 50px !important;
+    }
+    .services .section-label,
+    .contact .section-label{
+        font-size:12px !important;
+        letter-spacing:6px !important;
+        margin-bottom:10px !important;
+    }
+    .services h2{
+        max-width:900px !important;
+        margin:0 auto !important;
+        font-size:clamp(44px,4.2vw,64px) !important;
+        line-height:1.04 !important;
+        letter-spacing:-1.2px !important;
+    }
+    .services-description{
+        max-width:680px !important;
+        margin:14px auto 0 !important;
+        font-size:clamp(15px,1.1vw,17px) !important;
+        line-height:1.55 !important;
+    }
+    .services .carousel-wrapper{
+        margin-top:30px !important;
+    }
+    .carousel{ min-height:165px !important; }
+    .service-card{
+        width:min(700px,60vw) !important;
+        min-height:165px !important;
+        padding:24px 30px !important;
+    }
+    .card-line{ margin-bottom:12px !important; }
+    .service-card h3{
+        font-size:28px !important;
+        line-height:1.12 !important;
+        margin-bottom:7px !important;
+    }
+    .service-card p{
+        font-size:15px !important;
+        line-height:1.5 !important;
+    }
+    .services .carousel-dots{ margin-top:16px !important; }
+
+    /* ---------- BLOQUE 3: CONTACTO + FOOTER (juntos = 100vh) ---------- */
+    .contact{
+        min-height:calc(100vh - 110px) !important;
+        height:auto !important;
+        overflow:visible !important;
+        justify-content:center !important;
+        padding:90px 20px 30px !important;
+    }
+    .contact h2{
+        max-width:900px !important;
+        margin:0 auto !important;
+        font-size:clamp(40px,3.9vw,58px) !important;
+        line-height:1.05 !important;
+        letter-spacing:-1.1px !important;
+    }
+    .contact p{
+        max-width:700px !important;
+        margin-top:14px !important;
+        font-size:clamp(15px,1.1vw,17px) !important;
+        line-height:1.55 !important;
+    }
+    .contact-btn{
+        margin-top:22px !important;
+        padding:13px 26px !important;
+        font-size:14px !important;
+    }
+    footer{
+        height:110px !important;
+        min-height:0 !important;
+        padding:10px 20px !important;
+    }
+}
+</style>
+
 </head>
 
 <body>
