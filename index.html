@@ -2369,6 +2369,27 @@ body{
 }
 </style>
 
+
+<style id="sparky-pc-phone-background-fix">
+/* =========================================================
+   PC: MISMO FONDO QUE EN TELÉFONO
+   Solo afecta pantallas de 901px o más.
+   No modifica colores, tipografías, tamaños ni contenido.
+   ========================================================= */
+@media (min-width:901px){
+    body{
+        background-color:#080807 !important;
+        background-image:
+            linear-gradient(rgba(8,8,7,.62),rgba(8,8,7,.78)),
+            url("https://images.pexels.com/photos/6483621/pexels-photo-6483621.jpeg?cs=srgb&dl=pexels-mikael-blomkvist-6483621.jpg&fm=jpg") !important;
+        background-size:cover !important;
+        background-position:center center !important;
+        background-repeat:no-repeat !important;
+        background-attachment:fixed !important;
+    }
+}
+</style>
+
 </head>
 
 <body>
