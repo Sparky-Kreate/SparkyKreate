@@ -6603,37 +6603,16 @@ body{
 </style>
 
 
-<style id="sparky-section-spacing-only">
-/* SOLO AJUSTE DE ESPACIADO ENTRE SECCIONES. No toca IA/chat. */
+<style id="sparky-move-content-up">
+/* Ajuste solicitado: se mantiene intacto el título principal del hero.
+   Solo se suben un poco las secciones posteriores. */
 @media (max-width:900px){
-    .hero{
-        min-height:calc(100svh - 143px) !important;
-        height:auto !important;
-        margin:0 !important;
-        padding-top:70px !important;
-        padding-bottom:70px !important;
-    }
-    .services{
-        min-height:calc(100svh - 143px) !important;
-        height:auto !important;
-        margin:0 !important;
-        padding-top:70px !important;
-        padding-bottom:70px !important;
-    }
-    .contact{
-        min-height:calc(100svh - 143px) !important;
-        height:auto !important;
-        margin:0 !important;
-        padding-top:70px !important;
-        padding-bottom:30px !important;
-    }
-    footer{margin:0 !important;}
+  .services{ padding-top:48px !important; }
+  .contact{ padding-top:55px !important; }
 }
 @media (min-width:901px){
-    .hero{min-height:calc(100svh - 76px) !important;height:auto !important;margin:0 !important;}
-    .services{min-height:100svh !important;height:auto !important;margin:0 !important;}
-    .contact{min-height:calc(100svh - 78px) !important;height:auto !important;margin:0 !important;}
-    footer{margin:0 !important;}
+  .services{ padding-top:65px !important; }
+  .contact{ padding-top:60px !important; }
 }
 </style>
 
