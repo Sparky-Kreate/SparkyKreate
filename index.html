@@ -4692,10 +4692,49 @@ async function sendMessage(){
 
     try{
 
-        const { data, error } =
-        await supabaseClient.functions.invoke("chat-ia",{
-            body:{ message:text }
-        });
+        // Llamada directa a la Edge Function usando la publishable key
+        // en el header correcto. Esto evita que una sb_publishable_...
+        // sea enviada como Bearer/JWT.
+        const { data: { session } = {} } =
+        await supabaseClient.auth.getSession();
+
+        const headers = {
+            "Content-Type": "application/json",
+            "apikey": SUPABASE_PUBLISHABLE_KEY
+        };
+
+        if(session?.access_token){
+            headers["Authorization"] =
+                `Bearer ${session.access_token}`;
+        }
+
+        const response = await fetch(
+            `${SUPABASE_URL}/functions/v1/chat-ia`,
+            {
+                method: "POST",
+                headers,
+                body: JSON.stringify({ message:text })
+            }
+        );
+
+        let data = null;
+        let error = null;
+
+        const raw = await response.text();
+
+        try{
+            data = raw ? JSON.parse(raw) : null;
+        }catch(parseError){
+            data = null;
+        }
+
+        if(!response.ok){
+            error = {
+                status: response.status,
+                message: data?.error || data?.message || raw ||
+                    `Error HTTP ${response.status}`
+            };
+        }
 
         const loadingMessage =
         document.getElementById(loadingId);
@@ -4706,8 +4745,13 @@ async function sendMessage(){
 
         if(error){
             console.error("SparkyKrea AI:",error);
+
+            const detail =
+                error.message ||
+                "No se pudo conectar con la función chat-ia.";
+
             addMessage(
-                "No pude conectar con la IA. Revisa la configuración de SparkyKrea en Supabase.",
+                `No pude conectar con la IA.\n${detail}`,
                 "bot"
             );
             return;
