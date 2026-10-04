@@ -4692,49 +4692,10 @@ async function sendMessage(){
 
     try{
 
-        // Llamada directa a la Edge Function usando la publishable key
-        // en el header correcto. Esto evita que una sb_publishable_...
-        // sea enviada como Bearer/JWT.
-        const { data: { session } = {} } =
-        await supabaseClient.auth.getSession();
-
-        const headers = {
-            "Content-Type": "application/json",
-            "apikey": SUPABASE_PUBLISHABLE_KEY
-        };
-
-        if(session?.access_token){
-            headers["Authorization"] =
-                `Bearer ${session.access_token}`;
-        }
-
-        const response = await fetch(
-            `${SUPABASE_URL}/functions/v1/chat-ia`,
-            {
-                method: "POST",
-                headers,
-                body: JSON.stringify({ message:text })
-            }
-        );
-
-        let data = null;
-        let error = null;
-
-        const raw = await response.text();
-
-        try{
-            data = raw ? JSON.parse(raw) : null;
-        }catch(parseError){
-            data = null;
-        }
-
-        if(!response.ok){
-            error = {
-                status: response.status,
-                message: data?.error || data?.message || raw ||
-                    `Error HTTP ${response.status}`
-            };
-        }
+        const { data, error } =
+        await supabaseClient.functions.invoke("chat-ia",{
+            body:{ message:text }
+        });
 
         const loadingMessage =
         document.getElementById(loadingId);
@@ -4745,13 +4706,8 @@ async function sendMessage(){
 
         if(error){
             console.error("SparkyKrea AI:",error);
-
-            const detail =
-                error.message ||
-                "No se pudo conectar con la función chat-ia.";
-
             addMessage(
-                `No pude conectar con la IA.\n${detail}`,
+                "No pude conectar con la IA. Revisa la configuración de SparkyKrea en Supabase.",
                 "bot"
             );
             return;
@@ -5742,6 +5698,525 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 }
 </style>
+
+
+<!-- =========================================================
+     SPARKYKREA — MEJORA VISUAL FINAL
+     SOLO ESTÉTICA / RESPONSIVE / CHAT.
+     NO MODIFICA LA CONEXIÓN DE LA IA NI SUPABASE.
+     ========================================================= -->
+<style id="sparky-visual-upgrade-v2">
+
+:root{
+    --accent-gold:#d8b56a;
+    --accent-gold-light:#f1d99f;
+    --accent-blue:#9fc9e8;
+    --accent-violet:#c6b3e8;
+    --accent-rose:#e5b5c2;
+    --text-main:#f7f3eb;
+    --text-soft:#c9c4bb;
+    --panel:#111318;
+    --panel-2:#171a20;
+}
+
+/* =========================================================
+   FONDO PC NUEVO
+   ========================================================= */
+@media (min-width:901px){
+    body{
+        background-color:#090b0f !important;
+        background-image:
+            linear-gradient(
+                90deg,
+                rgba(5,7,10,.88) 0%,
+                rgba(5,7,10,.62) 48%,
+                rgba(5,7,10,.80) 100%
+            ),
+            linear-gradient(
+                rgba(5,7,10,.30),
+                rgba(5,7,10,.56)
+            ),
+            url("https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=2400&q=88") !important;
+        background-size:cover !important;
+        background-position:center center !important;
+        background-repeat:no-repeat !important;
+        background-attachment:fixed !important;
+    }
+
+    .hero,
+    .services,
+    .contact,
+    footer{
+        background:transparent !important;
+    }
+
+    .hero::after{
+        content:"";
+        position:absolute;
+        inset:0;
+        pointer-events:none;
+        background:
+            radial-gradient(circle at 50% 35%,rgba(216,181,106,.10),transparent 32%),
+            linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.20));
+        z-index:-1;
+    }
+
+    .services,
+    .contact{
+        border-color:rgba(255,255,255,.14) !important;
+    }
+
+    .service-card{
+        background:rgba(10,12,16,.86) !important;
+        backdrop-filter:blur(12px);
+        -webkit-backdrop-filter:blur(12px);
+        box-shadow:0 24px 70px rgba(0,0,0,.28);
+    }
+}
+
+/* =========================================================
+   COLORES MÁS LEGIBLES Y VARIADOS
+   ========================================================= */
+.hero h1 span{
+    color:var(--accent-gold-light) !important;
+}
+
+.hero-text{
+    color:#d4d0c8 !important;
+}
+
+.section-label{
+    color:var(--accent-gold-light) !important;
+}
+
+.services-description,
+.contact p{
+    color:#c7c3bb !important;
+}
+
+.service-card{
+    background:rgba(14,15,17,.94) !important;
+    color:var(--text-main);
+}
+
+.service-card p{
+    color:#c4c1bb !important;
+}
+
+.service-card:nth-child(1){
+    border-color:rgba(216,181,106,.72) !important;
+}
+.service-card:nth-child(2){
+    border-color:rgba(159,201,232,.72) !important;
+}
+.service-card:nth-child(3){
+    border-color:rgba(229,181,194,.72) !important;
+}
+.service-card:nth-child(4){
+    border-color:rgba(198,179,232,.72) !important;
+}
+.service-card:nth-child(5){
+    border-color:rgba(193,214,189,.72) !important;
+}
+
+.service-card:nth-child(1) .card-line{background:var(--accent-gold) !important;}
+.service-card:nth-child(2) .card-line{background:var(--accent-blue) !important;}
+.service-card:nth-child(3) .card-line{background:var(--accent-rose) !important;}
+.service-card:nth-child(4) .card-line{background:var(--accent-violet) !important;}
+.service-card:nth-child(5) .card-line{background:#b9d6b5 !important;}
+
+.contact-btn{
+    background:linear-gradient(135deg,#d8b56a,#b78e43) !important;
+    color:#17130c !important;
+    box-shadow:0 12px 30px rgba(216,181,106,.16);
+}
+
+.contact-btn:hover{
+    background:linear-gradient(135deg,#f1d99f,#d8b56a) !important;
+}
+
+/* =========================================================
+   PANTALLAS COMPLETAS EN PC
+   ========================================================= */
+@media (min-width:901px){
+    .hero{
+        min-height:calc(100svh - 76px) !important;
+        height:calc(100svh - 76px) !important;
+        display:flex !important;
+        flex-direction:column;
+        justify-content:center;
+        align-items:flex-start;
+        padding-top:25px !important;
+        padding-bottom:35px !important;
+    }
+
+    .services{
+        min-height:100svh !important;
+        height:100svh !important;
+        display:flex !important;
+        flex-direction:column;
+        justify-content:center;
+        align-items:center;
+    }
+
+    .contact{
+        min-height:calc(100svh - 78px) !important;
+        height:calc(100svh - 78px) !important;
+        display:flex !important;
+        flex-direction:column;
+        justify-content:center;
+        align-items:center;
+    }
+
+    footer{
+        min-height:78px !important;
+    }
+}
+
+/* =========================================================
+   CHAT — MÁS LEGIBLE, MODERNO Y REALMENTE FULLSCREEN
+   ========================================================= */
+.chat{
+    inset:0 !important;
+    width:100% !important;
+    height:100dvh !important;
+    min-height:100dvh !important;
+    max-height:100dvh !important;
+    background:
+        radial-gradient(circle at 15% 0%,rgba(216,181,106,.10),transparent 30%),
+        radial-gradient(circle at 100% 100%,rgba(159,201,232,.07),transparent 30%),
+        #080a0d !important;
+    overscroll-behavior:none;
+}
+
+.chat-header{
+    height:76px !important;
+    min-height:76px !important;
+    padding:
+        0
+        max(18px,env(safe-area-inset-right))
+        0
+        max(18px,env(safe-area-inset-left)) !important;
+    border-bottom:1px solid rgba(216,181,106,.20) !important;
+    background:rgba(8,10,13,.88) !important;
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+}
+
+.chat-brand{
+    font-size:20px !important;
+    color:#f8f4eb !important;
+    letter-spacing:-.2px;
+}
+
+.chat-logo{
+    width:42px !important;
+    height:42px !important;
+    border-color:rgba(216,181,106,.78) !important;
+    background:
+        radial-gradient(circle,rgba(216,181,106,.20),transparent 62%) !important;
+    box-shadow:0 0 24px rgba(216,181,106,.10);
+}
+
+.chat-close{
+    width:44px !important;
+    height:44px !important;
+    display:grid !important;
+    place-items:center !important;
+    border-radius:50% !important;
+    color:#f0d79c !important;
+    font-size:34px !important;
+    line-height:1 !important;
+}
+
+.chat-close:hover{
+    background:rgba(216,181,106,.10) !important;
+}
+
+.chat-content{
+    width:min(900px,calc(100% - 32px)) !important;
+    padding:28px 0 120px !important;
+    scrollbar-width:thin;
+    scrollbar-color:rgba(216,181,106,.45) transparent;
+}
+
+.message{
+    max-width:min(78%,720px) !important;
+    padding:15px 18px !important;
+    margin-bottom:14px !important;
+    border-radius:19px !important;
+    font-size:16px !important;
+    line-height:1.65 !important;
+    letter-spacing:.05px;
+    box-shadow:0 8px 25px rgba(0,0,0,.16);
+}
+
+.message.bot{
+    background:linear-gradient(135deg,#191c22,#13161b) !important;
+    border:1px solid rgba(216,181,106,.25) !important;
+    color:#f1eee8 !important;
+}
+
+.message.user{
+    background:linear-gradient(135deg,#dfbf78,#b99149) !important;
+    color:#16130e !important;
+    font-weight:600;
+}
+
+.chat-input-area{
+    padding:
+        12px
+        max(16px,env(safe-area-inset-right))
+        calc(12px + env(safe-area-inset-bottom))
+        max(16px,env(safe-area-inset-left)) !important;
+    border-top:1px solid rgba(216,181,106,.18) !important;
+    background:rgba(8,10,13,.94) !important;
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+}
+
+.chat-input-box{
+    width:min(900px,100%) !important;
+    gap:10px !important;
+}
+
+.chat-input{
+    min-width:0;
+    height:56px !important;
+    padding:0 18px !important;
+    border-radius:18px !important;
+    border:1px solid rgba(159,201,232,.28) !important;
+    background:#15181d !important;
+    color:#ffffff !important;
+    font-size:16px !important;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.03);
+}
+
+.chat-input::placeholder{
+    color:#aaaeb6 !important;
+    opacity:1 !important;
+}
+
+.chat-input:focus{
+    border-color:rgba(216,181,106,.80) !important;
+    box-shadow:0 0 0 3px rgba(216,181,106,.10) !important;
+}
+
+.chat-send{
+    flex:0 0 56px;
+    width:56px !important;
+    height:56px !important;
+    border-radius:18px !important;
+    background:linear-gradient(135deg,#d8b56a,#ad8138) !important;
+    color:#16130e !important;
+    font-size:25px !important;
+    font-weight:700;
+    box-shadow:0 10px 26px rgba(216,181,106,.18);
+}
+
+.chat-send:hover{
+    background:linear-gradient(135deg,#f1d99f,#d8b56a) !important;
+    transform:translateY(-2px);
+}
+
+/* =========================================================
+   MÓVIL — CHAT OCUPA TODA LA PANTALLA Y SE ADAPTA AL TECLADO
+   ========================================================= */
+@media (max-width:900px){
+
+    html,
+    body{
+        width:100%;
+        max-width:100%;
+        overflow-x:hidden;
+    }
+
+    .hero,
+    .services,
+    .contact{
+        min-height:100svh !important;
+        height:auto !important;
+    }
+
+    .services,
+    .contact{
+        display:flex !important;
+        flex-direction:column;
+        justify-content:center !important;
+        align-items:center !important;
+    }
+
+    .services{
+        padding:80px 18px !important;
+    }
+
+    .contact{
+        padding:80px 18px !important;
+    }
+
+    .services h2,
+    .contact h2{
+        max-width:680px;
+        color:#f7f3eb !important;
+    }
+
+    .services-description,
+    .contact p{
+        max-width:620px;
+    }
+
+    .chat{
+        height:var(--chat-vh,100dvh) !important;
+        min-height:var(--chat-vh,100dvh) !important;
+        max-height:var(--chat-vh,100dvh) !important;
+        transform:none !important;
+    }
+
+    .chat.active{
+        transform:none !important;
+    }
+
+    .chat-header{
+        height:72px !important;
+        min-height:72px !important;
+    }
+
+    .chat-brand{
+        font-size:19px !important;
+    }
+
+    .chat-content{
+        width:100% !important;
+        padding:
+            22px
+            15px
+            22px !important;
+    }
+
+    .message{
+        max-width:94% !important;
+        font-size:16px !important;
+        line-height:1.65 !important;
+        padding:15px 16px !important;
+        border-radius:18px !important;
+    }
+
+    .chat-input-area{
+        padding-top:10px !important;
+    }
+
+    .chat-input{
+        height:58px !important;
+        font-size:16px !important;
+        padding:0 16px !important;
+    }
+
+    .chat-send{
+        flex-basis:58px;
+        width:58px !important;
+        height:58px !important;
+        border-radius:18px !important;
+        font-size:25px !important;
+    }
+}
+
+/* Teléfonos muy estrechos */
+@media (max-width:380px){
+    .chat-header{
+        padding-left:12px !important;
+        padding-right:12px !important;
+    }
+
+    .chat-content{
+        padding-left:11px !important;
+        padding-right:11px !important;
+    }
+
+    .message{
+        max-width:96% !important;
+        font-size:15px !important;
+    }
+
+    .chat-input-area{
+        padding-left:10px !important;
+        padding-right:10px !important;
+    }
+
+    .chat-input{
+        font-size:15px !important;
+    }
+}
+
+/* Accesibilidad y menos movimiento si el usuario lo solicita */
+@media(prefers-reduced-motion:reduce){
+    .chat,
+    .message,
+    .chat-send,
+    .chat-close{
+        transition:none !important;
+        animation:none !important;
+    }
+}
+
+</style>
+
+<script>
+/* =========================================================
+   CHAT — AJUSTE DEL VIEWPORT PARA EL TECLADO DE ANDROID/iOS
+   NO CAMBIA LA LÓGICA NI LA CONEXIÓN DE LA IA.
+   ========================================================= */
+(function(){
+    function syncChatViewport(){
+        var vv = window.visualViewport;
+        var height = vv ? vv.height : window.innerHeight;
+
+        if(height && height > 0){
+            document.documentElement.style.setProperty(
+                "--chat-vh",
+                height + "px"
+            );
+        }
+    }
+
+    syncChatViewport();
+
+    if(window.visualViewport){
+        window.visualViewport.addEventListener(
+            "resize",
+            syncChatViewport
+        );
+        window.visualViewport.addEventListener(
+            "scroll",
+            syncChatViewport
+        );
+    }
+
+    window.addEventListener("resize",syncChatViewport);
+
+    document.addEventListener("DOMContentLoaded",function(){
+        var input = document.getElementById("chatInput");
+
+        if(input){
+            input.setAttribute("inputmode","text");
+            input.setAttribute("enterkeyhint","send");
+            input.setAttribute("autocomplete","off");
+
+            input.addEventListener("focus",function(){
+                setTimeout(function(){
+                    syncChatViewport();
+
+                    var content =
+                        document.getElementById("chatContent");
+
+                    if(content){
+                        content.scrollTop = content.scrollHeight;
+                    }
+                },180);
+            });
+        }
+    });
+})();
+</script>
 
 </body>
 </html>
