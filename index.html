@@ -2036,7 +2036,7 @@ footer{
 
     html{
         scroll-behavior:smooth;
-        scroll-snap-type:y mandatory;
+        scroll-snap-type:none;
     }
 
     body{
@@ -2053,8 +2053,8 @@ footer{
     header{
         height:76px;
         padding:17px 25px;
-        scroll-snap-align:start;
-        scroll-snap-stop:always;
+        scroll-snap-align:none;
+        scroll-snap-stop:normal;
     }
 
     /* PARTE 1 — INICIO */
@@ -2064,8 +2064,8 @@ footer{
         height:calc(100vh - 76px);
         min-height:calc(100vh - 76px);
         padding:25px 40px 45px;
-        scroll-snap-align:start;
-        scroll-snap-stop:always;
+        scroll-snap-align:none;
+        scroll-snap-stop:normal;
     }
 
     .hero-logo{
@@ -2100,8 +2100,8 @@ footer{
         flex-direction:column;
         justify-content:center;
         align-items:center;
-        scroll-snap-align:start;
-        scroll-snap-stop:always;
+        scroll-snap-align:none;
+        scroll-snap-stop:normal;
     }
 
     .section-label{
@@ -2145,8 +2145,8 @@ footer{
         flex-direction:column;
         justify-content:center;
         align-items:center;
-        scroll-snap-align:start;
-        scroll-snap-stop:always;
+        scroll-snap-align:none;
+        scroll-snap-stop:normal;
         border-top:1px solid rgba(255,255,255,.12);
     }
 
@@ -2172,8 +2172,8 @@ footer{
         flex-direction:column;
         justify-content:center;
         align-items:center;
-        scroll-snap-align:start;
-        scroll-snap-stop:always;
+        scroll-snap-align:none;
+        scroll-snap-stop:normal;
         border-top:1px solid rgba(255,255,255,.12);
     }
 }
@@ -4889,35 +4889,14 @@ function showCard(index){
 let carouselTimer = null;
 
 function startCarousel(){
-
+    /* Carrusel manual: no cambia automáticamente. */
     if(carouselTimer){
         clearInterval(carouselTimer);
+        carouselTimer = null;
     }
-
-    carouselTimer = setInterval(
-        function(){
-
-            currentCard++;
-
-            if(
-                currentCard >=
-                cards.length
-            ){
-
-                currentCard = 0;
-
-            }
-
-            showCard(
-                currentCard
-            );
-
-        },
-        4400
-    );
-
 }
 
+/* El usuario cambia las tarjetas mediante los puntos. */
 startCarousel();
 
 
@@ -6406,6 +6385,221 @@ body{
     }
 }
 
+</style>
+
+
+<style id="sparky-final-user-scroll-layout">
+/* =========================================================
+   SPARKYKREA — AJUSTE FINAL
+   - El usuario controla TODO el scroll.
+   - No hay scroll-snap.
+   - Hero centrado.
+   - Servicios y contacto centrados y unidos.
+   - No modifica la IA.
+   ========================================================= */
+
+html, body{
+    scroll-behavior:auto !important;
+    scroll-snap-type:none !important;
+}
+
+body{
+    overflow-x:hidden !important;
+}
+
+/* ---------- HERO / INICIO ---------- */
+.hero{
+    scroll-snap-align:none !important;
+    scroll-snap-stop:normal !important;
+}
+
+@media (max-width:900px){
+    .hero{
+        min-height:calc(100svh - 42px) !important;
+        height:auto !important;
+        padding:70px 24px 72px !important;
+        display:flex !important;
+        flex-direction:column !important;
+        justify-content:center !important;
+        align-items:center !important;
+        text-align:center !important;
+    }
+
+    .hero > *{
+        margin-left:auto !important;
+        margin-right:auto !important;
+    }
+
+    .hero h1,
+    .hero-text{
+        text-align:center !important;
+    }
+
+    .hero h1{
+        max-width:760px !important;
+    }
+
+    .hero-text{
+        max-width:620px !important;
+    }
+
+    .main-btn{
+        margin-left:auto !important;
+        margin-right:auto !important;
+    }
+
+    /* ---------- SERVICIOS ---------- */
+    .services{
+        height:auto !important;
+        min-height:0 !important;
+        padding:76px 18px 66px !important;
+        display:flex !important;
+        flex-direction:column !important;
+        justify-content:flex-start !important;
+        align-items:center !important;
+        text-align:center !important;
+        scroll-snap-align:none !important;
+        scroll-snap-stop:normal !important;
+    }
+
+    .services .section-label,
+    .services h2,
+    .services-description,
+    .carousel-wrapper{
+        margin-left:auto !important;
+        margin-right:auto !important;
+    }
+
+    .services h2,
+    .services-description{
+        text-align:center !important;
+    }
+
+    .carousel-wrapper{
+        width:100% !important;
+        max-width:620px !important;
+    }
+
+    .service-card{
+        width:100% !important;
+        text-align:left !important;
+    }
+
+    /* ---------- CONTACTO + FOOTER: UNA SOLA BLOQUE ---------- */
+    .contact{
+        height:auto !important;
+        min-height:0 !important;
+        padding:46px 18px 24px !important;
+        display:flex !important;
+        flex-direction:column !important;
+        justify-content:flex-start !important;
+        align-items:center !important;
+        text-align:center !important;
+        scroll-snap-align:none !important;
+        scroll-snap-stop:normal !important;
+        border-top:1px solid rgba(216,181,106,.16) !important;
+    }
+
+    .contact .section-label{
+        margin:0 auto 24px !important;
+        text-align:center !important;
+    }
+
+    .contact h2{
+        width:100% !important;
+        max-width:900px !important;
+        margin:0 auto 18px !important;
+        text-align:center !important;
+        line-height:1.12 !important;
+    }
+
+    .contact p{
+        width:100% !important;
+        max-width:680px !important;
+        margin:0 auto 24px !important;
+        text-align:center !important;
+        line-height:1.6 !important;
+    }
+
+    .contact-btn{
+        margin:0 auto 24px !important;
+        display:block !important;
+    }
+
+    footer{
+        height:auto !important;
+        min-height:0 !important;
+        margin:0 !important;
+        padding:18px 18px calc(22px + env(safe-area-inset-bottom)) !important;
+        display:flex !important;
+        flex-direction:column !important;
+        justify-content:center !important;
+        align-items:center !important;
+        text-align:center !important;
+        scroll-snap-align:none !important;
+        scroll-snap-stop:normal !important;
+        border-top:1px solid rgba(255,255,255,.08) !important;
+    }
+}
+
+/* ---------- PC ---------- */
+@media (min-width:901px){
+    .hero{
+        min-height:calc(100svh - 76px) !important;
+        height:auto !important;
+        padding:60px 40px 80px !important;
+        display:flex !important;
+        flex-direction:column !important;
+        justify-content:center !important;
+        align-items:center !important;
+        text-align:center !important;
+        scroll-snap-align:none !important;
+        scroll-snap-stop:normal !important;
+    }
+
+    .hero h1,
+    .hero-text{
+        text-align:center !important;
+        margin-left:auto !important;
+        margin-right:auto !important;
+    }
+
+    .main-btn{
+        margin-left:auto !important;
+        margin-right:auto !important;
+    }
+
+    .services{
+        height:auto !important;
+        min-height:0 !important;
+        padding:100px 40px 90px !important;
+        scroll-snap-align:none !important;
+        scroll-snap-stop:normal !important;
+    }
+
+    .contact{
+        height:auto !important;
+        min-height:0 !important;
+        padding:90px 40px 24px !important;
+        scroll-snap-align:none !important;
+        scroll-snap-stop:normal !important;
+    }
+
+    .contact h2,
+    .contact p,
+    .contact-btn{
+        margin-left:auto !important;
+        margin-right:auto !important;
+    }
+
+    footer{
+        height:auto !important;
+        min-height:0 !important;
+        padding:18px 20px 24px !important;
+        scroll-snap-align:none !important;
+        scroll-snap-stop:normal !important;
+    }
+}
 </style>
 
 </body>
