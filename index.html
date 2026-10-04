@@ -3142,6 +3142,10 @@ id="chat"
 
 <div class="chat-brand">
 
+<button class="chat-menu-button" onclick="toggleChatProjects()" aria-label="Abrir proyectos">
+<span></span><span></span><span></span>
+</button>
+
 <div class="chat-logo"></div>
 
 <span>
@@ -3159,6 +3163,18 @@ onclick="closeChat()"
 
 </div>
 
+<div class="chat-projects" id="chatProjects">
+  <div class="chat-projects-head">
+    <div>
+      <strong>Mis proyectos</strong>
+      <small id="chatProjectStatus">Inicia sesión para guardar tus chats</small>
+    </div>
+    <button onclick="toggleChatProjects()" aria-label="Cerrar menú">×</button>
+  </div>
+  <div class="chat-project-list" id="chatProjectList"></div>
+  <button class="new-project-btn" onclick="createNewProject()">+ Nuevo proyecto</button>
+</div>
+
 <div
 class="chat-content"
 id="chatContent"
@@ -3169,6 +3185,27 @@ class="message bot"
 id="welcome"
 >
 Hola. Cuéntame qué deseas hacer.
+</div>
+
+<div class="chat-quick-actions" id="chatQuickActions">
+  <button onclick="quickChatOption('Quiero una idea creativa')">Idea creativa</button>
+  <button onclick="quickChatOption('Quiero ayuda con marketing')">Marketing</button>
+  <button onclick="quickChatOption('Quiero crear un diseño')">Diseño</button>
+  <button onclick="quickChatOption('Quiero crear un video')">Video</button>
+</div>
+
+<div class="duration-panel" id="durationPanel">
+  <div class="duration-title">¿Cuánto durará el video?</div>
+  <div class="duration-options">
+    <button onclick="selectVideoDuration('10 segundos')">10 s</button>
+    <button onclick="selectVideoDuration('20 segundos')">20 s</button>
+    <button onclick="selectVideoDuration('30 segundos')">30 s</button>
+    <button onclick="showCustomDuration()">Personalizado</button>
+  </div>
+  <div class="custom-duration" id="customDuration">
+    <input id="customDurationInput" type="number" min="1" max="600" placeholder="Segundos">
+    <button onclick="saveCustomDuration()">Usar</button>
+  </div>
 </div>
 
 </div>
@@ -4618,68 +4655,114 @@ function closeChat(){
 
 function updateGreeting(){
 
-    const hour =
-    new Date().getHours();
+    const hour = new Date().getHours();
+    let greeting = "Hola.";
 
+    if(hour >= 5 && hour < 12) greeting = "Buenos días.";
+    else if(hour >= 12 && hour < 19) greeting = "Buenas tardes.";
+    else greeting = "Buenas noches.";
 
-    let greeting =
-    "Hola.";
+    const welcome = document.getElementById("welcome");
+    if(welcome) welcome.textContent = greeting + " Cuéntame qué deseas hacer.";
 
-
-    if(hour >= 5 && hour < 12){
-
-        greeting =
-        "Buenos días.";
-
-    }
-    else if(hour >= 12 && hour < 19){
-
-        greeting =
-        "Buenas tardes.";
-
-    }
-    else{
-
-        greeting =
-        "Buenas noches.";
-
-    }
-
-
-    document
-    .getElementById("welcome")
-    .textContent =
-    greeting +
-    " Cuéntame qué deseas hacer.";
+    const actions = document.getElementById("chatQuickActions");
+    if(actions) actions.style.display = "flex";
 
 }
-
 
 function handleEnter(event){
-
-    if(event.key === "Enter"){
-
-        sendMessage();
-
-    }
-
+    if(event.key === "Enter") sendMessage();
 }
 
+function normalizeText(text){
+    return (text || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+}
+
+function isGreeting(text){
+    const t = normalizeText(text);
+    return /^(hola|holi|hello|hey|buenas|buenos dias|buenas tardes|buenas noches|que tal|como estas)[!,.? ]*$/.test(t);
+}
+
+function showGreetingReply(){
+    addMessage("¡Hola! 👋 ¿Qué deseas crear hoy? Puedo ayudarte con ideas, marketing, diseño, contenido o video.","bot");
+    showQuickActions();
+}
+
+function showQuickActions(){
+    const actions = document.getElementById("chatQuickActions");
+    if(actions) actions.style.display = "flex";
+}
+
+function quickChatOption(text){
+    const input = document.getElementById("chatInput");
+    input.value = text;
+    if(normalizeText(text).includes("video")){
+        openDurationPanel();
+        addMessage("Perfecto. Antes de crear la propuesta, dime cuánto durará el video.","bot");
+        return;
+    }
+    sendMessage();
+}
+
+function openDurationPanel(){
+    const panel = document.getElementById("durationPanel");
+    if(panel) panel.classList.add("open");
+}
+
+function selectVideoDuration(duration){
+    closeCustomDuration();
+    const input = document.getElementById("chatInput");
+    input.value = "Quiero un video de " + duration + ".";
+    sendMessage();
+}
+
+function showCustomDuration(){
+    const custom = document.getElementById("customDuration");
+    if(custom) custom.classList.add("open");
+    const input = document.getElementById("customDurationInput");
+    if(input) input.focus();
+}
+
+function closeCustomDuration(){
+    const custom = document.getElementById("customDuration");
+    if(custom) custom.classList.remove("open");
+}
+
+function saveCustomDuration(){
+    const value = parseInt(document.getElementById("customDurationInput")?.value || "",10);
+    if(!value || value < 1){
+        addMessage("Indícame una duración válida en segundos.","bot");
+        return;
+    }
+    const input = document.getElementById("chatInput");
+    input.value = "Quiero un video de " + value + " segundos.";
+    closeCustomDuration();
+    sendMessage();
+}
+
+function detectVideoRequest(text){
+    return /\b(video|reel|tiktok|short|spot|videoclip)\b/i.test(text);
+}
 
 async function sendMessage(){
 
-    const input =
-    document.getElementById("chatInput");
-
-    const text =
-    input.value.trim();
-
-    if(!text){
-        return;
-    }
+    const input = document.getElementById("chatInput");
+    const text = input.value.trim();
+    if(!text) return;
 
     addMessage(text,"user");
     input.value = "";
+
+    if(isGreeting(text)){
+        showGreetingReply();
+        await saveChatMessage(text,"user");
+        await saveChatMessage("¡Hola! 👋 ¿Qué deseas crear hoy? Puedo ayudarte con ideas, marketing, diseño, contenido o video.","bot");
+        return;
+    }
+
+    if(detectVideoRequest(text) && !/\b(10|20|30)\s*(s|seg|segundos)|\d+\s*segundos?/i.test(text)){
+        openDurationPanel();
+    }
 
     const loadingId = "sparky-ai-loading-" + Date.now();
     const container = document.getElementById("chatContent");
@@ -4697,12 +4780,8 @@ async function sendMessage(){
             body:{ message:text }
         });
 
-        const loadingMessage =
-        document.getElementById(loadingId);
-
-        if(loadingMessage){
-            loadingMessage.remove();
-        }
+        const loadingMessage = document.getElementById(loadingId);
+        if(loadingMessage) loadingMessage.remove();
 
         if(error){
             console.error("SparkyKrea AI:",error);
@@ -4713,60 +4792,191 @@ async function sendMessage(){
             return;
         }
 
-        addMessage(
-            data && data.reply
-                ? data.reply
-                : "La IA no devolvió una respuesta.",
-            "bot"
-        );
+        const reply = data && data.reply
+            ? data.reply
+            : "La IA no devolvió una respuesta.";
+
+        addMessage(reply,"bot");
+        await saveChatMessage(text,"user");
+        await saveChatMessage(reply,"bot");
 
     }catch(error){
 
         console.error("SparkyKrea AI:",error);
 
-        const loadingMessage =
-        document.getElementById(loadingId);
+        const loadingMessage = document.getElementById(loadingId);
+        if(loadingMessage) loadingMessage.remove();
 
-        if(loadingMessage){
-            loadingMessage.remove();
-        }
-
-        addMessage(
-            "Ha ocurrido un error al conectar con la IA.",
-            "bot"
-        );
-
+        addMessage("Ha ocurrido un error al conectar con la IA.","bot");
     }
 
 }
 
+function escapeHtml(value){
+    return String(value || "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+}
+
+function formatBotText(text){
+    let safe = escapeHtml(text);
+    safe = safe.replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>");
+    safe = safe.replace(/^###\s?(.*)$/gm,"<strong>$1</strong>");
+    safe = safe.replace(/\n/g,"<br>");
+    return safe;
+}
 
 function addMessage(text,type){
 
-    const container =
-    document.getElementById("chatContent");
+    const container = document.getElementById("chatContent");
+    const message = document.createElement("div");
+    message.className = "message " + type;
 
+    if(type === "bot") message.innerHTML = formatBotText(text);
+    else message.textContent = text;
 
-    const message =
-    document.createElement("div");
+    container.appendChild(message);
+    container.scrollTop = container.scrollHeight;
 
+}
 
-    message.className =
-    "message " + type;
+/* =========================================================
+   PROYECTOS / CHATS — SOLO PARA USUARIOS CON SESIÓN
+   ========================================================= */
+let currentChatProjectId = null;
+let currentChatProjectName = null;
 
+function toggleChatProjects(){
+    const menu = document.getElementById("chatProjects");
+    if(!menu) return;
+    menu.classList.toggle("open");
+    if(menu.classList.contains("open")) loadChatProjects();
+}
 
-    message.textContent =
-    text;
+async function ensureChatProject(){
+    if(!currentUser) return null;
+    if(currentChatProjectId) return currentChatProjectId;
 
+    try{
+        const {data:projects,error} = await supabaseClient
+            .from("chat_projects")
+            .select("id,name,created_at")
+            .eq("user_id",currentUser.id)
+            .order("created_at",{ascending:true});
+        if(error) throw error;
 
-    container.appendChild(
-        message
-    );
+        const next = (projects?.length || 0) + 1;
+        const {data,error:insertError} = await supabaseClient
+            .from("chat_projects")
+            .insert({user_id:currentUser.id,name:"Proyecto " + next})
+            .select("id,name")
+            .single();
+        if(insertError) throw insertError;
 
+        currentChatProjectId = data.id;
+        currentChatProjectName = data.name;
+        return currentChatProjectId;
+    }catch(error){
+        console.warn("No se pudo crear el proyecto de chat. Comprueba la tabla chat_projects en Supabase.",error);
+        return null;
+    }
+}
 
-    container.scrollTop =
-    container.scrollHeight;
+async function saveChatMessage(text,type){
+    if(!currentUser) return;
+    const projectId = await ensureChatProject();
+    if(!projectId) return;
+    try{
+        const {error} = await supabaseClient
+            .from("chat_messages")
+            .insert({project_id:projectId,user_id:currentUser.id,role:type,content:String(text)});
+        if(error) console.warn("No se pudo guardar el mensaje:",error);
+    }catch(error){
+        console.warn("No se pudo guardar el mensaje:",error);
+    }
+}
 
+async function loadChatProjects(){
+    const list = document.getElementById("chatProjectList");
+    const status = document.getElementById("chatProjectStatus");
+    if(!list) return;
+    list.innerHTML = "";
+
+    if(!currentUser){
+        if(status) status.textContent = "Inicia sesión para guardar tus chats";
+        list.innerHTML = '<div style="color:#9da1aa;font-size:13px;line-height:1.6;padding:10px 2px;">Tus conversaciones no se guardan si no has iniciado sesión.</div>';
+        return;
+    }
+
+    if(status) status.textContent = "Tus conversaciones guardadas";
+
+    try{
+        const {data,error} = await supabaseClient
+            .from("chat_projects")
+            .select("id,name,created_at")
+            .eq("user_id",currentUser.id)
+            .order("created_at",{ascending:true});
+        if(error) throw error;
+
+        if(!data?.length){
+            list.innerHTML = '<div style="color:#9da1aa;font-size:13px;padding:10px 2px;">Todavía no tienes proyectos.</div>';
+            return;
+        }
+
+        data.forEach((project,index)=>{
+            const button = document.createElement("button");
+            button.className = "project-item" + (project.id === currentChatProjectId ? " active" : "");
+            button.innerHTML = `<strong>${escapeHtml(project.name || "Proyecto "+(index+1))}</strong><small>Conversación guardada</small>`;
+            button.onclick = ()=>loadChatProject(project.id,project.name);
+            list.appendChild(button);
+        });
+    }catch(error){
+        console.warn("No se pudieron cargar los proyectos:",error);
+        list.innerHTML = '<div style="color:#9da1aa;font-size:13px;line-height:1.6;padding:10px 2px;">No se pudo cargar el historial. Revisa que existan las tablas de proyectos y mensajes.</div>';
+    }
+}
+
+async function loadChatProject(projectId,name){
+    if(!currentUser) return;
+    try{
+        const {data,error} = await supabaseClient
+            .from("chat_messages")
+            .select("role,content,created_at")
+            .eq("user_id",currentUser.id)
+            .eq("project_id",projectId)
+            .order("created_at",{ascending:true});
+        if(error) throw error;
+
+        currentChatProjectId = projectId;
+        currentChatProjectName = name;
+        const content = document.getElementById("chatContent");
+        content.innerHTML = "";
+        if(data?.length){
+            data.forEach(row=>addMessage(row.content,row.role === "user" ? "user" : "bot"));
+        }else{
+            addMessage("Este proyecto está listo. ¿Qué quieres crear?","bot");
+        }
+        toggleChatProjects();
+    }catch(error){
+        console.warn("No se pudo abrir el proyecto:",error);
+    }
+}
+
+function createNewProject(){
+    if(!currentUser){
+        toggleChatProjects();
+        openModal("login");
+        return;
+    }
+    currentChatProjectId = null;
+    currentChatProjectName = null;
+    document.getElementById("chatContent").innerHTML = '';
+    addMessage("Nuevo proyecto listo. ¿Qué deseas crear?","bot");
+    showQuickActions();
+    toggleChatProjects();
 }
 
 
@@ -6600,19 +6810,51 @@ body{
         scroll-snap-stop:normal !important;
     }
 }
-</style>
 
-
-<style id="sparky-move-content-up">
-/* Ajuste solicitado: se mantiene intacto el título principal del hero.
-   Solo se suben un poco las secciones posteriores. */
-@media (max-width:900px){
-  .services{ padding-top:48px !important; }
-  .contact{ padding-top:55px !important; }
+/* =========================================================
+   CHAT PROJECTS + QUICK RESPONSES + VIDEO DURATION
+   ========================================================= */
+.chat-header{position:relative !important;z-index:20 !important;}
+.chat-brand{gap:10px !important;}
+.chat-menu-button{
+    width:34px;height:34px;border:0;background:transparent;color:#e8d39a;
+    display:flex;flex-direction:column;justify-content:center;gap:5px;
+    cursor:pointer;padding:5px;flex:0 0 auto;
 }
-@media (min-width:901px){
-  .services{ padding-top:65px !important; }
-  .contact{ padding-top:60px !important; }
+.chat-menu-button span{display:block;width:22px;height:2px;border-radius:2px;background:currentColor;}
+.chat-projects{
+    position:absolute;z-index:50;top:0;left:0;width:min(330px,88vw);height:100%;
+    background:linear-gradient(180deg,#101216,#080a0d);border-right:1px solid rgba(216,181,106,.28);
+    box-shadow:20px 0 60px rgba(0,0,0,.45);transform:translateX(-105%);transition:transform .28s ease;
+    display:flex;flex-direction:column;padding:18px;
+}
+.chat-projects.open{transform:translateX(0);}
+.chat-projects-head{display:flex;justify-content:space-between;align-items:center;padding:8px 2px 18px;border-bottom:1px solid rgba(216,181,106,.16);}
+.chat-projects-head strong{display:block;color:#f6f1e7;font-size:18px;}
+.chat-projects-head small{display:block;color:#9da1aa;font-size:11px;margin-top:4px;line-height:1.4;}
+.chat-projects-head button{border:0;background:none;color:#d8b56a;font-size:28px;cursor:pointer;}
+.chat-project-list{flex:1;overflow:auto;padding:14px 0;}
+.project-item{width:100%;text-align:left;border:1px solid rgba(216,181,106,.13);background:#111419;color:#eee;border-radius:14px;padding:13px 14px;margin-bottom:8px;cursor:pointer;}
+.project-item:hover,.project-item.active{border-color:rgba(216,181,106,.48);background:#171a20;}
+.project-item strong{display:block;font-size:14px;}
+.project-item small{display:block;color:#8f949e;margin-top:4px;font-size:11px;}
+.new-project-btn{border:1px solid rgba(216,181,106,.45);background:linear-gradient(135deg,#d8b56a,#a97b35);color:#16130e;font-weight:700;border-radius:13px;padding:13px;cursor:pointer;}
+.chat-quick-actions{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px;}
+.chat-quick-actions button{border:1px solid rgba(216,181,106,.35);background:#12151a;color:#e9dfca;border-radius:999px;padding:9px 13px;font-size:13px;cursor:pointer;}
+.chat-quick-actions button:hover{background:rgba(216,181,106,.12);border-color:rgba(216,181,106,.65);}
+.duration-panel{display:none;margin:0 auto 18px;width:min(720px,100%);padding:16px;border:1px solid rgba(216,181,106,.28);background:linear-gradient(135deg,#14171c,#0e1014);border-radius:18px;}
+.duration-panel.open{display:block;}
+.duration-title{font-weight:700;color:#f4efe5;margin-bottom:11px;}
+.duration-options{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+.duration-options button,.custom-duration button{border:1px solid rgba(216,181,106,.32);background:#171a20;color:#eee;border-radius:12px;padding:11px 8px;cursor:pointer;}
+.duration-options button:hover,.custom-duration button:hover{background:#d8b56a;color:#17130e;}
+.custom-duration{display:none;gap:8px;margin-top:10px;}
+.custom-duration.open{display:flex;}
+.custom-duration input{flex:1;min-width:0;border:1px solid rgba(216,181,106,.25);background:#0d1014;color:#fff;border-radius:12px;padding:11px 12px;}
+@media(max-width:600px){
+  .chat-projects{width:88vw;}
+  .duration-options{grid-template-columns:repeat(2,1fr);}
+  .chat-quick-actions button{font-size:12px;padding:8px 11px;}
 }
 </style>
 
