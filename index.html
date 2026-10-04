@@ -5553,27 +5553,6 @@ function(event){
 
 
 
-<script>
-/* Animaciones de aparición al hacer scroll — las tarjetas del carrusel quedan fuera para no interferir con su estado active */
-document.addEventListener("DOMContentLoaded", () => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    const elements = document.querySelectorAll(".contact, footer");
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (!entry.isIntersecting) return;
-            entry.target.classList.add("motion-visible");
-            observer.unobserve(entry.target);
-        });
-    }, { threshold: 0.12 });
-
-    elements.forEach(el => {
-        el.classList.add("motion-hidden");
-        observer.observe(el);
-    });
-});
-</script>
 
 <style>
 .motion-hidden{
@@ -6217,6 +6196,217 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 })();
 </script>
+
+
+<!-- SPARKYKREA V2 — AJUSTE DE SECCIONES -->
+<style id="sparky-layout-v2">
+
+/* =========================================================
+   FLUJO NATURAL: EL USUARIO CONTROLA EL SCROLL
+   No cambia la IA ni el chat.
+   ========================================================= */
+html{
+    scroll-behavior:auto !important;
+}
+
+body{
+    scroll-snap-type:none !important;
+}
+
+/* Evita que las secciones gigantes creen espacios vacíos */
+@media (max-width:900px){
+
+    .hero{
+        min-height:calc(100svh - 42px) !important;
+        height:auto !important;
+        padding-top:72px !important;
+        padding-bottom:72px !important;
+        justify-content:center !important;
+    }
+
+    .services{
+        min-height:0 !important;
+        height:auto !important;
+        padding:
+            76px
+            18px
+            70px !important;
+        justify-content:flex-start !important;
+    }
+
+    .services .section-label{
+        margin-bottom:28px !important;
+    }
+
+    .services h2{
+        width:100% !important;
+        max-width:680px !important;
+        margin:0 auto 22px !important;
+        text-align:center !important;
+    }
+
+    .services-description{
+        width:100% !important;
+        max-width:600px !important;
+        margin:0 auto 28px !important;
+        text-align:center !important;
+    }
+
+    .carousel-wrapper{
+        width:100% !important;
+        margin:0 auto !important;
+    }
+
+    .carousel{
+        width:100% !important;
+    }
+
+    .service-card{
+        width:100% !important;
+        margin:0 auto !important;
+    }
+
+    /* CONTACTO queda unido: título + texto + botón + footer */
+    .contact{
+        min-height:0 !important;
+        height:auto !important;
+        padding:
+            30px
+            18px
+            36px !important;
+        justify-content:flex-start !important;
+        border-top:1px solid rgba(216,181,106,.12) !important;
+    }
+
+    .contact .section-label{
+        margin-bottom:26px !important;
+    }
+
+    .contact h2{
+        width:100% !important;
+        max-width:720px !important;
+        margin:0 auto 24px !important;
+        text-align:center !important;
+        line-height:1.12 !important;
+    }
+
+    .contact p{
+        width:100% !important;
+        max-width:610px !important;
+        margin:0 auto 26px !important;
+        text-align:center !important;
+        line-height:1.65 !important;
+    }
+
+    .contact-btn{
+        margin:0 auto !important;
+        display:block !important;
+    }
+
+    footer{
+        min-height:0 !important;
+        height:auto !important;
+        padding:
+            24px
+            18px
+            calc(24px + env(safe-area-inset-bottom)) !important;
+        margin:0 !important;
+        text-align:center !important;
+    }
+}
+
+/* =========================================================
+   PC: SERVICIOS Y CONTACTO TAMBIÉN TIENEN FLUJO NATURAL
+   ========================================================= */
+@media (min-width:901px){
+
+    .hero{
+        min-height:calc(100svh - 76px) !important;
+        height:auto !important;
+    }
+
+    .services{
+        min-height:calc(100svh - 76px) !important;
+        height:auto !important;
+        padding-top:100px !important;
+        padding-bottom:100px !important;
+    }
+
+    .contact{
+        min-height:0 !important;
+        height:auto !important;
+        padding:
+            90px
+            30px
+            42px !important;
+        justify-content:flex-start !important;
+    }
+
+    .contact h2{
+        max-width:900px !important;
+        margin-left:auto !important;
+        margin-right:auto !important;
+        text-align:center !important;
+    }
+
+    .contact p{
+        max-width:680px !important;
+        margin-left:auto !important;
+        margin-right:auto !important;
+        text-align:center !important;
+    }
+
+    .contact-btn{
+        margin-left:auto !important;
+        margin-right:auto !important;
+        display:block !important;
+    }
+
+    footer{
+        min-height:0 !important;
+        height:auto !important;
+    }
+}
+
+/* =========================================================
+   QUITA LA ANIMACIÓN DE APARICIÓN QUE PODÍA DAR SENSACIÓN
+   DE QUE LA PÁGINA SE MUEVE SOLA.
+   ========================================================= */
+.motion-hidden,
+.motion-visible{
+    opacity:1 !important;
+    transform:none !important;
+    transition:none !important;
+}
+
+/* =========================================================
+   MÁS UNIÓN VISUAL ENTRE SERVICIOS Y CONTACTO
+   ========================================================= */
+@media (max-width:900px){
+    .services{
+        background:
+            linear-gradient(
+                180deg,
+                rgba(8,10,13,.10),
+                rgba(8,10,13,.42)
+            ) !important;
+    }
+
+    .contact{
+        background:
+            linear-gradient(
+                180deg,
+                rgba(8,10,13,.42),
+                rgba(8,10,13,.78)
+            ) !important;
+    }
+
+    .contact h2{
+        font-size:clamp(28px,7vw,42px) !important;
+    }
+}
+
+</style>
 
 </body>
 </html>
