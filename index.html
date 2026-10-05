@@ -2636,10 +2636,22 @@ body{
         overflow-x:hidden;
     }
 
+    /* CHAT MÓVIL: ocupa todo el viewport visible, con o sin teclado.
+       El navegador/teclado de Android queda fuera del área de la app. */
+    :root{
+        --chat-vh:100dvh;
+        --chat-top:0px;
+    }
+
     body.chat-open{
         overflow:hidden !important;
+        position:fixed;
+        width:100%;
         height:var(--chat-vh, 100dvh);
         min-height:var(--chat-vh, 100dvh);
+        max-height:var(--chat-vh, 100dvh);
+        left:0;
+        top:0;
     }
 
     .chat{
@@ -2648,27 +2660,36 @@ body{
         left:0;
         right:0;
         bottom:auto;
-        width:100%;
+        width:100vw;
         height:var(--chat-vh, 100dvh);
         min-height:var(--chat-vh, 100dvh);
         max-height:var(--chat-vh, 100dvh);
         overflow:hidden;
-        transform:none;
+        transform:none !important;
+        overscroll-behavior:none;
+        -webkit-overflow-scrolling:auto;
     }
 
-    .chat.active{transform:none;}
+    .chat.active{transform:none !important;}
+
+    .chat-header{
+        height:68px;
+        flex:0 0 68px;
+        padding:0 12px;
+    }
 
     .chat.keyboard-open .chat-header{
         height:56px;
         flex:0 0 56px;
-        padding:0 10px;
+        padding:0 9px;
     }
     .chat.keyboard-open .chat-content{
-        padding-top:12px;
-        padding-bottom:10px;
+        padding-top:8px;
+        padding-bottom:8px;
+        scroll-padding-bottom:8px;
     }
     .chat.keyboard-open .chat-input-area{
-        padding:7px 10px 8px;
+        padding:6px 9px 7px;
     }
     .chat.keyboard-open .chat-input-box{min-height:54px;}
     .chat.keyboard-open .chat-input{min-height:52px;}
@@ -4728,8 +4749,10 @@ async function loadAdminUsers(){
 let currentProjectId = null;
 let currentProjectNumber = null;
 let chatProjectsLoaded = false;
+let chatScrollY = 0;
 
 function openChat(){
+    if(window.innerWidth<=600){ chatScrollY=window.scrollY||window.pageYOffset||0; }
     document.getElementById("chat").classList.add("active");
     document.body.classList.add("chat-open");
     document.body.style.overflow = "hidden";
@@ -4744,6 +4767,9 @@ function closeChat(){
     document.getElementById("chat").classList.remove("active");
     document.body.classList.remove("chat-open");
     document.body.style.overflow = "";
+    if(window.innerWidth<=600){
+        requestAnimationFrame(()=>window.scrollTo(0,chatScrollY));
+    }
 }
 
 function toggleChatDrawer(){
@@ -5016,6 +5042,95 @@ async function startNewProject(){
     setTimeout(()=>document.getElementById("chatInput").focus(),80);
 }
 
+/* =========================================================
+   CONOCIMIENTO LOCAL DE SPARKYKREA
+   Se usa como contexto adicional para evitar confusiones de nombres
+   y para que el bot pueda ayudar incluso si el modelo no reconoce un término.
+   ========================================================= */
+const SPARKY_GAME_KNOWLEDGE = {
+    valorant: {
+        tejo: {name:"Tejo", role:"Iniciador", identity:"Agente de VALORANT originario de Colombia; especialista en presión desde el mapa, información, daño y control del espacio.", note:"No es Sage, KAY/O ni Chamber."},
+        "kay/o": {name:"KAY/O", role:"Iniciador", identity:"Máquina de guerra de VALORANT enfocada en neutralizar habilidades mediante supresión y utilidad de iniciación.", note:"No es Tejo, Sage ni Chamber."},
+        kayo: {name:"KAY/O", role:"Iniciador", identity:"Máquina de guerra de VALORANT enfocada en neutralizar habilidades mediante supresión y utilidad de iniciación.", note:"No es Tejo, Sage ni Chamber."},
+        chamber: {name:"Chamber", role:"Centinela", identity:"Diseñador de armas francés de VALORANT, centrado en precisión, armas personalizadas, control de zona y picks a distancia.", note:"No es Tejo, KAY/O ni Sage."},
+        sage: {name:"Sage", role:"Centinela", identity:"Agente de VALORANT de China centrada en crear seguridad, ralentizar, curar y revivir a un aliado.", note:"No es Tejo, KAY/O ni Chamber."},
+        omen: {name:"Omen", role:"Controlador", identity:"Agente de VALORANT centrado en humos, movilidad y juego desde las sombras."},
+        jett: {name:"Jett", role:"Duelista", identity:"Duelista de VALORANT centrada en movilidad, entradas rápidas y precisión."},
+        raze: {name:"Raze", role:"Duelista", identity:"Duelista de VALORANT centrada en explosivos, daño y movilidad."},
+        sova: {name:"Sova", role:"Iniciador", identity:"Iniciador de VALORANT centrado en obtener información y revelar posiciones."},
+        phoenix: {name:"Phoenix", role:"Duelista", identity:"Duelista de VALORANT con fuego, curación propia y capacidad de volver a la pelea mediante su definitiva."},
+        gekko: {name:"Gekko", role:"Iniciador", identity:"Iniciador de VALORANT que usa a sus criaturas para iniciar, desorientar y recuperar utilidad."},
+        cypher: {name:"Cypher", role:"Centinela", identity:"Centinela de VALORANT centrado en vigilancia, trampas e información."},
+        viper: {name:"Viper", role:"Controlador", identity:"Controladora de VALORANT que usa toxinas para dividir zonas y limitar la visión."},
+        reyna: {name:"Reyna", role:"Duelista", identity:"Duelista de VALORANT centrada en duelos individuales y aprovechamiento de bajas."},
+        neon: {name:"Neon", role:"Duelista", identity:"Duelista de VALORANT centrada en velocidad, entradas rápidas y presión eléctrica."},
+        breach: {name:"Breach", role:"Iniciador", identity:"Iniciador de VALORANT centrado en aturdir, desplazar y abrir espacios a través de superficies."},
+        skye: {name:"Skye", role:"Iniciador", identity:"Iniciadora de VALORANT con herramientas de información, curación y destellos."},
+        clove: {name:"Clove", role:"Controlador", identity:"Controlador de VALORANT con utilidad de humos y una identidad muy ligada a seguir participando incluso tras caer."},
+        killjoy: {name:"Killjoy", role:"Centinela", identity:"Centinela de VALORANT especializada en dispositivos automáticos y control de zona."},
+        deadlock: {name:"Deadlock", role:"Centinela", identity:"Centinela de VALORANT centrada en restringir el movimiento enemigo con tecnología especializada."},
+        fade: {name:"Fade", role:"Iniciador", identity:"Iniciadora de VALORANT especializada en rastrear y perseguir enemigos mediante información."},
+        harbor: {name:"Harbor", role:"Controlador", identity:"Controlador de VALORANT que usa agua para crear cobertura y dividir espacios."},
+        iso: {name:"Iso", role:"Duelista", identity:"Duelista de VALORANT centrado en enfrentamientos individuales y protección durante los duelos."},
+        waylay: {name:"Waylay", role:"Duelista", identity:"Duelista de VALORANT enfocada en velocidad, movilidad y presión durante las entradas."},
+        vyse: {name:"Vyse", role:"Centinela", identity:"Centinela de VALORANT especializada en controlar zonas y castigar a quienes entran en ellas."},
+        yoru: {name:"Yoru", role:"Duelista", identity:"Duelista de VALORANT centrado en engaño, teletransporte y jugadas impredecibles."},
+        astra: {name:"Astra", role:"Controlador", identity:"Controladora de VALORANT que coloca utilidad mediante una perspectiva astral del mapa."},
+        brimstone: {name:"Brimstone", role:"Controlador", identity:"Controlador de VALORANT centrado en humos, apoyo táctico y control del mapa."},
+        raze: {name:"Raze", role:"Duelista", identity:"Duelista de VALORANT centrada en explosivos, daño y movilidad."},
+        kayo: {name:"KAY/O", role:"Iniciador", identity:"Máquina de guerra de VALORANT enfocada en neutralizar habilidades mediante supresión y utilidad de iniciación.", note:"No es Tejo, Sage ni Chamber."}
+    },
+    lol: {
+        garen: {name:"Garen", role:"Luchador/Tanque", identity:"Campeón de League of Legends de Demacia; luchador resistente con regeneración, silencio, giro de espada y una definitiva de ejecución."},
+        katarina: {name:"Katarina", role:"Asesina", identity:"Campeona de League of Legends de Noxus; asesina centrada en dagas, reinicios de enfriamientos y daño explosivo en peleas."},
+        ahri: {name:"Ahri", role:"Maga", identity:"Campeona de League of Legends centrada en movilidad, encantamiento y daño mágico."},
+        yasuo: {name:"Yasuo", role:"Luchador", identity:"Campeón de League of Legends centrado en movilidad, golpes críticos y una barrera de viento."},
+        yone: {name:"Yone", role:"Luchador/Asesino", identity:"Campeón de League of Legends centrado en movilidad, daño mixto y volver a su posición tras entrar en combate."},
+        jinx: {name:"Jinx", role:"Tiradora", identity:"Campeona de League of Legends centrada en daño a distancia, velocidad de ataque y escalado durante las peleas."},
+        lux: {name:"Lux", role:"Maga/Apoyo", identity:"Campeona de League of Legends de Demacia centrada en control, escudos y daño mágico a distancia."},
+        zed: {name:"Zed", role:"Asesino", identity:"Campeón de League of Legends centrado en sombras, movilidad y daño explosivo."},
+        darius: {name:"Darius", role:"Luchador", identity:"Campeón de League of Legends de Noxus centrado en daño sostenido, sangrado y ejecuciones."},
+        lee: {name:"Lee Sin", role:"Luchador", identity:"Campeón de League of Legends centrado en movilidad, juego agresivo y utilidad mecánica."}
+    }
+};
+
+function normalizeSearchKey(value){
+    return String(value||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim();
+}
+
+function getLocalGameKnowledge(text){
+    const t=normalizeSearchKey(text);
+    const found=[];
+    for(const game of Object.values(SPARKY_GAME_KNOWLEDGE)){
+        for(const [key,info] of Object.entries(game)){
+            if(t.includes(normalizeSearchKey(key)) || t.includes(normalizeSearchKey(info.name))){
+                found.push(info);
+            }
+        }
+    }
+    const unique=[];
+    const seen=new Set();
+    for(const item of found){
+        if(!seen.has(item.name)){seen.add(item.name);unique.push(item);}
+    }
+    return unique.slice(0,5);
+}
+
+function buildKnowledgeContext(text){
+    const entries=getLocalGameKnowledge(text);
+    if(!entries.length) return "";
+    return entries.map(info=>
+        `CONOCIMIENTO SPARKYKREA — ${info.name}: rol ${info.role}. ${info.identity}${info.note?" "+info.note:""}`
+    ).join("\n");
+}
+
+function getLocalFallback(text){
+    const entries=getLocalGameKnowledge(text);
+    if(!entries.length) return "";
+    const first=entries[0];
+    return `Sí, sé a quién te refieres: **${first.name}**.\n\n**Rol:** ${first.role}.\n**Qué es:** ${first.identity}${first.note?`\n**Importante:** ${first.note}`:""}\n\nSi quieres, puedo usar este personaje para crear una estrategia, guion, video, build o contenido paso a paso.`;
+}
+
 function detectGreeting(text){
     const t=text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").trim();
     return /^(hola|holaa+|holaaa+|buenas|buenos dias|buenas tardes|buenas noches|hey|ey|hello|hi)([!. ,]*)$/i.test(t);
@@ -5115,7 +5230,8 @@ async function streamAIResponse(text, history, messageElement){
                 },
                 body:JSON.stringify({
                     message:text,
-                    history:history
+                    history:history,
+                    knowledgeContext:buildKnowledgeContext(text)
                 }),
                 signal:controller.signal
             }
@@ -5198,13 +5314,16 @@ function updateChatViewport(){
     const vv=window.visualViewport;
     const height=vv ? vv.height : window.innerHeight;
     const top=vv ? vv.offsetTop : 0;
+    const input=document.getElementById("chatInput");
+    const chat=document.getElementById("chat");
 
     document.documentElement.style.setProperty('--chat-vh', `${Math.max(1,Math.round(height))}px`);
     document.documentElement.style.setProperty('--chat-top', `${Math.max(0,Math.round(top))}px`);
 
-    const chat=document.getElementById("chat");
     if(chat){
-        const keyboardOpen=!!vv && (window.innerHeight-vv.height)>120;
+        const viewportKeyboard=vv ? (window.innerHeight-vv.height) : 0;
+        const focused=input && document.activeElement===input;
+        const keyboardOpen=focused || viewportKeyboard>80;
         chat.classList.toggle("keyboard-open",keyboardOpen);
     }
 }
@@ -5230,28 +5349,39 @@ function setupMobileChatViewport(){
 
     input.addEventListener("focus",()=>{
         document.body.classList.add("chat-open");
+        document.getElementById("chat")?.classList.add("keyboard-open");
         updateChatViewport();
-        setTimeout(keepChatVisible,50);
-        setTimeout(keepChatVisible,180);
-        setTimeout(keepChatVisible,350);
+        setTimeout(keepChatVisible,30);
+        setTimeout(keepChatVisible,120);
+        setTimeout(keepChatVisible,280);
+        setTimeout(keepChatVisible,500);
     });
 
     input.addEventListener("blur",()=>{
-        setTimeout(updateChatViewport,100);
+        setTimeout(()=>{
+            if(document.activeElement!==input){
+                document.getElementById("chat")?.classList.remove("keyboard-open");
+                updateChatViewport();
+            }
+        },180);
     });
 
-    window.addEventListener("resize",updateChatViewport);
+    window.addEventListener("resize",()=>{
+        updateChatViewport();
+        if(document.getElementById("chat")?.classList.contains("active")){
+            setTimeout(keepChatVisible,30);
+        }
+    },{passive:true});
 
     if(window.visualViewport){
         window.visualViewport.addEventListener("resize",()=>{
             updateChatViewport();
-
             if(document.getElementById("chat")?.classList.contains("active")){
-                setTimeout(keepChatVisible,30);
+                setTimeout(keepChatVisible,20);
             }
-        });
+        },{passive:true});
 
-        window.visualViewport.addEventListener("scroll",updateChatViewport);
+        window.visualViewport.addEventListener("scroll",updateChatViewport,{passive:true});
     }
 }
 
@@ -5297,9 +5427,10 @@ async function sendMessage(){
             console.error('SparkyKrea AI:',error);
             botMessage.remove();
 
-            const message=(error?.name==='AbortError')
+            const localFallback=getLocalFallback(text);
+            const message=localFallback || ((error?.name==='AbortError')
                 ? 'La IA está tardando demasiado. Inténtalo de nuevo.'
-                : 'No pude conectar con la IA. Revisa OPENROUTER_API_KEY, el despliegue de chat-ia y que la función tenga verify_jwt = false.';
+                : 'No pude conectar con la IA. Inténtalo nuevamente en unos segundos.');
 
             addMessage(message,'bot',true);
             return;
