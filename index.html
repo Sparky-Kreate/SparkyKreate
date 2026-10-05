@@ -938,6 +938,20 @@ footer span{
     transform:translateY(-2px);
 }
 
+.notice-actions{display:flex;justify-content:center;gap:10px;margin-top:23px;}
+.notice-actions .notice-btn{margin-top:0;}
+.notice-btn.secondary{background:transparent;color:#d8d1c5;border:1px solid #4a4438;}
+.notice-btn.secondary:hover{background:#1b1916;color:#fff5e5;border-color:#6b5d49;}
+
+@media(max-width:600px){
+    .notice{padding:16px;}
+    .notice-box{width:min(390px,100%);padding:25px 20px;border-radius:22px;}
+    .notice-box h2{font-size:27px;}
+    .notice-box p{font-size:14px;}
+    .notice-actions{width:100%;}
+    .notice-actions .notice-btn{flex:1;}
+}
+
 
 /* NUEVA CONTRASEÑA */
 
@@ -2644,6 +2658,21 @@ body{
 
     .chat.active{transform:none;}
 
+    .chat.keyboard-open .chat-header{
+        height:56px;
+        flex:0 0 56px;
+        padding:0 10px;
+    }
+    .chat.keyboard-open .chat-content{
+        padding-top:12px;
+        padding-bottom:10px;
+    }
+    .chat.keyboard-open .chat-input-area{
+        padding:7px 10px 8px;
+    }
+    .chat.keyboard-open .chat-input-box{min-height:54px;}
+    .chat.keyboard-open .chat-input{min-height:52px;}
+
     .chat-header{
         height:70px;
         flex:0 0 70px;
@@ -3111,13 +3140,17 @@ SparkyKrea
 
 <p id="noticeText"></p>
 
-<button
-class="notice-btn"
-id="noticeButton"
-onclick="closeNotice()"
->
+<div class="notice-actions" id="noticeActions">
+
+<button class="notice-btn secondary" id="noticeCancelButton" onclick="closeNotice()" style="display:none">
+Cancelar
+</button>
+
+<button class="notice-btn" id="noticeButton" onclick="closeNotice()">
 Continuar →
 </button>
+
+</div>
 
 </div>
 
@@ -3439,45 +3472,45 @@ function cleanRecoveryUrl(){
    NOTICE
    ========================================================= */
 
-function showNotice(
-    title,
-    text,
-    buttonText="Continuar →",
-    buttonAction=null
-){
+function showNotice(title,text,buttonText="Continuar →",buttonAction=null){
+    const notice=document.getElementById("notice");
+    const titleEl=document.getElementById("noticeTitle");
+    const textEl=document.getElementById("noticeText");
+    const button=document.getElementById("noticeButton");
+    const cancelButton=document.getElementById("noticeCancelButton");
 
-    document
-    .getElementById("noticeTitle")
-    .textContent = title;
-
-    document
-    .getElementById("noticeText")
-    .textContent = text;
-
-    const button =
-    document.getElementById("noticeButton");
-
-    button.textContent =
-    buttonText;
-
-    button.onclick =
-    buttonAction || closeNotice;
-
-    document
-    .getElementById("notice")
-    .classList
-    .add("active");
-
+    titleEl.textContent=title;
+    textEl.textContent=text;
+    button.textContent=buttonText;
+    button.onclick=buttonAction || closeNotice;
+    cancelButton.style.display="none";
+    button.style.display="inline-block";
+    notice.classList.add("active");
 }
 
+function showConfirmNotice(title,text,confirmText,onConfirm){
+    const notice=document.getElementById("notice");
+    const titleEl=document.getElementById("noticeTitle");
+    const textEl=document.getElementById("noticeText");
+    const button=document.getElementById("noticeButton");
+    const cancelButton=document.getElementById("noticeCancelButton");
+
+    titleEl.textContent=title;
+    textEl.textContent=text;
+    cancelButton.style.display="inline-block";
+    cancelButton.textContent="Cancelar";
+    cancelButton.onclick=closeNotice;
+    button.style.display="inline-block";
+    button.textContent=confirmText || "Eliminar";
+    button.onclick=()=>{
+        closeNotice();
+        if(typeof onConfirm === "function") onConfirm();
+    };
+    notice.classList.add("active");
+}
 
 function closeNotice(){
-
-    document
-    .getElementById("notice")
-    .classList
-    .remove("active");
-
+    document.getElementById("notice").classList.remove("active");
 }
 
 
@@ -4889,11 +4922,15 @@ async function loadChatProjects(){
 async function deleteProject(projectId,projectName){
     if(!currentUser || !projectId) return;
 
-    const confirmed=window.confirm(
-        '¿Eliminar "'+(projectName||'este chat')+'"?\\n\\nSe eliminarán sus mensajes y no se podrá recuperar.'
+    showConfirmNotice(
+        "Eliminar proyecto",
+        '¿Seguro que quieres eliminar "'+(projectName||'este chat')+'"? Se eliminarán sus mensajes y no se podrá recuperar.',
+        "Eliminar",
+        ()=>performProjectDeletion(projectId,projectName)
     );
-    if(!confirmed) return;
+}
 
+async function performProjectDeletion(projectId,projectName){
     try{
         const {error:messagesError}=await supabaseClient
             .from("chat_messages")
@@ -4903,7 +4940,7 @@ async function deleteProject(projectId,projectName){
 
         if(messagesError){
             console.error("Eliminando mensajes:",messagesError);
-            alert("No se pudo eliminar el chat. Revisa los permisos DELETE de chat_messages en Supabase.");
+            showNotice("No se pudo eliminar", "No se pudieron eliminar los mensajes de este proyecto. Revisa los permisos DELETE de chat_messages en Supabase.");
             return;
         }
 
@@ -4915,7 +4952,7 @@ async function deleteProject(projectId,projectName){
 
         if(projectError){
             console.error("Eliminando proyecto:",projectError);
-            alert("No se pudo eliminar el chat. Revisa los permisos DELETE de chat_projects en Supabase.");
+            showNotice("No se pudo eliminar", "No se pudo eliminar el proyecto. Revisa los permisos DELETE de chat_projects en Supabase.");
             return;
         }
 
@@ -4929,7 +4966,7 @@ async function deleteProject(projectId,projectName){
         await loadChatProjects();
     }catch(error){
         console.error("Eliminando chat:",error);
-        alert("No se pudo eliminar el chat.");
+        showNotice("No se pudo eliminar", "Ocurrió un error al eliminar el chat. Inténtalo nuevamente.");
     }
 }
 
@@ -5162,15 +5199,14 @@ function updateChatViewport(){
     const height=vv ? vv.height : window.innerHeight;
     const top=vv ? vv.offsetTop : 0;
 
-    document.documentElement.style.setProperty(
-        '--chat-vh',
-        `${Math.max(1,Math.round(height))}px`
-    );
+    document.documentElement.style.setProperty('--chat-vh', `${Math.max(1,Math.round(height))}px`);
+    document.documentElement.style.setProperty('--chat-top', `${Math.max(0,Math.round(top))}px`);
 
-    document.documentElement.style.setProperty(
-        '--chat-top',
-        `${Math.max(0,Math.round(top))}px`
-    );
+    const chat=document.getElementById("chat");
+    if(chat){
+        const keyboardOpen=!!vv && (window.innerHeight-vv.height)>120;
+        chat.classList.toggle("keyboard-open",keyboardOpen);
+    }
 }
 
 function keepChatVisible(){
