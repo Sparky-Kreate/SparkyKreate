@@ -2757,6 +2757,564 @@ html, body, body *{
 
 </style>
 
+
+<style id="sparky-aesthetic-final">
+/* =========================================================
+   SPARKYKREA — ACABADO ESTÉTICO FINAL
+   Solo visual: no cambia la lógica de la IA ni las funciones.
+   ========================================================= */
+:root{
+    --sk-bg:#080807;
+    --sk-panel:rgba(15,15,13,.72);
+    --sk-panel-strong:rgba(17,17,15,.92);
+    --sk-line:rgba(224,205,167,.18);
+    --sk-line-soft:rgba(255,255,255,.08);
+    --sk-gold:#e0cda7;
+    --sk-gold-light:#f0dfbd;
+    --sk-text:#f6f0e6;
+    --sk-muted:#aaa59c;
+}
+
+/* Base más limpia y coherente */
+body{
+    color:var(--sk-text);
+    background-color:var(--sk-bg);
+}
+
+/* Header tipo glass, sin hacerlo pesado */
+header{
+    padding-top:18px !important;
+    padding-bottom:18px !important;
+}
+.header-inner{
+    padding:9px 12px;
+    border:1px solid rgba(224,205,167,.13);
+    border-radius:20px;
+    background:rgba(8,8,7,.42);
+    backdrop-filter:blur(16px);
+    -webkit-backdrop-filter:blur(16px);
+    box-shadow:0 14px 45px rgba(0,0,0,.18);
+}
+.brand{letter-spacing:.2px;}
+.logo{
+    box-shadow:0 0 0 5px rgba(224,205,167,.035),0 0 28px rgba(224,205,167,.08);
+}
+.auth button{
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+}
+
+/* Hero: más premium, con halo detrás del logo */
+.hero{
+    position:relative;
+    isolation:isolate;
+}
+.hero::before{
+    content:"";
+    position:absolute;
+    width:min(620px,70vw);
+    height:420px;
+    left:50%;
+    top:42%;
+    transform:translate(-50%,-50%);
+    background:radial-gradient(circle,rgba(224,205,167,.10) 0%,rgba(224,205,167,.035) 32%,transparent 70%);
+    filter:blur(10px);
+    pointer-events:none;
+    z-index:-1;
+}
+.hero-logo{
+    box-shadow:0 0 0 8px rgba(224,205,167,.025),0 0 55px rgba(224,205,167,.10);
+    background:rgba(10,10,8,.30);
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+}
+.hero h1{
+    text-shadow:0 4px 35px rgba(0,0,0,.28);
+}
+.hero-text{color:#c0bbb2;}
+.main-btn{
+    box-shadow:0 10px 30px rgba(0,0,0,.22),inset 0 1px rgba(255,255,255,.08);
+}
+
+/* Sección de servicios */
+.services{
+    position:relative;
+}
+.section-label{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+}
+.section-label::before,
+.section-label::after{
+    content:"";
+    width:24px;
+    height:1px;
+    background:rgba(224,205,167,.55);
+}
+.services-description{color:#b8b2a9;}
+
+/* Tarjetas: vidrio oscuro + profundidad */
+.service-card{
+    background:linear-gradient(145deg,rgba(24,23,20,.88),rgba(10,10,9,.92)) !important;
+    border-color:rgba(224,205,167,.22) !important;
+    box-shadow:0 24px 70px rgba(0,0,0,.30),inset 0 1px rgba(255,255,255,.035);
+    backdrop-filter:blur(15px);
+    -webkit-backdrop-filter:blur(15px);
+}
+.service-card.active{
+    box-shadow:0 28px 80px rgba(0,0,0,.34),0 0 0 1px rgba(224,205,167,.045),inset 0 1px rgba(255,255,255,.04);
+}
+.service-card h3{color:#f5eee3;}
+.service-card p{color:#b4aea5;}
+.card-line{box-shadow:0 0 16px rgba(224,205,167,.18);}
+.carousel-dot{transition:width .3s ease,background-color .3s ease,transform .3s ease;}
+.carousel-dot:hover{transform:scale(1.15);}
+
+/* Contacto */
+.contact{
+    position:relative;
+    border-top-color:rgba(224,205,167,.13) !important;
+}
+.contact::before{
+    content:"";
+    display:block;
+    width:80px;
+    height:1px;
+    margin:0 auto 28px;
+    background:linear-gradient(90deg,transparent,var(--sk-gold),transparent);
+    opacity:.7;
+}
+.contact-btn{
+    box-shadow:0 12px 34px rgba(0,0,0,.24),inset 0 1px rgba(255,255,255,.18);
+}
+footer{border-top-color:rgba(224,205,167,.13) !important;}
+
+/* Chat: interfaz más refinada */
+.chat{
+    background:
+        radial-gradient(circle at 50% 0%,rgba(224,205,167,.055),transparent 32%),
+        #080807 !important;
+}
+.chat-header{
+    height:76px;
+    padding:0 24px;
+    background:rgba(8,8,7,.78);
+    border-bottom:1px solid rgba(224,205,167,.13);
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+}
+.chat-header-left{gap:12px;}
+.chat-menu-btn{
+    border-color:rgba(224,205,167,.22);
+    background:rgba(20,19,16,.75);
+    box-shadow:inset 0 1px rgba(255,255,255,.035);
+}
+.chat-logo{
+    box-shadow:0 0 22px rgba(224,205,167,.07);
+}
+.chat-brand span{letter-spacing:.2px;}
+.chat-close{
+    width:42px;height:42px;
+    border:1px solid rgba(224,205,167,.16);
+    border-radius:13px;
+    display:grid;
+    place-items:center;
+    font-size:27px;
+    background:rgba(17,17,15,.55);
+}
+.chat-content{
+    padding-top:34px;
+    padding-bottom:120px;
+}
+.message{
+    box-shadow:0 10px 30px rgba(0,0,0,.12);
+}
+.message.bot{
+    background:linear-gradient(145deg,rgba(23,22,19,.92),rgba(14,14,12,.90));
+    border-color:rgba(224,205,167,.15);
+}
+.message.user{
+    box-shadow:0 10px 26px rgba(0,0,0,.18);
+}
+.quick-reply,
+.duration-option{
+    box-shadow:inset 0 1px rgba(255,255,255,.035);
+}
+.duration-panel{
+    background:linear-gradient(145deg,rgba(25,23,19,.94),rgba(12,12,10,.94));
+    border-color:rgba(224,205,167,.22);
+    box-shadow:0 18px 55px rgba(0,0,0,.24),inset 0 1px rgba(255,255,255,.035);
+}
+.chat-input-area{
+    background:rgba(8,8,7,.78);
+    border-top-color:rgba(224,205,167,.13);
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+}
+.chat-input-box{max-width:900px;}
+.chat-input{
+    min-height:50px;
+    border-color:rgba(224,205,167,.16);
+    background:rgba(17,17,15,.88);
+    box-shadow:inset 0 1px rgba(255,255,255,.035);
+}
+.chat-input:focus{
+    border-color:rgba(224,205,167,.45);
+    box-shadow:0 0 0 3px rgba(224,205,167,.055);
+}
+.chat-send{
+    min-width:50px;
+    box-shadow:0 8px 24px rgba(0,0,0,.18),inset 0 1px rgba(255,255,255,.18);
+}
+
+/* Historial */
+.chat-drawer{
+    background:rgba(12,12,10,.97);
+    border-right-color:rgba(224,205,167,.16);
+    box-shadow:25px 0 80px rgba(0,0,0,.48);
+    backdrop-filter:blur(22px);
+    -webkit-backdrop-filter:blur(22px);
+}
+.chat-drawer-head{border-bottom-color:rgba(224,205,167,.12);}
+.chat-project.active{
+    background:linear-gradient(90deg,rgba(224,205,167,.10),rgba(224,205,167,.035));
+    border-color:rgba(224,205,167,.23);
+}
+
+/* Modales y paneles de cuenta */
+.modal-box{
+    background:linear-gradient(145deg,rgba(25,24,21,.97),rgba(11,11,10,.98)) !important;
+    border-color:rgba(224,205,167,.22) !important;
+    box-shadow:0 35px 100px rgba(0,0,0,.55),inset 0 1px rgba(255,255,255,.04) !important;
+}
+
+/* PC: composición más cinematográfica. El móvil conserva su fondo. */
+@media(min-width:901px){
+    body{
+        background-image:
+            linear-gradient(90deg,rgba(6,6,5,.90) 0%,rgba(8,8,7,.60) 46%,rgba(8,8,7,.78) 100%),
+            linear-gradient(180deg,rgba(8,8,7,.30),rgba(8,8,7,.88)),
+            url("https://images.pexels.com/photos/15555796/pexels-photo-15555796.jpeg?auto=compress&cs=tinysrgb&w=1920") !important;
+        background-size:cover,cover,cover !important;
+        background-position:center,center,center !important;
+        background-repeat:no-repeat !important;
+        background-attachment:fixed !important;
+    }
+    .hero::after{
+        content:"";
+        position:absolute;
+        inset:0;
+        pointer-events:none;
+        background:radial-gradient(circle at 50% 38%,transparent 0%,transparent 35%,rgba(0,0,0,.12) 100%);
+        z-index:-1;
+    }
+}
+
+/* Móvil: limpio, compacto y sin tocar su fondo */
+@media(max-width:600px){
+    header{padding:10px 12px !important;}
+    .header-inner{
+        padding:7px 8px;
+        border-radius:16px;
+    }
+    .hero::before{width:95vw;height:320px;}
+    .chat-header{height:64px;padding:0 12px;}
+    .chat-content{padding-top:22px;padding-bottom:100px;}
+    .message{max-width:88%;}
+    .chat-input-area{padding:9px 10px;}
+    .chat-input{min-height:48px;}
+}
+</style>
+
+
+<style id="sparky-pc-manual-final">
+/* =========================================================
+   SPARKYKREA — PC FINAL
+   3 secciones verticales, centradas y con scroll 100% manual.
+   No modifica la composición del móvil.
+   ========================================================= */
+@media (min-width:901px){
+    html,
+    body{
+        scroll-behavior:auto !important;
+        scroll-snap-type:none !important;
+        scroll-padding:0 !important;
+        overscroll-behavior-y:auto !important;
+    }
+
+    body{
+        overflow-x:hidden !important;
+        overflow-y:auto !important;
+        background-color:#0b0a09 !important;
+        background-image:
+            linear-gradient(90deg,rgba(8,7,6,.94) 0%,rgba(18,16,13,.76) 47%,rgba(8,7,6,.88) 100%),
+            linear-gradient(180deg,rgba(224,205,167,.05),rgba(8,7,6,.76)),
+            url("https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=2400&q=88") !important;
+        background-size:cover,cover,cover !important;
+        background-position:center center,center center,center center !important;
+        background-repeat:no-repeat !important;
+        background-attachment:fixed !important;
+    }
+
+    .page{
+        width:100%;
+        position:relative;
+        overflow:visible !important;
+    }
+
+    /* Header flotante: no crea una cuarta pantalla. */
+    body > .page > header{
+        position:fixed !important;
+        top:0;
+        left:0;
+        right:0;
+        height:76px !important;
+        padding:14px 28px !important;
+        z-index:1000;
+        background:linear-gradient(180deg,rgba(8,7,6,.76),rgba(8,7,6,.25)) !important;
+        border-bottom:1px solid rgba(224,205,167,.08);
+        backdrop-filter:blur(12px);
+        -webkit-backdrop-filter:blur(12px);
+    }
+
+    .header-inner{
+        width:min(1280px,calc(100% - 10px)) !important;
+        min-height:48px;
+        margin:0 auto !important;
+    }
+
+    /* 1/3 — INICIO */
+    .hero{
+        width:100% !important;
+        max-width:none !important;
+        height:100vh !important;
+        min-height:100vh !important;
+        margin:0 !important;
+        padding:110px 50px 55px !important;
+        display:flex !important;
+        flex-direction:column !important;
+        justify-content:center !important;
+        align-items:center !important;
+        text-align:center !important;
+        position:relative !important;
+        overflow:hidden !important;
+        scroll-snap-align:none !important;
+        scroll-snap-stop:normal !important;
+    }
+
+    .hero-logo{
+        width:72px !important;
+        height:72px !important;
+        margin-bottom:22px !important;
+    }
+
+    .hero h1{
+        width:min(980px,92vw) !important;
+        max-width:980px !important;
+        margin:0 auto !important;
+        font-size:clamp(52px,5.4vw,82px) !important;
+        line-height:.98 !important;
+        letter-spacing:-2.7px !important;
+    }
+
+    .hero-text{
+        width:min(720px,88vw) !important;
+        max-width:720px !important;
+        margin:20px auto 0 !important;
+        font-size:16px !important;
+        line-height:1.55 !important;
+    }
+
+    .main-btn{margin-top:24px !important;}
+
+    /* 2/3 — SERVICIOS */
+    .services{
+        width:100% !important;
+        max-width:none !important;
+        height:100vh !important;
+        min-height:100vh !important;
+        margin:0 !important;
+        padding:95px 50px 55px !important;
+        display:flex !important;
+        flex-direction:column !important;
+        justify-content:center !important;
+        align-items:center !important;
+        text-align:center !important;
+        position:relative !important;
+        overflow:hidden !important;
+        scroll-snap-align:none !important;
+        scroll-snap-stop:normal !important;
+    }
+
+    .services h2{
+        width:min(900px,90vw) !important;
+        max-width:900px !important;
+        margin:0 auto !important;
+        font-size:clamp(46px,4.7vw,70px) !important;
+    }
+
+    .services-description{
+        width:min(700px,86vw) !important;
+        margin:16px auto 0 !important;
+    }
+
+    .carousel-wrapper{
+        width:min(760px,86vw) !important;
+        margin:30px auto 0 !important;
+    }
+
+    .carousel{
+        width:100% !important;
+        min-height:205px !important;
+        position:relative !important;
+    }
+
+    .service-card{
+        width:min(700px,86vw) !important;
+        min-height:205px !important;
+        left:50% !important;
+        top:0 !important;
+        text-align:left !important;
+    }
+
+    /* 3/3 — CONTACTO + PIE */
+    .contact{
+        width:100% !important;
+        max-width:none !important;
+        height:calc(100vh - 78px) !important;
+        min-height:calc(100vh - 78px) !important;
+        margin:0 !important;
+        padding:95px 50px 35px !important;
+        display:flex !important;
+        flex-direction:column !important;
+        justify-content:center !important;
+        align-items:center !important;
+        text-align:center !important;
+        position:relative !important;
+        overflow:hidden !important;
+        scroll-snap-align:none !important;
+        scroll-snap-stop:normal !important;
+    }
+
+    .contact h2{
+        width:min(900px,90vw) !important;
+        max-width:900px !important;
+        margin:0 auto !important;
+        font-size:clamp(46px,4.6vw,68px) !important;
+    }
+
+    .contact p{
+        width:min(680px,86vw) !important;
+        margin:16px auto 0 !important;
+    }
+
+    .contact-btn{margin-top:22px !important;}
+
+    footer{
+        width:100% !important;
+        height:78px !important;
+        min-height:78px !important;
+        margin:0 !important;
+        padding:12px 20px !important;
+        display:flex !important;
+        flex-direction:column !important;
+        justify-content:center !important;
+        align-items:center !important;
+        position:relative !important;
+        scroll-snap-align:none !important;
+        border-top:1px solid rgba(224,205,167,.10) !important;
+    }
+
+    /* Evita que las animaciones de entrada muevan una sección al hacer scroll. */
+    .contact.motion-hidden,
+    footer.motion-hidden{
+        opacity:1 !important;
+        transform:none !important;
+    }
+}
+
+/* =========================================================
+   CHAT PC — CENTRADO Y RESPUESTAS LEGIBLES
+   ========================================================= */
+@media (min-width:901px){
+    .chat-content{
+        width:min(1080px,calc(100% - 80px)) !important;
+        max-width:1080px !important;
+        margin:0 auto !important;
+        padding:38px 0 125px !important;
+    }
+
+    .message{
+        max-width:900px !important;
+        width:fit-content;
+        font-size:16px !important;
+        line-height:1.68 !important;
+        border-radius:18px !important;
+        margin-bottom:18px !important;
+    }
+
+    .message.bot{
+        width:min(900px,88%) !important;
+        margin-left:0 !important;
+        margin-right:auto !important;
+        padding:20px 23px !important;
+    }
+
+    .message.user{
+        max-width:700px !important;
+        margin-left:auto !important;
+        margin-right:0 !important;
+        padding:15px 19px !important;
+    }
+
+    .quick-replies,
+    .duration-panel{
+        width:min(900px,88%) !important;
+        max-width:900px !important;
+        margin-left:0 !important;
+        margin-right:auto !important;
+    }
+
+    .quick-reply,
+    .duration-option{
+        font-size:14px !important;
+        padding:10px 15px !important;
+    }
+}
+
+/* =========================================================
+   FORMATO VISUAL DE LA RESPUESTA DE LA IA
+   ========================================================= */
+.message.bot .ai-heading{
+    display:block;
+    margin:18px 0 8px;
+    color:#f6f0e6;
+    font-family:"Playfair Display",serif;
+    font-size:1.12em;
+    line-height:1.25;
+}
+.message.bot .ai-heading:first-child{margin-top:0;}
+.message.bot .ai-bullet{
+    display:block;
+    padding-left:1.05em;
+    margin:5px 0;
+}
+.message.bot .ai-time{
+    display:inline-block;
+    margin-top:8px;
+    color:var(--beige-light);
+    font-weight:700;
+}
+.message.bot .ai-divider{
+    display:block;
+    height:1px;
+    background:rgba(224,205,167,.12);
+    margin:15px 0;
+}
+
+</style>
+
 </head>
 
 <body>
@@ -4854,14 +5412,43 @@ function escapeHTML(text){
 }
 
 function formatBotText(text){
-    let clean=String(text??"").trim();
-    clean=clean.replace(/^User Safety:\s*safe\s*/i,"");
-    clean=escapeHTML(clean);
-    clean=clean.replace(/\*\*(.+?)\*\*/g,"<strong>$1</strong>");
-    clean=clean.replace(/\*([^*]+?)\*/g,"<em>$1</em>");
-    clean=clean.replace(/\n\s*\n/g,"</p><p>");
-    clean=clean.replace(/\n/g,"<br>");
-    return "<p>"+clean+"</p>";
+    let clean=String(text??'').trim();
+    clean=clean.replace(/User Safety:\s*safe/gi,'').trim();
+    const lines=clean.split(/\r?\n/);
+    const out=[];
+
+    for(let raw of lines){
+        let line=raw.trim();
+        if(!line){ out.push('<span class="ai-divider"></span>'); continue; }
+
+        let safe=escapeHTML(line);
+        safe=safe.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
+        safe=safe.replace(/\*([^*]+?)\*/g,'<em>$1</em>');
+
+        if(/^#{1,6}\s+/.test(line)){
+            safe=safe.replace(/^#{1,6}\s+/,'');
+            out.push('<strong class="ai-heading">'+safe+'</strong>');
+            continue;
+        }
+
+        if(/^(?:[-•]\s+|\d+[.)]\s+)/.test(line)){
+            const bullet=safe.replace(/^(?:[-•]\s+|\d+[.)]\s+)/,'');
+            out.push('<span class="ai-bullet">• '+bullet+'</span>');
+            continue;
+        }
+
+        if(/^\s*(?:\d+\s*[–-]\s*\d+|\d+\s*(?:s|seg|segundos|min|minutos))\b/i.test(line)){
+            out.push('<span class="ai-time">'+safe+'</span>');
+            continue;
+        }
+
+        out.push('<span>'+safe+'</span>');
+    }
+
+    let html=out.join('<br>');
+    html=html.replace(/<br><span class="ai-divider"><\/span>/g,'<span class="ai-divider"></span>');
+    html=html.replace(/<span class="ai-divider"><\/span><br>/g,'<span class="ai-divider"></span>');
+    return '<p>'+html+'</p>';
 }
 
 function addMessage(text,type,save=true){
@@ -5173,6 +5760,7 @@ function isStrategyRequest(text){
 }
 
 let pendingVideoRequest="";
+let pendingVideoStrategy="";
 
 function showDurationPanel(){
     if(document.getElementById("durationPanel")) return;
@@ -5181,8 +5769,8 @@ function showDurationPanel(){
     panel.className="duration-panel";
     panel.id="durationPanel";
     panel.innerHTML=`
-        <h3>Elige la duración del video</h3>
-        <p>Selecciona una opción y la IA adaptará el guion exactamente a ese tiempo.</p>
+        <h3>Perfecto. Ya tenemos la estrategia.</h3>
+        <p>Ahora dime cuánto quieres que dure el video. La IA no va a inventar el tiempo: tú eliges y después preparo el guion exacto.</p>
         <div class="duration-options">
             <button class="duration-option" onclick="chooseDuration('10 segundos')">10 seg</button>
             <button class="duration-option" onclick="chooseDuration('20 segundos')">20 seg</button>
@@ -5208,10 +5796,52 @@ function chooseDuration(duration){
     const panel=document.getElementById("durationPanel");
     if(panel) panel.remove();
 
-    const input=document.getElementById("chatInput");
-    input.value="Duración elegida: "+cleanDuration+". Genera el video basándote en mi solicitud anterior: "+pendingVideoRequest;
-    pendingVideoRequest="";
-    sendMessage();
+    generateFinalVideoScript(cleanDuration);
+}
+
+async function generateFinalVideoScript(duration){
+    const originalRequest=pendingVideoRequest;
+    const strategy=pendingVideoStrategy;
+    if(!originalRequest) return;
+
+    const input=document.getElementById('chatInput');
+    input.disabled=true;
+
+    /* El usuario solo ve su elección; la instrucción técnica queda oculta. */
+    addMessage('Duración elegida: '+duration+'.','user',true);
+
+    const history=getChatHistoryForAI().slice(0,-1);
+    const botMessage=addMessage('','bot',false);
+    botMessage.classList.add('streaming');
+    botMessage.innerHTML='<span class="ai-cursor">▌</span>';
+
+    const finalPrompt=`FASE 2 — GUION FINAL DEL VIDEO.
+Solicitud original del usuario: "${originalRequest}"
+Estrategia desarrollada en la fase anterior: "${strategy}"
+Duración elegida por el usuario: ${duration}.
+
+Ahora sí genera el guion final. Respeta exactamente la duración elegida y NO inventes otra. Divide el video escena por escena y usa una estructura clara: duración de cada escena, objetivo, visual/en pantalla, acción, texto en pantalla, narración/voz, audio o música, transición y CTA cuando corresponda. No cambies la idea central de la estrategia anterior.`;
+
+    try{
+        const reply=await streamAIResponse(finalPrompt,history,botMessage);
+        botMessage.classList.remove('streaming');
+        updateStreamingMessage(botMessage,reply);
+        if(currentUser && currentProjectId){
+            await saveChatMessage('bot',reply);
+        }
+    }catch(error){
+        console.error('SparkyKrea AI video:',error);
+        botMessage.remove();
+        const localFallback=getLocalFallback(originalRequest);
+        addMessage(localFallback || ((error?.name==='AbortError')
+            ? 'La IA está tardando demasiado. Inténtalo de nuevo.'
+            : 'No pude generar el guion. Inténtalo nuevamente en unos segundos.'),'bot',true);
+    }finally{
+        pendingVideoRequest='';
+        pendingVideoStrategy='';
+        input.disabled=false;
+        input.focus();
+    }
 }
 function submitCustomDuration(){
     const value=document.getElementById("customDurationInput")?.value.trim();
@@ -5449,22 +6079,21 @@ async function sendMessage(){
             return;
         }
 
-        /* VIDEO SIN DURACIÓN: primero el usuario elige. La IA NO inventa el tiempo. */
-        if(isVideoRequest(text) && !/\b\d+\s*(s|seg|segundos|m|min|minutos)\b/i.test(text)){
-            pendingVideoRequest=text;
-            setTimeout(()=>showDurationPanel(),80);
-            return;
-        }
-
         const history=getChatHistoryForAI().slice(0,-1);
         const botMessage=addMessage('','bot',false);
         botMessage.classList.add('streaming');
         botMessage.innerHTML='<span class="ai-cursor">▌</span>';
 
         let reply='';
+        const videoNeedsDuration=isVideoRequest(text) && !/\b\d+\s*(s|seg|segundos|m|min|minutos)\b/i.test(text);
+        const aiRequest = videoNeedsDuration
+            ? `FASE 1 — PLANIFICACIÓN DEL VIDEO. El usuario quiere: "${text}". Primero desarrolla solamente la IDEA, OBJETIVO, PÚBLICO, MENSAJE CENTRAL, ESTRUCTURA GENERAL Y ESTRATEGIA DEL VIDEO. NO escribas todavía el guion escena por escena y NO inventes ninguna duración. Al terminar, pregunta claramente: "¿Cuánto tiempo deseas que dure el video?". No elijas el tiempo por el usuario.
+
+IMPORTANTE: esta es la fase de estrategia; la siguiente fase, después de que el usuario elija la duración, será el guion final.`
+            : text;
 
         try{
-            reply=await streamAIResponse(text,history,botMessage);
+            reply=await streamAIResponse(aiRequest,history,botMessage);
         }catch(error){
             console.error('SparkyKrea AI:',error);
             botMessage.remove();
@@ -5480,6 +6109,12 @@ async function sendMessage(){
 
         botMessage.classList.remove('streaming');
         updateStreamingMessage(botMessage,reply);
+
+        if(videoNeedsDuration){
+            pendingVideoRequest=text;
+            pendingVideoStrategy=reply;
+            setTimeout(()=>showDurationPanel(),120);
+        }
 
         /* Guardamos la respuesta completa solo una vez, al terminar. */
         if(currentUser && currentProjectId){
