@@ -2569,14 +2569,21 @@ body{
 .chat-new-project{margin:15px 15px 10px;padding:13px 15px;border:1px solid #5c523f;border-radius:13px;background:#242119;color:var(--beige-light);font-weight:700;cursor:pointer;text-align:left;}
 .chat-new-project:hover{background:var(--beige);color:#171611;}
 .chat-projects{overflow:auto;padding:5px 12px 20px;flex:1;}
+.chat-project-row{display:flex;align-items:center;gap:7px;margin:3px 0;}
 .chat-project{
-    width:100%;display:flex;align-items:center;gap:11px;padding:13px 12px;margin:3px 0;
+    flex:1;min-width:0;width:100%;display:flex;align-items:center;gap:11px;padding:13px 12px;
     border:1px solid transparent;border-radius:13px;background:transparent;color:#d9d3c8;text-align:left;cursor:pointer;
 }
 .chat-project:hover{background:#1b1a17;border-color:#39342c;}
 .chat-project.active{background:#211f1a;border-color:#6a5c42;color:#fff4df;}
 .chat-project-icon{width:29px;height:29px;border:1px solid #5c523f;border-radius:9px;display:grid;place-items:center;color:var(--beige);font-size:12px;flex-shrink:0;}
-.chat-project-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px;}
+.chat-project-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px;flex:1;}
+.chat-project-delete{
+    width:42px;height:42px;flex:0 0 42px;border:1px solid #3f3a31;border-radius:12px;
+    background:#11110f;color:#aaa196;display:grid;place-items:center;cursor:pointer;
+}
+.chat-project-delete:hover{border-color:#8b6f55;color:#f0d8ad;background:#211d17;}
+.chat-project-delete svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;}
 .chat-login-hint{margin:18px 14px;padding:17px;border:1px solid #38342e;border-radius:14px;color:#aaa59c;font-size:13px;line-height:1.5;}
 .chat-login-hint button{margin-top:12px;border:1px solid var(--beige);border-radius:999px;background:var(--beige);color:#171611;padding:9px 13px;font-weight:700;cursor:pointer;}
 .chat-drawer-overlay{position:absolute;inset:0;background:rgba(0,0,0,.45);z-index:20;opacity:0;visibility:hidden;transition:.25s;}
@@ -2609,71 +2616,67 @@ body{
 .duration-custom button{border:0;border-radius:11px;background:var(--beige);color:#171611;padding:0 15px;font-weight:700;cursor:pointer;}
 .chat-status{font-size:12px;color:#8f897f;text-align:center;margin:0 auto 8px;}
 @media(max-width:600px){
-    /* CHAT MOVIL: ocupa siempre todo el viewport disponible, incluso con teclado */
     html,body{
         width:100%;
         max-width:100%;
         overflow-x:hidden;
     }
+
     body.chat-open{
         overflow:hidden !important;
-        height:100dvh;
+        height:var(--chat-vh, 100dvh);
+        min-height:var(--chat-vh, 100dvh);
     }
+
     .chat{
         position:fixed;
-        inset:0;
+        top:var(--chat-top, 0px);
+        left:0;
+        right:0;
+        bottom:auto;
         width:100%;
-        height:100dvh;
-        min-height:100dvh;
-        max-height:100dvh;
+        height:var(--chat-vh, 100dvh);
+        min-height:var(--chat-vh, 100dvh);
+        max-height:var(--chat-vh, 100dvh);
         overflow:hidden;
         transform:none;
     }
-    .chat.active{
-        transform:none;
+
+    .chat.active{transform:none;}
+
+    .chat-header{
+        height:70px;
+        flex:0 0 70px;
+        padding:0 14px;
     }
-    .chat-header{height:70px;padding:0 14px;flex:0 0 70px;}
+
     .chat-content{
-        width:calc(100% - 20px);
+        width:100%;
+        box-sizing:border-box;
         flex:1 1 auto;
         min-height:0;
         overflow-y:auto;
         -webkit-overflow-scrolling:touch;
-        padding:22px 0 24px;
-        scroll-padding-bottom:24px;
+        padding:22px 10px 20px;
+        scroll-padding-bottom:20px;
     }
+
     .chat-input-area{
         flex:0 0 auto;
+        box-sizing:border-box;
         padding:12px 14px calc(12px + env(safe-area-inset-bottom));
         background:#080807;
     }
+
     .chat-input-box{width:100%;}
     .chat-input{font-size:16px;}
     .message{max-width:94%;font-size:17px;line-height:1.65;}
-    .message.bot{padding:17px 17px;}.message.user{padding:15px 17px;}
+    .message.bot{padding:17px 17px;}
+    .message.user{padding:15px 17px;}
     .quick-replies{max-width:100%;}
     .duration-panel{border-radius:16px;}
     .duration-option{flex:1 1 calc(50% - 8px);text-align:center;}
 }
-
-/* Cuando el teclado del teléfono está abierto, el navegador puede reducir el viewport.
-   Mantener el chat en el viewport visible evita que el contenido desaparezca detrás del teclado. */
-@supports (height: 100dvh){
-    @media(max-width:600px){
-        .chat{height:100dvh;min-height:100dvh;}
-    }
-}
-    .chat-menu-btn{width:40px;height:40px;}
-    .chat-logo{width:34px;height:34px;}
-    .chat-brand span{font-size:17px;}
-    .chat-content{width:calc(100% - 20px);padding:22px 0 115px;}
-    .message{max-width:94%;font-size:17px;line-height:1.65;}
-    .message.bot{padding:17px 17px;}.message.user{padding:15px 17px;}
-    .quick-replies{max-width:100%;}
-    .duration-panel{border-radius:16px;}
-    .duration-option{flex:1 1 calc(50% - 8px);text-align:center;}
-}
-
 </style>
 
 </head>
@@ -3294,11 +3297,8 @@ Cargando...
     <div class="chat-content" id="chatContent">
         <div class="message bot" id="welcome">Hola. Cuéntame qué deseas hacer.</div>
         <div class="quick-replies" id="quickReplies">
-            <button class="quick-reply" onclick="quickReply('Quiero una idea creativa')">💡 Idea creativa</button>
-            <button class="quick-reply" onclick="quickReply('Quiero crear contenido')">✍️ Crear contenido</button>
-            <button class="quick-reply" onclick="quickReply('Quiero crear un video')">🎬 Crear un video</button>
-            <button class="quick-reply" onclick="quickReply('Necesito ayuda con marketing')">📈 Marketing</button>
-            <button class="quick-reply" onclick="quickReply('Quiero ayuda con diseño')">🎨 Diseño</button>
+            <button class="quick-reply" onclick="quickReply('Necesito ayuda con marketing')">Marketing</button>
+            <button class="quick-reply" onclick="quickReply('Quiero crear una estrategia y un guion')">Crear estrategia y guion</button>
         </div>
     </div>
 
@@ -4795,11 +4795,8 @@ function clearChatView(){
     const container=document.getElementById("chatContent");
     container.innerHTML=`<div class="message bot" id="welcome">Hola. Cuéntame qué deseas hacer.</div>
         <div class="quick-replies" id="quickReplies">
-            <button class="quick-reply" onclick="quickReply('Quiero una idea creativa')">💡 Idea creativa</button>
-            <button class="quick-reply" onclick="quickReply('Quiero crear contenido')">✍️ Crear contenido</button>
-            <button class="quick-reply" onclick="quickReply('Quiero crear un video')">🎬 Crear un video</button>
-            <button class="quick-reply" onclick="quickReply('Necesito ayuda con marketing')">📈 Marketing</button>
-            <button class="quick-reply" onclick="quickReply('Quiero ayuda con diseño')">🎨 Diseño</button>
+            <button class="quick-reply" onclick="quickReply('Necesito ayuda con marketing')">Marketing</button>
+            <button class="quick-reply" onclick="quickReply('Quiero crear una estrategia y un guion')">Crear estrategia y guion</button>
         </div>`;
 }
 
@@ -4857,13 +4854,83 @@ async function loadChatProjects(){
     }
     list.innerHTML="";
     data.forEach((project,index)=>{
+        const row=document.createElement("div");
+        row.className="chat-project-row";
+
         const button=document.createElement("button");
         button.className="chat-project"+(project.id===currentProjectId?" active":"");
         button.innerHTML=`<span class="chat-project-icon">${index+1}</span><span class="chat-project-name">${escapeHTML(project.name)}</span>`;
         button.onclick=()=>openProject(project.id,project.name);
-        list.appendChild(button);
+
+        const deleteButton=document.createElement("button");
+        deleteButton.className="chat-project-delete";
+        deleteButton.type="button";
+        deleteButton.title="Eliminar chat";
+        deleteButton.setAttribute("aria-label","Eliminar chat");
+        deleteButton.innerHTML=`<svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 7h16"></path>
+            <path d="M9 7V4h6v3"></path>
+            <path d="M7 7l1 13h8l1-13"></path>
+            <path d="M10 11v5"></path>
+            <path d="M14 11v5"></path>
+        </svg>`;
+        deleteButton.onclick=(event)=>{
+            event.stopPropagation();
+            deleteProject(project.id,project.name);
+        };
+
+        row.appendChild(button);
+        row.appendChild(deleteButton);
+        list.appendChild(row);
     });
     chatProjectsLoaded=true;
+}
+
+async function deleteProject(projectId,projectName){
+    if(!currentUser || !projectId) return;
+
+    const confirmed=window.confirm(
+        '¿Eliminar "'+(projectName||'este chat')+'"?\\n\\nSe eliminarán sus mensajes y no se podrá recuperar.'
+    );
+    if(!confirmed) return;
+
+    try{
+        const {error:messagesError}=await supabaseClient
+            .from("chat_messages")
+            .delete()
+            .eq("project_id",projectId)
+            .eq("user_id",currentUser.id);
+
+        if(messagesError){
+            console.error("Eliminando mensajes:",messagesError);
+            alert("No se pudo eliminar el chat. Revisa los permisos DELETE de chat_messages en Supabase.");
+            return;
+        }
+
+        const {error:projectError}=await supabaseClient
+            .from("chat_projects")
+            .delete()
+            .eq("id",projectId)
+            .eq("user_id",currentUser.id);
+
+        if(projectError){
+            console.error("Eliminando proyecto:",projectError);
+            alert("No se pudo eliminar el chat. Revisa los permisos DELETE de chat_projects en Supabase.");
+            return;
+        }
+
+        if(currentProjectId===projectId){
+            currentProjectId=null;
+            currentProjectNumber=null;
+            clearChatView();
+            updateGreeting();
+        }
+
+        await loadChatProjects();
+    }catch(error){
+        console.error("Eliminando chat:",error);
+        alert("No se pudo eliminar el chat.");
+    }
 }
 
 async function openProject(projectId,projectName){
@@ -4919,6 +4986,10 @@ function detectGreeting(text){
 
 function isVideoRequest(text){
     return /\b(video|reel|short|tiktok|animacion|animación)\b/i.test(text);
+}
+
+function isStrategyRequest(text){
+    return /estrategia.*guion|guion.*estrategia|crear una estrategia|crear estrategia y guion/i.test(String(text||""));
 }
 
 function showDurationPanel(){
@@ -5015,7 +5086,12 @@ async function streamAIResponse(text, history, messageElement){
 
         if(!response.ok){
             const errorText=await response.text();
-            throw new Error(errorText||`HTTP ${response.status}`);
+            let detail=errorText||`HTTP ${response.status}`;
+            try{
+                const parsed=JSON.parse(errorText);
+                detail=parsed?.error||parsed?.message||detail;
+            }catch(_){}
+            throw new Error(detail);
         }
 
         if(!response.body){
@@ -5079,12 +5155,31 @@ async function streamAIResponse(text, history, messageElement){
     }
 }
 
+function updateChatViewport(){
+    if(window.innerWidth>600) return;
+
+    const vv=window.visualViewport;
+    const height=vv ? vv.height : window.innerHeight;
+    const top=vv ? vv.offsetTop : 0;
+
+    document.documentElement.style.setProperty(
+        '--chat-vh',
+        `${Math.max(1,Math.round(height))}px`
+    );
+
+    document.documentElement.style.setProperty(
+        '--chat-top',
+        `${Math.max(0,Math.round(top))}px`
+    );
+}
+
 function keepChatVisible(){
     const chat=document.getElementById("chat");
     const content=document.getElementById("chatContent");
     if(!chat || !content) return;
 
     document.body.classList.add("chat-open");
+    updateChatViewport();
 
     requestAnimationFrame(()=>{
         content.scrollTop=content.scrollHeight;
@@ -5095,18 +5190,32 @@ function setupMobileChatViewport(){
     const input=document.getElementById("chatInput");
     if(!input) return;
 
+    updateChatViewport();
+
     input.addEventListener("focus",()=>{
         document.body.classList.add("chat-open");
-        setTimeout(keepChatVisible,80);
-        setTimeout(keepChatVisible,250);
+        updateChatViewport();
+        setTimeout(keepChatVisible,50);
+        setTimeout(keepChatVisible,180);
+        setTimeout(keepChatVisible,350);
     });
+
+    input.addEventListener("blur",()=>{
+        setTimeout(updateChatViewport,100);
+    });
+
+    window.addEventListener("resize",updateChatViewport);
 
     if(window.visualViewport){
         window.visualViewport.addEventListener("resize",()=>{
+            updateChatViewport();
+
             if(document.getElementById("chat")?.classList.contains("active")){
-                setTimeout(keepChatVisible,40);
+                setTimeout(keepChatVisible,30);
             }
         });
+
+        window.visualViewport.addEventListener("scroll",updateChatViewport);
     }
 }
 
@@ -5128,7 +5237,13 @@ async function sendMessage(){
 
         /* Saludos: respuesta inmediata, sin consumir la IA. */
         if(detectGreeting(text)){
-            const reply='¡Hola! 👋 ¿Qué deseas hacer hoy? Puedo ayudarte con ideas, marketing, contenido, diseño o videos.';
+            const reply='¡Hola! 👋 ¿Qué deseas hacer hoy? Puedo ayudarte con marketing, estrategias, guiones y contenido.';
+            setTimeout(()=>addMessage(reply,'bot',true),120);
+            return;
+        }
+
+        if(isStrategyRequest(text)){
+            const reply='Claro, podemos hacer la estrategia y el guion. Primero cuéntame, ¿qué deseas hacer? Dime qué quieres promocionar, crear o conseguir y lo construimos paso a paso.';
             setTimeout(()=>addMessage(reply,'bot',true),120);
             return;
         }
@@ -5147,8 +5262,8 @@ async function sendMessage(){
             botMessage.remove();
 
             const message=(error?.name==='AbortError')
-                ? 'La IA está tardando demasiado. Inténtalo de nuevo y debería responder más rápido.'
-                : 'No pude conectar con la IA. Revisa la configuración de SparkyKrea en Supabase.';
+                ? 'La IA está tardando demasiado. Inténtalo de nuevo.'
+                : 'No pude conectar con la IA. Revisa OPENROUTER_API_KEY, el despliegue de chat-ia y que la función tenga verify_jwt = false.';
 
             addMessage(message,'bot',true);
             return;
