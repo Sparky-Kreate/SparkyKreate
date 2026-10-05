@@ -2609,7 +2609,60 @@ body{
 .duration-custom button{border:0;border-radius:11px;background:var(--beige);color:#171611;padding:0 15px;font-weight:700;cursor:pointer;}
 .chat-status{font-size:12px;color:#8f897f;text-align:center;margin:0 auto 8px;}
 @media(max-width:600px){
-    .chat-header{height:70px;padding:0 14px;}
+    /* CHAT MOVIL: ocupa siempre todo el viewport disponible, incluso con teclado */
+    html,body{
+        width:100%;
+        max-width:100%;
+        overflow-x:hidden;
+    }
+    body.chat-open{
+        overflow:hidden !important;
+        height:100dvh;
+    }
+    .chat{
+        position:fixed;
+        inset:0;
+        width:100%;
+        height:100dvh;
+        min-height:100dvh;
+        max-height:100dvh;
+        overflow:hidden;
+        transform:none;
+    }
+    .chat.active{
+        transform:none;
+    }
+    .chat-header{height:70px;padding:0 14px;flex:0 0 70px;}
+    .chat-content{
+        width:calc(100% - 20px);
+        flex:1 1 auto;
+        min-height:0;
+        overflow-y:auto;
+        -webkit-overflow-scrolling:touch;
+        padding:22px 0 24px;
+        scroll-padding-bottom:24px;
+    }
+    .chat-input-area{
+        flex:0 0 auto;
+        padding:12px 14px calc(12px + env(safe-area-inset-bottom));
+        background:#080807;
+    }
+    .chat-input-box{width:100%;}
+    .chat-input{font-size:16px;}
+    .message{max-width:94%;font-size:17px;line-height:1.65;}
+    .message.bot{padding:17px 17px;}.message.user{padding:15px 17px;}
+    .quick-replies{max-width:100%;}
+    .duration-panel{border-radius:16px;}
+    .duration-option{flex:1 1 calc(50% - 8px);text-align:center;}
+}
+
+/* Cuando el teclado del teléfono está abierto, el navegador puede reducir el viewport.
+   Mantener el chat en el viewport visible evita que el contenido desaparezca detrás del teclado. */
+@supports (height: 100dvh){
+    @media(max-width:600px){
+        .chat{height:100dvh;min-height:100dvh;}
+    }
+}
     .chat-menu-btn{width:40px;height:40px;}
     .chat-logo{width:34px;height:34px;}
     .chat-brand span{font-size:17px;}
@@ -4645,6 +4698,7 @@ let chatProjectsLoaded = false;
 
 function openChat(){
     document.getElementById("chat").classList.add("active");
+    document.body.classList.add("chat-open");
     document.body.style.overflow = "hidden";
     updateGreeting();
     renderQuickReplies();
@@ -4655,6 +4709,7 @@ function openChat(){
 function closeChat(){
     closeChatDrawer();
     document.getElementById("chat").classList.remove("active");
+    document.body.classList.remove("chat-open");
     document.body.style.overflow = "";
 }
 
@@ -5021,6 +5076,37 @@ async function streamAIResponse(text, history, messageElement){
         return cleanAIText(fullReply).trim();
     }finally{
         clearTimeout(timeout);
+    }
+}
+
+function keepChatVisible(){
+    const chat=document.getElementById("chat");
+    const content=document.getElementById("chatContent");
+    if(!chat || !content) return;
+
+    document.body.classList.add("chat-open");
+
+    requestAnimationFrame(()=>{
+        content.scrollTop=content.scrollHeight;
+    });
+}
+
+function setupMobileChatViewport(){
+    const input=document.getElementById("chatInput");
+    if(!input) return;
+
+    input.addEventListener("focus",()=>{
+        document.body.classList.add("chat-open");
+        setTimeout(keepChatVisible,80);
+        setTimeout(keepChatVisible,250);
+    });
+
+    if(window.visualViewport){
+        window.visualViewport.addEventListener("resize",()=>{
+            if(document.getElementById("chat")?.classList.contains("active")){
+                setTimeout(keepChatVisible,40);
+            }
+        });
     }
 }
 
@@ -5847,6 +5933,8 @@ async function initializeAuth(){
 /* =========================================================
    ARRANCAR AUTENTICACIÓN
    ========================================================= */
+
+setupMobileChatViewport();
 
 initializeAuth();
 
