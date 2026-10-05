@@ -2729,6 +2729,34 @@ body{
 }
 </style>
 
+
+<style id="sparky-final-font-pc-bg">
+/* TIPOGRAFÍA GLOBAL: misma familia visual que el menú */
+html, body, body *{
+    font-family:"Playfair Display",serif !important;
+}
+
+/* El código conserva legibilidad, pero usa la misma tipografía */
+.message code, pre, code{
+    font-family:"Playfair Display",serif !important;
+}
+
+/* FONDO NUEVO SOLO PARA PC — composición horizontal 16:9 */
+@media (min-width:901px){
+    body{
+        background-color:#080807 !important;
+        background-image:
+            linear-gradient(90deg,rgba(8,8,7,.92) 0%,rgba(8,8,7,.70) 45%,rgba(8,8,7,.78) 100%),
+            url("https://images.pexels.com/photos/38041122/pexels-photo-38041122.jpeg?auto=compress&cs=tinysrgb&w=1920") !important;
+        background-size:cover !important;
+        background-position:center center !important;
+        background-repeat:no-repeat !important;
+        background-attachment:fixed !important;
+    }
+}
+
+</style>
+
 </head>
 
 <body>
@@ -5144,6 +5172,8 @@ function isStrategyRequest(text){
     return /estrategia.*guion|guion.*estrategia|crear una estrategia|crear estrategia y guion/i.test(String(text||""));
 }
 
+let pendingVideoRequest="";
+
 function showDurationPanel(){
     if(document.getElementById("durationPanel")) return;
     const container=document.getElementById("chatContent");
@@ -5151,12 +5181,12 @@ function showDurationPanel(){
     panel.className="duration-panel";
     panel.id="durationPanel";
     panel.innerHTML=`
-        <h3>¿Cuánto durará el video?</h3>
-        <p>Elige una duración para adaptar la idea, el ritmo y el guion.</p>
+        <h3>Elige la duración del video</h3>
+        <p>Selecciona una opción y la IA adaptará el guion exactamente a ese tiempo.</p>
         <div class="duration-options">
             <button class="duration-option" onclick="chooseDuration('10 segundos')">10 seg</button>
             <button class="duration-option" onclick="chooseDuration('20 segundos')">20 seg</button>
-            <button class="duration-option" onclick="chooseDuration('30 segundos')">30 seg</button>
+            <button class="duration-option" onclick="chooseDuration('45 segundos')">45 seg</button>
             <button class="duration-option" onclick="toggleCustomDuration()">Personalizado</button>
         </div>
         <div class="duration-custom" id="durationCustom">
@@ -5172,10 +5202,15 @@ function toggleCustomDuration(){
     if(box){box.classList.add("active");document.getElementById("customDurationInput").focus();}
 }
 function chooseDuration(duration){
+    const cleanDuration=String(duration||"").trim();
+    if(!cleanDuration || !pendingVideoRequest) return;
+
     const panel=document.getElementById("durationPanel");
     if(panel) panel.remove();
+
     const input=document.getElementById("chatInput");
-    input.value="Quiero un video de "+duration+".";
+    input.value="Duración elegida: "+cleanDuration+". Genera el video basándote en mi solicitud anterior: "+pendingVideoRequest;
+    pendingVideoRequest="";
     sendMessage();
 }
 function submitCustomDuration(){
@@ -5414,6 +5449,13 @@ async function sendMessage(){
             return;
         }
 
+        /* VIDEO SIN DURACIÓN: primero el usuario elige. La IA NO inventa el tiempo. */
+        if(isVideoRequest(text) && !/\b\d+\s*(s|seg|segundos|m|min|minutos)\b/i.test(text)){
+            pendingVideoRequest=text;
+            setTimeout(()=>showDurationPanel(),80);
+            return;
+        }
+
         const history=getChatHistoryForAI().slice(0,-1);
         const botMessage=addMessage('','bot',false);
         botMessage.classList.add('streaming');
@@ -5444,10 +5486,6 @@ async function sendMessage(){
             await saveChatMessage('bot',reply);
         }
 
-        /* Si pidió un video pero todavía no indicó duración, la pregunta llega al final. */
-        if(isVideoRequest(text) && !/\b\d+\s*(seg|segundos|min|minutos)\b/i.test(text)){
-            setTimeout(()=>showDurationPanel(),180);
-        }
     }finally{
         input.disabled=false;
         input.focus();
